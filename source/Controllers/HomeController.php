@@ -1,9 +1,9 @@
 <?php
 
-    namespace Controllers;
+    namespace Source\Controllers;
 
-    use Core\Controller;
-    use Models\Usuario;
+    use Source\Core\Controller;
+    use Source\Models\Usuario;
 
     class HomeController extends Controller
     {

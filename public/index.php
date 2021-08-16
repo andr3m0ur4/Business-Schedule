@@ -1,9 +1,10 @@
 <?php
 
-    session_start();
-    require '../config.php';
-    require '../routers.php';
-    require '../vendor/autoload.php';
+use Source\Core\Core;
 
-    $core = new Core\Core();
-    $core->run();
+session_start();
+
+require __DIR__ . '/../vendor/autoload.php';
+
+$core = new Core();
+$core->run();

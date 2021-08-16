@@ -1,6 +1,6 @@
 <?php
 
-    namespace Core;
+    namespace Source\Core;
 
     class Core
     {
@@ -57,10 +57,10 @@
             
             $currentController = ucfirst($currentController);
             
-            $prefix = '\Controllers\\';
+            $prefix = '\Source\Controllers\\';
             
             if (
-                !file_exists("../Controllers/{$currentController}.php") ||
+                !file_exists(__DIR__ . "/../Controllers/{$currentController}.php") ||
                 !method_exists($prefix . $currentController, $currentAction)
             ) {
                 $currentController = 'NotFoundController';

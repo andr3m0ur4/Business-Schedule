@@ -1,6 +1,6 @@
 <?php
 
-    namespace Core;
+    namespace Source\Core;
 
     class Controller
     {
@@ -8,18 +8,18 @@
         {
             extract($viewData);
 
-            require "../Views/{$viewName}.php";
+            require __DIR__ . "/../Views/{$viewName}.php";
         }
 
         public function loadTemplate($viewName, $viewData = [])
         {
-            require '../Views/template.php';
+            require __DIR__ . '/../Views/template.php';
         }
 
         public function loadViewInTemplate($viewName, $viewData = [])
         {
             extract($viewData);
             
-            require "../Views/{$viewName}.php";
+            require __DIR__ . "/../Views/{$viewName}.php";
         }
     }

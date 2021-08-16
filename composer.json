@@ -26,12 +26,12 @@
     ],
     "autoload": {
         "psr-4": {
-            "Controllers\\": "Controllers/",
-            "Models\\": "Models/",
-            "Core\\": "Core/"
+            "Source\\": "source/"
         },
         "files": [
-
+            "source/Config/Environment.php",
+            "source/Config/Config.php",
+            "source/Config/Routers.php"
         ]
     },
     "require": {
