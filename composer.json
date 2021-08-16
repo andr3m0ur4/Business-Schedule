@@ -1,0 +1,48 @@
+{
+    "name": "andr3m0ur4/business-schedule",
+    "description": "Software using the MVC Architecture for rapid development",
+    "keywords": ["Bussiness Schedule", "MVC", "PHP", "JavaScript", "psr7"],
+    "homepage": "https://github.com/andr3m0ur4/Business-Schedule",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "André Moura",
+            "email": "andre.benedicto@etec.sp.gov.br",
+            "homepage": "https://www.hg-study.gq/",
+            "role": "Developer"
+        },
+        {
+            "name": "",
+            "email": "nome@seuemail.com",
+            "homepage": "https://www.suaredesocial.com",
+            "role": ""
+        },
+        {
+            "name": "",
+            "email": "nome@seuemail.com",
+            "homepage": "https://www.suaredesocial.com",
+            "role": ""
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Controllers\\": "Controllers/",
+            "Models\\": "Models/",
+            "Core\\": "Core/"
+        },
+        "files": [
+
+        ]
+    },
+    "require": {
+        "PHP": "^7.4",
+        "ext-pdo": "^7.4"
+    },
+    "scripts": {
+        "start": "php -S localhost:8000 -t public"
+    },
+    "config": {
+        "process-timeout": 0,
+        "vendor-dir": "vendor"
+    }
+}
