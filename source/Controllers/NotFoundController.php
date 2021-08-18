@@ -1,13 +1,13 @@
 <?php
 
-    namespace Source\Controllers;
+namespace Source\Controllers;
 
-    use Source\Core\Controller;
+use Source\Core\Controller;
 
-    class NotFoundController extends Controller
+class NotFoundController extends Controller
+{
+    public function index() : void
     {
-        public function index()
-        {
-            $this->loadView('404', []);
-        }
+        $this->loadView('404', []);
     }
+}

@@ -1,24 +1,24 @@
 <?php
 
-    namespace Source\Controllers;
+namespace Source\Controllers;
 
-    use Source\Core\Controller;
-    use Source\Models\Usuario;
+use Source\Core\Controller;
+use Source\Models\Usuario;
 
-    class HomeController extends Controller
+class HomeController extends Controller
+{
+    public function index() : void
     {
-        public function index()
-        {
-            $data = [];
+        $data = [];
 
-            // $usuarios = new Usuario();
-            // $data['usuarios'] = $usuarios->getAll();
+        // $usuarios = new Usuario();
+        // $data['usuarios'] = $usuarios->getAll();
 
-            $this->loadTemplate('home', $data);
-        }
-
-        public function sobre()
-        {
-            $this->loadTemplate('sobre', []);
-        }
+        $this->loadTemplate('home', $data);
     }
+
+    public function sobre() : void
+    {
+        $this->loadTemplate('sobre', []);
+    }
+}

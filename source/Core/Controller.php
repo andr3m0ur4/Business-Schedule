@@ -1,25 +1,25 @@
 <?php
 
-    namespace Source\Core;
+namespace Source\Core;
 
-    class Controller
+abstract class Controller
+{
+    public function loadView(string $viewName, array $viewData = []) : void
     {
-        public function loadView($viewName, $viewData = [])
-        {
-            extract($viewData);
+        extract($viewData);
 
-            require __DIR__ . "/../Views/{$viewName}.php";
-        }
-
-        public function loadTemplate($viewName, $viewData = [])
-        {
-            require __DIR__ . '/../Views/template.php';
-        }
-
-        public function loadViewInTemplate($viewName, $viewData = [])
-        {
-            extract($viewData);
-            
-            require __DIR__ . "/../Views/{$viewName}.php";
-        }
+        require __DIR__ . "/../Views/{$viewName}.php";
     }
+
+    public function loadTemplate(string $viewName, array $viewData = []) : void
+    {
+        require __DIR__ . '/../Views/template.php';
+    }
+
+    public function loadViewInTemplate(string $viewName, array $viewData = []) : void
+    {
+        extract($viewData);
+        
+        require __DIR__ . "/../Views/{$viewName}.php";
+    }
+}
