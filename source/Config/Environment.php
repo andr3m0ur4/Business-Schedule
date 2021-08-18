@@ -29,6 +29,8 @@ define('CONF_DATE_APP', 'Y-m-d H:i:s');
  */
 define('CONF_PASSWORD_MIN_LEN', 8);
 define('CONF_PASSWORD_MAX_LEN', 40);
+define('CONF_PASSWORD_ALGO', PASSWORD_DEFAULT);
+define('CONF_PASSWORD_OPTION', ['cost' => 10]);
 
 /**
  * MESSAGES

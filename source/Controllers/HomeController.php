@@ -16,4 +16,9 @@
 
             $this->loadTemplate('home', $data);
         }
+
+        public function sobre()
+        {
+            $this->loadTemplate('sobre', []);
+        }
     }
