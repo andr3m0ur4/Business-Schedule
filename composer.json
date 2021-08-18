@@ -31,7 +31,6 @@
         "files": [
             "source/Config/Environment.php",
             "source/Config/Helpers.php",
-            "source/Config/Config.php",
             "source/Config/Routers.php"
         ]
     },

@@ -3,7 +3,7 @@
 namespace Source\Controllers;
 
 use Source\Core\Controller;
-use Source\Models\Usuario;
+use Source\Models\UserDAO;
 
 class HomeController extends Controller
 {
@@ -11,8 +11,8 @@ class HomeController extends Controller
     {
         $data = [];
 
-        // $usuarios = new Usuario();
-        // $data['usuarios'] = $usuarios->getAll();
+        $usuarios = new UserDAO();
+        //$data['usuarios'] = $usuarios->getAll();
 
         $this->loadTemplate('home', $data);
     }
