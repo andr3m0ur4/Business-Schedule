@@ -4,9 +4,9 @@ namespace Source\Controllers;
 
 use Source\Core\Controller;
 
-class NotFoundController extends Controller
+class NotFound extends Controller
 {
-    public function index() : void
+    public function error() : void
     {
         $this->loadView('404', []);
     }

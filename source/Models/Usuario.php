@@ -6,17 +6,23 @@ use Source\Core\Model;
 
 class Usuario extends Model
 {
-    public function getAll()
+    public function nome($nome = null)
     {
-        $array = [];
-
-        $sql = "SELECT * FROM usuarios";
-        $sql = $this->db->query($sql);
-
-        if ($sql->rowCount() > 0) {
-            $array = $sql->fetchAll(\PDO::FETCH_OBJ);
+        if (is_null($nome)) {
+            return $this->nome;
         }
 
-        return $array;
+        $this->nome = $nome;
+        return $this;
+    }
+
+    public function idade($idade = null)
+    {
+        if (is_null($idade)) {
+            return $this->idade;
+        }
+
+        $this->idade = $idade;
+        return $this;
     }
 }

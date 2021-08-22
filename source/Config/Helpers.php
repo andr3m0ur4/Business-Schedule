@@ -95,7 +95,7 @@ function str_limit_chars(string $string, int $limit, string $pointer = '...') : 
 
 function url(string $path = null) : string
 {
-    if (strpos($_SERVER['HTTP_HOST'], 'localhost')) {
+    if (!strpos($_SERVER['SERVER_NAME'], 'localhost')) {
         if ($path) {
             return CONF_URL_DEV . '/' . ($path[0] == '/' ? mb_substr($path, 1) : $path);
         }
