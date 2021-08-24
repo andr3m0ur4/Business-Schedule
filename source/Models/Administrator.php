@@ -12,7 +12,7 @@ class Administrator extends User
         $this->setJob($job);
     }
 
-    public function getJob() : int
+    public function getJob() : string
     {
         return $this->job;
     }

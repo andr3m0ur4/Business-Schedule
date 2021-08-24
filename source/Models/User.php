@@ -41,7 +41,7 @@ abstract class User extends Model
         return $this;
     }
 
-    public function getEmail() : int
+    public function getEmail() : string
     {
         return $this->email;
     }
@@ -52,7 +52,7 @@ abstract class User extends Model
         return $this;
     }
 
-    public function getPassword() : int
+    public function getPassword() : string
     {
         return $this->password;
     }
