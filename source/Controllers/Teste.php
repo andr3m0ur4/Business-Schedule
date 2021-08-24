@@ -39,4 +39,46 @@ class Teste extends Controller
 
         $this->loadTemplate('teste', $data);
     }
+
+    public function studio() : void
+    {
+        $data = [];
+
+        $this->loadTemplate('teste', $data);
+    }
+
+    public function switcher() : void
+    {
+        $data = [];
+        
+        $this->loadTemplate('teste', $data);
+    }
+
+    public function schedule() : void
+    {
+        $data = [];
+        
+        $this->loadTemplate('teste', $data);
+    }
+
+    public function tv_show() : void
+    {
+        $data = [];
+        
+        $this->loadTemplate('teste', $data);
+    }
+
+    public function employee_hour() : void
+    {
+        $data = [];
+        
+        $this->loadTemplate('teste', $data);
+    }
+
+    public function tv_show_hour() : void
+    {
+        $data = [];
+        
+        $this->loadTemplate('teste', $data);
+    }
 }

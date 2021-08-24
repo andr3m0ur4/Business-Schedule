@@ -22,6 +22,12 @@ class Core
         $route->namespace('Source\Controllers');
         $route->get('/admin', 'Teste:admin');
         $route->get('/employee', 'Teste:employee');
+        $route->get('/studio', 'Teste:studio');
+        $route->get('/switcher', 'Teste:switcher');
+        $route->get('/schedule', 'Teste:schedule');
+        $route->get('/tv_show', 'Teste:tv_show');
+        $route->get('/employee_hour', 'Teste:employee_hour');
+        $route->get('/tv_show_hour', 'Teste:tv_show_hour');
 
         /**
          * ERROR ROUTES
