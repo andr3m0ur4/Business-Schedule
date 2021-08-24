@@ -17,6 +17,13 @@ class Core
         $route->get('/sobre', 'Home:about');
 
         /**
+         * TESTS
+         */
+        $route->namespace('Source\Controllers');
+        $route->get('/admin', 'Teste:admin');
+        $route->get('/employee', 'Teste:employee');
+
+        /**
          * ERROR ROUTES
          */
         $route->namespace('Source\Controllers')->group('/ops');

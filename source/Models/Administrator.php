@@ -1,0 +1,30 @@
+<?php
+
+namespace Source\Models;
+
+class Administrator extends User
+{
+    private ?string $job;
+
+    public function __construct(?int $id = null, ?string $name = null, ?string $email = null, ?string $password = null, ?string $job = null)
+    {
+        parent::__construct($id, $name, $email, $password);
+        $this->setJob($job);
+    }
+
+    public function getJob() : int
+    {
+        return $this->job;
+    }
+
+    public function setJob($job)
+    {
+        $this->job = $job;
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return parent::__toString() . " - Função: {$this->job}";
+    }
+}

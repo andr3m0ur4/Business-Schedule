@@ -12,16 +12,6 @@ class Home extends Controller
     {
         $data = [];
 
-        $usuarios = (new Usuario())
-            ->nome('André Moura')
-            ->idade(30);
-
-        $data = [
-            'nome' => $usuarios->nome(),
-            'idade' =>$usuarios->idade()
-        ];
-        //$data['usuarios'] = $usuarios->getAll();
-
         $this->loadTemplate('home', $data);
     }
 
