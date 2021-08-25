@@ -5,6 +5,13 @@ namespace Source\Controllers;
 use Source\Core\Controller;
 use Source\Models\Administrator;
 use Source\Models\Employee;
+use Source\Models\Studios;
+use Source\Models\Switchers;
+use Source\Models\Schedules;
+use Source\Models\TvShows;
+use Source\Models\EmployeeHours;
+use Source\Models\TvShowsHours;
+
 
 class Teste extends Controller
 {
@@ -15,6 +22,7 @@ class Teste extends Controller
         $admin->setName('André');
         $admin->setEmail('andre@teste.com');
         $admin->setPassword('123');
+        $admin->setPhone('(12) 98324-4243');
         $admin->setJob('developer');
 
         $data = [
@@ -31,6 +39,7 @@ class Teste extends Controller
         $employee->setName('Rodrigo');
         $employee->setEmail('rodrigo@teste.com');
         $employee->setPassword('123');
+        $employee->setPhone('(12) 98324-4243');
         $employee->setJob('dba');
 
         $data = [
@@ -42,43 +51,92 @@ class Teste extends Controller
 
     public function studio() : void
     {
-        $data = [];
+        $studio = new Studios();
+        $studio->setId(1);
+        $studio->setName('estudio 1');
+
+        $data = [
+            'data' => $studio
+        ];
 
         $this->loadTemplate('teste', $data);
     }
 
     public function switcher() : void
     {
-        $data = [];
-        
+        $studio = new Switchers();
+        $studio->setId(1);
+        $studio->setName('switcher 1');
+
+        $data = [
+            'data' => $studio
+        ];
+
         $this->loadTemplate('teste', $data);
     }
 
     public function schedule() : void
     {
-        $data = [];
-        
+        $schedule = new Schedules();
+        $schedule->setId(1);
+        $schedule->setStartDate('14/08');
+        $schedule->setFinalDate('15/08');
+        $schedule->setYear('2021');
+
+        $data = [
+            'data' => $schedule
+        ];
+
         $this->loadTemplate('teste', $data);
     }
 
     public function tv_show() : void
     {
-        $data = [];
-        
+        $tvShow = new TvShows();
+        $tvShow->setId(1);
+        $tvShow->setName('Santa Receita');
+        $tvShow->setStartTime('13:00');
+        $tvShow->setFinalTime('14:00');
+        $tvShow->setDate('15');
+        $tvShow->setType('Culinaria');
+        $tvShow->setIdSwitcher(2);
+        $tvShow->setIdStudio(3);
+
+        $data = [
+            'data' => $tvShow
+        ];
+
         $this->loadTemplate('teste', $data);
     }
 
     public function employee_hour() : void
     {
-        $data = [];
-        
+        $employeeHours = new EmployeeHours();
+        $employeeHours->setId(1);
+        $employeeHours->setStartTime('18:00');
+        $employeeHours->setFinalTime('10:00');
+        $employeeHours->setDate('20');
+        $employeeHours->setIdEmployee(10);
+        $employeeHours->setIdSchedule(11);
+
+        $data = [
+            'data' => $employeeHours
+        ];
+
         $this->loadTemplate('teste', $data);
     }
 
     public function tv_show_hour() : void
     {
-        $data = [];
-        
+        $tvShowsHours = new TvShowsHours();
+        $tvShowsHours->setId(1);
+        $tvShowsHours->setIdTvShow(6);
+        $tvShowsHours->setIdEmployeeHour(7);
+
+        $data = [
+            'data' => $tvShowsHours
+        ];
+
         $this->loadTemplate('teste', $data);
     }
 }

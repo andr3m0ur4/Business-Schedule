@@ -10,13 +10,15 @@ abstract class User extends Model
     protected ?string $name;
     protected ?string $email;
     protected ?string $password;
+    protected ?string $phone;
 
-    public function __construct(?int $id = null, ?string $name = null, ?string $email = null, ?string $password = null)
+    public function __construct(?int $id = null, ?string $name = null, ?string $email = null, ?string $password = null, ?string $phone = null)
     {
         $this->setId($id);
         $this->setName($name);
         $this->setEmail($email);
         $this->setPassword($password);
+        $this->setPhone($phone);
     }
 
     public function getId() : int
@@ -63,8 +65,19 @@ abstract class User extends Model
         return $this;
     }
 
+    public function getPhone() : string
+    {
+        return $this->password;
+    }
+
+    public function setPhone($phone)
+    {
+        $this->phone = $phone;
+        return $this;
+    }
+
     public function __toString()
     {
-        return "ID: {$this->id} - Nome: {$this->name} - E-mail: {$this->email} - Password: {$this->password}";
+        return "ID: {$this->id} - Nome: {$this->name} - E-mail: {$this->email} - Password: {$this->password}  - Celular: {$this->phone}";
     }
 }
