@@ -26,7 +26,8 @@ class Teste extends Controller
         $admin->setJob('developer');
 
         $data = [
-            'data' => $admin
+            'data' => $admin,
+            'title' => 'Meu teste de titulo'
         ];
 
         $this->loadTemplate('teste', $data);

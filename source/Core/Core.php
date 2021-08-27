@@ -15,6 +15,7 @@ class Core
         $route->get('/', 'Home:index');
         $route->get('/home', 'Home:index');
         $route->get('/sobre', 'Home:about');
+        $route->get('/escalas', 'Home:schedule');
 
         /**
          * TESTS

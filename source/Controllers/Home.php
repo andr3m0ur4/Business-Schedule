@@ -19,4 +19,9 @@ class Home extends Controller
     {
         $this->loadTemplate('sobre', []);
     }
+
+    public function schedule() : void
+    {
+        $this->loadTemplate('escala', []);
+    }
 }
