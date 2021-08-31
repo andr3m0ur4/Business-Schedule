@@ -6,7 +6,7 @@ use Source\Core\Model;
 
 abstract class User extends Model
 {
-    protected ?int $id;
+    public ?int $id;
     protected ?string $name;
     protected ?string $email;
     protected ?string $password;

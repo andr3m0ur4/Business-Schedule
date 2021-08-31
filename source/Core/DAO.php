@@ -7,7 +7,7 @@ use Source\Support\Message;
 abstract class DAO
 {
     protected ?object $data;
-    protected \PDOException $fail;
+    protected ?\PDOException $fail;
     protected \PDO $db;
     protected Message $message;
     private static $safe;
@@ -17,6 +17,7 @@ abstract class DAO
     {
         $this->db = Connect::getConnection();
         $this->message = new Message();
+        $this->fail = null;
     }
 
     public function __set($name, $value)
@@ -46,7 +47,9 @@ abstract class DAO
     public function fail() : ?\PDOException
     {
         return $this->fail;
-    }public function message() : ?Message
+    }
+    
+    public function message() : ?Message
     {
         return $this->message;
     }

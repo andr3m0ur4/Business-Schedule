@@ -4,6 +4,7 @@ namespace Source\Controllers;
 
 use Source\Core\Controller;
 use Source\Models\Administrator;
+use Source\Models\AdministratorDAO;
 use Source\Models\Employee;
 use Source\Models\Studios;
 use Source\Models\Switchers;
@@ -17,13 +18,8 @@ class Teste extends Controller
 {
     public function admin() : void
     {
-        $admin = new Administrator();
-        $admin->setId(1);
-        $admin->setName('André');
-        $admin->setEmail('andre@teste.com');
-        $admin->setPassword('123');
+        $admin = (new AdministratorDAO())->find('id = :id', "id=1");
         $admin->setPhone('(12) 98324-4243');
-        $admin->setJob('developer');
 
         $data = [
             'data' => $admin,
