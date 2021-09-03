@@ -4,7 +4,7 @@ namespace Source\Models;
 
 use Source\Core\Model;
 
-class Studios extends Model
+class Studio extends Model
 {
     protected ?int $id;
     protected ?string $name;

@@ -4,7 +4,7 @@ namespace Source\Models;
 
 use Source\Core\Model;
 
-class Switchers extends Model
+class Switcher extends Model
 {
     protected ?int $id;
     protected ?string $name;

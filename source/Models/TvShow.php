@@ -4,7 +4,7 @@ namespace Source\Models;
 
 use Source\Core\Model;
 
-class TvShows extends Model
+class TvShow extends Model
 {
     private ?int $id;
     private ?string $name;

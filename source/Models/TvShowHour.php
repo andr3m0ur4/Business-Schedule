@@ -4,7 +4,7 @@ namespace Source\Models;
 
 use Source\Core\Model;
 
-class TvShowsHours extends Model
+class TvShowHour extends Model
 {
     private ?int $id;
     private ?int $idTvShow;

@@ -4,7 +4,7 @@ namespace Source\Models;
 
 use Source\Core\Model;
 
-class Schedules extends Model
+class Schedule extends Model
 {
     private ?int $id;
     private ?string $startDate;

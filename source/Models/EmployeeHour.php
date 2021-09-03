@@ -4,7 +4,7 @@ namespace Source\Models;
 
 use Source\Core\Model;
 
-class EmployeeHours extends Model
+class EmployeeHour extends Model
 {
     private ?int $id;
     private ?string $startTime;
