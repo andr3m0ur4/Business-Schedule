@@ -80,7 +80,7 @@ abstract class DAO
                 parse_str($params, $params);
 
                 foreach ((array) $params as $key => $value) {
-                    if ($key == 'LIMIT' || $key == 'OFFSET') {
+                    if ($key == 'limit' || $key == 'offset') {
                         $stmt->bindValue(":{$key}", $value, \PDO::PARAM_INT);
                     } else {
                         $stmt->bindValue(":{$key}", $value, \PDO::PARAM_STR);

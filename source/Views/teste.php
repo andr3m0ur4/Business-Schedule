@@ -1,5 +1,9 @@
 <pre>
-<?php print_r($data) ?>
+<?= print_r($data) ?>
 <br>
-<?php echo $data ?>
+<?= $data ?>
+<hr>
+<?php foreach ($array as $obj) : ?>
+    <?= print_r($obj) ?>
+<?php endforeach ?>
 </pre>

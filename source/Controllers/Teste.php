@@ -18,12 +18,14 @@ class Teste extends Controller
 {
     public function admin() : void
     {
-        $admin = (new AdministratorDAO())->find('id = :id', "id=1");
+        $admin = (new AdministratorDAO())->findByEmail('andre@teste.com');
         $admin->setPhone('(12) 98324-4243');
+
+        $admins = (new AdministratorDAO())->all();
 
         $data = [
             'data' => $admin,
-            'title' => 'Meu teste de titulo'
+            'array' => $admins
         ];
 
         $this->loadTemplate('teste', $data);
