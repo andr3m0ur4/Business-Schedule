@@ -10,8 +10,6 @@ abstract class DAO
     protected ?\PDOException $fail;
     protected \PDO $db;
     protected Message $message;
-    private static $safe;
-    private static $required;
 
     public function __construct()
     {
@@ -132,17 +130,6 @@ abstract class DAO
         }
     }
 
-    protected function safe() : ?array
-    {
-        $safe = (array) $this->data;
-
-        foreach (static::$safe as $unset) {
-            unset($safe[$unset]);
-        }
-
-        return $safe;
-    }
-
     private function filter(array $data) : array
     {
         $filter = [];
@@ -152,18 +139,5 @@ abstract class DAO
         }
 
         return $filter;
-    }
-
-    protected function required() : bool
-    {
-        $data = (array) $this->data();
-
-        foreach (static::$required as $field) {
-            if (empty($data[$field])) {
-                return false;
-            }
-        }
-
-        return true;
     }
 }

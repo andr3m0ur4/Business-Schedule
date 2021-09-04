@@ -6,9 +6,7 @@ use Source\Core\DAO;
 
 class AdministratorDAO extends DAO
 {
-    protected static $safe = [];
     protected static $entity = 'administrators';
-    protected static $required = [];
 
     public function find(string $terms, string $params, string $collumns = '*') : ?Administrator
     {
@@ -20,7 +18,7 @@ class AdministratorDAO extends DAO
         }
 
         $object = $find->fetchObject();
-        return new Administrator($object->id, $object->name, $object->email, $object->password, $object->job);
+        return new Administrator($object->id, $object->name, $object->email, $object->password, $object->phone, $object->job);
     }
 
     public function findById(int $id, string $collumns = '*') : ?Administrator
@@ -52,5 +50,44 @@ class AdministratorDAO extends DAO
         }
 
         return $administrators;
+    }
+
+    public function save(Administrator $administrator) : ?Administrator
+    {
+        if (!$administrator->required()) {
+            $this->message->warning('Nome, e-mail e senha são obrigatórios');
+            return null;
+        }
+        
+        if (!is_email($administrator->getEmail())) {
+            $this->message->warning('O e-mail informado não tem um formato válido');
+            return null;
+        }
+
+        if (!is_password($administrator->getPassword())) {
+            $this->message->warning(
+                'A senha deve ter entre ' . CONF_PASSWORD_MIN_LEN . ' e ' . CONF_PASSWORD_MAX_LEN . ' caracteres'
+            );
+            return null;
+        }
+
+        $administrator->setPassword(password_hash($administrator->getPassword(), PASSWORD_DEFAULT));
+
+        // Administrator Create
+        if (empty($administrator->id)) {
+            if ($this->findByEmail($administrator->getEmail())) {
+                $this->message->warning('O e-mail informado já está cadastrado');
+                return null;
+            }
+
+            $adminId = $this->create(self::$entity, $administrator->safe());
+
+            if ($this->fail()) {
+                $this->message->error('Erro ao cadastrar, verifique os dados');
+                return null;
+            }
+        }
+
+        return $this->findById($adminId);
     }
 }

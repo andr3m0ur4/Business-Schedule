@@ -5,10 +5,12 @@ namespace Source\Models;
 class Administrator extends User
 {
     public ?string $job;
+    protected static array $safe = ['id'];
+    protected static array $required = ['name', 'email', 'password'];
 
-    public function __construct(?int $id = 5, ?string $name = null, ?string $email = null, ?string $password = null, ?string $job = null)
+    public function __construct(?int $id = null, ?string $name = null, ?string $email = null, ?string $password = null, ?string $phone = null, ?string $job = null)
     {
-        parent::__construct($id, $name, $email, $password);
+        parent::__construct($id, $name, $email, $password, $phone);
         $this->setJob($job);
     }
 

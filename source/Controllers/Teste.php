@@ -31,6 +31,20 @@ class Teste extends Controller
         $this->loadTemplate('teste', $data);
     }
 
+    public function adminInsert() : void
+    {
+        $administrator = new Administrator();
+        $administrator->setName('Ciclano');
+        $administrator->setEmail('ciclano@teste.com');
+        $administrator->setPassword('123456789');
+        $administrator->setPhone('(12) 98324-1111');
+        $administrator->setJob('programmer');
+
+        $administrator = (new AdministratorDAO())->save($administrator);
+
+        print_r($administrator);
+    }
+
     public function employee() : void
     {
         $employee = new Employee();
