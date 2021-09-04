@@ -8,6 +8,8 @@ class Studio extends Model
 {
     protected ?int $id;
     protected ?string $name;
+    protected static array $safe = ['id'];
+    protected static array $required = ['name'];
 
     public function __construct(?int $id = null, ?string $name = null)
     {
@@ -15,7 +17,7 @@ class Studio extends Model
         $this->setName($name);
     }
 
-    public function getId() : int
+    public function getId() : ?int
     {
         return $this->id;
     }

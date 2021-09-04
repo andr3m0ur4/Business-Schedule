@@ -30,6 +30,9 @@ class Core
         $route->get('/employee/update/{id}', 'Teste:employeeUpdate');
         $route->get('/employee/delete/{id}', 'Teste:employeeDelete');
         $route->get('/studio', 'Teste:studio');
+        $route->get('/studio/insert', 'Teste:studioInsert');
+        $route->get('/studio/update/{id}', 'Teste:studioUpdate');
+        $route->get('/studio/delete/{id}', 'Teste:studioDelete');
         $route->get('/switcher', 'Teste:switcher');
         $route->get('/schedule', 'Teste:schedule');
         $route->get('/tv_show', 'Teste:tv_show');

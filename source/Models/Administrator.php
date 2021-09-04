@@ -4,7 +4,7 @@ namespace Source\Models;
 
 class Administrator extends User
 {
-    public ?string $job;
+    protected ?string $job;
     protected static array $safe = ['id'];
     protected static array $required = ['name', 'email', 'password'];
 

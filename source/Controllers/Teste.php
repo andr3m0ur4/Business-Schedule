@@ -8,6 +8,7 @@ use Source\Models\AdministratorDAO;
 use Source\Models\Employee;
 use Source\Models\EmployeeDAO;
 use Source\Models\Studio;
+use Source\Models\StudioDAO;
 use Source\Models\Switcher;
 use Source\Models\Schedule;
 use Source\Models\TvShow;
@@ -125,16 +126,48 @@ class Teste extends Controller
 
     public function studio() : void
     {
-        $studio = new Studio();
-        $studio->setId(1);
-        $studio->setName('estudio 1');
+        $studio = (new StudioDAO())->findByName('Audio');
+        $studio->setName('Video');
+
+        $studios = (new StudioDAO())->all();
 
         $data = [
-            'data' => $studio
+            'data' => $studio,
+            'array' => $studios
         ];
 
         $this->loadTemplate('teste', $data);
     }
+
+    public function studioInsert() : void
+    {
+        $studio = new Studio();
+        $studio->setName('Audio');
+        $studio = (new StudioDAO())->save($studio);
+
+        print_r($studio);
+    }
+
+    public function studioUpdate($params) : void
+    {
+        $studio = new Studio();
+        $studio->setId($params['id']);
+        $studio->setName('Camera');
+
+        $studio = (new StudioDAO())->save($studio);
+        
+        print_r($studio);
+    }
+
+    public function studioDelete($params) : void
+    {
+        $studio = new Studio($params['id']);
+        
+        $studio = (new StudioDAO())->destroy($studio);
+
+        var_dump($studio);
+    }
+
 
     public function switcher() : void
     {
