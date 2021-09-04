@@ -6,12 +6,12 @@ use Source\Core\Controller;
 use Source\Models\Administrator;
 use Source\Models\AdministratorDAO;
 use Source\Models\Employee;
-use Source\Models\Studios;
-use Source\Models\Switchers;
-use Source\Models\Schedules;
-use Source\Models\TvShows;
-use Source\Models\EmployeeHours;
-use Source\Models\TvShowsHours;
+use Source\Models\Studio;
+use Source\Models\Switcher;
+use Source\Models\Schedule;
+use Source\Models\TvShow;
+use Source\Models\EmployeeHour;
+use Source\Models\TvShowHour;
 
 
 class Teste extends Controller
@@ -88,7 +88,7 @@ class Teste extends Controller
 
     public function studio() : void
     {
-        $studio = new Studios();
+        $studio = new Studio();
         $studio->setId(1);
         $studio->setName('estudio 1');
 
@@ -101,7 +101,7 @@ class Teste extends Controller
 
     public function switcher() : void
     {
-        $studio = new Switchers();
+        $studio = new Switcher();
         $studio->setId(1);
         $studio->setName('switcher 1');
 
@@ -114,7 +114,7 @@ class Teste extends Controller
 
     public function schedule() : void
     {
-        $schedule = new Schedules();
+        $schedule = new Schedule();
         $schedule->setId(1);
         $schedule->setStartDate('14/08');
         $schedule->setFinalDate('15/08');
@@ -129,7 +129,7 @@ class Teste extends Controller
 
     public function tv_show() : void
     {
-        $tvShow = new TvShows();
+        $tvShow = new TvShow();
         $tvShow->setId(1);
         $tvShow->setName('Santa Receita');
         $tvShow->setStartTime('13:00');
@@ -148,7 +148,7 @@ class Teste extends Controller
 
     public function employee_hour() : void
     {
-        $employeeHours = new EmployeeHours();
+        $employeeHours = new EmployeeHour();
         $employeeHours->setId(1);
         $employeeHours->setStartTime('18:00');
         $employeeHours->setFinalTime('10:00');
@@ -165,7 +165,7 @@ class Teste extends Controller
 
     public function tv_show_hour() : void
     {
-        $tvShowsHours = new TvShowsHours();
+        $tvShowsHours = new TvShowHour();
         $tvShowsHours->setId(1);
         $tvShowsHours->setIdTvShow(6);
         $tvShowsHours->setIdEmployeeHour(7);
