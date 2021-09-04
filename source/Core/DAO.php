@@ -102,7 +102,7 @@ abstract class DAO
             foreach ($data as $bind => $value) {
                 $dataSet[] = "{$bind} = :{$bind}";
             }
-
+            
             $dataSet = implode(', ', $dataSet);
             parse_str($params, $params);
 

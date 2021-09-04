@@ -34,14 +34,29 @@ class Teste extends Controller
     public function adminInsert() : void
     {
         $administrator = new Administrator();
-        $administrator->setName('Ciclano');
-        $administrator->setEmail('ciclano@teste.com');
+        $administrator->setName('Beltrano');
+        $administrator->setEmail('beltrano@teste.com');
         $administrator->setPassword('123456789');
         $administrator->setPhone('(12) 98324-1111');
-        $administrator->setJob('programmer');
+        $administrator->setJob('CEO');
 
         $administrator = (new AdministratorDAO())->save($administrator);
 
+        print_r($administrator);
+    }
+
+    public function adminUpdate($params) : void
+    {
+        $administrator = new Administrator();
+        $administrator->setId($params['id']);
+        $administrator->setName('Rodrigo');
+        $administrator->setEmail('rodrigo@teste.com');
+        $administrator->setPassword('123456789');
+        $administrator->setPhone('(12) 98324-7777');
+        $administrator->setJob('dba');
+
+        $administrator = (new AdministratorDAO())->save($administrator);
+        
         print_r($administrator);
     }
 

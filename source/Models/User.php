@@ -6,7 +6,7 @@ use Source\Core\Model;
 
 abstract class User extends Model
 {
-    public ?int $id;
+    protected ?int $id;
     protected ?string $name;
     protected ?string $email;
     protected ?string $password;
@@ -21,7 +21,7 @@ abstract class User extends Model
         $this->setPhone($phone);
     }
 
-    public function getId() : int
+    public function getId() : ?int
     {
         return $this->id;
     }

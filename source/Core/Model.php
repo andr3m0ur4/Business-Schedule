@@ -13,11 +13,13 @@ abstract class Model
 
     public function safe() : ?array
     {
+        $data = get_object_vars($this);
+
         foreach (static::$safe as $unset) {
-            unset($this->$unset);
+            unset($data[$unset]);
         }
 
-        return get_object_vars($this);
+        return $data;
     }
 
     public function required() : bool

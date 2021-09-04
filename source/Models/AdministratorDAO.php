@@ -73,15 +73,32 @@ class AdministratorDAO extends DAO
 
         $administrator->setPassword(password_hash($administrator->getPassword(), PASSWORD_DEFAULT));
 
-        // Administrator Create
-        if (empty($administrator->id)) {
-            if ($this->findByEmail($administrator->getEmail())) {
+        // Administrator Update
+        if (!empty($administrator->getId())) {
+            $adminId = $administrator->getId();
+            
+            if ($this->find('email = :email AND id != :id', "email={$administrator->getEmail()}&id={$adminId}")) {
                 $this->message->warning('O e-mail informado já está cadastrado');
                 return null;
             }
 
-            $adminId = $this->create(self::$entity, $administrator->safe());
+            $this->update(self::$entity, $administrator->safe(), 'id = :id', "id={$adminId}");
 
+            if ($this->fail()) {
+                $this->message->error('Erro ao atualizar, verifique os dados');
+                return null;
+            }
+        }
+        
+        // Administrator Create
+        if (empty($administrator->getId())) {
+            if ($this->findByEmail($administrator->getEmail())) {
+                $this->message->warning('O e-mail informado já está cadastrado');
+                return null;
+            }
+            
+            $adminId = $this->create(self::$entity, $administrator->safe());
+            
             if ($this->fail()) {
                 $this->message->error('Erro ao cadastrar, verifique os dados');
                 return null;
