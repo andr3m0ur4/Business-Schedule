@@ -2,19 +2,18 @@
 
 namespace Source\Controllers;
 
-use DateTime;
 use Source\Core\Controller;
 use Source\Models\Administrator;
 use Source\Models\AdministratorDAO;
 use Source\Models\Employee;
-use Source\Models\Studios;
-use Source\Models\Switchers;
-use Source\Models\TvShows;
-use Source\Models\EmployeeHours;
+use Source\Models\EmployeeDAO;
+use Source\Models\Studio;
+use Source\Models\Switcher;
 use Source\Models\Schedule;
+use Source\Models\TvShow;
+use Source\Models\EmployeeHour;
 use Source\Models\ScheduleDAO;
-use Source\Models\TvShowsHours;
-
+use Source\Models\TvShowHour;
 
 class Teste extends Controller
 {
@@ -73,24 +72,60 @@ class Teste extends Controller
 
     public function employee() : void
     {
-        $employee = new Employee();
-        $employee->setId(1);
-        $employee->setName('Rodrigo');
-        $employee->setEmail('rodrigo@teste.com');
-        $employee->setPassword('123');
-        $employee->setPhone('(12) 98324-4243');
-        $employee->setJob('dba');
+        $employee = (new EmployeeDAO())->findByEmail('Ciclano@teste.com');
+        $employee->setPhone('(12) 99999-9999');
+
+        $employees = (new EmployeeDAO())->all();
 
         $data = [
-            'data' => $employee
+            'data' => $employee,
+            'array' => $employees
         ];
 
         $this->loadTemplate('teste', $data);
     }
 
+    public function employeeInsert() : void
+    {
+        $employee = new Employee();
+        $employee->setName('Ciclano');
+        $employee->setEmail('Ciclano@teste.com');
+        $employee->setPassword('123456789');
+        $employee->setPhone('(12) 98324-2222');
+        $employee->setJob('Funcionario');
+
+        $employee = (new EmployeeDAO())->save($employee);
+
+        print_r($employee);
+    }
+
+    public function employeeUpdate($params) : void
+    {
+        $employee = new Employee();
+        $employee->setId($params['id']);
+        $employee->setName('Joao');
+        $employee->setEmail('Joao@teste.com');
+        $employee->setPassword('123456789');
+        $employee->setPhone('(12) 55555-7777');
+        $employee->setJob('Audio');
+
+        $employee = (new EmployeeDAO())->save($employee);
+        
+        print_r($employee);
+    }
+
+    public function employeeDelete($params) : void
+    {
+        $employee = new Employee($params['id']);
+        
+        $employee = (new EmployeeDAO())->destroy($employee);
+
+        var_dump($employee);
+    }
+
     public function studio() : void
     {
-        $studio = new Studios();
+        $studio = new Studio();
         $studio->setId(1);
         $studio->setName('estudio 1');
 
@@ -103,7 +138,7 @@ class Teste extends Controller
 
     public function switcher() : void
     {
-        $studio = new Switchers();
+        $studio = new Switcher();
         $studio->setId(1);
         $studio->setName('switcher 1');
 
@@ -171,7 +206,7 @@ class Teste extends Controller
 
     public function tv_show() : void
     {
-        $tvShow = new TvShows();
+        $tvShow = new TvShow();
         $tvShow->setId(1);
         $tvShow->setName('Santa Receita');
         $tvShow->setStartTime('13:00');
@@ -190,7 +225,7 @@ class Teste extends Controller
 
     public function employee_hour() : void
     {
-        $employeeHours = new EmployeeHours();
+        $employeeHours = new EmployeeHour();
         $employeeHours->setId(1);
         $employeeHours->setStartTime('18:00');
         $employeeHours->setFinalTime('10:00');
@@ -207,7 +242,7 @@ class Teste extends Controller
 
     public function tv_show_hour() : void
     {
-        $tvShowsHours = new TvShowsHours();
+        $tvShowsHours = new TvShowHour();
         $tvShowsHours->setId(1);
         $tvShowsHours->setIdTvShow(6);
         $tvShowsHours->setIdEmployeeHour(7);
