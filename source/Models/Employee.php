@@ -4,7 +4,7 @@ namespace Source\Models;
 
 class Employee extends User
 {
-    private ?string $job;
+    public ?string $job;
     protected static array $safe = ['id'];
     protected static array $required = ['name', 'email', 'password'];
 

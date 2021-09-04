@@ -6,6 +6,7 @@ use Source\Core\Controller;
 use Source\Models\Administrator;
 use Source\Models\AdministratorDAO;
 use Source\Models\Employee;
+use Source\Models\EmployeeDAO;
 use Source\Models\Studio;
 use Source\Models\Switcher;
 use Source\Models\Schedule;
@@ -71,19 +72,55 @@ class Teste extends Controller
 
     public function employee() : void
     {
-        $employee = new Employee();
-        $employee->setId(1);
-        $employee->setName('Rodrigo');
-        $employee->setEmail('rodrigo@teste.com');
-        $employee->setPassword('123');
-        $employee->setPhone('(12) 98324-4243');
-        $employee->setJob('dba');
+        $employee = (new EmployeeDAO())->findByEmail('Ciclano@teste.com');
+        $employee->setPhone('(12) 99999-9999');
+
+        $employees = (new EmployeeDAO())->all();
 
         $data = [
-            'data' => $employee
+            'data' => $employee,
+            'array' => $employees
         ];
 
         $this->loadTemplate('teste', $data);
+    }
+
+    public function employeeInsert() : void
+    {
+        $employee = new Employee();
+        $employee->setName('Ciclano');
+        $employee->setEmail('Ciclano@teste.com');
+        $employee->setPassword('123456789');
+        $employee->setPhone('(12) 98324-2222');
+        $employee->setJob('Funcionario');
+
+        $employee = (new EmployeeDAO())->save($employee);
+
+        print_r($employee);
+    }
+
+    public function employeeUpdate($params) : void
+    {
+        $employee = new Employee();
+        $employee->setId($params['id']);
+        $employee->setName('Joao');
+        $employee->setEmail('Joao@teste.com');
+        $employee->setPassword('123456789');
+        $employee->setPhone('(12) 55555-7777');
+        $employee->setJob('Audio');
+
+        $employee = (new EmployeeDAO())->save($employee);
+        
+        print_r($employee);
+    }
+
+    public function employeeDelete($params) : void
+    {
+        $employee = new Employee($params['id']);
+        
+        $employee = (new EmployeeDAO())->destroy($employee);
+
+        var_dump($employee);
     }
 
     public function studio() : void
