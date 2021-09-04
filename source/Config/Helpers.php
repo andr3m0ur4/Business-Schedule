@@ -141,9 +141,19 @@ function date_format_br(string $date = 'now') : string
     return (new DateTime($date))->format(CONF_DATE_BR);
 }
 
-function date_format_app(string $date = 'now') : string
+function date_format_app(?string $date = 'now') : string
 {
     return (new DateTime($date))->format(CONF_DATE_APP);
+}
+
+function date_format_br_to_app(string $date, string $format = 'd/m/Y') : string
+{
+    return (DateTime::createFromFormat($format, $date))->format(CONF_DATE_APP);
+}
+
+function date_format_app_to_br(string $date, string $format = 'Y-m-d') : string
+{
+    return (DateTime::createFromFormat($format, $date))->format(CONF_DATE_BR);
 }
 
 /**

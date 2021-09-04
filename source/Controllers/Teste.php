@@ -2,15 +2,17 @@
 
 namespace Source\Controllers;
 
+use DateTime;
 use Source\Core\Controller;
 use Source\Models\Administrator;
 use Source\Models\AdministratorDAO;
 use Source\Models\Employee;
 use Source\Models\Studios;
 use Source\Models\Switchers;
-use Source\Models\Schedules;
 use Source\Models\TvShows;
 use Source\Models\EmployeeHours;
+use Source\Models\Schedule;
+use Source\Models\ScheduleDAO;
 use Source\Models\TvShowsHours;
 
 
@@ -114,17 +116,57 @@ class Teste extends Controller
 
     public function schedule() : void
     {
-        $schedule = new Schedules();
-        $schedule->setId(1);
-        $schedule->setStartDate('14/08');
-        $schedule->setFinalDate('15/08');
-        $schedule->setYear('2021');
+        $schedule = (new ScheduleDAO())->findById(2);
 
         $data = [
-            'data' => $schedule
+            'data' => $schedule,
+            'array' => []
         ];
 
         $this->loadTemplate('teste', $data);
+    }
+
+    public function scheduleInsert() : void
+    {
+        $schedule = new Schedule();
+        $schedule->setStartDate('2021-08-29');
+        $schedule->setFinalDate('2021-09-04');
+        $schedule->setYear('2021');
+
+        $schedule = (new ScheduleDAO())->save($schedule);
+
+        $data = [
+            'data' => $schedule,
+            'array' => []
+        ];
+
+        $this->loadTemplate('teste', $data);
+    }
+
+    public function scheduleUpdate($params) : void
+    {
+        $schedule = new Schedule($params['id']);
+        $schedule->setStartDate('2021-09-05');
+        $schedule->setFinalDate('2021-09-11');
+        $schedule->setYear('2021');
+
+        $schedule = (new ScheduleDAO())->save($schedule);
+
+        $data = [
+            'data' => $schedule,
+            'array' => []
+        ];
+
+        $this->loadTemplate('teste', $data);
+    }
+
+    public function scheduleDelete($params) : void
+    {
+        $schedule = new Schedule($params['id']);
+        
+        $schedule = (new ScheduleDAO())->destroy($schedule);
+
+        var_dump($schedule);
     }
 
     public function tv_show() : void

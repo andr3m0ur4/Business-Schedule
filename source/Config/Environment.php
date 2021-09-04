@@ -21,8 +21,12 @@ define('CONF_URL_ERROR', CONF_URL_BASE . '/404');
 /**
  * DATE TIME
  */
-define('CONF_DATE_BR', 'd/m/Y H:i:s');
-define('CONF_DATE_APP', 'Y-m-d H:i:s');
+define('CONF_DATETIME_BR', 'd/m/Y H:i:s');
+define('CONF_DATE_BR', 'd/m');
+define('CONF_DATETIME_APP', 'Y-m-d H:i:s');
+define('CONF_DATE_APP', 'Y-m-d');
+define('CONF_YEAR_APP', 'Y');
+define('CONF_TIME_APP', 'H:i:s');
 
 /**
  * PASSWORD
