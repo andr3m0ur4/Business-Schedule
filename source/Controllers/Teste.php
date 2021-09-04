@@ -60,6 +60,15 @@ class Teste extends Controller
         print_r($administrator);
     }
 
+    public function adminDelete($params) : void
+    {
+        $administrator = new Administrator($params['id']);
+        
+        $administrator = (new AdministratorDAO())->destroy($administrator);
+
+        var_dump($administrator);
+    }
+
     public function employee() : void
     {
         $employee = new Employee();

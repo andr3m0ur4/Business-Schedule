@@ -24,6 +24,7 @@ class Core
         $route->get('/admin', 'Teste:admin');
         $route->get('/admin/insert', 'Teste:adminInsert');
         $route->get('/admin/update/{id}', 'Teste:adminUpdate');
+        $route->get('/admin/delete/{id}', 'Teste:adminDelete');
         $route->get('/employee', 'Teste:employee');
         $route->get('/studio', 'Teste:studio');
         $route->get('/switcher', 'Teste:switcher');

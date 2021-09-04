@@ -107,4 +107,20 @@ class AdministratorDAO extends DAO
 
         return $this->findById($adminId);
     }
+
+    public function destroy(Administrator $administrator) : ?Administrator
+    {
+        if (!empty($administrator->getId())) {
+            $this->delete(self::$entity, 'id = :id', "id={$administrator->getId()}");
+        }
+
+        if ($this->fail()) {
+            $this->message->warning('Não foi possível remover o administrador.');
+            return null;
+        }
+
+        $this->message->success('Administrador removido com sucesso');
+        $administrator = null;
+        return $administrator;
+    }
 }
