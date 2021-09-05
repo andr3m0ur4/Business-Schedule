@@ -7,27 +7,29 @@ use Source\Core\Model;
 class TvShow extends Model
 {
     private ?int $id;
-    private ?string $name;
-    private ?string $start_time;
-    private ?string $final_time;
-    private ?string $date;
-    private ?string $type;
-    private ?int $id_switcher;
-    private ?int $id_studio;
+    protected ?string $name;
+    protected ?string $start_time;
+    protected ?string $final_time;
+    protected ?string $date;
+    protected ?string $type;
+    protected ?int $id_switcher;
+    protected ?int $id_studio;
+    protected static array $safe = ['id'];
+    protected static array $required = ['name'];
 
-    public function __construct(?int $id = null, ?string $name = null, ?string $start_time = null, ?string $final_time = null, ?string $date = null, ?string $type = null, ?int $id_switcher = null, ?int $id_studio = null)
+    public function __construct(?int $id = null, ?string $name = null, ?string $startTime = null, ?string $finalTime = null, ?string $date = null, ?string $type = null, ?int $idSwitcher = null, ?int $idStudio = null)
     {
         $this->setId($id);
         $this->setName($name);
-        $this->setStartTime($start_time);
-        $this->setFinalTime($final_time);
+        $this->setStartTime($startTime);
+        $this->setFinalTime($finalTime);
         $this->setDate($date);
         $this->setType($type);
-        $this->setIdSwitcher($id_switcher);
-        $this->setIdStudio($id_studio);
+        $this->setIdSwitcher($idSwitcher);
+        $this->setIdStudio($idStudio);
     }
 
-    public function getId() : int
+    public function getId() : ?int
     {
         return $this->id;
     }
@@ -51,23 +53,23 @@ class TvShow extends Model
 
     public function getStartTime() : string
     {
-        return $this->startTime;
+        return $this->start_time;
     }
 
-    public function setStartTime($start_time)
+    public function setStartTime($startTime)
     {
-        $this->startTime = $start_time;
+        $this->start_time = date_format_app($startTime);
         return $this;
     }
 
     public function getFinalTime() : string
     {
-        return $this->finalTime;
+        return $this->final_time;
     }
 
-    public function setFinalTime($final_time)
+    public function setFinalTime($finalTime)
     {
-        $this->finalTime = $final_time;
+        $this->final_time = date_format_app($finalTime);
         return $this;
     }
 
@@ -78,7 +80,7 @@ class TvShow extends Model
 
     public function setDate($date)
     {
-        $this->date = $date;
+        $this->date = date_format_app($date);
         return $this;
     }
 
@@ -95,28 +97,30 @@ class TvShow extends Model
 
     public function getIdSwitcher() : string
     {
-        return $this->idSwitcher;
+        return $this->id_switcher;
     }
 
-    public function setIdSwitcher($id_switcher)
+    public function setIdSwitcher($idSwitcher)
     {
-        $this->idSwitcher = $id_switcher;
+        $this->id_switcher = $idSwitcher;
         return $this;
     }
 
     public function getIdStudio() : string
     {
-        return $this->idStudio;
+        return $this->id_studio;
     }
 
-    public function setIdStudio($id_studio)
+    public function setIdStudio($idStudio)
     {
-        $this->idStudio = $id_studio;
+        $this->id_studio = $idStudio;
         return $this;
     }
 
     public function __toString()
     {
-        return "Id: {$this->id} - Hora Inicial: {$this->startTime} - Hora Final: {$this->finalTime} - Data: {$this->date} - Tipo: {$this->type} - Switcher: {$this->idSwitcher} - Estudio: {$this->idStudio}";
+        return "Id: {$this->id} - Hora Inicial: " . date_formatt($this->start_time, 'H\hi') .
+            " - Hora Final: " . date_formatt($this->final_time, 'H\hi') . " - Data: " . date_formatt($this->date, 'd/m') .
+            " - Tipo: {$this->type} - Switcher: {$this->id_switcher} - Estudio: {$this->id_studio}";
     }
 }

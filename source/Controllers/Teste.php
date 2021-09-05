@@ -16,6 +16,7 @@ use Source\Models\TvShow;
 use Source\Models\EmployeeHour;
 use Source\Models\EmployeeHourDAO;
 use Source\Models\ScheduleDAO;
+use Source\Models\TvShowDAO;
 use Source\Models\TvShowHour;
 
 class Teste extends Controller
@@ -144,7 +145,7 @@ class Teste extends Controller
     public function studioInsert() : void
     {
         $studio = new Studio();
-        $studio->setName('Audio');
+        $studio->setName('Estúdio Santuário');
         $studio = (new StudioDAO())->save($studio);
 
         print_r($studio);
@@ -174,7 +175,6 @@ class Teste extends Controller
     public function switcher() : void
     {
         $switcher = (new SwitcherDAO())->findByName('Switcher 1');
-        $switcher->setName('Switcher 22');
 
         $switchers = (new SwitcherDAO())->all();
 
@@ -189,7 +189,7 @@ class Teste extends Controller
     public function switcherInsert() : void
     {
         $switcher = new Switcher();
-        $switcher->setName('Switcher 1');
+        $switcher->setName('Switcher Excluir');
         $switcher = (new SwitcherDAO())->save($switcher);
 
         print_r($switcher);
@@ -272,23 +272,69 @@ class Teste extends Controller
         var_dump($schedule);
     }
 
-    public function tv_show() : void
+    public function tvShow() : void
     {
-        $tvShow = new TvShow();
-        $tvShow->setId(1);
-        $tvShow->setName('Santa Receita');
-        $tvShow->setStartTime('13:00');
-        $tvShow->setFinalTime('14:00');
-        $tvShow->setDate('15');
-        $tvShow->setType('Culinaria');
-        $tvShow->setIdSwitcher(2);
-        $tvShow->setIdStudio(3);
+        $tvShow = (new TvShowDAO())->findById(1);
+
+        $tvShows = (new TvShowDAO())->all();
 
         $data = [
-            'data' => $tvShow
+            'data' => $tvShow,
+            'array' => $tvShows
         ];
 
         $this->loadTemplate('teste', $data);
+    }
+
+    public function tvShowInsert() : void
+    {
+        $tvShow = new TvShow();
+        $tvShow->setName('Fortes na Fé');
+        $tvShow->setStartTime('13:00');
+        $tvShow->setFinalTime('15:00');
+        $tvShow->setDate('12/15');
+        $tvShow->setType('I');
+        $tvShow->setIdSwitcher(2);
+        $tvShow->setIdStudio(2);
+
+        $tvShow = (new TvShowDAO())->save($tvShow);
+
+        $data = [
+            'data' => $tvShow,
+            'array' => []
+        ];
+
+        $this->loadTemplate('teste', $data);
+    }
+
+    public function tvShowUpdate($params) : void
+    {
+        $tvShow = new TvShow($params['id']);
+        $tvShow->setName('Fortes na Fé editado');
+        $tvShow->setStartTime('13:00');
+        $tvShow->setFinalTime('15:00');
+        $tvShow->setDate('12/15');
+        $tvShow->setType('I');
+        $tvShow->setIdSwitcher(2);
+        $tvShow->setIdStudio(2);
+
+        $tvShow = (new TvShowDAO())->save($tvShow);
+
+        $data = [
+            'data' => $tvShow,
+            'array' => []
+        ];
+
+        $this->loadTemplate('teste', $data);
+    }
+
+    public function tvShowDelete($params) : void
+    {
+        $tvShow = new TvShow($params['id']);
+        
+        $tvShow = (new TvShowDAO())->destroy($tvShow);
+
+        var_dump($tvShow);
     }
 
     public function employeeHour() : void

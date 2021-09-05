@@ -35,7 +35,6 @@ class Core
         $route->get('/studio/insert', 'Teste:studioInsert');
         $route->get('/studio/update/{id}', 'Teste:studioUpdate');
         $route->get('/studio/delete/{id}', 'Teste:studioDelete');
-        $route->get('/switcher', 'Teste:switcher');
         
         $route->get('/schedule', 'Teste:schedule');
         $route->get('/schedule/insert', 'Teste:scheduleInsert');
@@ -47,7 +46,10 @@ class Core
         $route->get('/switcher/update/{id}', 'Teste:switcherUpdate');
         $route->get('/switcher/delete/{id}', 'Teste:switcherDelete');
 
-        $route->get('/tv_show', 'Teste:tv_show');
+        $route->get('/tv_show', 'Teste:tvShow');
+        $route->get('/tv_show/insert', 'Teste:tvShowInsert');
+        $route->get('/tv_show/update/{id}', 'Teste:tvShowUpdate');
+        $route->get('/tv_show/delete/{id}', 'Teste:tvShowDelete');
 
         $route->get('/employee_hour', 'Teste:employeeHour');
         $route->get('/employee_hour/insert', 'Teste:employeeHourInsert');
