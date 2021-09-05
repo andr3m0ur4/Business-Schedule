@@ -8,6 +8,8 @@ class Switcher extends Model
 {
     protected ?int $id;
     protected ?string $name;
+    protected static array $safe = ['id'];
+    protected static array $required = ['name'];
 
     public function __construct(?int $id = null, ?string $name = null)
     {

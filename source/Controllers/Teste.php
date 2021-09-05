@@ -10,6 +10,7 @@ use Source\Models\EmployeeDAO;
 use Source\Models\Studio;
 use Source\Models\StudioDAO;
 use Source\Models\Switcher;
+use Source\Models\SwitcherDAO;
 use Source\Models\Schedule;
 use Source\Models\TvShow;
 use Source\Models\EmployeeHour;
@@ -172,15 +173,46 @@ class Teste extends Controller
 
     public function switcher() : void
     {
-        $studio = new Switcher();
-        $studio->setId(1);
-        $studio->setName('switcher 1');
+        $switcher = (new SwitcherDAO())->findByName('Switcher 1');
+        $switcher->setName('Switcher 22');
+
+        $switchers = (new SwitcherDAO())->all();
 
         $data = [
-            'data' => $studio
+            'data' => $switcher,
+            'array' => $switchers
         ];
 
         $this->loadTemplate('teste', $data);
+    }
+
+    public function switcherInsert() : void
+    {
+        $switcher = new Switcher();
+        $switcher->setName('Switcher 1');
+        $switcher = (new SwitcherDAO())->save($switcher);
+
+        print_r($switcher);
+    }
+
+    public function switcherUpdate($params) : void
+    {
+        $switcher = new Switcher();
+        $switcher->setId($params['id']);
+        $switcher->setName('Studio22');
+
+        $switcher = (new SwitcherDAO())->save($switcher);
+        
+        print_r($switcher);
+    }
+
+    public function switcherDelete($params) : void
+    {
+        $switcher = new Switcher($params['id']);
+        
+        $switcher = (new SwitcherDAO())->destroy($switcher);
+
+        var_dump($switcher);
     }
 
     public function schedule() : void
