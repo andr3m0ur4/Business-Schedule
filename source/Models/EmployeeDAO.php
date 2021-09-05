@@ -17,8 +17,8 @@ class EmployeeDAO extends DAO
             return null;
         }
 
-        $object = $find->fetchObject();
-        return new Employee($object->id, $object->name, $object->email, $object->password, $object->phone, $object->job);
+        $employee = $find->fetchObject();
+        return new Employee($employee->id, $employee->name, $employee->email, $employee->password, $employee->phone, $employee->job);
     }
 
     public function findById(int $id, string $collumns = '*') : ?Employee
@@ -52,7 +52,7 @@ class EmployeeDAO extends DAO
         return $employees;
     }
 
-    //Save employee
+    // Save employee
 
     public function save(Employee $employee) : ?Employee
     {

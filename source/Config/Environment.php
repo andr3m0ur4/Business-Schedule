@@ -4,10 +4,10 @@
  * DATABASE
  */
 define('CONF_DB_HOST', 'localhost');
-//define('CONF_DB_USER', 'andre-moura');
-define('CONF_DB_USER', 'root');
-//define('CONF_DB_PASS', 'andre-moura');
-define('CONF_DB_PASS', '');
+define('CONF_DB_USER', 'andre-moura');
+// define('CONF_DB_USER', 'root');
+define('CONF_DB_PASS', 'andre-moura');
+// define('CONF_DB_PASS', '');
 define('CONF_DB_NAME', 'business_schedule');
 
 /**
@@ -26,9 +26,9 @@ define('CONF_URL_ERROR', CONF_URL_BASE . '/404');
 define('CONF_DATETIME_BR', 'd/m/Y H:i:s');
 define('CONF_DATE_BR', 'd/m');
 define('CONF_DATETIME_APP', 'Y-m-d H:i:s');
-define('CONF_DATE_APP', 'Y-m-d');
+define('CONF_DATE_APP', 'Y-m-d H:i:s');
 define('CONF_YEAR_APP', 'Y');
-define('CONF_TIME_APP', 'H:i:s');
+define('CONF_TIME_APP', 'H:i');
 
 /**
  * PASSWORD

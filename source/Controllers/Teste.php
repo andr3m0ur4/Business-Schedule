@@ -13,6 +13,7 @@ use Source\Models\Switcher;
 use Source\Models\Schedule;
 use Source\Models\TvShow;
 use Source\Models\EmployeeHour;
+use Source\Models\EmployeeHourDAO;
 use Source\Models\ScheduleDAO;
 use Source\Models\TvShowHour;
 
@@ -92,7 +93,7 @@ class Teste extends Controller
         $employee->setName('Ciclano');
         $employee->setEmail('Ciclano@teste.com');
         $employee->setPassword('123456789');
-        $employee->setPhone('(12) 98324-2222');
+        $employee->setPhone('(12) 98324-3333');
         $employee->setJob('Funcionario');
 
         $employee = (new EmployeeDAO())->save($employee);
@@ -107,7 +108,7 @@ class Teste extends Controller
         $employee->setName('Joao');
         $employee->setEmail('Joao@teste.com');
         $employee->setPassword('123456789');
-        $employee->setPhone('(12) 55555-7777');
+        $employee->setPhone('(12) 55555-3333');
         $employee->setJob('Audio');
 
         $employee = (new EmployeeDAO())->save($employee);
@@ -184,11 +185,13 @@ class Teste extends Controller
 
     public function schedule() : void
     {
-        $schedule = (new ScheduleDAO())->findById(0);
+        $schedule = (new ScheduleDAO())->findById(1);
+
+        $schedules = (new ScheduleDAO())->all();
 
         $data = [
             'data' => $schedule,
-            'array' => []
+            'array' => $schedules
         ];
 
         $this->loadTemplate('teste', $data);
@@ -256,21 +259,65 @@ class Teste extends Controller
         $this->loadTemplate('teste', $data);
     }
 
-    public function employee_hour() : void
+    public function employeeHour() : void
     {
-        $employeeHours = new EmployeeHour();
-        $employeeHours->setId(1);
-        $employeeHours->setStartTime('18:00');
-        $employeeHours->setFinalTime('10:00');
-        $employeeHours->setDate('20');
-        $employeeHours->setIdEmployee(10);
-        $employeeHours->setIdSchedule(11);
+        $employeeHour = (new EmployeeHourDAO())->findById(3);
+
+        $employeeHours = (new EmployeeHourDAO())->all();
 
         $data = [
-            'data' => $employeeHours
+            'data' => $employeeHour,
+            'array' => $employeeHours
         ];
 
         $this->loadTemplate('teste', $data);
+    }
+
+    public function employeeHourInsert() : void
+    {
+        $employeeHours = new EmployeeHour();
+        $employeeHours->setStartTime('7:00');
+        $employeeHours->setFinalTime('13:00');
+        $employeeHours->setDate('2021-09-20');
+        $employeeHours->setIdEmployee(1);
+        $employeeHours->setIdSchedule(1);
+
+        $employeeHours = (new EmployeeHourDAO())->save($employeeHours);
+
+        $data = [
+            'data' => $employeeHours,
+            'array' => []
+        ];
+
+        $this->loadTemplate('teste', $data);
+    }
+
+    public function employeeHourUpdate($params) : void
+    {
+        $employeeHour = new EmployeeHour($params['id']);
+        $employeeHour->setStartTime('06:00');
+        $employeeHour->setFinalTime('12:00');
+        $employeeHour->setDate('2021-09-10');
+        $employeeHour->setIdEmployee(1);
+        $employeeHour->setIdSchedule(1);
+
+        $employeeHour = (new EmployeeHourDAO())->save($employeeHour);
+
+        $data = [
+            'data' => $employeeHour,
+            'array' => []
+        ];
+
+        $this->loadTemplate('teste', $data);
+    }
+
+    public function employeeHourDelete($params) : void
+    {
+        $employeeHour = new EmployeeHour($params['id']);
+        
+        $employeeHour = (new EmployeeHourDAO())->destroy($employeeHour);
+
+        var_dump($employeeHour);
     }
 
     public function tv_show_hour() : void

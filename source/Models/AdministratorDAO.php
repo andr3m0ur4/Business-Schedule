@@ -17,8 +17,8 @@ class AdministratorDAO extends DAO
             return null;
         }
 
-        $object = $find->fetchObject();
-        return new Administrator($object->id, $object->name, $object->email, $object->password, $object->phone, $object->job);
+        $administrator = $find->fetchObject();
+        return new Administrator($administrator->id, $administrator->name, $administrator->email, $administrator->password, $administrator->phone, $administrator->job);
     }
 
     public function findById(int $id, string $collumns = '*') : ?Administrator

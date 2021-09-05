@@ -67,7 +67,7 @@ class Schedule extends Model
 
     public function __toString()
     {
-        return "Id: {$this->id} - Data Inicial: " . date_format_app_to_br($this->start_date) . ' - Data Final: ' .
-            date_format_app_to_br($this->final_date) . " - Ano: {$this->year}";
+        return "Id: {$this->id} - Data Inicial: " . date_formatt($this->start_date, 'd/m') . ' - Data Final: ' .
+            date_formatt($this->final_date, 'd/m') . " - Ano: {$this->year}";
     }
 }

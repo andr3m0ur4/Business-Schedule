@@ -17,8 +17,8 @@ class ScheduleDAO extends DAO
             return null;
         }
 
-        $object = $find->fetchObject();
-        return new Schedule($object->id, $object->start_date, $object->final_date, $object->year);
+        $schedule = $find->fetchObject();
+        return new Schedule($schedule->id, $schedule->start_date, $schedule->final_date, $schedule->year);
     }
 
     public function findById(int $id, string $collumns = '*') : ?Schedule

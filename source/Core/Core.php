@@ -43,7 +43,12 @@ class Core
         $route->get('/schedule/delete/{id}', 'Teste:scheduleDelete');
 
         $route->get('/tv_show', 'Teste:tv_show');
-        $route->get('/employee_hour', 'Teste:employee_hour');
+
+        $route->get('/employee_hour', 'Teste:employeeHour');
+        $route->get('/employee_hour/insert', 'Teste:employeeHourInsert');
+        $route->get('/employee_hour/update/{id}', 'Teste:employeeHourUpdate');
+        $route->get('/employee_hour/delete/{id}', 'Teste:employeeHourDelete');
+
         $route->get('/tv_show_hour', 'Teste:tv_show_hour');
 
         /**
