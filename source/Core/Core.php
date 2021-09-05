@@ -42,6 +42,11 @@ class Core
         $route->get('/schedule/update/{id}', 'Teste:scheduleUpdate');
         $route->get('/schedule/delete/{id}', 'Teste:scheduleDelete');
 
+        $route->get('/switcher', 'Teste:switcher');
+        $route->get('/switcher/insert', 'Teste:switcherInsert');
+        $route->get('/switcher/update/{id}', 'Teste:switcherUpdate');
+        $route->get('/switcher/delete/{id}', 'Teste:switcherDelete');
+
         $route->get('/tv_show', 'Teste:tv_show');
         $route->get('/employee_hour', 'Teste:employee_hour');
         $route->get('/tv_show_hour', 'Teste:tv_show_hour');
