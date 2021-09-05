@@ -15,7 +15,7 @@ class Switcher extends Model
         $this->setName($name);
     }
 
-    public function getId() : int
+    public function getId() : ?int
     {
         return $this->id;
     }

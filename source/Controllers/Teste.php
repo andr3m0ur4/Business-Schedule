@@ -184,7 +184,7 @@ class Teste extends Controller
 
     public function schedule() : void
     {
-        $schedule = (new ScheduleDAO())->findById(2);
+        $schedule = (new ScheduleDAO())->findById(0);
 
         $data = [
             'data' => $schedule,

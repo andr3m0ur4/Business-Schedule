@@ -8,23 +8,23 @@ class TvShow extends Model
 {
     private ?int $id;
     private ?string $name;
-    private ?string $startTime;
-    private ?string $finalTime;
+    private ?string $start_time;
+    private ?string $final_time;
     private ?string $date;
     private ?string $type;
-    private ?int $idSwitcher;
-    private ?int $idStudio;
+    private ?int $id_switcher;
+    private ?int $id_studio;
 
-    public function __construct(?int $id = null, ?string $name = null, ?string $startTime = null, ?string $finalTime = null, ?string $date = null, ?string $type = null, ?int $idSwitcher = null, ?int $idStudio = null)
+    public function __construct(?int $id = null, ?string $name = null, ?string $start_time = null, ?string $final_time = null, ?string $date = null, ?string $type = null, ?int $id_switcher = null, ?int $id_studio = null)
     {
         $this->setId($id);
         $this->setName($name);
-        $this->setStartTime($startTime);
-        $this->setFinalTime($finalTime);
+        $this->setStartTime($start_time);
+        $this->setFinalTime($final_time);
         $this->setDate($date);
         $this->setType($type);
-        $this->setIdSwitcher($idSwitcher);
-        $this->setIdStudio($idStudio);
+        $this->setIdSwitcher($id_switcher);
+        $this->setIdStudio($id_studio);
     }
 
     public function getId() : int
@@ -54,9 +54,9 @@ class TvShow extends Model
         return $this->startTime;
     }
 
-    public function setStartTime($startTime)
+    public function setStartTime($start_time)
     {
-        $this->startTime = $startTime;
+        $this->startTime = $start_time;
         return $this;
     }
 
@@ -65,9 +65,9 @@ class TvShow extends Model
         return $this->finalTime;
     }
 
-    public function setFinalTime($finalTime)
+    public function setFinalTime($final_time)
     {
-        $this->finalTime = $finalTime;
+        $this->finalTime = $final_time;
         return $this;
     }
 
@@ -98,9 +98,9 @@ class TvShow extends Model
         return $this->idSwitcher;
     }
 
-    public function setIdSwitcher($idSwitcher)
+    public function setIdSwitcher($id_switcher)
     {
-        $this->idSwitcher = $idSwitcher;
+        $this->idSwitcher = $id_switcher;
         return $this;
     }
 
@@ -109,9 +109,9 @@ class TvShow extends Model
         return $this->idStudio;
     }
 
-    public function setIdStudio($idStudio)
+    public function setIdStudio($id_studio)
     {
-        $this->idStudio = $idStudio;
+        $this->idStudio = $id_studio;
         return $this;
     }
 

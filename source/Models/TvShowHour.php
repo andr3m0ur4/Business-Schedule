@@ -7,14 +7,14 @@ use Source\Core\Model;
 class TvShowHour extends Model
 {
     private ?int $id;
-    private ?int $idTvShow;
-    private ?int $idEmployeeHour;
+    private ?int $id_tv_show;
+    private ?int $id_employee_hour;
 
-    public function __construct(?int $id = null, ?int $idTvShow = null, ?int $idEmployeeHour  = null)
+    public function __construct(?int $id = null, ?int $id_tv_show = null, ?int $id_employee_hour  = null)
     {
         $this->setId($id);
-        $this->setIdTvShow($idTvShow);
-        $this->setIdEmployeeHour($idEmployeeHour );
+        $this->setIdTvShow($id_tv_show);
+        $this->setIdEmployeeHour($id_employee_hour );
     }
 
     public function getId() : int
@@ -33,9 +33,9 @@ class TvShowHour extends Model
         return $this->idTvShow;
     }
 
-    public function setIdTvShow($idTvShow)
+    public function setIdTvShow($id_tv_show)
     {
-        $this->idTvShow = $idTvShow;
+        $this->idTvShow = $id_tv_show;
         return $this;
     }
 
@@ -44,9 +44,9 @@ class TvShowHour extends Model
         return $this->idEmployeeHour ;
     }
 
-    public function setIdEmployeeHour($idEmployeeHour )
+    public function setIdEmployeeHour($id_employee_hour )
     {
-        $this->idEmployeeHour  = $idEmployeeHour ;
+        $this->idEmployeeHour  = $id_employee_hour ;
         return $this;
     }
 

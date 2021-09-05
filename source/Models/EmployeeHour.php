@@ -7,20 +7,20 @@ use Source\Core\Model;
 class EmployeeHour extends Model
 {
     private ?int $id;
-    private ?string $startTime;
-    private ?string $finalTime;
+    private ?string $start_time;
+    private ?string $final_time;
     private ?string $date;
-    private ?int $idEmployee;
-    private ?int $idSchedule;
+    private ?int $id_employee;
+    private ?int $id_schedule;
 
-    public function __construct(?int $id = null, ?string $startTime = null, ?string $finalTime = null, ?string $date = null, ?int $idEmployee = null, ?int $idSchedule  = null)
+    public function __construct(?int $id = null, ?string $start_time = null, ?string $final_time = null, ?string $date = null, ?int $id_employee = null, ?int $id_schedule  = null)
     {
         $this->setId($id);
-        $this->setStartTime($startTime);
-        $this->setFinalTime($finalTime);
+        $this->setStartTime($start_time);
+        $this->setFinalTime($final_time);
         $this->setDate($date);
-        $this->setIdEmployee($idEmployee);
-        $this->setIdSchedule($idSchedule );
+        $this->setIdEmployee($id_employee);
+        $this->setIdSchedule($id_schedule );
     }
 
     public function getId() : int
@@ -36,23 +36,23 @@ class EmployeeHour extends Model
 
     public function getStartTime() : string
     {
-        return $this->startTime;
+        return $this->start_time;
     }
 
-    public function setStartTime($startTime)
+    public function setStartTime($start_time)
     {
-        $this->startTime = $startTime;
+        $this->start_time = $start_time;
         return $this;
     }
 
     public function getFinalTime() : string
     {
-        return $this->finalTime;
+        return $this->final_time;
     }
 
-    public function setFinalTime($finalTime)
+    public function setFinalTime($final_time)
     {
-        $this->finalTime = $finalTime;
+        $this->final_time = $final_time;
         return $this;
     }
 
@@ -69,12 +69,12 @@ class EmployeeHour extends Model
 
     public function getIdEmployee() : string
     {
-        return $this->idEmployee;
+        return $this->id_employee;
     }
 
-    public function setIdEmployee($idEmployee)
+    public function setIdEmployee($id_employee)
     {
-        $this->idEmployee = $idEmployee;
+        $this->id_employee = $id_employee;
         return $this;
     }
 
@@ -83,14 +83,14 @@ class EmployeeHour extends Model
         return $this->idSchedule ;
     }
 
-    public function setIdSchedule($idSchedule )
+    public function setIdSchedule($id_schedule )
     {
-        $this->idSchedule  = $idSchedule ;
+        $this->idSchedule  = $id_schedule ;
         return $this;
     }
 
     public function __toString()
     {
-        return "Id: {$this->id} - Hora Inicial: {$this->startTime} - Hora Final: {$this->finalTime} - Data: {$this->date} - Funcionario: {$this->idEmployee} - Escala: {$this->idSchedule }";
+        return "Id: {$this->id} - Hora Inicial: {$this->start_time} - Hora Final: {$this->final_time} - Data: {$this->date} - Funcionario: {$this->id_employee} - Escala: {$this->idSchedule }";
     }
 }
