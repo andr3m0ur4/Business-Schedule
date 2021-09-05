@@ -18,6 +18,7 @@ use Source\Models\EmployeeHourDAO;
 use Source\Models\ScheduleDAO;
 use Source\Models\TvShowDAO;
 use Source\Models\TvShowHour;
+use Source\Models\TvShowHourDAO;
 
 class Teste extends Controller
 {
@@ -398,17 +399,58 @@ class Teste extends Controller
         var_dump($employeeHour);
     }
 
-    public function tv_show_hour() : void
+    public function tvShowHour() : void
     {
-        $tvShowsHours = new TvShowHour();
-        $tvShowsHours->setId(1);
-        $tvShowsHours->setIdTvShow(6);
-        $tvShowsHours->setIdEmployeeHour(7);
+        $tvShowsHour = (new TvShowHourDAO())->findById(1);
+
+        $tvShowsHours = (new TvShowHourDAO())->all();
 
         $data = [
-            'data' => $tvShowsHours
+            'data' => $tvShowsHour,
+            'array' => $tvShowsHours
         ];
 
         $this->loadTemplate('teste', $data);
+    }
+
+    public function tvShowHourInsert() : void
+    {
+        $tvShowsHours = new TvShowHour();
+        $tvShowsHours->setIdTvShow(2);
+        $tvShowsHours->setIdEmployeeHour(1);
+
+        $tvShowsHours = (new TvShowHourDAO())->save($tvShowsHours);
+
+        $data = [
+            'data' => $tvShowsHours,
+            'array' => []
+        ];
+
+        $this->loadTemplate('teste', $data);
+    }
+
+    public function tvShowHourUpdate($params) : void
+    {
+        $tvShowsHours = new TvShowHour($params['id']);
+        $tvShowsHours->setIdTvShow(2);
+        $tvShowsHours->setIdEmployeeHour(1);
+
+        $tvShowsHours = (new TvShowHourDAO())->save($tvShowsHours);
+
+        $data = [
+            'data' => $tvShowsHours,
+            'array' => []
+        ];
+
+        $this->loadTemplate('teste', $data);
+    }
+
+    public function tvShowHourDelete($params) : void
+    {
+        $tvShowsHour = new TvShowHour($params['id']);
+        
+        $tvShowsHour = (new TvShowHourDAO())->destroy($tvShowsHour);
+
+        var_dump($tvShowsHour);
     }
 }

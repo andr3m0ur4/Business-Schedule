@@ -56,7 +56,10 @@ class Core
         $route->get('/employee_hour/update/{id}', 'Teste:employeeHourUpdate');
         $route->get('/employee_hour/delete/{id}', 'Teste:employeeHourDelete');
 
-        $route->get('/tv_show_hour', 'Teste:tv_show_hour');
+        $route->get('/tv_show_hour', 'Teste:tvShowHour');
+        $route->get('/tv_show_hour/insert', 'Teste:tvShowHourInsert');
+        $route->get('/tv_show_hour/update/{id}', 'Teste:tvShowHourUpdate');
+        $route->get('/tv_show_hour/delete/{id}', 'Teste:tvShowHourDelete');
 
         /**
          * ERROR ROUTES

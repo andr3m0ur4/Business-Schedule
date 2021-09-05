@@ -7,17 +7,19 @@ use Source\Core\Model;
 class TvShowHour extends Model
 {
     private ?int $id;
-    private ?int $id_tv_show;
-    private ?int $id_employee_hour;
+    protected ?int $id_tv_show;
+    protected ?int $id_employee_hour;
+    protected static array $safe = ['id'];
+    protected static array $required = ['id_tv_show', 'id_employee_hour'];
 
-    public function __construct(?int $id = null, ?int $id_tv_show = null, ?int $id_employee_hour  = null)
+    public function __construct(?int $id = null, ?int $idTvShow = null, ?int $idEmployeeHour  = null)
     {
         $this->setId($id);
-        $this->setIdTvShow($id_tv_show);
-        $this->setIdEmployeeHour($id_employee_hour );
+        $this->setIdTvShow($idTvShow);
+        $this->setIdEmployeeHour($idEmployeeHour);
     }
 
-    public function getId() : int
+    public function getId() : ?int
     {
         return $this->id;
     }
@@ -28,30 +30,30 @@ class TvShowHour extends Model
         return $this;
     }
 
-    public function getIdTvShow() : string
+    public function getIdTvShow() : int
     {
-        return $this->idTvShow;
+        return $this->id_tv_show;
     }
 
-    public function setIdTvShow($id_tv_show)
+    public function setIdTvShow($idTvShow)
     {
-        $this->idTvShow = $id_tv_show;
+        $this->id_tv_show = $idTvShow;
         return $this;
     }
 
-    public function getIdEmployeeHour() : string
+    public function getIdEmployeeHour() : int
     {
-        return $this->idEmployeeHour ;
+        return $this->id_employee_hour;
     }
 
-    public function setIdEmployeeHour($id_employee_hour )
+    public function setIdEmployeeHour($idEmployeeHour )
     {
-        $this->idEmployeeHour  = $id_employee_hour ;
+        $this->id_employee_hour  = $idEmployeeHour;
         return $this;
     }
 
     public function __toString()
     {
-        return "Id: {$this->id} - Progama: {$this->idTvShow} - Hoarario do Funcionario: {$this->idEmployeeHour }";
+        return "Id: {$this->id} - Programa: {$this->id_tv_show} - Horário do Funcionario: {$this->id_employee_hour}";
     }
 }
