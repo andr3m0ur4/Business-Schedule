@@ -36,7 +36,8 @@
     "require": {
         "PHP": "^8.0",
         "ext-pdo": "^8.0",
-        "coffeecode/router": "1.0.*"
+        "coffeecode/router": "1.0.*",
+        "league/plates": "v3.4.0"
     },
     "scripts": {
         "start": "php -S localhost:8000 -t public"

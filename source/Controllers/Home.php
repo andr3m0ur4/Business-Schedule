@@ -8,11 +8,19 @@ use Source\Models\Usuario;
 
 class Home extends Controller
 {
+    public function __construct()
+    {
+        parent::__construct(CONF_VIEW_PATH);
+    }
+
     public function index() : void
     {
-        $data = [];
+        $data = [
+            'title' => 'Página Web',
+            'content' => 'Hello World!!'
+        ];
 
-        $this->loadTemplate('home', $data);
+        echo $this->view->render('home', $data);
     }
 
     public function about() : void

@@ -46,8 +46,8 @@ define('CONF_MESSAGE_ERROR', 'error');
 /**
  * PATH
  */
-define('CONF_VIEW_PATH', __DIR__ . '/../../assets/views');
-define('CONF_VIEW_EXT', 'php');
+define('CONF_VIEW_PATH', __DIR__ . '/../Views');
+define('CONF_VIEW_EXT', 'phtml');
 define('CONF_VIEW_THEME', 'business-schedule');
 
 /**
