@@ -14,6 +14,7 @@ class Core
         $route->namespace('Source\Controllers');
         $route->get('/', 'Home:index');
         $route->get('/home', 'Home:index');
+        $route->get('/signin', 'Home:signin');
         $route->get('/sobre', 'Home:about');
         $route->get('/escalas', 'Home:schedule');
 

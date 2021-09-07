@@ -16,11 +16,21 @@ class Home extends Controller
     public function index() : void
     {
         $data = [
-            'title' => 'Página Web',
-            'content' => 'Hello World!!'
+            'title' => 'Business Schedule',
+            'file' => 'home'
         ];
 
         echo $this->view->render('home', $data);
+    }
+
+    public function signin() : void
+    {
+        $data = [
+            'title' => 'Business Schedule - Login',
+            'file' => 'signin'
+        ];
+
+        echo $this->view->render('signin', $data);
     }
 
     public function about() : void
