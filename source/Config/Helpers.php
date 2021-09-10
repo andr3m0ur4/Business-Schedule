@@ -171,3 +171,24 @@ function passwd_rehash(string $hash) : bool
 {
     return password_needs_rehash($hash, CONF_PASSWORD_ALGO, CONF_PASSWORD_OPTION);
 }
+
+/**
+ * ####################
+ * ###      CORE    ###
+ * ####################
+ */
+
+function db() : PDO
+{
+    return Source\Core\Connect::getConnection();
+}
+
+function message() : Source\Support\Message
+{
+    return new Source\Support\Message();
+}
+
+function session() : Source\Support\Session
+{
+    return new Source\Support\Session();
+}

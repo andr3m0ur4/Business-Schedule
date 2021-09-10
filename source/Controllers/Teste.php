@@ -22,6 +22,11 @@ use Source\Models\TvShowHourDAO;
 
 class Teste extends Controller
 {
+    public function __construct()
+    {
+        parent::__construct(CONF_VIEW_PATH);
+    }
+    
     public function admin() : void
     {
         $admin = (new AdministratorDAO())->findByEmail('andre@teste.com');
@@ -93,8 +98,8 @@ class Teste extends Controller
     public function employeeInsert() : void
     {
         $employee = new Employee();
-        $employee->setName('Ciclano');
-        $employee->setEmail('Ciclano@teste.com');
+        $employee->setName('Teste');
+        $employee->setEmail('teste@teste.com');
         $employee->setPassword('123456789');
         $employee->setPhone('(12) 98324-3333');
         $employee->setJob('Funcionario');

@@ -3,6 +3,7 @@
 namespace Source\Models;
 
 use Source\Core\DAO;
+use Source\Support\Session;
 
 class EmployeeDAO extends DAO
 {
@@ -29,6 +30,19 @@ class EmployeeDAO extends DAO
     public function findByEmail(string $email, string $collumns = '*') : ?Employee
     {
         return $this->find("email = :email", "email={$email}", $collumns);
+    }
+
+    public function login(string $email, string $password) : bool
+    {
+        if ($employee = $this->findByEmail($email)) {
+            if (password_verify($password, $employee->getPassword())) {
+                session()->set('idUser', $employee->getId());
+                redirect('/');
+            }
+        }
+        
+        $this->message->error('E-mail e ou senha estão incorretos');
+        return false;
     }
 
     public function all(int $limit = 30, int $offset = 0, string $collumns = '*') : ?array

@@ -18,6 +18,8 @@ class Core
         $route->get('/sobre', 'Home:about');
         $route->get('/escalas', 'Home:schedule');
 
+        $route->post('/signin', 'Home:signin');
+
         /**
          * TESTS
          */
