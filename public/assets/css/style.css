@@ -1,3 +1,11 @@
+body {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+    background-color: #fff;
+}
+
 .header-table {
     background-color: #C0C3E8;
 }
@@ -74,6 +82,11 @@
     line-height: 1.42857143;
     color: #333;
     white-space: nowrap;
+}
+
+.nav>li {
+    position: relative;
+    display: block;
 }
 
 .nav>li>a {
