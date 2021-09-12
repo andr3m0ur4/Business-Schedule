@@ -84,6 +84,12 @@ body {
     white-space: nowrap;
 }
 
+.nav {
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+}
+
 .nav>li {
     position: relative;
     display: block;
@@ -107,6 +113,54 @@ body {
     border-left: 4px solid transparent;
 } */
 
+@media (max-width: 991px) {
+    .navbar-collapse.show, .sidebar.show {
+        -webkit-transform: translate3d(0px, 0, 0);
+        -moz-transform: translate3d(0px, 0, 0);
+        -o-transform: translate3d(0px, 0, 0);
+        -ms-transform: translate3d(0px, 0, 0);
+        transform: translate3d(0px, 0, 0);
+    }
+
+    .nav.nav-mobile-menu {
+        flex-direction: column!important;
+    }
+
+    .navbar-nav .dropdown-menu.show {
+        position: static !important;
+        float: none;
+        width: auto;
+        margin-top: 0;
+        background-color: transparent;
+        border: 0;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        transform: none !important;
+    }
+
+    .dropdown-item, .dropdown-menu > li > a:hover {
+        color: #fff;
+    }
+
+    .dropdown-item, .dropdown-item {
+        margin: 5px 15px;
+        padding: 10px 15px;
+        border-radius: 4px;
+        width: auto;
+    }
+
+    .dropdown-item:focus, .dropdown-item:hover {
+        color: #fff;
+        background-color: rgba(255, 255, 255, 0.13);
+        opacity: 1;
+    }
+
+    .sidebar .nav .open > a, .sidebar .nav li.dropdown .dropdown-menu li:hover > a, .sidebar .nav li:hover > a {
+        background-color: rgba(255, 255, 255, 0.13);
+        opacity: 1;
+    }
+}
+
 @media (min-width: 992px) {
     .navbar-nav > li.show > .dropdown-menu, .dropdown.show .dropdown-menu {
         -webkit-transform: scale(1);
@@ -120,11 +174,21 @@ body {
         -ms-transform-origin: 29px -50px;
         transform-origin: 29px -50px;
     }
+
+    .navbar-nav > li > .dropdown-menu {
+        margin-top: 5px;
+    }
 }
 
 @media (min-width: 768px) {
     .navbar-right .dropdown-menu {
         right: 0;
         left: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar ul.nav > li > a > i.fa-dashboard {
+        margin-top: 0;
     }
 }
