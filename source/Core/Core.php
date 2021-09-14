@@ -63,6 +63,8 @@ class Core
         $route->get('/tv_show_hour/insert', 'Teste:tvShowHourInsert');
         $route->get('/tv_show_hour/update/{id}', 'Teste:tvShowHourUpdate');
         $route->get('/tv_show_hour/delete/{id}', 'Teste:tvShowHourDelete');
+        
+        $route->get('/grid', 'Teste:grid');
 
         /**
          * ERROR ROUTES

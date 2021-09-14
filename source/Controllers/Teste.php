@@ -458,4 +458,9 @@ class Teste extends Controller
 
         var_dump($tvShowsHour);
     }
+
+    public function grid() : void
+    {
+        echo $this->view->render('examples/grid', []);
+    }
 }

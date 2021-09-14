@@ -19,7 +19,7 @@ class View
         return $this;
     }
 
-    public function render(string $templateName, array $data) : string
+    public function render(string $templateName, array $data = []) : string
     {
         return $this->engine->render($templateName, $data);
     }
