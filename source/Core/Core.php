@@ -14,12 +14,12 @@ class Core
         $route->namespace('Source\Controllers');
         $route->get('/', 'Home:index');
         $route->get('/home', 'Home:index');
-        $route->get('/signin', 'Home:signin');
-        $route->get('/signout', 'Home:signout');
+        $route->get('/entrar', 'Home:signin');
+        $route->get('/sair', 'Home:signout');
         $route->get('/sobre', 'Home:about');
         $route->get('/escalas', 'Home:schedule');
 
-        $route->post('/signin', 'Home:signin');
+        $route->post('/entrar', 'Home:signin');
 
         /**
          * TESTS

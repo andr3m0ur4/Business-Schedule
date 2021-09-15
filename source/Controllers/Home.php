@@ -18,7 +18,7 @@ class Home extends Controller
     public function index() : void
     {
         if (!session()->__get('idUser')) {
-            redirect('/signin');
+            redirect('/entrar');
         }
 
         $data = [
@@ -55,7 +55,7 @@ class Home extends Controller
     public function signout() : void
     {
         session()->destroy();
-        redirect('/signin');
+        redirect('/entrar');
     }
 
     public function about() : void
