@@ -52,6 +52,12 @@ class Home extends Controller
         echo $this->view->render('signin', $data);
     }
 
+    public function signout() : void
+    {
+        session()->destroy();
+        redirect('/signin');
+    }
+
     public function about() : void
     {
         $this->loadTemplate('sobre', []);

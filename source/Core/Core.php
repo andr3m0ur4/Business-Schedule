@@ -15,6 +15,7 @@ class Core
         $route->get('/', 'Home:index');
         $route->get('/home', 'Home:index');
         $route->get('/signin', 'Home:signin');
+        $route->get('/signout', 'Home:signout');
         $route->get('/sobre', 'Home:about');
         $route->get('/escalas', 'Home:schedule');
 
