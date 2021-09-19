@@ -22,11 +22,6 @@ use Source\Models\TvShowHourDAO;
 
 class Teste extends Controller
 {
-    public function __construct()
-    {
-        parent::__construct(CONF_VIEW_PATH);
-    }
-    
     public function admin() : void
     {
         $admin = (new AdministratorDAO())->findByEmail('andre@teste.com');

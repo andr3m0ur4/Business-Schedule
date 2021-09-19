@@ -8,6 +8,10 @@ abstract class Controller
 
     public function __construct($pathToViews = null)
     {
+        if ($pathToViews instanceof Route) {
+            $pathToViews = CONF_VIEW_PATH;
+        }
+
         $this->view = new View($pathToViews);
     }
 

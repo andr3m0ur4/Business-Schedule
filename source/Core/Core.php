@@ -21,6 +21,8 @@ class Core
 
         $route->post('/entrar', 'Home:signin');
 
+        $route->get('/escala', 'Schedule:index');
+
         /**
          * TESTS
          */

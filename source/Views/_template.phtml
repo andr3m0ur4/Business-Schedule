@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title><?=  "Business Schedule - {$title}" ?></title>
+    <title><?=  $title ?></title>
     <link rel="shortcut icon" href="/assets/images/favicon.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
     <!-- Bootstrap CSS -->
@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="/assets/css/style.css">
 	<!-- <script src="https://kit.fontawesome.com/a81368914c.js"></script> -->
-    <!-- <link rel="stylesheet" type="text/css" href="./assets/css/<?= $file ?>.css"> -->
+    <link rel="stylesheet" type="text/css" href="./assets/css/<?= $file ?>.css">
 </head>
 <body>
 
@@ -28,7 +28,7 @@
                     </a>
                 </div>
                 <ul class="nav flex-column">
-                    <li class="nav-item"><a class="nav-link" href="#"><i class="fa fa-map-marker"></i> Cadastrar Escala</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/escala"><i class="fa fa-map-marker"></i> Cadastrar Escala</a></li>
                     <li class="nav-item"><a class="nav-link" href="#"><i class="fa fa-industry fa-sm"></i> Editar Escala</a></li>
                     <li class="nav-item"><a class="nav-link" href="#"><i class="fa fa-cubes fa-sm"></i> Cadastrar Funcionário</a></li>
                     <li class="nav-item"><a class="nav-link" href="#"><i class="fa fa-users"></i> Editar Funcionário</a></li>
@@ -70,9 +70,9 @@
                                     </p>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="index.php?class=ProdutosList">Escalas</a></li>
-                                    <li><a href="index.php?class=PessoasList">Funcionários</a></li>
-                                    <li><a href="index.php?class=VendasForm">Programas</a></li>
+                                    <li><a href="#">Escalas</a></li>
+                                    <li><a href="#">Funcionários</a></li>
+                                    <li><a href="#">Programas</a></li>
                                 </ul>
                             </li>
                             <li>

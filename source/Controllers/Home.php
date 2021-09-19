@@ -4,17 +4,9 @@ namespace Source\Controllers;
 
 use Source\Core\Controller;
 use Source\Models\EmployeeDAO;
-use Source\Models\UserDAO;
-use Source\Models\Usuario;
-use Source\Support\Session;
 
 class Home extends Controller
 {
-    public function __construct()
-    {
-        parent::__construct(CONF_VIEW_PATH);
-    }
-
     public function index() : void
     {
         if (!session()->__get('idUser')) {
@@ -23,7 +15,7 @@ class Home extends Controller
 
         $data = [
             'title' => 'Business Schedule',
-            'file' => 'home'
+            'file' => '_home'
         ];
 
         echo $this->view->render('home', $data);
