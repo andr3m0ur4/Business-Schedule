@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Business Schedule</title>
+    <link rel="shortcut icon" href="./assets/images/favicon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="./assets/css/animate.min.css">
+    <link rel="stylesheet" href="./assets/css/light-bootstrap-dashboard.css">
+    <link rel="stylesheet" href="./assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <!-- <script src="https://kit.fontawesome.com/a81368914c.js"></script> -->
+    <link rel="stylesheet" type="text/css" href="./assets/css/_home.css">
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <side class="sidebar" data-color="blue" data-image="/assets/images/sidebar-4.jpg" id="navigation-example-2">
+            <!--   you can change the color of the sidebar using: data-color="blue | azure | green | orange | red | purple" -->
+            <div class="sidebar-wrapper">
+                <div class="logo">
+                    <a href="/" class="simple-text">
+                        Business Schedule
+                    </a>
+                </div>
+                <ul class="nav flex-column">
+                    <li class="nav-item"><a class="nav-link" href="/escala"><i class="fa fa-map-marker"></i> Cadastrar
+                            Escala</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><i class="fa fa-industry fa-sm"></i> Editar
+                            Escala</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><i class="fa fa-cubes fa-sm"></i> Cadastrar
+                            Funcionário</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><i class="fa fa-users"></i> Editar Funcionário</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="#"><i class="fa fa-shopping-cart"></i> Consultar
+                            Funcionário</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><i class="fa fa-file-text-o"></i> Consultar
+                            Escala</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><i class="fa fa-file-text-o"></i> Solicitar Troca
+                            de Horário</a></li>
+                </ul>
+            </div>
+        </side>
+
+
+        <!--   PEGA DAQUI ATE O FINAL -->
+        <div class="main-panel">
+            <nav class="navbar navbar-default navbar-light navbar-expand-lg navbar-fixed">
+                <header class="container-fluid flex-nowrap">
+                    <div class="navbar-header mx-0">
+                        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                            data-target="#navigation-example-2" aria-controls="navbarNav" aria-expanded="false"
+                            aria-label="Alterna navegação">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <a class="navbar-brand py-0" href="#"> <i class="fa fa-code"></i> Código-fonte</a>
+                    </div>
+                    <div class="collapse navbar-collapse">
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle my-0" data-toggle="dropdown"
+                                    id="navbarDropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-dashboard"></i>
+                                    <p class="d-inline-block d-lg-none d-md-none ml-0">Dashboard</p>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="#">Ação</a>
+                                    <a class="dropdown-item" href="#">Outra ação</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#">Algo mais aqui</a>
+                                </div>
+                            </li>
+                        </ul>
+                        <ul class="nav navbar-nav ml-lg-auto align-items-lg-center">
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle my-0" data-toggle="dropdown" role="button"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    <p class="d-inline-block">
+                                        Atalhos
+                                    </p>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Escalas</a></li>
+                                    <li><a href="#">Funcionários</a></li>
+                                    <li><a href="#">Programas</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="/sair" class="my-0">
+                                    <p>Sair</p>
+                                </a>
+                            </li>
+                            <li class="separator d-lg-none d-md-none"></li>
+                        </ul>
+                    </div>
+                </header>
+            </nav>
+
+            <!--   Começo do conteudo da pagina -->
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div>
+                                <div style="display:block">
+                                    <div style="clear:both">
+                                        <div class="card text-center">
+                                            <div class="card-header">
+                                                <div class="card-title">
+                                                    <h4>
+                                                        Administrador</h4>
+                                                </div>
+                                            </div>
+
+                                            <div class="card-body">
+                                                <form>
+                                                    <div class="form-group">
+
+                                                        <label for="formGroupExampleInput"
+                                                            class="font-weight-bold">Nome</label>
+                                                        <input type="text" class="form-control"
+                                                            id="formGroupExampleInput">
+
+                                                    </div>
+                                                </form>
+                                            </div>
+
+                                            <div class="card-footer">
+                                                <div>
+                                                    <button name="buscar" type="button"
+                                                        onclick="document.form_busca_produtos.action='?class=ProdutosList&method=onReload'; document.form_busca_produtos.submit()"
+                                                        class="btn btn-success">
+                                                        Buscar</button>
+                                                    <button name="novo" type="button"
+                                                        onclick="document.form_busca_produtos.action='?class=ProdutosForm&method=onEdit'; document.form_busca_produtos.submit()"
+                                                        class="btn btn-default">
+                                                        Novo</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div style="clear:both">
+                                        <div class="card">
+                                            <div class="card-body">
+
+                                                <table class="table table-striped table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th width="40px">
+                                                            <th width="40px">
+                                                            <th style="text-align:center" width="10%">
+                                                                Código</th>
+                                                            <th style="text-align:left" width="30%">
+                                                                Nome</th>
+                                                            <th style="text-align:left" width="30%">
+                                                                Email</th>
+                                                            <th style="text-align:right" width="15%">
+                                                                Telefone</th>
+                                                            <th style="text-align:right" width="15%">
+                                                                Senha</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td align="center">
+                                                                <a href="?class=ProdutosForm&method=onEdit&key=1&id=1">
+                                                                    <i class="fa fa-edit fa-lg blue" title="Editar">
+                                                                    </i>
+                                                                </a>
+                                                            </td>
+                                                            <td align="center">
+                                                                <a
+                                                                    href="?class=ProdutosList&method=onDelete&key=1&id=1">
+                                                                    <i class="fa fa-trash fa-lg red" title="Excluir">
+                                                                    </i>
+                                                                </a>
+                                                            </td>
+                                                            <td align="center" width="10%">
+                                                                1</td>
+                                                            <td align="left" width="30%">
+                                                                Igor Marcondes Santos</td>
+                                                            <td align="left" width="30%">
+                                                                igorsan539@gmail.com</td>
+                                                            <td align="right" width="15%">
+                                                                12981785198</td>
+                                                            <td align="right" width="15%">
+                                                                123456</td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td align="center">
+                                                                <a href="?class=ProdutosForm&method=onEdit&key=1&id=1">
+                                                                    <i class="fa fa-edit fa-lg blue" title="Editar">
+                                                                    </i>
+                                                                </a>
+                                                            </td>
+                                                            <td align="center">
+                                                                <a
+                                                                    href="?class=ProdutosList&method=onDelete&key=1&id=1">
+                                                                    <i class="fa fa-trash fa-lg red" title="Excluir">
+                                                                    </i>
+                                                                </a>
+                                                            </td>
+                                                            <td align="center" width="10%">
+                                                                1</td>
+                                                            <td align="left" width="30%">
+                                                                Andre de Moura Benedicto</td>
+                                                            <td align="left" width="30%">
+                                                                Oandrexez@gmail.com</td>
+                                                            <td align="right" width="15%">
+                                                                12968174592</td>
+                                                            <td align="right" width="15%">
+                                                                123456</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--   Fim do conteudo da pagina -->
+            <!--   PEGA ATE AQUI -->
+
+            <footer class="footer">
+                <div class="container-fluid">
+                    <p class="copyright pull-right">
+                        <a target="newwindow" href="https://github.com/andr3m0ur4/Business-Schedule"> PI - Programando
+                            com Orientação a Objetos </a>
+                    </p>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script src="./assets/js/Chart.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+    <script src="./assets/js/light-bootstrap-dashboard.js?v=1.4.0"></script>
+    <!-- jsDelivr :: Sortable :: Latest (https://www.jsdelivr.com/package/npm/sortablejs) -->
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <script type="text/javascript" src="./assets/js/_home.js"></script>
+    <script src="./assets/js/script.js"></script>
+
+</body>
+
+</html>

@@ -48,6 +48,9 @@
                 </ul>
             </div>
         </side>
+
+
+        <!--   PEGA DAQUI ATE O FINAL -->
         <div class="main-panel">
             <nav class="navbar navbar-default navbar-light navbar-expand-lg navbar-fixed">
                 <header class="container-fluid flex-nowrap">
@@ -99,113 +102,90 @@
                     </div>
                 </header>
             </nav>
-            <main class="content">
+
+            <!--   Começo do conteudo da pagina -->
+            <div class="content">
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-12">
+                            <div>
+                                <div class="card card-default">
+                                    <div class="card-header">
+                                        <div class="card-title text-center">
+                                            <h4>
+                                                Cadastro de Funcionário</h4>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <form>
+                                            <div class="form-group">
 
-                            <!-- Aqui começa o conteúdo principal -->
+                                                <label for="formGroupExampleInput"
+                                                    class="font-weight-bold">Nome</label>
+                                                <input type="text" class="form-control"
+                                                    id="formGroupExampleInput">
 
-                            <!--Começo Navbar-->
-                            <nav class="navbar navbar-expand-lg navbar-light bgnav">
-                                <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                                    <ul class="navbar-nav">
-
-                                        <a class="navbar-brand" href="#">
-                                            <img src="./assets/images/TV_Aparecida_2010.png" width="30" height="30"
-                                                class="d-inline-block align-top" alt="">
-                                            Business Schedule
-                                        </a>
-
-                                        <li class="nav-item dropdown">
-                                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
-                                                role="button" data-toggle="dropdown" aria-haspopup="true"
-                                                aria-expanded="false">
-                                                Menu
-                                            </a>
-                                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                                <a class="dropdown-item" href="#">Teste</a>
-                                                <a class="dropdown-item" href="#">Teste</a>
-                                                <a class="dropdown-item" href="#">Teste</a>
                                             </div>
-                                        </li>
 
-                                    </ul>
-                                </div>
-                            </nav>
-                            <!--Fim Navbar-->
+                                            <div class="form-group">
 
+                                                <label for="formGroupExampleInput"
+                                                    class="font-weight-bold">Função</label>
+                                                <input type="text" class="form-control"
+                                                    id="formGroupExampleInput">
 
+                                            </div>
 
-                            <!--Começo Drag And Drop-->
-                            <div class="boards container justify-content-center">
-                                <div class="board">
-                                    <h3>Nome</h3>
-                                    <div class="dropzone">
-                                        <div class="card" draggable="true">
-                                            <div class="status green"></div>
-                                            <div class="content"> Igor Marcondes Santos</div>
-                                        </div>
-                                        <div class="card" draggable="true">
-                                            <div class="status green"></div>
-                                            <div class="content"> André de Moura Benedicto</div>
-                                        </div>
+                                            <div class="form-group">
+
+                                                <label for="formGroupExampleInput"
+                                                    class="font-weight-bold">Email</label>
+                                                <input type="text" class="form-control"
+                                                    id="formGroupExampleInput">
+
+                                            </div>
+
+                                            <div class="form-group">
+
+                                                <label for="formGroupExampleInput"
+                                                    class="font-weight-bold">Telefone</label>
+                                                <input type="text" class="form-control"
+                                                    id="formGroupExampleInput">
+
+                                            </div>
+
+                                            <div class="form-group">
+
+                                                <label for="formGroupExampleInput"
+                                                    class="font-weight-bold">Senha</label>
+                                                <input type="text" class="form-control"
+                                                    id="formGroupExampleInput">
+
+                                            </div>
+                                        </form>
                                     </div>
-
-                                </div>
-                                <div class="board">
-                                    <h3>Estudio</h3>
-                                    <div class="dropzone">
-                                        <div class="card" draggable="true">
-                                            <div class="status blue"></div>
-                                            <div class="content"> Delta</div>
-                                        </div>
-                                        <div class="card" draggable="true">
-                                            <div class="status blue"></div>
-                                            <div class="content"> Bravo</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="board">
-                                    <h3>Programa</h3>
-                                    <div class="dropzone">
-                                        <div class="card" draggable="true">
-                                            <div class="status red"></div>
-                                            <div class="content"> Missa</div>
-                                        </div>
-                                        <div class="card" draggable="true">
-                                            <div class="status red"></div>
-                                            <div class="content"> Missa 2</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="board">
-                                    <h3>Horario</h3>
-                                    <div class="dropzone">
-                                        <div class="card" draggable="true">
-                                            <div class="status red"></div>
-                                            <div class="content"> 18:00</div>
-                                        </div>
-                                        <div class="card" draggable="true">
-                                            <div class="status red"></div>
-                                            <div class="content"> 18:00</div>
+                                    <div class="card-footer text-center">
+                                        <div>
+                                            <button name="Cadastrar" type="button"
+                                                onclick="document.form_busca_produtos.action='?class=ProdutosList&method=onReload'; document.form_busca_produtos.submit()"
+                                                class="btn btn-success">
+                                                Cadastrar</button>
+                                            <button name="Limpar" type="button"
+                                                onclick="document.form_busca_produtos.action='?class=ProdutosForm&method=onEdit'; document.form_busca_produtos.submit()"
+                                                class="btn btn-success">
+                                                Limpar</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <!--Fim Drag And Drop-->
-
-                            <div class="row mt-5 justify-content-center">
-                                <button type="button" class="btn btn-primary mr-4">Apagar</button>
-                                <button type="button" class="btn btn-primary">Salvar</button>
-                            </div>
-
-                            <!-- Aqui termina o conteúdo principal -->
 
                         </div>
                     </div>
                 </div>
-            </main>
+            </div>
+            <!--   Fim do conteudo da pagina -->
+            <!--   PEGA ATE AQUI -->
+
             <footer class="footer">
                 <div class="container-fluid">
                     <p class="copyright pull-right">
