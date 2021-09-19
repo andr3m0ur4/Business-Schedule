@@ -24,7 +24,7 @@ class Teste extends Controller
 {
     public function admin() : void
     {
-        $admin = (new AdministratorDAO())->findByEmail('andre@teste.com');
+        $admin = (new AdministratorDAO())->findByEmail('rodrigo@teste.com');
         $admin->setPhone('(12) 98324-4243');
 
         $admins = (new AdministratorDAO())->all();
@@ -44,7 +44,6 @@ class Teste extends Controller
         $administrator->setEmail('beltrano@teste.com');
         $administrator->setPassword('123456789');
         $administrator->setPhone('(12) 98324-1111');
-        $administrator->setJob('CEO');
 
         $administrator = (new AdministratorDAO())->save($administrator);
 
@@ -59,8 +58,6 @@ class Teste extends Controller
         $administrator->setEmail('rodrigo@teste.com');
         $administrator->setPassword('123456789');
         $administrator->setPhone('(12) 98324-7777');
-        $administrator->setJob('dba');
-
         $administrator = (new AdministratorDAO())->save($administrator);
         
         print_r($administrator);

@@ -18,7 +18,7 @@ class AdministratorDAO extends DAO
         }
 
         $administrator = $find->fetchObject();
-        return new Administrator($administrator->id, $administrator->name, $administrator->email, $administrator->password, $administrator->phone, $administrator->job);
+        return new Administrator($administrator->id, $administrator->name, $administrator->email, $administrator->password, $administrator->phone);
     }
 
     public function findById(int $id, string $collumns = '*') : ?Administrator
@@ -46,7 +46,7 @@ class AdministratorDAO extends DAO
         $administrators = [];
 
         foreach ($all->fetchAll(\PDO::FETCH_OBJ) as $administrator) {
-            $administrators[] = new Administrator($administrator->id, $administrator->name, $administrator->email, $administrator->password, $administrator->job);
+            $administrators[] = new Administrator($administrator->id, $administrator->name, $administrator->email, $administrator->password, $administrator->phone);
         }
 
         return $administrators;
