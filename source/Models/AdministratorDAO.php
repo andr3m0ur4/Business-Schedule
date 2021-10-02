@@ -103,6 +103,8 @@ class AdministratorDAO extends DAO
                 $this->message->error('Erro ao cadastrar, verifique os dados');
                 return null;
             }
+
+            $this->message->success('Dados salvos com sucesso');
         }
 
         return $this->findById($adminId);

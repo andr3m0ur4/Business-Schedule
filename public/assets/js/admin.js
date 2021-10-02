@@ -1,6 +1,6 @@
 $(() => {
-    if (document.querySelector('[name=save]')) {
-        document.querySelector('[name=save]').onclick = () => {
+    if (document.querySelector('[name=new]')) {
+        document.querySelector('[name=new]').onclick = () => {
             location.href = './admin/novo'
         }
     }
@@ -10,8 +10,18 @@ $(() => {
             clear()
         }
     }
+
+    if (document.querySelector('[name=save]')) {
+        document.querySelector('[name=save]').onclick = () => {
+            save()
+        }
+    }
 })
 
 const clear = () => {
     document.form_admin.reset()
+}
+
+const save = () => {
+    document.form_admin.submit()
 }

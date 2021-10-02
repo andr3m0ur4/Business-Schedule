@@ -1,5 +1,13 @@
 <?php $this->layout('_template', $this->data) ?>
 
+<?php if (isset($message)) : ?>
+    <?php if ($message->getType() == 'success') : ?>
+        <div class="alert alert-info"><?= "{$message->getText()}." ?></div>
+    <?php else : ?>
+        <div class="alert alert-danger"><?= "Ops, {$message->getText()}." ?></div>
+    <?php endif ?>
+<?php endif ?>
+
 <section>
     <div class="card">
         <div class="card-header">
@@ -8,7 +16,7 @@
             </div>
         </div>
         <div class="card-body">
-            <form name="form_admin" class="text-right">
+            <form name="form_admin" method="POST" class="text-right">
 
                 <div class="form-row align-items-center">
                     <label for="id" class="col-sm-2 col-form-label">Código</label>
@@ -49,8 +57,8 @@
         </div>
         <div class="card-footer">
             <div>
-                <button name="Cadastrar" type="button" onclick="document.form_busca_produtos.action='?class=ProdutosList&method=onReload'; document.form_busca_produtos.submit()" class="btn btn-success">Cadastrar</button>
-                <button name="clear" type="button" class="btn btn-success">Limpar</button>
+                <button name="save" type="button" class="btn btn-success">Salvar</button>
+                <button name="clear" type="button" class="btn btn-warning">Limpar</button>
             </div>
         </div>
     </div>
