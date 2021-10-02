@@ -1,0 +1,85 @@
+<?php $this->layout('_template', $this->data) ?>
+
+<section>
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">
+                <h4>Administrador</h4>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <form>
+                <div class="form-row align-items-center text-right">
+                    <label for="formGroupExampleInput" class="col-sm-2 col-form-label">Nome</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="formGroupExampleInput">
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="card-footer">
+            <div>
+                <button name="buscar" type="button" onclick="document.form_busca_produtos.action='?class=ProdutosList&method=onReload'; document.form_busca_produtos.submit()" class="btn btn-success">Buscar</button>
+                <button name="novo" type="button" onclick="document.form_busca_produtos.action='?class=ProdutosForm&method=onEdit'; document.form_busca_produtos.submit()" class="btn btn-default">Novo</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                        <th>
+                        <th class="text-center" width="10%">Código</th>
+                        <th class="text-left" width="30%">Nome</th>
+                        <th class="text-left" width="30%">Email</th>
+                        <th class="text-right" width="15%">Telefone</th>
+                        <th class="text-right" width="15%">Senha</th>
+                    </tr>
+                </thead>
+                <tbody class="">
+                    <tr>
+                        <td class="text-center">
+                            <a href="#">
+                                <i class="fa fa-edit fa-lg blue" title="Editar"></i>
+                            </a>
+                        </td>
+                        <td class="text-center">
+                            <a href="#">
+                                <i class="fa fa-trash fa-lg red" title="Excluir"></i>
+                            </a>
+                        </td>
+                        <td class="text-center" width="10%">1</td>
+                        <td class="text-left" width="30%">Igor Marcondes Santos</td>
+                        <td class="text-left" width="30%">igorsan539@gmail.com</td>
+                        <td class="text-right" width="15%">12981785198</td>
+                        <td class="text-right" width="15%">123456</td>
+                    </tr>
+
+                    <tr>
+                        <td class="text-center">
+                            <a href="#">
+                                <i class="fa fa-edit fa-lg blue" title="Editar"></i>
+                            </a>
+                        </td>
+                        <td class="text-center">
+                            <a href="#">
+                                <i class="fa fa-trash fa-lg red" title="Excluir"></i>
+                            </a>
+                        </td>
+                        <td class="text-center" width="10%">1</td>
+                        <td class="text-left" width="30%">Andre de Moura Benedicto</td>
+                        <td class="text-left" width="30%">Oandrexez@gmail.com</td>
+                        <td class="text-right" width="15%">12968174592</td>
+                        <td class="text-right" width="15%">123456</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

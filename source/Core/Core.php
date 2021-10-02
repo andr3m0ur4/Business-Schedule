@@ -18,19 +18,21 @@ class Core
         $route->get('/sair', 'Home:signout');
         $route->get('/sobre', 'Home:about');
         $route->get('/escalas', 'Home:schedule');
-
+        
         $route->post('/entrar', 'Home:signin');
-
+        
         $route->get('/escala', 'Schedule:index');
+
+        $route->get('/admin', 'Administrator:index');
 
         /**
          * TESTS
          */
         $route->namespace('Source\Controllers');
-        $route->get('/admin', 'Teste:admin');
-        $route->get('/admin/insert', 'Teste:adminInsert');
-        $route->get('/admin/update/{id}', 'Teste:adminUpdate');
-        $route->get('/admin/delete/{id}', 'Teste:adminDelete');
+        $route->get('/administrator', 'Teste:admin');
+        $route->get('/administrator/insert', 'Teste:adminInsert');
+        $route->get('/administrator/update/{id}', 'Teste:adminUpdate');
+        $route->get('/administrator/delete/{id}', 'Teste:adminDelete');
 
         $route->get('/employee', 'Teste:employee');
         $route->get('/employee/insert', 'Teste:employeeInsert');
