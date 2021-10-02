@@ -17,7 +17,8 @@ class Administrator extends Controller
     public function save() : void
     {
         echo $this->view->render('admin-save', [
-            'title' => 'Business Schedule - Admin'
+            'title' => 'Business Schedule - Admin',
+            'file' => 'admin'
         ]);
     }
 }
