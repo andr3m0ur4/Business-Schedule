@@ -1,0 +1,57 @@
+<?php $this->layout('_template', $this->data) ?>
+
+<section>
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">
+                <h4>Cadastro de Administrador</h4>
+            </div>
+        </div>
+        <div class="card-body">
+            <form class="text-right">
+
+                <div class="form-row align-items-center">
+                    <label for="id" class="col-sm-2 col-form-label">Código</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="id" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row align-items-center">
+                    <label for="name" class="col-sm-2 col-form-label">Nome</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="name">
+                    </div>
+                </div>
+
+                <div class="form-row align-items-center">
+                    <label for="email" class="col-sm-2 col-form-label">Email</label>
+                    <div class="col-sm-8">
+                        <input type="email" class="form-control" id="email">
+                    </div>
+                </div>
+
+                <div class="form-row align-items-center">
+                    <label for="password" class="col-sm-2 col-form-label">Senha</label>
+                    <div class="col-sm-8">
+                        <input type="password" class="form-control" id="password">
+                    </div>
+                </div>
+
+                <div class="form-row align-items-center">
+                    <label for="phone" class="col-sm-2 col-form-label">Celular</label>
+                    <div class="col-sm-8">
+                        <input type="tel" class="form-control" id="phone">
+                    </div>
+                </div>
+
+            </form>
+        </div>
+        <div class="card-footer">
+            <div>
+                <button name="Cadastrar" type="button" onclick="document.form_busca_produtos.action='?class=ProdutosList&method=onReload'; document.form_busca_produtos.submit()" class="btn btn-success">Cadastrar</button>
+                <button name="Limpar" type="button" onclick="document.form_busca_produtos.action='?class=ProdutosForm&method=onEdit'; document.form_busca_produtos.submit()" class="btn btn-success">Limpar</button>
+            </div>
+        </div>
+    </div>
+</section>
