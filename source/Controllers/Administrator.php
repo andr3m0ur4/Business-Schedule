@@ -10,15 +10,20 @@ class Administrator extends Controller
 {
     public function index() : void
     {
+        $dao = new AdministratorDAO();
+        $administrators = $dao->all();
+
         echo $this->view->render('admin', [
             'title' => 'Business Schedule - Admin',
-            'file' => 'admin'
+            'file' => 'admin',
+            'administrators' => $administrators
         ]);
     }
 
     public function save() : void
     {
         $message = null;
+        $dao = new AdministratorDAO();
 
         if ($_POST) {
             $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRIPPED);
@@ -27,7 +32,6 @@ class Administrator extends Controller
             $phone = filter_input(INPUT_POST, 'phone', FILTER_SANITIZE_STRIPPED);
 
             $admin = new AdministratorModel(null, $name, $email, $password, $phone);
-            $dao = new AdministratorDAO();
             $dao->save($admin);
             $message = $dao->message();
         }

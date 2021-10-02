@@ -67,7 +67,7 @@ abstract class User extends Model
 
     public function getPhone() : string
     {
-        return $this->password;
+        return $this->phone;
     }
 
     public function setPhone($phone)
