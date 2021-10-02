@@ -24,6 +24,7 @@ class Core
         $route->get('/escala', 'Schedule:index');
 
         $route->get('/admin', 'Administrator:index');
+        $route->get('/admin/novo', 'Administrator:save');
 
         /**
          * TESTS
