@@ -26,6 +26,8 @@ class Core
         $route->get('/admin', 'Administrator:index');
         $route->get('/admin/novo', 'Administrator:save');
         $route->post('/admin/novo', 'Administrator:save');
+        $route->get('/admin/{id}/perfil', 'Administrator:update');
+        $route->post('/admin/{id}/perfil', 'Administrator:update');
 
         /**
          * TESTS

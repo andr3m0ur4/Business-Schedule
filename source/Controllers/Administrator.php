@@ -26,18 +26,20 @@ class Administrator extends Controller
         ]);
     }
 
-    public function save() : void
+    public function save($params) : void
     {
         $message = null;
         $dao = new AdministratorDAO();
+        $administrator = new AdministratorModel();
 
-        if ($_POST) {
+        if (!empty($params)) {
             $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRIPPED);
             $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
             $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRIPPED);
             $phone = filter_input(INPUT_POST, 'phone', FILTER_SANITIZE_STRIPPED);
 
             $admin = new AdministratorModel(null, $name, $email, $password, $phone);
+
             $dao->save($admin);
             $message = $dao->message();
         }
@@ -45,6 +47,44 @@ class Administrator extends Controller
         echo $this->view->render('admin-save', [
             'title' => 'Business Schedule - Admin',
             'file' => 'admin',
+            'administrator' => $administrator,
+            'message' => $message
+        ]);
+    }
+
+    public function update($param) : void
+    {
+        $message = null;
+        $dao = new AdministratorDAO();
+        
+        if (isset($param['id']) && $param['id'] > 0) {
+            $id = (int) filter_var($param['id'], FILTER_SANITIZE_STRIPPED);
+            $administrator = $dao->findById($id);
+        }
+
+        if ($_POST) {
+            $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRIPPED);
+            $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+            $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRIPPED);
+            $phone = filter_input(INPUT_POST, 'phone', FILTER_SANITIZE_STRIPPED);
+
+            if (empty($password)) {
+                $password = $administrator->getPassword();
+            }
+
+            $administrator = new AdministratorModel($id, $name, $email, $password, $phone);
+            
+            if ($dao->save($administrator)) {
+                $administrator = $dao->data();
+            }
+
+            $message = $dao->message();
+        }
+
+        echo $this->view->render('admin-save', [
+            'title' => 'Business Schedule - Admin',
+            'file' => 'admin',
+            'administrator' => $administrator,
             'message' => $message
         ]);
     }
