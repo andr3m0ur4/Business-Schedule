@@ -1,5 +1,16 @@
 <?php $this->layout('_template', $this->data) ?>
 
+<div class="alert alert-warning question d-none" id="question">
+    Deseja realmente excluir o registro?
+    <a href="#" class="btn btn-light float-right">Sim</a>
+</div>
+
+<?php if (isset($message)) : ?>
+    <div class="alert alert-info">
+        Registro excluído com sucesso
+    </div>
+<?php endif ?>
+
 <section>
     <div class="card">
         <div class="card-header">
@@ -51,7 +62,7 @@
                                 </a>
                             </td>
                             <td class="text-center">
-                                <a href="#">
+                                <a href="#" data-id="<?= $administrator->getId() ?>">
                                     <i class="fa fa-trash fa-lg red" title="Excluir"></i>
                                 </a>
                             </td>

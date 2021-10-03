@@ -11,6 +11,7 @@ class Administrator extends Controller
     public function index() : void
     {
         $dao = new AdministratorDAO();
+        $message = null;
 
         if ($_GET) {
             $name = filter_input(INPUT_GET, 'name', FILTER_SANITIZE_STRIPPED);
@@ -19,10 +20,16 @@ class Administrator extends Controller
             $administrators = $dao->find()->all();
         }
 
+        if (session()->has('message')) {
+            $message = session()->__get('message');
+            session()->unset('message');
+        }
+
         echo $this->view->render('admin', [
             'title' => 'Business Schedule - Admin',
             'file' => 'admin',
-            'administrators' => $administrators
+            'administrators' => $administrators,
+            'message' => $message
         ]);
     }
 
@@ -87,5 +94,18 @@ class Administrator extends Controller
             'administrator' => $administrator,
             'message' => $message
         ]);
+    }
+
+    public function delete($param) : void
+    {
+        if (isset($param['id'])) {
+            $id = (int) filter_var($param['id'], FILTER_SANITIZE_STRIPPED);
+            $dao = new AdministratorDAO();
+            $dao->destroy($id);
+            $message = $dao->message();
+            session()->set('message', $message);
+        }
+
+        redirect('/admin');
     }
 }

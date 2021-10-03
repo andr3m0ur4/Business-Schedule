@@ -28,6 +28,7 @@ class Core
         $route->post('/admin/novo', 'Administrator:save');
         $route->get('/admin/{id}/perfil', 'Administrator:update');
         $route->post('/admin/{id}/perfil', 'Administrator:update');
+        $route->get('/admin/{id}/excluir', 'Administrator:delete');
 
         /**
          * TESTS
