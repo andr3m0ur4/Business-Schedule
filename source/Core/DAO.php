@@ -10,12 +10,23 @@ abstract class DAO
     protected ?\PDOException $fail;
     protected \PDO $db;
     protected Message $message;
+    protected string $query;
+    protected array $params;
+    protected string $order;
+    protected string $limit;
+    protected string $offset;
+    protected static string $entity;
 
-    public function __construct()
+    public function __construct(string $entity)
     {
+        self::$entity = $entity;
         $this->db = Connect::getConnection();
         $this->message = new Message();
         $this->fail = null;
+        $this->params = [];
+        $this->order = '';
+        $this->limit = '';
+        $this->offset = '';
     }
 
     public function __set($name, $value)
@@ -51,14 +62,72 @@ abstract class DAO
     {
         return $this->message;
     }
+
+    public function find(?string $terms = null, ?string $params = null, string $collumns = '*')
+    {
+        if ($terms) {
+            $this->query = "SELECT {$collumns} FROM " . static::$entity . " WHERE {$terms}";
+            parse_str($params, $this->params);
+            return $this;
+        }
+
+        $this->query = "SELECT {$collumns} FROM " . static::$entity;
+        return $this;
+    }
+
+    public function order(?string $collumnOrder)
+    {
+        $this->order = " ORDER BY {$collumnOrder}";
+        return $this;
+    }
+
+    public function limit(int $limit)
+    {
+        $this->limit = " LIMIT {$limit}";
+        return $this;
+    }
+
+    public function offset(int $offset)
+    {
+        $this->offset = " OFFSET {$offset}";
+        return $this;
+    }
+
+    public function fetch(bool $all = false)
+    {
+        try {
+            $stmt = $this->db->prepare($this->query . $this->order . $this->limit . $this->offset);
+            $stmt->execute($this->params);
+
+            if (!$stmt->rowCount()) {
+                return null;
+            }
+
+            if ($all) {
+                return $stmt->fetchAll(\PDO::FETCH_OBJ);
+            }
+
+            return $stmt->fetchObject();
+        } catch (\PDOException $ex) {
+            $this->fail = $ex;
+            return null;
+        }
+    }
+
+    public function count(string $key = 'id') : int
+    {
+        $stmt = $this->db->prepare($this->query);
+        $stmt->execute($this->params);
+        return $stmt->rowCount();
+    }
     
-    protected function create(string $entity, array $data) : ?int
+    protected function create(array $data) : ?int
     {
         try {
             $collumns = implode(', ', array_keys($data));
             $values = ':' . implode(', :', array_keys($data));
 
-            $sql = "INSERT INTO {$entity} ({$collumns}) VALUES ({$values})";
+            $sql = "INSERT INTO " . static::$entity . " ({$collumns}) VALUES ({$values})";
             $stmt = $this->db->prepare($sql);
             $stmt->execute($this->filter($data));
 
@@ -69,32 +138,7 @@ abstract class DAO
         }
     }
 
-    protected function read(string $select, string $params = null) : ?\PDOStatement
-    {
-        try {
-            $stmt = $this->db->prepare($select);
-
-            if ($params) {
-                parse_str($params, $params);
-
-                foreach ((array) $params as $key => $value) {
-                    if ($key == 'limit' || $key == 'offset') {
-                        $stmt->bindValue(":{$key}", $value, \PDO::PARAM_INT);
-                    } else {
-                        $stmt->bindValue(":{$key}", $value, \PDO::PARAM_STR);
-                    }
-                }
-            }
-
-            $stmt->execute();
-            return $stmt;
-        } catch (\PDOException $ex) {
-            $this->fail = $ex;
-            return null;
-        }
-    }
-
-    protected function update(string $entity, array $data, string $terms, string $params) : ?int
+    protected function update(array $data, string $terms, string $params) : ?int
     {
         try {
             $dataSet = [];
@@ -106,7 +150,7 @@ abstract class DAO
             $dataSet = implode(', ', $dataSet);
             parse_str($params, $params);
 
-            $sql = "UPDATE {$entity} SET {$dataSet} WHERE {$terms}";
+            $sql = "UPDATE " . static::$entity . " SET {$dataSet} WHERE {$terms}";
             $stmt = $this->db->prepare($sql);
             $stmt->execute($this->filter(array_merge($data, $params)));
             return $stmt->rowCount() ?? 1;
@@ -116,17 +160,17 @@ abstract class DAO
         }
     }
 
-    protected function delete(string $entity, string $terms, string $params) : ?int
+    public function delete(string $key, string $value) : bool
     {
         try {
-            $sql = "DELETE FROM {$entity} WHERE {$terms}";
+            $sql = "DELETE FROM " . static::$entity . " WHERE {$key} = :key";
             $stmt = $this->db->prepare($sql);
-            parse_str($params, $params);
-            $stmt->execute($params);
-            return $stmt->rowCount() ?? 1;
+            $stmt->bindValue('key', $value, \PDO::PARAM_STR);
+            $stmt->execute();
+            return true;
         } catch (\PDOException $ex) {
             $this->fail = $ex;
-            return null;
+            return false;
         }
     }
 
@@ -135,7 +179,7 @@ abstract class DAO
         $filter = [];
 
         foreach ($data as $key => $value) {
-            $filter[$key] = is_null($value) ? null : filter_var($value, FILTER_SANITIZE_SPECIAL_CHARS);
+            $filter[$key] = is_null($value) ? null : filter_var($value, FILTER_DEFAULT);
         }
 
         return $filter;

@@ -6,69 +6,85 @@ use Source\Core\DAO;
 
 class AdministratorDAO extends DAO
 {
-    protected static $entity = 'administrators';
-
-    public function find(string $terms, string $params, string $collumns = '*') : ?Administrator
+    public function __construct()
     {
-        $find = $this->read("SELECT {$collumns} FROM " . self::$entity . " WHERE {$terms}", $params);
-
-        if ($this->fail() || !$find->rowCount()) {
-            $this->message->warning('Administrador não encontrado para o código informado');
-            return null;
-        }
-
-        $administrator = $find->fetchObject();
-        return new Administrator($administrator->id, $administrator->name, $administrator->email, $administrator->password, $administrator->phone);
+        parent::__construct('administrators');
     }
 
     public function findById(int $id, string $collumns = '*') : ?Administrator
     {
-        return $this->find("id = :id", "id={$id}", $collumns);
+        $find = $this->find('id = :id', "id={$id}", $collumns);
+
+        $administrator = $find->fetch();
+
+        if ($this->fail() || !$administrator) {
+            $this->message->warning('Administrador não encontrado para o código informado');
+            return null;
+        }
+
+        return new Administrator($administrator->id, $administrator->name, $administrator->email, $administrator->password, $administrator->phone);
     }
 
     public function findByEmail(string $email, string $collumns = '*') : ?Administrator
     {
-        return $this->find("email = :email", "email={$email}", $collumns);
+        $find = $this->find('email = :email', "email={$email}", $collumns);
+
+        $administrator = $find->fetch();
+
+        if ($this->fail() || !$administrator) {
+            $this->message->warning('Administrador não encontrado para o email informado');
+            return null;
+        }
+
+        return new Administrator($administrator->id, $administrator->name, $administrator->email, $administrator->password, $administrator->phone);
     }
 
-    public function all(int $limit = 30, int $offset = 0, string $collumns = '*') : ?array
+    public function findByName(string $name, string $collumns = '*') : ?AdministratorDAO
     {
-        $all = $this->read(
-            "SELECT {$collumns} FROM " . self::$entity . " LIMIT :limit OFFSET :offset",
-            "limit={$limit}&offset={$offset}"
-        );
+        return $this->find('name LIKE :name', "name=%{$name}%", $collumns);
+    }
 
-        if ($this->fail() || !$all->rowCount()) {
+    public function all() : array
+    {
+        $all = parent::fetch(true);
+
+        if ($this->fail() || !$all) {
             $this->message->warning('Sua consulta não retornou administradores');
-            return null;
+            return [];
         }
 
         $administrators = [];
 
-        foreach ($all->fetchAll(\PDO::FETCH_OBJ) as $administrator) {
-            $administrators[] = new Administrator($administrator->id, $administrator->name, $administrator->email, $administrator->password, $administrator->phone);
+        foreach ($all as $administrator) {
+            $administrators[] = new Administrator(
+                $administrator->id,
+                $administrator->name,
+                $administrator->email,
+                $administrator->password,
+                $administrator->phone
+            );
         }
 
         return $administrators;
     }
 
-    public function save(Administrator $administrator) : ?Administrator
+    public function save(Administrator $administrator) : bool
     {
         if (!$administrator->required()) {
             $this->message->warning('Nome, e-mail e senha são obrigatórios');
-            return null;
+            return false;
         }
         
         if (!is_email($administrator->getEmail())) {
             $this->message->warning('O e-mail informado não tem um formato válido');
-            return null;
+            return false;
         }
 
         if (!is_password($administrator->getPassword())) {
             $this->message->warning(
                 'A senha deve ter entre ' . CONF_PASSWORD_MIN_LEN . ' e ' . CONF_PASSWORD_MAX_LEN . ' caracteres'
             );
-            return null;
+            return false;
         }
 
         $administrator->setPassword(password_hash($administrator->getPassword(), PASSWORD_DEFAULT));
@@ -77,16 +93,16 @@ class AdministratorDAO extends DAO
         if (!empty($administrator->getId())) {
             $adminId = $administrator->getId();
             
-            if ($this->find('email = :email AND id != :id', "email={$administrator->getEmail()}&id={$adminId}")) {
+            if ($this->find('email = :email AND id != :id', "email={$administrator->getEmail()}&id={$adminId}", 'id')->fetch()) {
                 $this->message->warning('O e-mail informado já está cadastrado');
-                return null;
+                return false;
             }
 
-            $this->update(self::$entity, $administrator->safe(), 'id = :id', "id={$adminId}");
+            $this->update($administrator->safe(), 'id = :id', "id={$adminId}");
 
             if ($this->fail()) {
                 $this->message->error('Erro ao atualizar, verifique os dados');
-                return null;
+                return false;
             }
         }
         
@@ -94,20 +110,21 @@ class AdministratorDAO extends DAO
         if (empty($administrator->getId())) {
             if ($this->findByEmail($administrator->getEmail())) {
                 $this->message->warning('O e-mail informado já está cadastrado');
-                return null;
+                return false;
             }
             
-            $adminId = $this->create(self::$entity, $administrator->safe());
+            $adminId = $this->create($administrator->safe());
             
             if ($this->fail()) {
                 $this->message->error('Erro ao cadastrar, verifique os dados');
-                return null;
+                return false;
             }
 
             $this->message->success('Dados salvos com sucesso');
         }
 
-        return $this->findById($adminId);
+        $this->data = $this->findById($adminId);
+        return true;
     }
 
     public function destroy(Administrator $administrator) : ?Administrator

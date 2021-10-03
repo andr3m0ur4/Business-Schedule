@@ -16,6 +16,12 @@ $(() => {
             save()
         }
     }
+
+    if (document.querySelector('[name=search]')) {
+        document.querySelector('[name=search]').onclick = () => {
+            search()
+        }
+    }
 })
 
 const clear = () => {
@@ -23,5 +29,9 @@ const clear = () => {
 }
 
 const save = () => {
+    document.form_admin.submit()
+}
+
+const search = () => {
     document.form_admin.submit()
 }

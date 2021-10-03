@@ -11,7 +11,13 @@ class Administrator extends Controller
     public function index() : void
     {
         $dao = new AdministratorDAO();
-        $administrators = $dao->all();
+
+        if ($_GET) {
+            $name = filter_input(INPUT_GET, 'name', FILTER_SANITIZE_STRIPPED);
+            $administrators = $dao->findByName($name)->all();
+        } else {
+            $administrators = $dao->find()->all();
+        }
 
         echo $this->view->render('admin', [
             'title' => 'Business Schedule - Admin',

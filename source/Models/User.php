@@ -14,6 +14,7 @@ abstract class User extends Model
 
     public function __construct(?int $id = null, ?string $name = null, ?string $email = null, ?string $password = null, ?string $phone = null)
     {
+        parent::__construct(['id'], ['name', 'email', 'password']);
         $this->setId($id);
         $this->setName($name);
         $this->setEmail($email);

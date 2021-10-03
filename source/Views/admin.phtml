@@ -9,11 +9,11 @@
         </div>
 
         <div class="card-body">
-            <form name="form_admin" method="POST">
+            <form name="form_admin" method="get">
                 <div class="form-row align-items-center text-right">
                     <label for="name" class="col-sm-2 col-form-label">Nome</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="name">
+                        <input type="text" class="form-control" id="name" name="name">
                     </div>
                 </div>
             </form>
@@ -21,7 +21,7 @@
 
         <div class="card-footer">
             <div>
-                <button name="buscar" type="button" onclick="document.form_busca_produtos.action='?class=ProdutosList&method=onReload'; document.form_busca_produtos.submit()" class="btn btn-success">Buscar</button>
+                <button name="search" type="button" class="btn btn-success">Buscar</button>
                 <button name="new" type="button" class="btn btn-secondary">Novo</button>
             </div>
         </div>

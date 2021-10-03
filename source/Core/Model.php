@@ -4,18 +4,20 @@ namespace Source\Core;
 
 abstract class Model
 {
-    private static array $required;
-    private static array $safe;
+    protected static array $required;
+    protected static array $protected;
 
-    public function __construct()
+    public function __construct(array $protected, array $required)
     {
+        self::$protected = array_merge($protected, []);
+        self::$required = $required;
     }
 
     public function safe() : ?array
     {
         $data = get_object_vars($this);
 
-        foreach (static::$safe as $unset) {
+        foreach (static::$protected as $unset) {
             unset($data[$unset]);
         }
 
