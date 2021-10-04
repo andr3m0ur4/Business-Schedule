@@ -5,8 +5,6 @@ namespace Source\Models;
 class Employee extends User
 {
     protected ?string $job;
-    protected static array $safe = ['id'];
-    protected static array $required = ['name', 'email', 'password'];
 
     public function __construct(?int $id = null, ?string $name = null, ?string $email = null, ?string $password = null,  ?string $phone = null, ?string $job = null)
     {
@@ -14,7 +12,7 @@ class Employee extends User
         $this->setJob($job);
     }
 
-    public function getJob() : string
+    public function getJob() : ?string
     {
         return $this->job;
     }

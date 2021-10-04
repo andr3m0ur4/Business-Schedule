@@ -16,33 +16,26 @@
             </div>
         </div>
         <div class="card-body">
-            <form name="form_admin" method="POST" class="text-right">
+            <form name="form_employee" method="POST" class="text-right">
 
                 <div class="form-row align-items-center">
                     <label for="id" class="col-sm-2 col-form-label">Código</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="id" name="id" readonly>
+                        <input type="text" class="form-control" id="id" name="id" value="<?= $employee->getId() ?>" readonly>
                     </div>
                 </div>
 
                 <div class="form-row align-items-center">
                     <label for="name" class="col-sm-2 col-form-label">Nome</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="name" name="name">
-                    </div>
-                </div>
-
-                <div class="form-row align-items-center">
-                    <label for="name" class="col-sm-2 col-form-label">Função</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" id="func" name="func">
+                        <input type="text" class="form-control" id="name" name="name" value="<?= $employee->getName() ?>">
                     </div>
                 </div>
 
                 <div class="form-row align-items-center">
                     <label for="email" class="col-sm-2 col-form-label">Email</label>
                     <div class="col-sm-8">
-                        <input type="email" class="form-control" id="email" name="email">
+                        <input type="email" class="form-control" id="email" name="email" value="<?= $employee->getEmail() ?>">
                     </div>
                 </div>
 
@@ -56,7 +49,14 @@
                 <div class="form-row align-items-center">
                     <label for="phone" class="col-sm-2 col-form-label">Celular</label>
                     <div class="col-sm-8">
-                        <input type="tel" class="form-control" id="phone" name="phone">
+                        <input type="tel" class="form-control" id="phone" name="phone" value="<?= $employee->getPhone() ?>">
+                    </div>
+                </div>
+
+                <div class="form-row align-items-center">
+                    <label for="name" class="col-sm-2 col-form-label">Função</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="func" name="job" value="<?= $employee->getJob() ?>">
                     </div>
                 </div>
 

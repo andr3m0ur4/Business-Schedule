@@ -30,6 +30,13 @@ class Core
         $route->post('/admin/{id}/perfil', 'Administrator:update');
         $route->get('/admin/{id}/excluir', 'Administrator:delete');
 
+        $route->get('/funcionario', 'Employee:index');
+        $route->get('/funcionario/novo', 'Employee:save');
+        $route->post('/funcionario/novo', 'Employee:save');
+        $route->get('/funcionario/{id}/perfil', 'Employee:update');
+        $route->post('/funcionario/{id}/perfil', 'Employee:update');
+        $route->get('/funcionario/{id}/excluir', 'Employee:delete');
+
         /**
          * TESTS
          */

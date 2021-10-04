@@ -7,29 +7,37 @@ use Source\Support\Session;
 
 class EmployeeDAO extends DAO
 {
-    protected static $entity = 'employees';
-
-    public function find(string $terms, string $params, string $collumns = '*') : ?Employee
+    public function __construct()
     {
-        $find = $this->read("SELECT {$collumns} FROM " . self::$entity . " WHERE {$terms}", $params);
-
-        if ($this->fail() || !$find->rowCount()) {
-            $this->message->warning('Funcionário não encontrado para o código informado');
-            return null;
-        }
-
-        $employee = $find->fetchObject();
-        return new Employee($employee->id, $employee->name, $employee->email, $employee->password, $employee->phone, $employee->job);
+        parent::__construct('employees');
     }
 
     public function findById(int $id, string $collumns = '*') : ?Employee
     {
-        return $this->find("id = :id", "id={$id}", $collumns);
+        $find = $this->find('id = :id', "id={$id}", $collumns);
+
+        $employee = $find->fetch();
+
+        if ($this->fail() || !$employee) {
+            $this->message->warning('Funcionário não encontrado para o código informado');
+            return null;
+        }
+
+        return new Employee($employee->id, $employee->name, $employee->email, $employee->password, $employee->phone, $employee->job);
     }
 
     public function findByEmail(string $email, string $collumns = '*') : ?Employee
     {
-        return $this->find("email = :email", "email={$email}", $collumns);
+        $find = $this->find('email = :email', "email={$email}", $collumns);
+
+        $employee = $find->fetch();
+
+        if ($this->fail() || !$employee) {
+            $this->message->warning('Funcionário não encontrado para o email informado');
+            return null;
+        }
+
+        return new Employee($employee->id, $employee->name, $employee->email, $employee->password, $employee->phone, $employee->job);
     }
 
     public function login(string $email, string $password) : bool
@@ -45,46 +53,54 @@ class EmployeeDAO extends DAO
         return false;
     }
 
-    public function all(int $limit = 30, int $offset = 0, string $collumns = '*') : ?array
+    public function findByName(string $name, string $collumns = '*') : ?EmployeeDAO
     {
-        $all = $this->read(
-            "SELECT {$collumns} FROM " . self::$entity . " LIMIT :limit OFFSET :offset",
-            "limit={$limit}&offset={$offset}"
-        );
+        return $this->find('name LIKE :name', "name=%{$name}%", $collumns);
+    }
 
-        if ($this->fail() || !$all->rowCount()) {
+    public function all() : array
+    {
+        $all = parent::fetch(true);
+
+        if ($this->fail() || !$all) {
             $this->message->warning('Sua consulta não retornou funcionários');
-            return null;
+            return [];
         }
 
         $employees = [];
 
-        foreach ($all->fetchAll(\PDO::FETCH_OBJ) as $employee) {
-            $employees[] = new Employee($employee->id, $employee->name, $employee->email, $employee->password, $employee->job);
+        foreach ($all as $employee) {
+            $employees[] = new Employee(
+                $employee->id,
+                $employee->name,
+                $employee->email,
+                $employee->password,
+                $employee->phone,
+                $employee->job
+            );
         }
 
         return $employees;
     }
 
     // Save employee
-
-    public function save(Employee $employee) : ?Employee
+    public function save(Employee $employee) : bool
     {
         if (!$employee->required()) {
             $this->message->warning('Nome, e-mail e senha são obrigatórios');
-            return null;
+            return false;
         }
         
         if (!is_email($employee->getEmail())) {
             $this->message->warning('O e-mail informado não tem um formato válido');
-            return null;
+            return false;
         }
 
         if (!is_password($employee->getPassword())) {
             $this->message->warning(
                 'A senha deve ter entre ' . CONF_PASSWORD_MIN_LEN . ' e ' . CONF_PASSWORD_MAX_LEN . ' caracteres'
             );
-            return null;
+            return false;
         }
 
         $employee->setPassword(password_hash($employee->getPassword(), PASSWORD_DEFAULT));
@@ -93,16 +109,16 @@ class EmployeeDAO extends DAO
         if (!empty($employee->getId())) {
             $employeeId = $employee->getId();
             
-            if ($this->find('email = :email AND id != :id', "email={$employee->getEmail()}&id={$employeeId}")) {
+            if ($this->find('email = :email AND id != :id', "email={$employee->getEmail()}&id={$employeeId}")->fetch()) {
                 $this->message->warning('O e-mail informado já está cadastrado');
-                return null;
+                return false;
             }
 
-            $this->update(self::$entity, $employee->safe(), 'id = :id', "id={$employeeId}");
+            $this->update($employee->safe(), 'id = :id', "id={$employeeId}");
 
             if ($this->fail()) {
                 $this->message->error('Erro ao atualizar, verifique os dados');
-                return null;
+                return false;
             }
         }
 
@@ -110,34 +126,34 @@ class EmployeeDAO extends DAO
         if (empty($employee->getId())) {
             if ($this->findByEmail($employee->getEmail())) {
                 $this->message->warning('O e-mail informado já está cadastrado');
-                return null;
+                return false;
             }
             
-            $employeeId = $this->create(self::$entity, $employee->safe());
+            $employeeId = $this->create($employee->safe());
             
             if ($this->fail()) {
                 $this->message->error('Erro ao cadastrar, verifique os dados');
-                return null;
+                return false;
             }
         }
 
-        return $this->findById($employeeId);
+        $this->message->success('Dados salvos com sucesso');
+        $this->data = $this->findById($employeeId);
+        return true;
     }
 
-    public function destroy(Employee $employee) : ?Employee
+    public function destroy(int $id) : bool
     {
-        if (!empty($employee->getId())) {
-            $this->delete(self::$entity, 'id = :id', "id={$employee->getId()}");
+        if (!empty($id)) {
+            $this->delete('id', $id);
         }
 
         if ($this->fail()) {
             $this->message->warning('Não foi possível remover o funcionário.');
-            return null;
+            return false;
         }
 
         $this->message->success('Funcionário removido com sucesso');
-        $employee = null;
-        return $employee;
+        return true;
     }
-
 }

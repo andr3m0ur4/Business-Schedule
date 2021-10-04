@@ -1,21 +1,30 @@
 <?php $this->layout('_template', $this->data) ?>
 
+<div class="alert alert-warning question d-none" id="question">
+    Deseja realmente excluir o registro?
+    <a href="#" class="btn btn-light float-right">Sim</a>
+</div>
+
+<?php if (isset($message)) : ?>
+    <div class="alert alert-info">
+        Registro excluído com sucesso
+    </div>
+<?php endif ?>
 
 <section>
-    <div class="card text-center">
+    <div class="card">
         <div class="card-header">
             <div class="card-title">
-                <h4>
-                    Funcionário</h4>
+                <h4>Funcionário</h4>
             </div>
         </div>
 
         <div class="card-body">
-            <form name="form_employee" method="POST">
-                <div class="form-group align-items-center text-right">
-                    <label for="formGroupExampleInput" class="col-sm-2 col-form-label">Nome</label>
+            <form name="form_employee" method="get">
+                <div class="form-row align-items-center text-right">
+                    <label for="name" class="col-sm-2 col-form-label">Nome</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="name">
+                        <input type="text" class="form-control" id="name" name="name">
                     </div>
                 </div>
             </form>
@@ -23,8 +32,8 @@
 
         <div class="card-footer">
             <div>
-                <button name="buscar" type="button" onclick="document.form_busca_produtos.action='?class=ProdutosList&method=onReload'; document.form_busca_produtos.submit()" class="btn btn-success">Buscar</button>
-                <button name="save" type="button" onclick="document.form_busca_produtos.action='?class=ProdutosForm&method=onEdit'; document.form_busca_produtos.submit()" class="btn btn-default">Novo</button>
+                <button name="search" type="button" class="btn btn-success">Buscar</button>
+                <button name="new" type="button" class="btn btn-secondary">Novo</button>
             </div>
         </div>
     </div>
@@ -41,45 +50,31 @@
                         <th class="text-left" width="30%">Nome</th>
                         <th class="text-left" width="30%">Email</th>
                         <th class="text-right" width="15%">Telefone</th>
-                        <th class="text-right" width="15%">Senha</th>
+                        <th class="text-right" width="15%">Função</th>
                     </tr>
                 </thead>
-                <tbody class="">
-                    <tr>
-                        <td class="text-center">
-                            <a href="#">
-                                <i class="fa fa-edit fa-lg blue" title="Editar"></i>
-                            </a>
-                        </td>
-                        <td class="text-center">
-                            <a href="#">
-                                <i class="fa fa-trash fa-lg red" title="Excluir"></i>
-                            </a>
-                        </td>
-                        <td class="text-center" width="10%">1</td>
-                        <td class="text-left" width="30%">Igor Marcondes Santos</td>
-                        <td class="text-left" width="30%">igorsan539@gmail.com</td>
-                        <td class="text-right" width="15%">12981785198</td>
-                        <td class="text-right" width="15%">123456</td>
-                    </tr>
+                <tbody>
 
-                    <tr>
-                        <td class="text-center">
-                            <a href="#">
-                                <i class="fa fa-edit fa-lg blue" title="Editar"></i>
-                            </a>
-                        </td>
-                        <td class="text-center">
-                            <a href="#">
-                                <i class="fa fa-trash fa-lg red" title="Excluir"></i>
-                            </a>
-                        </td>
-                        <td class="text-center" width="10%">1</td>
-                        <td class="text-left" width="30%">Andre de Moura Benedicto</td>
-                        <td class="text-left" width="30%">Oandrexez@gmail.com</td>
-                        <td class="text-right" width="15%">12968174592</td>
-                        <td class="text-right" width="15%">123456</td>
-                    </tr>
+                    <?php foreach ($employees as $employee) : ?>
+                        <tr>
+                            <td class="text-center">
+                                <a href="/funcionario/<?= $employee->getId() ?>/perfil">
+                                    <i class="fa fa-edit fa-lg blue" title="Editar"></i>
+                                </a>
+                            </td>
+                            <td class="text-center">
+                                <a href="#" data-id="<?= $employee->getId() ?>">
+                                    <i class="fa fa-trash fa-lg red" title="Excluir"></i>
+                                </a>
+                            </td>
+                            <td class="text-center" width="10%">1</td>
+                            <td class="text-left" width="30%"><?= $employee->getName() ?></td>
+                            <td class="text-left" width="30%"><?= $employee->getEmail() ?></td>
+                            <td class="text-right" width="15%"><?= $employee->getPhone() ?></td>
+                            <td class="text-right" width="15%"><?= $employee->getJob() ?></td>
+                        </tr>
+                    <?php endforeach ?>
+
                 </tbody>
             </table>
         </div>
