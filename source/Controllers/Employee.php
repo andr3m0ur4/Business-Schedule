@@ -11,29 +11,6 @@ class Employee extends Controller
     public function index() : void
     {
         $dao = new EmployeeDAO();
-<<<<<<< HEAD
-
-        if ($_GET) {
-            $name = filter_input(INPUT_GET, 'name', FILTER_SANITIZE_STRIPPED);
-            $employee = $dao->findByName($name)->all();
-        } else {
-            $employee = $dao->find()->all();
-        }
-
-        echo $this->view->render('employee', [
-            'title' => 'Business Schedule - Employee',
-            'file' => 'func',
-            'func' => $employee
-        ]);
-    }
-
-    public function save() : void
-    {
-        $message = null;
-        $dao = new EmployeeDAO();
-
-        if ($_POST) {
-=======
         $message = null;
 
         if ($_GET) {
@@ -63,7 +40,6 @@ class Employee extends Controller
         $employee = new EmployeeModel();
 
         if (!empty($params)) {
->>>>>>> 0ff5dbe93b5b1056d8385f6f92f34290b38c5955
             $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRIPPED);
             $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
             $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRIPPED);
@@ -71,26 +47,15 @@ class Employee extends Controller
             $job = filter_input(INPUT_POST, 'job', FILTER_SANITIZE_STRIPPED);
 
             $employee = new EmployeeModel(null, $name, $email, $password, $phone, $job);
-<<<<<<< HEAD
-            $dao->save($employee);
-=======
 
             if ($dao->save($employee)) {
                 $employee = new EmployeeModel();
             }
 
->>>>>>> 0ff5dbe93b5b1056d8385f6f92f34290b38c5955
             $message = $dao->message();
         }
 
         echo $this->view->render('employee-save', [
-<<<<<<< HEAD
-            'title' => 'Business Schedule - Admin',
-            'file' => 'employee',
-            'message' => $message
-        ]);
-    }
-=======
             'title' => 'Business Schedule - Funcionário',
             'file' => 'employee',
             'employee' => $employee,
@@ -148,5 +113,4 @@ class Employee extends Controller
 
         redirect('/funcionario');
     }
->>>>>>> 0ff5dbe93b5b1056d8385f6f92f34290b38c5955
 }
