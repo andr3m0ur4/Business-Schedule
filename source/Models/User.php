@@ -33,7 +33,7 @@ abstract class User extends Model
         return $this;
     }
 
-    public function getName() : string
+    public function getName() : ?string
     {
         return $this->name;
     }
@@ -44,7 +44,7 @@ abstract class User extends Model
         return $this;
     }
 
-    public function getEmail() : string
+    public function getEmail() : ?string
     {
         return $this->email;
     }
@@ -66,7 +66,7 @@ abstract class User extends Model
         return $this;
     }
 
-    public function getPhone() : string
+    public function getPhone() : ?string
     {
         return $this->phone;
     }

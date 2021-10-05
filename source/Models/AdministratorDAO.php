@@ -99,7 +99,7 @@ class AdministratorDAO extends DAO
             }
 
             $this->update($administrator->safe(), 'id = :id', "id={$adminId}");
-
+            
             if ($this->fail()) {
                 $this->message->error('Erro ao atualizar, verifique os dados');
                 return false;
@@ -119,27 +119,25 @@ class AdministratorDAO extends DAO
                 $this->message->error('Erro ao cadastrar, verifique os dados');
                 return false;
             }
-
-            $this->message->success('Dados salvos com sucesso');
         }
 
+        $this->message->success('Dados salvos com sucesso');
         $this->data = $this->findById($adminId);
         return true;
     }
 
-    public function destroy(Administrator $administrator) : ?Administrator
+    public function destroy(int $id) : bool
     {
-        if (!empty($administrator->getId())) {
-            $this->delete(self::$entity, 'id = :id', "id={$administrator->getId()}");
+        if (!empty($id)) {
+            $this->delete('id', $id);
         }
 
         if ($this->fail()) {
             $this->message->warning('Não foi possível remover o administrador.');
-            return null;
+            return false;
         }
 
         $this->message->success('Administrador removido com sucesso');
-        $administrator = null;
-        return $administrator;
+        return true;
     }
 }

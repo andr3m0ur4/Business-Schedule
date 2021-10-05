@@ -165,7 +165,7 @@ abstract class DAO
         try {
             $sql = "DELETE FROM " . static::$entity . " WHERE {$key} = :key";
             $stmt = $this->db->prepare($sql);
-            $stmt->bindValue('key', $value, \PDO::PARAM_STR);
+            $stmt->bindValue(':key', $value, \PDO::PARAM_STR);
             $stmt->execute();
             return true;
         } catch (\PDOException $ex) {

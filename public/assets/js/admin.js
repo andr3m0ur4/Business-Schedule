@@ -22,6 +22,15 @@ $(() => {
             search()
         }
     }
+
+    if (document.querySelectorAll('[data-id]')) {
+        const btnList = document.querySelectorAll('[data-id]')
+        btnList.forEach(el => {
+            el.onclick = () => {
+                remove(el.dataset.id)
+            }
+        })
+    }
 })
 
 const clear = () => {
@@ -34,4 +43,10 @@ const save = () => {
 
 const search = () => {
     document.form_admin.submit()
+}
+
+const remove = id => {
+    const element = document.getElementById('question')
+    element.classList.remove('d-none')
+    element.lastElementChild.setAttribute('href', `/admin/${id}/excluir`)
 }
