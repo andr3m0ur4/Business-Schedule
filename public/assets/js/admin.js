@@ -1,7 +1,7 @@
 $(() => {
     if (document.querySelector('[name=new]')) {
         document.querySelector('[name=new]').onclick = () => {
-            location.href = './admin/novo'
+            location.href = '/admin/novo'
         }
     }
 
