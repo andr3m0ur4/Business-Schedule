@@ -6,73 +6,69 @@ use Source\Core\DAO;
 
 class StudioDAO extends DAO
 {
-    protected static $entity = 'studios';
-
-    public function find(string $terms, string $params, string $collumns = '*') : ?Studio
+    public function __construct()
     {
-        $find = $this->read("SELECT {$collumns} FROM " . self::$entity . " WHERE {$terms}", $params);
-
-        if ($this->fail() || !$find->rowCount()) {
-            $this->message->warning('Estudio não encontrado para o código informado');
-            return null;
-        }
-
-        $object = $find->fetchObject();
-        return new Studio($object->id, $object->name);
+        parent::__construct('studios');
     }
 
     public function findById(int $id, string $collumns = '*') : ?Studio
     {
-        return $this->find("id = :id", "id={$id}", $collumns);
-    }
+        $find = $this->find('id = :id', "id={$id}", $collumns);
 
-    public function findByName(string $name, string $collumns = '*') : ?Studio
-    {
-        return $this->find("name = :name", "name={$name}", $collumns);
-    }
+        $studio = $find->fetch();
 
-    public function all(int $limit = 30, int $offset = 0, string $collumns = '*') : ?array
-    {
-        $all = $this->read(
-            "SELECT {$collumns} FROM " . self::$entity . " LIMIT :limit OFFSET :offset",
-            "limit={$limit}&offset={$offset}"
-        );
-
-        if ($this->fail() || !$all->rowCount()) {
-            $this->message->warning('Sua consulta não retornou estudios');
+        if ($this->fail() || !$studio) {
+            $this->message->warning('Estúdio não encontrado para o código informado');
             return null;
+        }
+
+        return new Studio($studio->id, $studio->name);
+    }
+
+    public function findByName(string $name, string $collumns = '*') : ?StudioDAO
+    {
+        return $this->find('name LIKE :name', "name=%{$name}%", $collumns);
+    }
+
+    public function all() : array
+    {
+        $all = parent::fetch(true);
+
+        if ($this->fail() || !$all) {
+            $this->message->warning('Sua consulta não retornou estúdios');
+            return [];
         }
 
         $studios = [];
 
-        foreach ($all->fetchAll(\PDO::FETCH_OBJ) as $studio) {
+        foreach ($all as $studio) {
             $studios[] = new Studio($studio->id, $studio->name);
         }
 
         return $studios;
     }
 
-    public function save(Studio $studio) : ?Studio
+    public function save(Studio $studio) : bool
     {
         if (!$studio->required()) {
             $this->message->warning('Nome é obrigatório');
-            return null;
+            return false;
         }
 
         // Administrator Update
         if (!empty($studio->getId())) {
             $studioId = $studio->getId();
             
-            if ($this->find('name = :name AND id != :id', "name={$studio->getName()}&id={$studioId}")) {
-                $this->message->warning('O nome do estudio informado já está cadastrado');
-                return null;
+            if ($this->find('name = :name AND id != :id', "name={$studio->getName()}&id={$studioId}")->fetch()) {
+                $this->message->warning('O nome do estúdio informado já está cadastrado');
+                return false;
             }
 
-            $this->update(self::$entity, $studio->safe(), 'id = :id', "id={$studioId}");
+            $this->update($studio->safe(), 'id = :id', "id={$studioId}");
 
             if ($this->fail()) {
                 $this->message->error('Erro ao atualizar, verifique os dados');
-                return null;
+                return false;
             }
         }
         
@@ -80,33 +76,34 @@ class StudioDAO extends DAO
         if (empty($studio->getId())) {
             if ($this->findByName($studio->getName())) {
                 $this->message->warning('O nome informado já está cadastrado');
-                return null;
+                return false;
             }
             
-            $studioId = $this->create(self::$entity, $studio->safe());
+            $studioId = $this->create($studio->safe());
             
             if ($this->fail()) {
                 $this->message->error('Erro ao cadastrar, verifique os dados');
-                return null;
+                return false;
             }
         }
 
-        return $this->findById($studioId);
+        $this->message->success('Dados salvos com sucesso');
+        $this->data = $this->findById($studioId);
+        return true;
     }
 
-    public function destroy(Studio $studio) : ?Studio
+    public function destroy(int $id) : bool
     {
-        if (!empty($studio->getId())) {
-            $this->delete(self::$entity, 'id = :id', "id={$studio->getId()}");
+        if (!empty($id)) {
+            $this->delete('id', $id);
         }
 
         if ($this->fail()) {
-            $this->message->warning('Não foi possível remover o estudio.');
-            return null;
+            $this->message->warning('Não foi possível remover o estúdio.');
+            return false;
         }
 
-        $this->message->success('Estudio removido com sucesso');
-        $studio = null;
-        return $studio;
+        $this->message->success('Estúdio removido com sucesso');
+        return true;
     }
 }

@@ -8,90 +8,112 @@ class TvShowDAO extends DAO
 {
     protected static $entity = 'tv_shows';
 
-    public function find(string $terms, string $params, string $collumns = '*') : ?TvShow
+    public function findById(int $id, string $collumns = '*') : ?TvShow
     {
-        $find = $this->read("SELECT {$collumns} FROM " . self::$entity . " WHERE {$terms}", $params);
+        $find = $this->find('id = :id', "id={$id}", $collumns);
 
-        if ($this->fail() || !$find->rowCount()) {
+        $tvShow = $find->fetch();
+
+        if ($this->fail() || !$tvShow) {
             $this->message->warning('Programa não encontrado para o código informado');
             return null;
         }
 
-        $tvShow = $find->fetchObject();
-        return new TvShow($tvShow->id, $tvShow->name, $tvShow->start_time, $tvShow->final_time, $tvShow->date, $tvShow->type, $tvShow->id_switcher, $tvShow->id_studio);
-    }
-
-    public function findById(int $id, string $collumns = '*') : ?TvShow
-    {
-        return $this->find("id = :id", "id={$id}", $collumns);
-    }
-
-    public function all(int $limit = 30, int $offset = 0, string $collumns = '*') : ?array
-    {
-        $all = $this->read(
-            "SELECT {$collumns} FROM " . self::$entity . " LIMIT :limit OFFSET :offset",
-            "limit={$limit}&offset={$offset}"
+        return new TvShow(
+            $tvShow->id,
+            $tvShow->name,
+            $tvShow->start_time,
+            $tvShow->final_time,
+            $tvShow->date,
+            $tvShow->type,
+            $tvShow->id_switcher,
+            $tvShow->id_studio
         );
+    }
 
-        if ($this->fail() || !$all->rowCount()) {
+    public function findByName(string $name, string $collumns = '*') : ?TvShowDAO
+    {
+        return $this->find('name LIKE :name', "name=%{$name}%", $collumns);
+    }
+
+    public function all() : array
+    {
+        $all = parent::fetch(true);
+
+        if ($this->fail() || !$all) {
             $this->message->warning('Sua consulta não retornou programas');
-            return null;
+            return [];
         }
 
         $tvShows = [];
 
-        foreach ($all->fetchAll(\PDO::FETCH_OBJ) as $tvShow) {
-            $tvShows[] = new TvShow($tvShow->id, $tvShow->name, $tvShow->start_time, $tvShow->final_time, $tvShow->date, $tvShow->type, $tvShow->id_switcher, $tvShow->id_studio);
+        foreach ($all as $tvShow) {
+            $tvShows[] = new TvShow(
+                $tvShow->id,
+                $tvShow->name,
+                $tvShow->start_time,
+                $tvShow->final_time,
+                $tvShow->date,
+                $tvShow->type,
+                $tvShow->id_switcher,
+                $tvShow->id_studio
+            );
         }
 
         return $tvShows;
     }
 
-    public function save(TvShow $tvShow) : ?TvShow
+    public function save(TvShow $tvShow) : bool
     {
         if (!$tvShow->required()) {
             $this->message->warning('Nome do programa é obrigatório');
-            return null;
+            return false;
         }
 
         // TV Show Update
         if (!empty($tvShow->getId())) {
             $tvShowId = $tvShow->getId();
 
-            $this->update(self::$entity, $tvShow->safe(), 'id = :id', "id={$tvShowId}");
+            if ($this->find('name = :name AND id != :id', "name={$tvShow->getName()}&id={$tvShowId}")->fetch()) {
+                $this->message->warning('O nome do programa informado já está cadastrado');
+                return false;
+            }
+
+            $this->update($tvShow->safe(), 'id = :id', "id={$tvShowId}");
 
             if ($this->fail()) {
                 $this->message->error('Erro ao atualizar, verifique os dados');
-                return null;
+                return false;
             }
         }
         
         // TV Show Create
         if (empty($tvShow->getId())) {
-            $tvShowId = $this->create(self::$entity, $tvShow->safe());
+            $tvShowId = $this->create($tvShow->safe());
             
             if ($this->fail()) {
                 $this->message->error('Erro ao cadastrar, verifique os dados');
-                return null;
+                return false;
             }
         }
 
-        return $this->findById($tvShowId);
+        $this->message->success('Dados salvos com sucesso');
+        $this->data = $this->findById($tvShowId);
+        return true;
     }
 
-    public function destroy(TvShow $tvShow) : ?TvShow
+    public function destroy(int $id) : bool
     {
-        if (!empty($tvShow->getId())) {
-            $this->delete(self::$entity, 'id = :id', "id={$tvShow->getId()}");
+        if (!empty($id)) {
+            $this->delete('id', $id);
         }
 
         if ($this->fail()) {
             $this->message->warning('Não foi possível remover o programa.');
-            return null;
+            return false;
         }
 
         $this->message->success('Programa removido com sucesso');
-        $tvShow = null;
-        return $tvShow;
+        return true;
     }
 }

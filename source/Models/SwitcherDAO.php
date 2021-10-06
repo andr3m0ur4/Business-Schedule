@@ -6,107 +6,104 @@ use Source\Core\DAO;
 
 class SwitcherDAO extends DAO
 {
-    protected static $entity = 'switchers';
-
-    public function find(string $terms, string $params, string $collumns = '*') : ?Switcher
+    public function __construct()
     {
-        $find = $this->read("SELECT {$collumns} FROM " . self::$entity . " WHERE {$terms}", $params);
-
-        if ($this->fail() || !$find->rowCount()) {
-            $this->message->warning('Switcher não encontrado para o código informado');
-            return null;
-        }
-
-        $object = $find->fetchObject();
-        return new Switcher($object->id, $object->name);
+        parent::__construct('switchers');
     }
 
     public function findById(int $id, string $collumns = '*') : ?Switcher
     {
-        return $this->find("id = :id", "id={$id}", $collumns);
-    }
+        $find = $this->find('id = :id', "id={$id}", $collumns);
 
-    public function findByName(string $name, string $collumns = '*') : ?Switcher
-    {
-        return $this->find("name = :name", "name={$name}", $collumns);
-    }
+        $switcher = $find->fetch();
 
-    public function all(int $limit = 30, int $offset = 0, string $collumns = '*') : ?array
-    {
-        $all = $this->read(
-            "SELECT {$collumns} FROM " . self::$entity . " LIMIT :limit OFFSET :offset",
-            "limit={$limit}&offset={$offset}"
-        );
-
-        if ($this->fail() || !$all->rowCount()) {
-            $this->message->warning('Sua consulta não retornou switchers');
+        if ($this->fail() || !$switcher) {
+            $this->message->warning('Switcher não encontrado para o código informado');
             return null;
+        }
+
+        return new Switcher($switcher->id, $switcher->name);
+    }
+
+    public function findByName(string $name, string $collumns = '*') : ?SwitcherDAO
+    {
+        return $this->find('name LIKE :name', "name=%{$name}%", $collumns);
+    }
+
+    public function all() : array
+    {
+        $all = parent::fetch(true);
+
+        if ($this->fail() || !$all) {
+            $this->message->warning('Sua consulta não retornou switchers');
+            return [];
         }
 
         $switchers = [];
 
-        foreach ($all->fetchAll(\PDO::FETCH_OBJ) as $switcher) {
+        foreach ($all as $switcher) {
             $switchers[] = new Switcher($switcher->id, $switcher->name);
         }
 
         return $switchers;
     }
 
-    public function save(Switcher $switcher) : ?Switcher
+    public function save(Switcher $switcher) : bool
     {
         if (!$switcher->required()) {
             $this->message->warning('Nome é obrigatório');
-            return null;
+            return false;
         }
 
-        // Administrator Update
+        // Switcher Update
         if (!empty($switcher->getId())) {
             $switcherId = $switcher->getId();
             
-            if ($this->find('name = :name AND id != :id', "name={$switcher->getName()}&id={$switcherId}")) {
-                $this->message->warning('O nome do estudio informado já está cadastrado');
-                return null;
+            if ($this->find('name = :name AND id != :id', "name={$switcher->getName()}&id={$switcherId}")->fetch()) {
+                $this->message->warning('O nome do switcher informado já está cadastrado');
+                return false;
             }
 
-            $this->update(self::$entity, $switcher->safe(), 'id = :id', "id={$switcherId}");
+            $this->update($switcher->safe(), 'id = :id', "id={$switcherId}");
 
             if ($this->fail()) {
                 $this->message->error('Erro ao atualizar, verifique os dados');
-                return null;
+                return false;
             }
         }
         
-        // Administrator Create
+        // Switcher Create
         if (empty($switcher->getId())) {
             if ($this->findByName($switcher->getName())) {
                 $this->message->warning('O nome informado já está cadastrado');
-                return null;
+                return false;
             }
             
-            $switcherId = $this->create(self::$entity, $switcher->safe());
+            $switcherId = $this->create($switcher->safe());
             
             if ($this->fail()) {
                 $this->message->error('Erro ao cadastrar, verifique os dados');
-                return null;
+                return false;
             }
         }
 
-        return $this->findById($switcherId);
+        $this->message->success('Dados salvos com sucesso');
+        $this->data = $this->findById($switcherId);
+        return true;
     }
 
-    public function destroy(Switcher $switcher) : ?Switcher
+    public function destroy(int $id) : bool
     {
-        if (!empty($switcher->getId())) {
-            $this->delete(self::$entity, 'id = :id', "id={$switcher->getId()}");
+        if (!empty($id)) {
+            $this->delete('id', $id);
         }
 
         if ($this->fail()) {
-            $this->message->warning('Não foi possível remover o estudio.');
-            return null;
+            $this->message->warning('Não foi possível remover o switcher.');
+            return false;
         }
 
-        $this->message->success('Estudio removido com sucesso');
-        $switcher = null;
-        return $switcher;
+        $this->message->success('Switcher removido com sucesso');
+        return true;
     }
 }
