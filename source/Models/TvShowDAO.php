@@ -6,7 +6,10 @@ use Source\Core\DAO;
 
 class TvShowDAO extends DAO
 {
-    protected static $entity = 'tv_shows';
+    public function __construct()
+    {
+        parent::__construct('tv_shows');
+    }
 
     public function findById(int $id, string $collumns = '*') : ?TvShow
     {
