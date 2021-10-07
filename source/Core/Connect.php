@@ -31,13 +31,9 @@ class Connect
         return self::$db;
     }
 
-    final private function __construct()
-    {
-        
-    }
+    // final private function __construct()
+    // {}
 
-    final private function __clone()
-    {
-        
-    }
+    // final private function __clone()
+    // {}
 }

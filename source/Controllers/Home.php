@@ -15,7 +15,7 @@ class Home extends Controller
 
         $data = [
             'title' => 'Business Schedule',
-            'file' => '_home'
+            'file' => 'home'
         ];
 
         echo $this->view->render('home', $data);

@@ -39,4 +39,27 @@ window.onload = () => {
     new Sortable(gridSaturday, objSortableDays)
 
     new Sortable(gridSunday, objSortableDays)
+
+    modal()
+
+    document.querySelectorAll('.card').forEach(card => {
+        card.onclick = () => {
+            openModal()
+        }
+    })
+}
+
+const modal = () => {
+    fetch('/assets/resources/modal.html')
+        .then(response => {
+            response.text()
+                .then(data => {
+                    document.getElementById('myModal').innerHTML = data;
+                })
+        })
+        
+}
+
+const openModal = () => {
+    document.getElementById('btnModal').click()
 }
