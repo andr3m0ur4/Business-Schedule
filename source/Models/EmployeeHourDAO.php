@@ -6,92 +6,103 @@ use Source\Core\DAO;
 
 class EmployeeHourDAO extends DAO
 {
-    protected static $entity = 'employee_hours';
-
-    public function find(string $terms, string $params, string $collumns = '*') : ?EmployeeHour
+    public function __construct()
     {
-        $find = $this->read("SELECT {$collumns} FROM " . self::$entity . " WHERE {$terms}", $params);
-
-        if ($this->fail() || !$find->rowCount()) {
-            $this->message->warning('Horário de funcionário não encontrado para o código informado');
-            return null;
-        }
-
-        $employeeHour = $find->fetchObject();
-        return new EmployeeHour($employeeHour->id, $employeeHour->start_time, $employeeHour->final_time, $employeeHour->date, $employeeHour->id_employee, $employeeHour->id_schedule);
+        parent::__construct('employee_hours');
     }
 
     public function findById(int $id, string $collumns = '*') : ?EmployeeHour
     {
-        return $this->find("id = :id", "id={$id}", $collumns);
+        $find = $this->find('id = :id', "id={$id}", $collumns);
+
+        $employeeHour = $find->fetch();
+
+        if ($this->fail() || !$employeeHour) {
+            $this->message->warning('Horário não encontrado para o código informado');
+            return null;
+        }
+
+        return new EmployeeHour(
+            $employeeHour->id,
+            $employeeHour->start_time,
+            $employeeHour->final_time,
+            $employeeHour->date,
+            $employeeHour->id_employee,
+            $employeeHour->id_schedule
+        );
     }
 
-    public function all(int $limit = 30, int $offset = 0, string $collumns = '*') : ?array
+    public function all() : array
     {
-        $all = $this->read(
-            "SELECT {$collumns} FROM " . self::$entity . " LIMIT :limit OFFSET :offset",
-            "limit={$limit}&offset={$offset}"
-        );
+        $all = parent::fetch(true);
 
-        if ($this->fail() || !$all->rowCount()) {
+        if ($this->fail() || !$all) {
             $this->message->warning('Sua consulta não retornou horários de funcionários');
-            return null;
+            return [];
         }
 
         $employeeHours = [];
 
-        foreach ($all->fetchAll(\PDO::FETCH_OBJ) as $employeeHour) {
-            $employeeHours[] = new EmployeeHour($employeeHour->id, $employeeHour->start_time, $employeeHour->final_time, $employeeHour->date, $employeeHour->id_employee, $employeeHour->id_schedule);
+        foreach ($all as $employeeHour) {
+            $employeeHours[] = new EmployeeHour(
+                $employeeHour->id,
+                $employeeHour->start_time,
+                $employeeHour->final_time,
+                $employeeHour->date,
+                $employeeHour->id_employee,
+                $employeeHour->id_schedule
+            );
         }
 
         return $employeeHours;
     }
 
-    public function save(EmployeeHour $employeeHour) : ?EmployeeHour
+    public function save(EmployeeHour $employeeHour) : bool
     {
         if (!$employeeHour->required()) {
             $this->message->warning('Horário inicial, horário final e data são obrigatórios');
-            return null;
+            return false;
         }
 
         // Employee Hour Update
         if (!empty($employeeHour->getId())) {
             $employeeHourId = $employeeHour->getId();
 
-            $this->update(self::$entity, $employeeHour->safe(), 'id = :id', "id={$employeeHourId}");
+            $this->update($employeeHour->safe(), 'id = :id', "id={$employeeHourId}");
 
             if ($this->fail()) {
                 $this->message->error('Erro ao atualizar, verifique os dados');
-                return null;
+                return false;
             }
         }
         
         // Employee Hour Create
         if (empty($employeeHour->getId())) {
-            $employeeHourId = $this->create(self::$entity, $employeeHour->safe());
+            $employeeHourId = $this->create($employeeHour->safe());
             
             if ($this->fail()) {
                 $this->message->error('Erro ao cadastrar, verifique os dados');
-                return null;
+                return false;
             }
         }
 
-        return $this->findById($employeeHourId);
+        $this->message->success('Dados salvos com sucesso');
+        $this->data = $this->findById($employeeHourId);
+        return true;
     }
 
-    public function destroy(EmployeeHour $employeeHour) : ?EmployeeHour
+    public function destroy(int $id) : bool
     {
-        if (!empty($employeeHour->getId())) {
-            $this->delete(self::$entity, 'id = :id', "id={$employeeHour->getId()}");
+        if (!empty($id)) {
+            $this->delete('id', $id);
         }
 
         if ($this->fail()) {
             $this->message->warning('Não foi possível remover o horário do funcionário.');
-            return null;
+            return false;
         }
 
         $this->message->success('Horário de funcionário removido com sucesso');
-        $employeeHour = null;
-        return $employeeHour;
+        return true;
     }
 }

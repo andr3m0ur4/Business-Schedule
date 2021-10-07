@@ -6,92 +6,89 @@ use Source\Core\DAO;
 
 class ScheduleDAO extends DAO
 {
-    protected static $entity = 'schedules';
-
-    public function find(string $terms, string $params, string $collumns = '*') : ?Schedule
+    public function __construct()
     {
-        $find = $this->read("SELECT {$collumns} FROM " . self::$entity . " WHERE {$terms}", $params);
-
-        if ($this->fail() || !$find->rowCount()) {
-            $this->message->warning('Escala não encontrada para o código informado');
-            return null;
-        }
-
-        $schedule = $find->fetchObject();
-        return new Schedule($schedule->id, $schedule->start_date, $schedule->final_date, $schedule->year);
+        parent::__construct('schedules');
     }
 
     public function findById(int $id, string $collumns = '*') : ?Schedule
     {
-        return $this->find("id = :id", "id={$id}", $collumns);
+        $find = $this->find('id = :id', "id={$id}", $collumns);
+
+        $schedule = $find->fetch();
+
+        if ($this->fail() || !$schedule) {
+            $this->message->warning('Escala não encontrada para o código informado');
+            return null;
+        }
+
+        return new Schedule($schedule->id, $schedule->start_date, $schedule->final_date, $schedule->year);
     }
 
-    public function all(int $limit = 30, int $offset = 0, string $collumns = '*') : ?array
+    public function all() : array
     {
-        $all = $this->read(
-            "SELECT {$collumns} FROM " . self::$entity . " LIMIT :limit OFFSET :offset",
-            "limit={$limit}&offset={$offset}"
-        );
+        $all = parent::fetch(true);
 
-        if ($this->fail() || !$all->rowCount()) {
+        if ($this->fail() || !$all) {
             $this->message->warning('Sua consulta não retornou escalas');
-            return null;
+            return [];
         }
 
         $schedules = [];
 
-        foreach ($all->fetchAll(\PDO::FETCH_OBJ) as $schedule) {
+        foreach ($all as $schedule) {
             $schedules[] = new Schedule($schedule->id, $schedule->start_date, $schedule->final_date, $schedule->year);
         }
 
         return $schedules;
     }
 
-    public function save(Schedule $schedule) : ?Schedule
+    public function save(Schedule $schedule) : bool
     {
         if (!$schedule->required()) {
             $this->message->warning('Data de início, data final e ano são obrigatórios');
-            return null;
+            return false;
         }
 
         // Schedule Update
         if (!empty($schedule->getId())) {
             $scheduleId = $schedule->getId();
 
-            $this->update(self::$entity, $schedule->safe(), 'id = :id', "id={$scheduleId}");
+            $this->update($schedule->safe(), 'id = :id', "id={$scheduleId}");
 
             if ($this->fail()) {
                 $this->message->error('Erro ao atualizar, verifique os dados');
-                return null;
+                return false;
             }
         }
         
         // schedule Create
         if (empty($schedule->getId())) {
-            $scheduleId = $this->create(self::$entity, $schedule->safe());
+            $scheduleId = $this->create($schedule->safe());
             
             if ($this->fail()) {
                 $this->message->error('Erro ao cadastrar, verifique os dados');
-                return null;
+                return false;
             }
         }
 
-        return $this->findById($scheduleId);
+        $this->message->success('Dados salvos com sucesso');
+        $this->data = $this->findById($scheduleId);
+        return true;
     }
 
-    public function destroy(Schedule $schedule) : ?Schedule
+    public function destroy(int $id) : bool
     {
-        if (!empty($schedule->getId())) {
-            $this->delete(self::$entity, 'id = :id', "id={$schedule->getId()}");
+        if (!empty($id)) {
+            $this->delete('id', $id);
         }
 
         if ($this->fail()) {
             $this->message->warning('Não foi possível remover a escala.');
-            return null;
+            return false;
         }
 
         $this->message->success('Escala removida com sucesso');
-        $schedule = null;
-        return $schedule;
+        return true;
     }
 }
