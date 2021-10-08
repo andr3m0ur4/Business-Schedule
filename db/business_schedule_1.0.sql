@@ -112,24 +112,3 @@ ALTER TABLE `tv_shows_hours`
 ALTER TABLE `administrators` DROP COLUMN `job`; 
 
 
--- Ajuste na tabela tv_show_hours e  tv_show, mudança de colunas
--- dia 08 do 10 de 2021
-
-ALTER TABLE `tv_shows_hours` ADD COLUMN
-	(`start_time` time NOT NULL,
-    `final_time` time NOT NULL,
-    `id_switcher` int(11) NOT NULL,
-    `id_studio` int(11) NOT NULL);
-
-ALTER TABLE `tv_shows_hours`
-  ADD CONSTRAINT `tv_shows_hours_fk_id_switcher` FOREIGN KEY (`id_switcher`) REFERENCES `switchers` (`id`),
-  ADD CONSTRAINT `tv_shows_hours_fk_id_studio` FOREIGN KEY (`id_studio`) REFERENCES `studios` (`id`);
-
-ALTER TABLE `tv_shows` DROP FOREIGN KEY `tv_shows_fk_id_switcher`;
-ALTER TABLE `tv_shows` DROP FOREIGN KEY `tv_shows_fk_id_studio`;
-
-ALTER TABLE `tv_shows` DROP COLUMN `start_time`;
-ALTER TABLE `tv_shows` DROP COLUMN `final_time`;
-ALTER TABLE `tv_shows` DROP COLUMN `id_switcher`;
-ALTER TABLE `tv_shows` DROP COLUMN `id_studio`;
-

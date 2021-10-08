@@ -15,7 +15,6 @@ class TvShow extends Controller
     public function index() : void
     {
         $dao = new TvShowDAO();
-
         $message = null;
 
         if ($_GET) {
@@ -24,13 +23,10 @@ class TvShow extends Controller
         } else {
             $tvShows = $dao->find()->all();
         }
-
         if (session()->has('message')) {
             $message = session()->__get('message');
             session()->unset('message');
         }
-
-
 
         echo $this->view->render('tvShow', [
             'title' => 'Business Schedule - Estudio',
