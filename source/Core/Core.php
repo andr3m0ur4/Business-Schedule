@@ -44,6 +44,13 @@ class Core
         $route->post('/estudio/{id}/editar', 'Studio:update');
         $route->get('/estudio/{id}/excluir', 'Studio:delete');
 
+        $route->get('/switcher', 'Switcher:index');
+        $route->get('/switcher/novo', 'Switcher:save');
+        $route->post('/switcher/novo', 'Switcher:save');
+        $route->get('/switcher/{id}/editar', 'Switcher:update');
+        $route->post('/switcher/{id}/editar', 'Switcher:update');
+        $route->get('/switcher/{id}/excluir', 'Switcher:delete');
+
         /**
          * TESTS
          */
