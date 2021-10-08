@@ -75,11 +75,6 @@ class Core
         $route->get('/schedule/update/{id}', 'Teste:scheduleUpdate');
         $route->get('/schedule/delete/{id}', 'Teste:scheduleDelete');
 
-        $route->get('/switcher', 'Teste:switcher');
-        $route->get('/switcher/insert', 'Teste:switcherInsert');
-        $route->get('/switcher/update/{id}', 'Teste:switcherUpdate');
-        $route->get('/switcher/delete/{id}', 'Teste:switcherDelete');
-
         $route->get('/tv_show', 'Teste:tvShow');
         $route->get('/tv_show/insert', 'Teste:tvShowInsert');
         $route->get('/tv_show/update/{id}', 'Teste:tvShowUpdate');

@@ -28,7 +28,7 @@ class Switcher extends Controller
         echo $this->view->render('switcher', [
             'title' => 'Business Schedule - Switcher',
             'file' => 'switcher',
-            'switcher' => $switchers,
+            'switchers' => $switchers,
             'message' => $message
         ]);
     }
@@ -37,7 +37,7 @@ class Switcher extends Controller
     {
         $message = null;
         $dao = new SwitcherDAO();
-        $studio = new SwitcherModel();
+        $switcher = new SwitcherModel();
 
         if (!empty($params)) {
             $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRIPPED);
