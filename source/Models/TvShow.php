@@ -45,7 +45,7 @@ class TvShow extends Model
 
     public function getDate() : ?string
     {
-        return $this->date;
+        return date_format_br($this->date);
     }
 
     public function setDate($date)
