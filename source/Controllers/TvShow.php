@@ -5,10 +5,6 @@ namespace Source\Controllers;
 use Source\Core\Controller;
 use Source\Models\TvShow as TvShowModel;
 use Source\Models\TvShowDAO;
-use Source\Models\Switcher as SwitcherModel;
-use Source\Models\SwitcherDAO;
-use Source\Models\Studio as StudioModel;
-use Source\Models\StudioDAO;
 
 class TvShow extends Controller
 {
@@ -29,7 +25,7 @@ class TvShow extends Controller
         }
 
         echo $this->view->render('tvShow', [
-            'title' => 'Business Schedule - Estudio',
+            'title' => 'Business Schedule - Programas',
             'file' => 'tvShow',
             'tvShows' => $tvShows,
             'message' => $message
@@ -40,18 +36,15 @@ class TvShow extends Controller
     {
         $message = null;
         $dao = new TvShowDAO();
-        $studio = new TvShowModel();
+        $tvShow = new TvShowModel();
 
         if (!empty($params)) {
             $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRIPPED);
-            $start_time = filter_input(INPUT_GET, 'start_time', FILTER_SANITIZE_STRIPPED);
-            $start_time = filter_input(INPUT_GET, 'final_time', FILTER_SANITIZE_STRIPPED);
-            $date = filter_input(INPUT_GET, 'date', FILTER_SANITIZE_STRIPPED);
-            $type = filter_input(INPUT_GET, 'type', FILTER_SANITIZE_STRIPPED);
-            $id_switcher = filter_input(INPUT_GET, 'id_switcher', FILTER_SANITIZE_STRIPPED);
-            $id_studio = filter_input(INPUT_GET, 'id_studio', FILTER_SANITIZE_STRIPPED);
+            $date = filter_input(INPUT_POST, 'date', FILTER_SANITIZE_STRIPPED);
+            $type = filter_input(INPUT_POST, 'type', FILTER_SANITIZE_STRIPPED);
 
-            $tvShow = new TvShowModel(null, $name, $start_time, $start_time, $date, $type, $id_switcher, $id_studio);
+            $tvShow = new TvShowModel(null, $name, $date, $type);
+            echo $type;
             if ($dao->save($tvShow)) {
                 $tvShow = new TvShowModel();
             }
@@ -79,13 +72,9 @@ class TvShow extends Controller
 
         if (isset($params['name'])) {
             $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRIPPED);
-            $start_time = filter_input(INPUT_GET, 'start_time', FILTER_SANITIZE_STRIPPED);
-            $start_time = filter_input(INPUT_GET, 'final_time', FILTER_SANITIZE_STRIPPED);
-            $date = filter_input(INPUT_GET, 'date', FILTER_SANITIZE_STRIPPED);
-            $type = filter_input(INPUT_GET, 'type', FILTER_SANITIZE_STRIPPED);
-            $id_switcher = filter_input(INPUT_GET, 'id_switcher', FILTER_SANITIZE_STRIPPED);
-            $id_studio = filter_input(INPUT_GET, 'id_studio', FILTER_SANITIZE_STRIPPED);
-            $tvShow = new TvShowModel($id, $name, $start_time, $start_time, $date, $type, $id_switcher, $id_studio);
+            $date = filter_input(INPUT_POST, 'date', FILTER_SANITIZE_STRIPPED);
+            $type = filter_input(INPUT_POST, 'type', FILTER_SANITIZE_STRIPPED);
+            $tvShow = new TvShowModel($id, $name, $date, $type);
 
             if ($dao->save($tvShow)) {
                 $tvShow = $dao->data();
@@ -112,6 +101,6 @@ class TvShow extends Controller
             session()->set('message', $message);
         }
 
-        redirect('/tvShow');
+        redirect('/programa');
     }
 }

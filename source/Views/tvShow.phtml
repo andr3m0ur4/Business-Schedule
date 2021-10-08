@@ -48,12 +48,9 @@
                         <th>
                         <th class="text-center" width="10%">Código</th>
                         <th class="text-left" width="20%">Nome</th>
-                        <th class="text-left" width="10%">Horário Inicial</th>
-                        <th class="text-left" width="10%">Horário Final</th>
                         <th class="text-left" width="10%">Dia</th>
                         <th class="text-left" width="10%">Tipo</th>
-                        <th class="text-left" width="10%">Switcher</th>
-                        <th class="text-right" width="10%">Estudio</th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -72,12 +69,8 @@
                             </td>
                             <td class="text-center" width="10%">1</td>
                             <td class="text-left" width="30%"><?= $tvShow->getName() ?></td>
-                            <td class="text-left" width="30%"><?= $tvShow->getStartTime() ?></td>
-                            <td class="text-left" width="30%"><?= $tvShow->getFinalTime() ?></td>
                             <td class="text-left" width="30%"><?= $tvShow->getDate() ?></td>
                             <td class="text-left" width="30%"><?= $tvShow->getType() ?></td>
-                            <td class="text-left" width="30%"><?=$switchers[0]->getName() ?></td>
-                            <td class="text-right" width="30%"><?= $tvShow->getIdStudio() ?></td>
                         </tr>
                     <?php endforeach ?>
 

@@ -8,24 +8,17 @@ class TvShow extends Model
 {
     private ?int $id;
     protected ?string $name;
-    protected ?string $start_time;
-    protected ?string $final_time;
     protected ?string $date;
     protected ?string $type;
-    protected ?int $id_switcher;
-    protected ?int $id_studio;
 
-    public function __construct(?int $id = null, ?string $name = null, ?string $startTime = null, ?string $finalTime = null, ?string $date = null, ?string $type = null, ?int $idSwitcher = null, ?int $idStudio = null)
+    public function __construct(?int $id = null, ?string $name = null, ?string $date = null, ?string $type = null)
     {
-        parent::__construct(['id'], ['name', 'start_time', 'final_time', 'date', 'type', 'id_switcher', 'id_studio']);
+        parent::__construct(['id'], ['name', 'date', 'type']);
         $this->setId($id);
         $this->setName($name);
-        $this->setStartTime($startTime);
-        $this->setFinalTime($finalTime);
         $this->setDate($date);
         $this->setType($type);
-        $this->setIdSwitcher($idSwitcher);
-        $this->setIdStudio($idStudio);
+
     }
 
     public function getId() : ?int
@@ -47,28 +40,6 @@ class TvShow extends Model
     public function setName($name)
     {
         $this->name = $name;
-        return $this;
-    }
-
-    public function getStartTime() : ?string
-    {
-        return $this->start_time;
-    }
-
-    public function setStartTime($startTime)
-    {
-        $this->start_time = date_format_app($startTime);
-        return $this;
-    }
-
-    public function getFinalTime() : ?string
-    {
-        return $this->final_time;
-    }
-
-    public function setFinalTime($finalTime)
-    {
-        $this->final_time = date_format_app($finalTime);
         return $this;
     }
 
@@ -94,32 +65,9 @@ class TvShow extends Model
         return $this;
     }
 
-    public function getIdSwitcher() : ?string
-    {
-        return $this->id_switcher;
-    }
-
-    public function setIdSwitcher($idSwitcher)
-    {
-        $this->id_switcher = $idSwitcher;
-        return $this;
-    }
-
-    public function getIdStudio() : ?string
-    {
-        return $this->id_studio;
-    }
-
-    public function setIdStudio($idStudio)
-    {
-        $this->id_studio = $idStudio;
-        return $this;
-    }
-
     public function __toString()
     {
-        return "Id: {$this->id} - Hora Inicial: " . date_formatt($this->start_time, 'H\hi') .
-            " - Hora Final: " . date_formatt($this->final_time, 'H\hi') . " - Data: " . date_formatt($this->date, 'd/m') .
-            " - Tipo: {$this->type} - Switcher: {$this->id_switcher} - Estudio: {$this->id_studio}";
+        return "Id: {$this->id} - Nome: {$this->name}: " . " - Data: " . date_formatt($this->date, 'd/m') .
+            " - Tipo: {$this->type}";
     }
 }

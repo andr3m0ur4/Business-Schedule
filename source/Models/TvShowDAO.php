@@ -25,12 +25,8 @@ class TvShowDAO extends DAO
         return new TvShow(
             $tvShow->id,
             $tvShow->name,
-            $tvShow->start_time,
-            $tvShow->final_time,
             $tvShow->date,
             $tvShow->type,
-            $tvShow->id_switcher,
-            $tvShow->id_studio
         );
     }
 
@@ -70,12 +66,8 @@ class TvShowDAO extends DAO
             $tvShows[] = new TvShow(
                 $tvShow->id,
                 $tvShow->name,
-                $tvShow->start_time,
-                $tvShow->final_time,
                 $tvShow->date,
                 $tvShow->type,
-                $tvShow->id_switcher,
-                $tvShow->id_studio
             );
         }
 
@@ -88,7 +80,6 @@ class TvShowDAO extends DAO
             $this->message->warning('Nome do programa é obrigatório');
             return false;
         }
-
         // TV Show Update
         if (!empty($tvShow->getId())) {
             $tvShowId = $tvShow->getId();
