@@ -72,7 +72,6 @@ class Studio extends Controller
             $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRIPPED);
             $studio = new StudioModel($id, $name);
             if ($dao->save($studio)) {
-                //erro aqui ao charmar save
                 $studio = $dao->data();
             }
             

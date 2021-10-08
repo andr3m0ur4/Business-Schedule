@@ -39,8 +39,24 @@ class TvShowDAO extends DAO
         return $this->find('name LIKE :name', "name=%{$name}%", $collumns);
     }
 
+    public function findByFullName(string $name, string $collumns = '*') : ?TvShow
+    {
+        $find = $this->find('name = :name', "name={$name}", $collumns);
+
+        $tvShow = $find->fetch();
+
+        if ($this->fail() || !$tvShow) {
+            $this->message->warning('Programa não encontrado para o nome informado');
+            return null;
+        }
+
+        return new TvShow($tvShow->id, $tvShow->name);
+
+    }
+
     public function all() : array
     {
+
         $all = parent::fetch(true);
 
         if ($this->fail() || !$all) {
@@ -92,6 +108,11 @@ class TvShowDAO extends DAO
         
         // TV Show Create
         if (empty($tvShow->getId())) {
+            if ($this->findByFullName($tvShow->getName())) {
+                $this->message->warning('O nome informado já está cadastrado');
+                return false;
+            }
+
             $tvShowId = $this->create($tvShow->safe());
             
             if ($this->fail()) {

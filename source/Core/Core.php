@@ -51,6 +51,14 @@ class Core
         $route->post('/switcher/{id}/editar', 'Switcher:update');
         $route->get('/switcher/{id}/excluir', 'Switcher:delete');
 
+        $route->get('/programa', 'TvShow:index');
+        $route->get('/programa/novo', 'TvShow:save');
+        $route->post('/programa/novo', 'TvShow:save');
+        $route->get('/programa/{id}/editar', 'TvShow:update');
+        $route->post('/programa/{id}/editar', 'TvShow:update');
+        $route->get('/programa/{id}/excluir', 'TvShow:delete');
+
+
         /**
          * TESTS
          */
