@@ -44,13 +44,12 @@ class Core
         $route->post('/estudio/{id}/editar', 'Studio:update');
         $route->get('/estudio/{id}/excluir', 'Studio:delete');
 
-        $route->get('/programa', 'TvShow:index');
-        $route->get('/programa/novo', 'TvShow:save');
-        $route->post('/programa/novo', 'TvShow:save');
-        $route->get('/programa/{id}/editar', 'TvShow:update');
-        $route->post('/programa/{id}/editar', 'TvShow:update');
-        $route->get('/programa/{id}/excluir', 'TvShow:delete');
-
+        $route->get('/switcher', 'Switcher:index');
+        $route->get('/switcher/novo', 'Switcher:save');
+        $route->post('/switcher/novo', 'Switcher:save');
+        $route->get('/switcher/{id}/editar', 'Switcher:update');
+        $route->post('/switcher/{id}/editar', 'Switcher:update');
+        $route->get('/switcher/{id}/excluir', 'Switcher:delete');
 
         /**
          * TESTS
@@ -75,11 +74,6 @@ class Core
         $route->get('/schedule/insert', 'Teste:scheduleInsert');
         $route->get('/schedule/update/{id}', 'Teste:scheduleUpdate');
         $route->get('/schedule/delete/{id}', 'Teste:scheduleDelete');
-
-        $route->get('/switcher', 'Teste:switcher');
-        $route->get('/switcher/insert', 'Teste:switcherInsert');
-        $route->get('/switcher/update/{id}', 'Teste:switcherUpdate');
-        $route->get('/switcher/delete/{id}', 'Teste:switcherDelete');
 
         $route->get('/tv_show', 'Teste:tvShow');
         $route->get('/tv_show/insert', 'Teste:tvShowInsert');
