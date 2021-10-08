@@ -14,11 +14,10 @@ class TvShow extends Model
     protected ?string $type;
     protected ?int $id_switcher;
     protected ?int $id_studio;
-    protected static array $safe = ['id'];
-    protected static array $required = ['name'];
 
     public function __construct(?int $id = null, ?string $name = null, ?string $startTime = null, ?string $finalTime = null, ?string $date = null, ?string $type = null, ?int $idSwitcher = null, ?int $idStudio = null)
     {
+        parent::__construct(['id'], ['name', 'start_time', 'final_time', 'date', 'type', 'id_switcher', 'id_studio']);
         $this->setId($id);
         $this->setName($name);
         $this->setStartTime($startTime);
@@ -40,7 +39,7 @@ class TvShow extends Model
         return $this;
     }
 
-    public function getName() : string
+    public function getName() : ?string
     {
         return $this->name;
     }
@@ -51,7 +50,7 @@ class TvShow extends Model
         return $this;
     }
 
-    public function getStartTime() : string
+    public function getStartTime() : ?string
     {
         return $this->start_time;
     }
@@ -62,7 +61,7 @@ class TvShow extends Model
         return $this;
     }
 
-    public function getFinalTime() : string
+    public function getFinalTime() : ?string
     {
         return $this->final_time;
     }
@@ -73,7 +72,7 @@ class TvShow extends Model
         return $this;
     }
 
-    public function getDate() : string
+    public function getDate() : ?string
     {
         return $this->date;
     }
@@ -84,7 +83,7 @@ class TvShow extends Model
         return $this;
     }
 
-    public function getType() : string
+    public function getType() : ?string
     {
         return $this->type;
     }
@@ -95,7 +94,7 @@ class TvShow extends Model
         return $this;
     }
 
-    public function getIdSwitcher() : string
+    public function getIdSwitcher() : ?string
     {
         return $this->id_switcher;
     }
@@ -106,7 +105,7 @@ class TvShow extends Model
         return $this;
     }
 
-    public function getIdStudio() : string
+    public function getIdStudio() : ?string
     {
         return $this->id_studio;
     }

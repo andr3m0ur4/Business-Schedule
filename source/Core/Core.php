@@ -44,6 +44,14 @@ class Core
         $route->post('/estudio/{id}/editar', 'Studio:update');
         $route->get('/estudio/{id}/excluir', 'Studio:delete');
 
+        $route->get('/programa', 'TvShow:index');
+        $route->get('/programa/novo', 'TvShow:save');
+        $route->post('/programa/novo', 'TvShow:save');
+        $route->get('/programa/{id}/editar', 'TvShow:update');
+        $route->post('/programa/{id}/editar', 'TvShow:update');
+        $route->get('/programa/{id}/excluir', 'TvShow:delete');
+
+
         /**
          * TESTS
          */
