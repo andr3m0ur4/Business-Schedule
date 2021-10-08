@@ -30,6 +30,21 @@ class StudioDAO extends DAO
         return $this->find('name LIKE :name', "name=%{$name}%", $collumns);
     }
 
+    public function findByFullName(string $name, string $collumns = '*') : ?Studio
+    {
+        $find = $this->find('name = :name', "name={$name}", $collumns);
+
+        $studio = $find->fetch();
+
+        if ($this->fail() || !$studio) {
+            $this->message->warning('Estudio não encontrado para o nome informado');
+            return null;
+        }
+
+        return new Studio($studio->id, $studio->name);
+
+    }
+
     public function all() : array
     {
         $all = parent::fetch(true);
@@ -58,12 +73,11 @@ class StudioDAO extends DAO
         // Administrator Update
         if (!empty($studio->getId())) {
             $studioId = $studio->getId();
-            
             if ($this->find('name = :name AND id != :id', "name={$studio->getName()}&id={$studioId}")->fetch()) {
                 $this->message->warning('O nome do estúdio informado já está cadastrado');
                 return false;
             }
-
+            echo $studio;
             $this->update($studio->safe(), 'id = :id', "id={$studioId}");
 
             if ($this->fail()) {
@@ -74,7 +88,7 @@ class StudioDAO extends DAO
         
         // Administrator Create
         if (empty($studio->getId())) {
-            if ($this->findByName($studio->getName())) {
+            if ($this->findByFullName($studio->getName())) {
                 $this->message->warning('O nome informado já está cadastrado');
                 return false;
             }

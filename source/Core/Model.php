@@ -16,7 +16,6 @@ abstract class Model
     public function safe() : ?array
     {
         $data = get_object_vars($this);
-
         foreach (static::$protected as $unset) {
             unset($data[$unset]);
         }

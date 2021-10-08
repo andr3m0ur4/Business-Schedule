@@ -37,6 +37,13 @@ class Core
         $route->post('/funcionario/{id}/perfil', 'Employee:update');
         $route->get('/funcionario/{id}/excluir', 'Employee:delete');
 
+        $route->get('/estudio', 'Studio:index');
+        $route->get('/estudio/novo', 'Studio:save');
+        $route->post('/estudio/novo', 'Studio:save');
+        $route->get('/estudio/{id}/editar', 'Studio:update');
+        $route->post('/estudio/{id}/editar', 'Studio:update');
+        $route->get('/estudio/{id}/excluir', 'Studio:delete');
+
         /**
          * TESTS
          */

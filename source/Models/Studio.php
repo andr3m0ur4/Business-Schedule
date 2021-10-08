@@ -8,11 +8,10 @@ class Studio extends Model
 {
     protected ?int $id;
     protected ?string $name;
-    protected static array $safe = ['id'];
-    protected static array $required = ['name'];
 
     public function __construct(?int $id = null, ?string $name = null)
     {
+        parent::__construct(['id'], ['name']);
         $this->setId($id);
         $this->setName($name);
     }
@@ -28,7 +27,7 @@ class Studio extends Model
         return $this;
     }
 
-    public function getName() : string
+    public function getName() : ?string
     {
         return $this->name;
     }
