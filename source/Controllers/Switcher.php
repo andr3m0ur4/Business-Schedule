@@ -97,6 +97,6 @@ class Switcher extends Controller
             session()->set('message', $message);
         }
 
-        redirect('/estudio');
+        redirect('/switcher');
     }
 }

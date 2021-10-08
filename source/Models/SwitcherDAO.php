@@ -30,6 +30,21 @@ class SwitcherDAO extends DAO
         return $this->find('name LIKE :name', "name=%{$name}%", $collumns);
     }
 
+    public function findByFullName(string $name, string $collumns = '*') : ?Switcher
+    {
+        $find = $this->find('name = :name', "name={$name}", $collumns);
+
+        $switcher = $find->fetch();
+
+        if ($this->fail() || !$switcher) {
+            $this->message->warning('Switcher não encontrado para o nome informado');
+            return null;
+        }
+
+        return new Switcher($switcher->id, $switcher->name);
+
+    }
+    
     public function all() : array
     {
         $all = parent::fetch(true);
@@ -74,7 +89,7 @@ class SwitcherDAO extends DAO
         
         // Switcher Create
         if (empty($switcher->getId())) {
-            if ($this->findByName($switcher->getName())) {
+            if ($this->findByFullName($switcher->getName())) {
                 $this->message->warning('O nome informado já está cadastrado');
                 return false;
             }
