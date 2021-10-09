@@ -69,7 +69,7 @@
                             </td>
                             <td class="text-center" width="10%">1</td>
                             <td class="text-left" width="30%"><?= $tvShow->getName() ?></td>
-                            <td class="text-left" width="30%"><?= $tvShow->getDate() ?></td>
+                            <td class="text-left" width="30%"><?= date_formatt($tvShow->getDate(), 'd/m/Y') ?></td>
                             <td class="text-left" width="30%"><?= $tvShow->getType() ?></td>
                         </tr>
                     <?php endforeach ?>
