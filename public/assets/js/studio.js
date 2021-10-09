@@ -1,4 +1,6 @@
 $(() => {
+    clearPostJS()
+    
     if (document.querySelector('[name=new]')) {
         document.querySelector('[name=new]').onclick = () => {
             location.href = '/estudio/novo'
