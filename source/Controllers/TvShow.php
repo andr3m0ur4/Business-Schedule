@@ -40,10 +40,8 @@ class TvShow extends Controller
 
         if (!empty($params)) {
             $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRIPPED);
-            $date = filter_input(INPUT_POST, 'date', FILTER_SANITIZE_STRIPPED);
-            $type = filter_input(INPUT_POST, 'type', FILTER_SANITIZE_STRIPPED);
 
-            $tvShow = new TvShowModel(null, $name, $date, $type);
+            $tvShow = new TvShowModel(null, $name);
             if ($dao->save($tvShow)) {
                 $tvShow = new TvShowModel();
             }
@@ -71,10 +69,8 @@ class TvShow extends Controller
 
         if (isset($params['name'])) {
             $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRIPPED);
-            $date = filter_input(INPUT_POST, 'date', FILTER_SANITIZE_STRIPPED);
-            $type = filter_input(INPUT_POST, 'type', FILTER_SANITIZE_STRIPPED);
             
-            $tvShow = new TvShowModel($id, $name, $date, $type);
+            $tvShow = new TvShowModel($id, $name);
           
 
             if ($dao->save($tvShow)) {

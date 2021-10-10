@@ -29,7 +29,9 @@ class TvShowHourDAO extends DAO
             $tvShowHour->start_time,
             $tvShowHour->final_time,
             $tvShowHour->id_switcher,
-            $tvShowHour->id_studio
+            $tvShowHour->id_studio,
+            $tvShowHour->date,
+            $tvShowHour->type
         );
     }
 
@@ -52,7 +54,9 @@ class TvShowHourDAO extends DAO
                 $tvShowHour->start_time,
                 $tvShowHour->final_time,
                 $tvShowHour->id_switcher,
-                $tvShowHour->id_studio
+                $tvShowHour->id_studio,
+                $tvShowHour->date,
+                $tvShowHour->type
             );
         }
 

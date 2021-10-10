@@ -24,9 +24,7 @@ class TvShowDAO extends DAO
 
         return new TvShow(
             $tvShow->id,
-            $tvShow->name,
-            $tvShow->date,
-            $tvShow->type,
+            $tvShow->name
         );
     }
 
@@ -65,9 +63,7 @@ class TvShowDAO extends DAO
         foreach ($all as $tvShow) {
             $tvShows[] = new TvShow(
                 $tvShow->id,
-                $tvShow->name,
-                $tvShow->date,
-                $tvShow->type,
+                $tvShow->name
             );
         }
 
