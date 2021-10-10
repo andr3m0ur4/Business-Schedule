@@ -1,4 +1,5 @@
 $(() => {
+    'use strict'
     clearPostJS()
     
     if (document.querySelector('[name=new]')) {
@@ -35,7 +36,7 @@ $(() => {
     }
 })
 
-const clear = () => {
+function clear() {
     document.form_admin.reset()
 }
 
