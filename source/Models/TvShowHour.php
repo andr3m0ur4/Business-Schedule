@@ -14,9 +14,9 @@ class TvShowHour extends Model
     protected ?int $id_switcher;
     protected ?int $id_studio;
 
-    public function __construct(?int $id = null, ?int $idTvShow = null, ?int $idEmployeeHour  = null, ?string $startTime = null, ?string $finalTime = null, ?int $idSwitcher = null, ?int $idStudio = null)
+    public function __construct(?int $id = null, ?int $idTvShow = null, ?int $idEmployeeHour  = null, ?string $startTime = null, ?string $finalTime = null, ?int $idSwitcher = null, ?int $idStudio = null, ?string $date = null, ?string $type = null)
     {
-        parent::__construct(['id'], ['idTvShow', 'idEmployeeHour', 'start_time', 'final_time', 'id_switcher', 'id_studio']);
+        parent::__construct(['id'], ['idTvShow', 'idEmployeeHour', 'start_time', 'final_time', 'id_switcher', 'id_studio', 'date', 'type']);
         $this->setId($id);
         $this->setIdTvShow($idTvShow);
         $this->setIdEmployeeHour($idEmployeeHour);
@@ -24,6 +24,8 @@ class TvShowHour extends Model
         $this->setFinalTime($finalTime);
         $this->setIdSwitcher($idSwitcher);
         $this->setIdStudio($idStudio);
+        $this->setDate($date);
+        $this->setType($type);
     }
 
     public function getId() : ?int
@@ -103,10 +105,33 @@ class TvShowHour extends Model
         return $this;
     }
 
+    public function getDate() : ?string
+    {
+        return $this->date;
+    }
+
+    public function setDate($date)
+    {
+        $this->date = $date;
+        return $this;
+    }
+
+    public function getType() : ?string
+    {
+        return $this->type;
+    }
+
+    public function setType($type)
+    {
+        $this->type = $type;
+        return $this;
+    }
+
     public function __toString()
     {
         return "Id: {$this->id} - Programa: {$this->id_tv_show} - Horário do Funcionario: {$this->id_employee_hour}"
         . date_formatt($this->start_time, 'H\hi') .  " - Hora Final: " . date_formatt($this->final_time, 'H\hi') .
-        " - Switcher: {$this->id_switcher} - Estudio: {$this->id_studio}" ;
+        " - Switcher: {$this->id_switcher} - Estudio: {$this->id_studio}" . " - Data: " . date_formatt($this->date, 'd/m') .
+        " - Tipo: {$this->type}";
     }
 }

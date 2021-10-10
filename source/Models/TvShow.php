@@ -11,13 +11,11 @@ class TvShow extends Model
     protected ?string $date;
     protected ?string $type;
 
-    public function __construct(?int $id = null, ?string $name = null, ?string $date = null, ?string $type = null)
+    public function __construct(?int $id = null, ?string $name = null)
     {
-        parent::__construct(['id'], ['name', 'date', 'type']);
+        parent::__construct(['id'], ['name']);
         $this->setId($id);
         $this->setName($name);
-        $this->setDate($date);
-        $this->setType($type);
 
     }
 
@@ -43,31 +41,9 @@ class TvShow extends Model
         return $this;
     }
 
-    public function getDate() : ?string
-    {
-        return $this->date;
-    }
-
-    public function setDate($date)
-    {
-        $this->date = $date;
-        return $this;
-    }
-
-    public function getType() : ?string
-    {
-        return $this->type;
-    }
-
-    public function setType($type)
-    {
-        $this->type = $type;
-        return $this;
-    }
 
     public function __toString()
     {
-        return "Id: {$this->id} - Nome: {$this->name}: " . " - Data: " . date_formatt($this->date, 'd/m') .
-            " - Tipo: {$this->type}";
+        return "Id: {$this->id} - Nome: {$this->name}: ";
     }
 }
