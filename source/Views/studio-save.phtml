@@ -1,14 +1,16 @@
 <?php $this->layout('_template', $this->data) ?>
 
 <?php if (isset($message)) : ?>
-    <?php if ($message->getType() == 'success') : ?>
-        <div class="alert alert-info"><?= "{$message->getText()}." ?></div>
-    <?php else : ?>
-        <div class="alert alert-danger"><?= "Ops, {$message->getText()}." ?></div>
-    <?php endif ?>
+    <div id="message">
+        <?php if ($message->getType() == 'success') : ?>
+            <div class="alert alert-info"><?= "{$message->getText()}." ?></div>
+        <?php else : ?>
+            <div class="alert alert-danger"><?= "Ops, {$message->getText()}." ?></div>
+        <?php endif ?>
+    </div>
 <?php endif ?>
 
-<section>
+<section id="section">
     <div class="card">
         <div class="card-header">
             <div class="card-title">
