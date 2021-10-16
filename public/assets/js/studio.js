@@ -46,6 +46,7 @@ const verify = () => {
             let label = document.querySelector('[for=' + inputs[i].id + ']');
             messageText = "Campo " + label.innerHTML + " precisa ser preenchido";
             messageConfiguration = "alert alert-danger";
+            inputs[i].focus();
             return message(messageText, messageConfiguration);
         }
     }

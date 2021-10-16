@@ -15,7 +15,7 @@ $(() => {
 
     if (document.querySelector('[name=save]')) {
         document.querySelector('[name=save]').onclick = () => {
-            save()
+            verify()
         }
     }
 
@@ -34,6 +34,42 @@ $(() => {
         })
     }
 })
+
+const verify = () => {
+    let form = document.querySelector('[name=form_switcher]');
+    let messageText = "";
+    let messageConfiguration = "";
+    let inputs = form.querySelectorAll("input");
+
+    for (let i = 1; i < inputs.length; i++) {
+        if (!inputs[i].value) {
+            let label = document.querySelector('[for=' + inputs[i].id + ']');
+            messageText = "Campo " + label.innerHTML + " precisa ser preenchido";
+            messageConfiguration = "alert alert-danger";
+            inputs[i].focus();
+            return message(messageText, messageConfiguration);
+        }
+    }
+    
+    save();
+    return message(messageText, messageConfiguration);
+}
+
+const message = (messageText, messageConfiguration) => {
+    if (document.querySelector('[id=message]')) {
+        let messageComponent = document.querySelector('[id=message]');
+        messageComponent.innerHTML = `${messageText}`;
+        messageComponent.className = messageConfiguration;
+
+    } else {
+        let messageComponent = document.createElement("div");
+        messageComponent.className = messageConfiguration;
+        messageComponent.id = "message";
+        messageComponent.innerHTML = `${messageText}`;
+        elementFather = document.querySelector('[id=section]');
+        elementFather.insertBefore(messageComponent, elementFather.firstElementChild);
+    }
+}
 
 const clear = () => {
     document.form_switcher.reset()
