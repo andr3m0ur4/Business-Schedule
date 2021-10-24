@@ -22,7 +22,17 @@ class TvShowHourDAO extends DAO
             return null;
         }
 
-        return new TvShowHour($tvShowHour->id, $tvShowHour->id_tv_show, $tvShowHour->id_employee_hour);
+        return new TvShowHour(
+            $tvShowHour->id,
+            $tvShowHour->id_tv_show,
+            $tvShowHour->id_employee_hour,
+            $tvShowHour->start_time,
+            $tvShowHour->final_time,
+            $tvShowHour->id_switcher,
+            $tvShowHour->id_studio,
+            $tvShowHour->date,
+            $tvShowHour->type
+        );
     }
 
     public function all() : array
@@ -37,7 +47,17 @@ class TvShowHourDAO extends DAO
         $tvShowHours = [];
 
         foreach ($all as $tvShowHour) {
-            $tvShowHours[] = new TvShowHour($tvShowHour->id, $tvShowHour->id_tv_show, $tvShowHour->id_employee_hour);
+            $tvShowHours[] =  new TvShowHour(
+                $tvShowHour->id,
+                $tvShowHour->id_tv_show,
+                $tvShowHour->id_employee_hour,
+                $tvShowHour->start_time,
+                $tvShowHour->final_time,
+                $tvShowHour->id_switcher,
+                $tvShowHour->id_studio,
+                $tvShowHour->date,
+                $tvShowHour->type
+            );
         }
 
         return $tvShowHours;

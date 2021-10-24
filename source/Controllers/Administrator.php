@@ -47,7 +47,10 @@ class Administrator extends Controller
 
             $admin = new AdministratorModel(null, $name, $email, $password, $phone);
 
-            $dao->save($admin);
+            if ($dao->save($admin)) {
+                $admin = new AdministratorModel();
+            }
+
             $message = $dao->message();
         }
 

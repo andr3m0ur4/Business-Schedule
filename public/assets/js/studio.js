@@ -1,10 +1,9 @@
 $(() => {
-    'use strict'
     clearPostJS()
     
     if (document.querySelector('[name=new]')) {
         document.querySelector('[name=new]').onclick = () => {
-            location.href = '/admin/novo'
+            location.href = '/estudio/novo'
         }
     }
 
@@ -37,13 +36,13 @@ $(() => {
 })
 
 const verify = () => {
-    let form = document.querySelector('[name=form_admin]');
+    let form = document.querySelector('[name=form_studio]');
     let messageText = "";
     let messageConfiguration = "";
     let inputs = form.querySelectorAll("input");
 
     for (let i = 1; i < inputs.length; i++) {
-        if (!inputs[i].value && i != 4) {
+        if (!inputs[i].value) {
             let label = document.querySelector('[for=' + inputs[i].id + ']');
             messageText = "Campo " + label.innerHTML + " precisa ser preenchido";
             messageConfiguration = "alert alert-danger";
@@ -72,20 +71,20 @@ const message = (messageText, messageConfiguration) => {
     }
 }
 
-function clear() {
-    document.form_admin.reset()
+const clear = () => {
+    document.form_studio.reset()
 }
 
 const save = () => {
-    document.form_admin.submit()
+    document.form_studio.submit()
 }
 
 const search = () => {
-    document.form_admin.submit()
+    document.form_studio.submit()
 }
 
 const remove = id => {
     const element = document.getElementById('question')
     element.classList.remove('d-none')
-    element.lastElementChild.setAttribute('href', `/admin/${id}/excluir`)
+    element.lastElementChild.setAttribute('href', `/estudio/${id}/excluir`)
 }

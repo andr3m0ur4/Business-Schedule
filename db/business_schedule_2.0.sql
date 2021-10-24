@@ -133,26 +133,3 @@ ALTER TABLE `tv_shows` DROP COLUMN `final_time`;
 ALTER TABLE `tv_shows` DROP COLUMN `id_switcher`;
 ALTER TABLE `tv_shows` DROP COLUMN `id_studio`;
 
-ALTER TABLE `tv_shows_hours` ADD COLUMN
-	(`date` DATE NOT NULL,
-   `type` VARCHAR(255) NOT NULL);
-
-ALTER TABLE `tv_shows` DROP COLUMN `date`;
-ALTER TABLE `tv_shows` DROP COLUMN `type`;
-
-
--- Ajuste na tabela tv_show_hours e emplyee_hours, mudança de colunas
--- dia 08 do 10 de 2021
-
-ALTER TABLE `tv_shows_hours` DROP FOREIGN KEY `tv_shows_hours_fk_id_employee_hour`;
-ALTER TABLE `tv_shows_hours` DROP COLUMN `id_employee_hour`;
-
-CREATE TABLE `employee_tv_show_hours` (
-  `id` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `id_employee_hours` int(11) NOT NULL,
-  `id_tv_show_hours` int(11) NOT NULL
-)CHARACTER SET utf8 COLLATE utf8_general_ci;
-
-ALTER TABLE `employee_tv_show_hours`
-  ADD CONSTRAINT `employee_tv_show_hours_fk_id_employee_hours` FOREIGN KEY (`id_employee_hours`) REFERENCES `employee_hours` (`id`),
-  ADD CONSTRAINT `employee_tv_show_hours_fk_id_tv_show_hours` FOREIGN KEY (`id_tv_show_hours`) REFERENCES `tv_shows_hours` (`id`);

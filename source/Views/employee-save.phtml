@@ -1,14 +1,16 @@
 <?php $this->layout('_template', $this->data) ?>
 
 <?php if (isset($message)) : ?>
-    <?php if ($message->getType() == 'success') : ?>
-        <div class="alert alert-info"><?= "{$message->getText()}." ?></div>
-    <?php else : ?>
-        <div class="alert alert-danger"><?= "Ops, {$message->getText()}." ?></div>
-    <?php endif ?>
+    <div id="message">
+        <?php if ($message->getType() == 'success') : ?>
+            <div class="alert alert-info"><?= "{$message->getText()}." ?></div>
+        <?php else : ?>
+            <div class="alert alert-danger"><?= "Ops, {$message->getText()}." ?></div>
+        <?php endif ?>
+    </div>
 <?php endif ?>
 
-<section>
+<section id="section">
     <div class="card">
         <div class="card-header">
             <div class="card-title">
@@ -54,9 +56,9 @@
                 </div>
 
                 <div class="form-row align-items-center">
-                    <label for="name" class="col-sm-2 col-form-label">Função</label>
+                    <label for="job" class="col-sm-2 col-form-label">Função</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="func" name="job" value="<?= $employee->getJob() ?>">
+                        <input type="text" class="form-control" id="job" name="job" value="<?= $employee->getJob() ?>">
                     </div>
                 </div>
 

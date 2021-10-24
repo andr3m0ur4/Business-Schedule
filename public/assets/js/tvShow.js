@@ -1,10 +1,9 @@
 $(() => {
-    'use strict'
     clearPostJS()
     
     if (document.querySelector('[name=new]')) {
         document.querySelector('[name=new]').onclick = () => {
-            location.href = '/admin/novo'
+            location.href = '/programa/novo'
         }
     }
 
@@ -37,13 +36,14 @@ $(() => {
 })
 
 const verify = () => {
-    let form = document.querySelector('[name=form_admin]');
+    let form = document.querySelector('[name=form_tvShow]');
     let messageText = "";
     let messageConfiguration = "";
     let inputs = form.querySelectorAll("input");
+    console.log(inputs)
 
     for (let i = 1; i < inputs.length; i++) {
-        if (!inputs[i].value && i != 4) {
+        if (!inputs[i].value) {
             let label = document.querySelector('[for=' + inputs[i].id + ']');
             messageText = "Campo " + label.innerHTML + " precisa ser preenchido";
             messageConfiguration = "alert alert-danger";
@@ -72,20 +72,20 @@ const message = (messageText, messageConfiguration) => {
     }
 }
 
-function clear() {
-    document.form_admin.reset()
+const clear = () => {
+    document.form_tvShow.reset()
 }
 
 const save = () => {
-    document.form_admin.submit()
+    document.form_tvShow.submit()
 }
 
 const search = () => {
-    document.form_admin.submit()
+    document.form_tvShow.submit()
 }
 
 const remove = id => {
     const element = document.getElementById('question')
     element.classList.remove('d-none')
-    element.lastElementChild.setAttribute('href', `/admin/${id}/excluir`)
+    element.lastElementChild.setAttribute('href', `/programa/${id}/excluir`)
 }

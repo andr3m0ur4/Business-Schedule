@@ -24,13 +24,7 @@ class TvShowDAO extends DAO
 
         return new TvShow(
             $tvShow->id,
-            $tvShow->name,
-            $tvShow->start_time,
-            $tvShow->final_time,
-            $tvShow->date,
-            $tvShow->type,
-            $tvShow->id_switcher,
-            $tvShow->id_studio
+            $tvShow->name
         );
     }
 
@@ -39,8 +33,24 @@ class TvShowDAO extends DAO
         return $this->find('name LIKE :name', "name=%{$name}%", $collumns);
     }
 
+    public function findByFullName(string $name, string $collumns = '*') : ?TvShow
+    {
+        $find = $this->find('name = :name', "name={$name}", $collumns);
+
+        $tvShow = $find->fetch();
+
+        if ($this->fail() || !$tvShow) {
+            $this->message->warning('Programa não encontrado para o nome informado');
+            return null;
+        }
+
+        return new TvShow($tvShow->id, $tvShow->name);
+
+    }
+
     public function all() : array
     {
+
         $all = parent::fetch(true);
 
         if ($this->fail() || !$all) {
@@ -53,13 +63,7 @@ class TvShowDAO extends DAO
         foreach ($all as $tvShow) {
             $tvShows[] = new TvShow(
                 $tvShow->id,
-                $tvShow->name,
-                $tvShow->start_time,
-                $tvShow->final_time,
-                $tvShow->date,
-                $tvShow->type,
-                $tvShow->id_switcher,
-                $tvShow->id_studio
+                $tvShow->name
             );
         }
 
@@ -72,7 +76,6 @@ class TvShowDAO extends DAO
             $this->message->warning('Nome do programa é obrigatório');
             return false;
         }
-
         // TV Show Update
         if (!empty($tvShow->getId())) {
             $tvShowId = $tvShow->getId();
@@ -92,6 +95,11 @@ class TvShowDAO extends DAO
         
         // TV Show Create
         if (empty($tvShow->getId())) {
+            if ($this->findByFullName($tvShow->getName())) {
+                $this->message->warning('O nome informado já está cadastrado');
+                return false;
+            }
+
             $tvShowId = $this->create($tvShow->safe());
             
             if ($this->fail()) {
