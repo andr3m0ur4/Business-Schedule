@@ -43,8 +43,15 @@ window.onload = () => {
     modal()
 
     document.querySelectorAll('.card').forEach(card => {
-        card.onclick = () => {
-            openModal()
+        if (card.dataset.cardEmployee) {
+            card.onclick = () => {
+                loadEmployee(card.dataset.cardEmployee)
+                // openModalEmployee()
+            }
+        } else {
+            card.onclick = () => {
+                openModal()
+            }
         }
     })
 }
@@ -54,12 +61,37 @@ const modal = () => {
         .then(response => {
             response.text()
                 .then(data => {
-                    document.getElementById('myModal').innerHTML = data;
+                    const div = document.createElement('div')
+                    div.innerHTML = data
+                    document.getElementById('myModal').appendChild(div)
                 })
         })
         
+    fetch('/assets/resources/modal-employee.html')
+        .then(response => {
+            response.text()
+                .then(data => {
+                    const div = document.createElement('div')
+                    div.innerHTML = data
+                    document.getElementById('myModal').appendChild(div)
+                })
+        })
 }
 
 const openModal = () => {
     document.getElementById('btnModal').click()
+}
+
+const openModalEmployee = () => {
+    document.getElementById('btnModalEmployee').click()
+}
+
+const loadEmployee = id => {
+    fetch(`/ajax/employee/${id}`)
+        .then(response => {
+            response.json()
+                .then(data => {
+                    console.log(data);
+                })
+        })
 }

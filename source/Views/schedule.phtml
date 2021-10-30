@@ -8,7 +8,7 @@
             <div id="grid-employees">
 
                 <?php foreach ($employees as $employee) : ?>
-                    <div class="card bg-light border-dark mb-3">
+                    <div class="card bg-light border-dark mb-3" data-card-employee="<?= $employee->getId() ?>">
                         <div class="card-header"><?= $employee->getName() ?></div>
                         <div class="card-body text-darrk">
                             <h5 class="card-title"><?= $employee->getJob() ?></h5>
