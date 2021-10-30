@@ -3,6 +3,7 @@
 namespace Source\Controllers;
 
 use Source\Core\Controller;
+use Source\Models\EmployeeDAO;
 
 class Schedule extends Controller
 {
@@ -12,9 +13,12 @@ class Schedule extends Controller
             redirect('/entrar');
         }
 
+        $dao = new EmployeeDAO();
+
         $data = [
             'title' => 'Business Schedule - Escala',
-            'file' => 'schedule'
+            'file' => 'schedule',
+            'employees' => $dao->find()->all()
         ];
 
         echo $this->view->render('schedule', $data);

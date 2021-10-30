@@ -6,328 +6,136 @@
         <div class="col">
             <h4 class="text-nowrap">Funcionário</h4>
             <div id="grid-employees">
-                <div class="card bg-light border-dark mb-3">
-                    <div class="card-header">André Moura</div>
-                    <div class="card-body text-darrk">
-                        <h5 class="card-title">Título de Card Light</h5>
-                        <p class="card-text"></p>
+
+                <?php foreach ($employees as $employee) : ?>
+                    <div class="card bg-light border-dark mb-3">
+                        <div class="card-header"><?= $employee->getName() ?></div>
+                        <div class="card-body text-darrk">
+                            <h5 class="card-title"><?= $employee->getJob() ?></h5>
+                            <p class="card-text"></p>
+                        </div>
                     </div>
-                </div>
-                <div class="card bg-light border-dark mb-3">
-                    <div class="card-header">Igor Santos</div>
-                    <div class="card-body text-darrk">
-                        <h5 class="card-title">Título de Card Light</h5>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
-                <div class="card bg-light border-dark mb-3">
-                    <div class="card-header">Rodrigo Freitas</div>
-                    <div class="card-body text-darrk">
-                        <h5 class="card-title">Título de Card Light</h5>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
-                <div class="card bg-light border-dark mb-3">
-                    <div class="card-header">Fulano de Tal</div>
-                    <div class="card-body text-darrk">
-                        <h5 class="card-title">Título de Card Light</h5>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
-                <div class="card bg-light border-dark mb-3">
-                    <div class="card-header">Ana Maria</div>
-                    <div class="card-body text-darrk">
-                        <h5 class="card-title">Título de Card Light</h5>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
+                <?php endforeach ?>
+                
             </div>
         </div>
 
         <div class="col">
             <h4 class="text-nowrap">Segunda-Feira</h4>
             <div id="grid-monday">
-                <div class="card bg-light border-dark mb-3" style="max-width: 18rem;min-width: 200px;">
-                    <div class="card-header">Cabeçalho 1</div>
-                    <div class="card-body text-darrk">
-                        <h5 class="card-title">Título de Card Light</h5>
-                        <p class="card-text"></p>
+
+                <?php foreach ($employees as $employee) : ?>
+                    <div class="card bg-light border-dark mb-3" style="max-width: 18rem;min-width: 200px;">
+                        <div class="card-header">Cabeçalho 1</div>
+                        <div class="card-body text-darrk">
+                            <h5 class="card-title">Card Light</h5>
+                            <p class="card-text"></p>
+                        </div>
                     </div>
-                </div>
-                <div class="card bg-light border-dark mb-3">
-                    <div class="card-header">Cabeçalho 2</div>
-                    <div class="card-body text-darrk">
-                        <h5 class="card-title">Título de Card Light</h5>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
-                <div class="card bg-light border-dark mb-3">
-                    <div class="card-header">Cabeçalho 3</div>
-                    <div class="card-body text-darrk">
-                        <h5 class="card-title">Título de Card Light</h5>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
-                <div class="card bg-light border-dark mb-3">
-                    <div class="card-header">Cabeçalho 4</div>
-                    <div class="card-body text-darrk">
-                        <h5 class="card-title">Título de Card Light</h5>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
-                <div class="card bg-light border-dark mb-3">
-                    <div class="card-header">Cabeçalho 5</div>
-                    <div class="card-body text-darrk">
-                        <h5 class="card-title">Título de Card Light</h5>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
+                <?php endforeach ?>
+                
             </div>
         </div>
                 
         <div class="col">
             <h4 class="text-nowrap">Terça-Feira</h4>
             <div id="grid-tuesday">
-                <div class="card bg-light border-dark mb-3" style="max-width: 18rem;min-width: 200px;">
-                    <div class="card-header">Cabeçalho 6</div>
-                    <div class="card-body text-darrk">
-                        <h5 class="card-title">Título de Card Light</h5>
-                        <p class="card-text"></p>
+                
+                <?php foreach ($employees as $employee) : ?>
+                    <div class="card bg-light border-dark mb-3" style="max-width: 18rem;min-width: 200px;">
+                        <div class="card-header">Cabeçalho 1</div>
+                        <div class="card-body text-darrk">
+                            <h5 class="card-title">Card Light</h5>
+                            <p class="card-text"></p>
+                        </div>
                     </div>
-                </div>
-                <div class="card bg-light border-dark mb-3">
-                    <div class="card-header">Cabeçalho 7</div>
-                    <div class="card-body text-darrk">
-                        <h5 class="card-title">Título de Card Light</h5>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
-                <div class="card bg-light border-dark mb-3">
-                    <div class="card-header">Cabeçalho 8</div>
-                    <div class="card-body text-darrk">
-                        <h5 class="card-title">Título de Card Light</h5>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
-                <div class="card bg-light border-dark mb-3">
-                    <div class="card-header">Cabeçalho 9</div>
-                    <div class="card-body text-darrk">
-                        <h5 class="card-title">Título de Card Light</h5>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
-                <div class="card bg-light border-dark mb-3">
-                    <div class="card-header">Cabeçalho 10</div>
-                    <div class="card-body text-darrk">
-                        <h5 class="card-title">Título de Card Light</h5>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
+                <?php endforeach ?>
+
             </div>
         </div>
 
         <div class="col">
             <h4 class="text-nowrap">Quarta-Feira</h4>
             <div id="grid-wednesday">
-                <div class="card bg-light border-dark mb-3" style="max-width: 18rem;min-width: 200px;">
-                    <div class="card-header">Cabeçalho 11</div>
-                    <div class="card-body text-darrk">
-                        <h5 class="card-title">Título de Card Light</h5>
-                        <p class="card-text"></p>
+
+                <?php foreach ($employees as $employee) : ?>
+                    <div class="card bg-light border-dark mb-3" style="max-width: 18rem;min-width: 200px;">
+                        <div class="card-header">Cabeçalho 1</div>
+                        <div class="card-body text-darrk">
+                            <h5 class="card-title">Card Light</h5>
+                            <p class="card-text"></p>
+                        </div>
                     </div>
-                </div>
-                <div class="card bg-light border-dark mb-3">
-                    <div class="card-header">Cabeçalho 12</div>
-                    <div class="card-body text-darrk">
-                        <h5 class="card-title">Título de Card Light</h5>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
-                <div class="card bg-light border-dark mb-3">
-                    <div class="card-header">Cabeçalho 13</div>
-                    <div class="card-body text-darrk">
-                        <h5 class="card-title">Título de Card Light</h5>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
-                <div class="card bg-light border-dark mb-3">
-                    <div class="card-header">Cabeçalho 14</div>
-                    <div class="card-body text-darrk">
-                        <h5 class="card-title">Título de Card Light</h5>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
-                <div class="card bg-light border-dark mb-3">
-                    <div class="card-header">Cabeçalho 15</div>
-                    <div class="card-body text-darrk">
-                        <h5 class="card-title">Título de Card Light</h5>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
+                <?php endforeach ?>
+
             </div>
         </div>
                 
         <div class="col">
             <h4 class="text-nowrap">Quinta-Feira</h4>
             <div id="grid-thirsday">
-                <div class="card bg-light border-dark mb-3" style="max-width: 18rem;min-width: 200px;">
-                    <div class="card-header">Cabeçalho 16</div>
-                    <div class="card-body text-darrk">
-                        <h5 class="card-title">Título de Card Light</h5>
-                        <p class="card-text"></p>
+
+                <?php foreach ($employees as $employee) : ?>
+                    <div class="card bg-light border-dark mb-3" style="max-width: 18rem;min-width: 200px;">
+                        <div class="card-header">Cabeçalho 1</div>
+                        <div class="card-body text-darrk">
+                            <h5 class="card-title">Card Light</h5>
+                            <p class="card-text"></p>
+                        </div>
                     </div>
-                </div>
-                <div class="card bg-light border-dark mb-3">
-                    <div class="card-header">Cabeçalho 17</div>
-                    <div class="card-body text-darrk">
-                        <h5 class="card-title">Título de Card Light</h5>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
-                <div class="card bg-light border-dark mb-3">
-                    <div class="card-header">Cabeçalho 18</div>
-                    <div class="card-body text-darrk">
-                        <h5 class="card-title">Título de Card Light</h5>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
-                <div class="card bg-light border-dark mb-3">
-                    <div class="card-header">Cabeçalho 19</div>
-                    <div class="card-body text-darrk">
-                        <h5 class="card-title">Título de Card Light</h5>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
-                <div class="card bg-light border-dark mb-3">
-                    <div class="card-header">Cabeçalho 20</div>
-                    <div class="card-body text-darrk">
-                        <h5 class="card-title">Título de Card Light</h5>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
+                <?php endforeach ?>
+
             </div>
         </div>
 
         <div class="col">
             <h4 class="text-nowrap">Sexta-Feira</h4>
             <div id="grid-friday">
-                <div class="card bg-light border-dark mb-3" style="max-width: 18rem;min-width: 200px;">
-                    <div class="card-header">Cabeçalho 21</div>
-                    <div class="card-body text-darrk">
-                        <h5 class="card-title">Título de Card Light</h5>
-                        <p class="card-text"></p>
+
+                <?php foreach ($employees as $employee) : ?>
+                    <div class="card bg-light border-dark mb-3" style="max-width: 18rem;min-width: 200px;">
+                        <div class="card-header">Cabeçalho 1</div>
+                        <div class="card-body text-darrk">
+                            <h5 class="card-title">Card Light</h5>
+                            <p class="card-text"></p>
+                        </div>
                     </div>
-                </div>
-                <div class="card bg-light border-dark mb-3">
-                    <div class="card-header">Cabeçalho 22</div>
-                    <div class="card-body text-darrk">
-                        <h5 class="card-title">Título de Card Light</h5>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
-                <div class="card bg-light border-dark mb-3">
-                    <div class="card-header">Cabeçalho 23</div>
-                    <div class="card-body text-darrk">
-                        <h5 class="card-title">Título de Card Light</h5>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
-                <div class="card bg-light border-dark mb-3">
-                    <div class="card-header">Cabeçalho 24</div>
-                    <div class="card-body text-darrk">
-                        <h5 class="card-title">Título de Card Light</h5>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
-                <div class="card bg-light border-dark mb-3">
-                    <div class="card-header">Cabeçalho 25</div>
-                    <div class="card-body text-darrk">
-                        <h5 class="card-title">Título de Card Light</h5>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
+                <?php endforeach ?>
+
             </div>
         </div>
 
         <div class="col">
             <h4 class="text-nowrap">Sábado</h4>
             <div id="grid-saturday">
-                <div class="card bg-light border-dark mb-3" style="max-width: 18rem;min-width: 200px;">
-                    <div class="card-header">Cabeçalho 26</div>
-                    <div class="card-body text-darrk">
-                        <h5 class="card-title">Título de Card Light</h5>
-                        <p class="card-text"></p>
+                
+                <?php foreach ($employees as $employee) : ?>
+                    <div class="card bg-light border-dark mb-3" style="max-width: 18rem;min-width: 200px;">
+                        <div class="card-header">Cabeçalho 1</div>
+                        <div class="card-body text-darrk">
+                            <h5 class="card-title">Card Light</h5>
+                            <p class="card-text"></p>
+                        </div>
                     </div>
-                </div>
-                <div class="card bg-light border-dark mb-3">
-                    <div class="card-header">Cabeçalho 27</div>
-                    <div class="card-body text-darrk">
-                        <h5 class="card-title">Título de Card Light</h5>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
-                <div class="card bg-light border-dark mb-3">
-                    <div class="card-header">Cabeçalho 28</div>
-                    <div class="card-body text-darrk">
-                        <h5 class="card-title">Título de Card Light</h5>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
-                <div class="card bg-light border-dark mb-3">
-                    <div class="card-header">Cabeçalho 29</div>
-                    <div class="card-body text-darrk">
-                        <h5 class="card-title">Título de Card Light</h5>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
-                <div class="card bg-light border-dark mb-3">
-                    <div class="card-header">Cabeçalho 30</div>
-                    <div class="card-body text-darrk">
-                        <h5 class="card-title">Título de Card Light</h5>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
+                <?php endforeach ?>
+
             </div>
         </div>
 
         <div class="col">
             <h4 class="text-nowrap">Domingo</h4>
             <div id="grid-sunday">
-                <div class="card bg-light border-dark mb-3" style="max-width: 18rem;min-width: 200px;">
-                    <div class="card-header">Cabeçalho 35</div>
-                    <div class="card-body text-darrk">
-                        <h5 class="card-title">Título de Card Light</h5>
-                        <p class="card-text"></p>
+
+                <?php foreach ($employees as $employee) : ?>
+                    <div class="card bg-light border-dark mb-3" style="max-width: 18rem;min-width: 200px;">
+                        <div class="card-header">Cabeçalho 1</div>
+                        <div class="card-body text-darrk">
+                            <h5 class="card-title">Card Light</h5>
+                            <p class="card-text"></p>
+                        </div>
                     </div>
-                </div>
-                <div class="card bg-light border-dark mb-3">
-                    <div class="card-header">Cabeçalho 31</div>
-                    <div class="card-body text-darrk">
-                        <h5 class="card-title">Título de Card Light</h5>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
-                <div class="card bg-light border-dark mb-3">
-                    <div class="card-header">Cabeçalho 32</div>
-                    <div class="card-body text-darrk">
-                        <h5 class="card-title">Título de Card Light</h5>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
-                <div class="card bg-light border-dark mb-3">
-                    <div class="card-header">Cabeçalho 33</div>
-                    <div class="card-body text-darrk">
-                        <h5 class="card-title">Título de Card Light</h5>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
-                <div class="card bg-light border-dark mb-3">
-                    <div class="card-header">Cabeçalho 34</div>
-                    <div class="card-body text-darrk">
-                        <h5 class="card-title">Título de Card Light</h5>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
+                <?php endforeach ?>
+
             </div>
         </div>
     </div>
