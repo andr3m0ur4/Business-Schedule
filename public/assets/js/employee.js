@@ -25,6 +25,12 @@ $(() => {
         }
     }
 
+    if (document.querySelector('[name=savePassword]')) {
+        document.querySelector('[name=savePassword]').onclick = () => {
+            changePassword()
+        }
+    }
+
     if (document.querySelectorAll('[data-id]')) {
         const btnList = document.querySelectorAll('[data-id]')
         btnList.forEach(el => {
@@ -89,4 +95,37 @@ const remove = id => {
     const element = document.getElementById('question')
     element.classList.remove('d-none')
     element.lastElementChild.setAttribute('href', `/funcionario/${id}/excluir`)
+}
+
+const changePassword = () => {
+
+    $('#form_changePassword').submit(function(event){
+        event.preventDefault()
+
+        form = document.getElementById('form_changePassword');
+
+        let oldPassword = document.querySelector('[name=oldPassword]').value
+        let password = document.querySelector('[name=password]').value
+        let passwordConfirm = document.querySelector('[name=passwordConfirm]').value
+      
+        $.ajax({
+            url: '/funcionario/{id}/perfil',
+            type: 'POST',
+            data: {
+                oldPassword,
+                password,
+                passwordConfirm
+            },
+            dataType: 'json',
+            success(data){
+                return data;
+            }
+
+        })
+    })
+
+    $('#savePassword').click(() => {
+        $('#form_changePassword').submit()
+    })
+
 }

@@ -113,4 +113,21 @@ class Employee extends Controller
 
         redirect('/funcionario');
     }
+
+    public function changePassword($params) : void
+    {
+        $message = null;
+        $dao = new EmployeeDAO();
+        $employee = new EmployeeModel();
+
+ 
+        $oldPassword = filter_input(INPUT_POST, 'oldPassword', FILTER_SANITIZE_STRIPPED);
+        $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_EMAIL);
+        $passwordConfirm = filter_input(INPUT_POST, 'passwordConfirm', FILTER_SANITIZE_STRIPPED);
+
+        echo $oldPassword;
+        echo $password;
+        echo $passwordConfirm;
+
+    }
 }
