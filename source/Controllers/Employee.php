@@ -114,6 +114,7 @@ class Employee extends Controller
         redirect('/funcionario');
     }
 
+<<<<<<< HEAD
     public function changePassword($params) : void
     {
         $message = null;
@@ -129,5 +130,12 @@ class Employee extends Controller
         echo $password;
         echo $passwordConfirm;
 
+=======
+    public function load($param) : void
+    {
+        $dao = new EmployeeDAO();
+        $employee = $dao->findById($param['id']);
+        echo json_encode($employee);
+>>>>>>> d0275cf62a930093eab1a563e6e2842fb68f7dec
     }
 }
