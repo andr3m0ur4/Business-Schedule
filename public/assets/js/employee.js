@@ -25,8 +25,8 @@ $(() => {
         }
     }
 
-    if (document.querySelector('[name=savePassword]')) {
-        document.querySelector('[name=savePassword]').onclick = () => {
+    if (document.querySelector('[name=changePassword]')) {
+        document.querySelector('[name=changePassword]').onclick = () => {
             changePassword()
         }
     }
@@ -102,29 +102,23 @@ const changePassword = () => {
     $('#form_changePassword').submit(function(event){
         event.preventDefault()
 
-        form = document.getElementById('form_changePassword');
+        form = new FormData(document.getElementById('form_changePassword'));
 
-        let oldPassword = document.querySelector('[name=oldPassword]').value
-        let password = document.querySelector('[name=password]').value
-        let passwordConfirm = document.querySelector('[name=passwordConfirm]').value
-      
-        $.ajax({
-            url: '/funcionario/{id}/perfil',
-            type: 'POST',
-            data: {
-                oldPassword,
-                password,
-                passwordConfirm
-            },
-            dataType: 'json',
-            success(data){
-                return data;
-            }
-
+        console.log(`/ajax/employee/save/${id.value}`)
+        fetch(`/ajax/employee/save/${id.value}`,{
+            method: 'POST',
+            body: form
+        }).then(response => {
+            response.text()
+                .then(data => {
+                    console.log(data)
+                })
         })
+    
+
     })
 
-    $('#savePassword').click(() => {
+    $('#changePassword').click(() => {
         $('#form_changePassword').submit()
     })
 

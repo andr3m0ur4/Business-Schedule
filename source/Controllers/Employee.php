@@ -114,28 +114,14 @@ class Employee extends Controller
         redirect('/funcionario');
     }
 
-<<<<<<< HEAD
     public function changePassword($params) : void
     {
-        $message = null;
-        $dao = new EmployeeDAO();
-        $employee = new EmployeeModel();
-
- 
+        var_dump("AAAAAAAAAA");
         $oldPassword = filter_input(INPUT_POST, 'oldPassword', FILTER_SANITIZE_STRIPPED);
-        $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_EMAIL);
+        $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRIPPED);
         $passwordConfirm = filter_input(INPUT_POST, 'passwordConfirm', FILTER_SANITIZE_STRIPPED);
-
-        echo $oldPassword;
-        echo $password;
-        echo $passwordConfirm;
-
-=======
-    public function load($param) : void
-    {
-        $dao = new EmployeeDAO();
-        $employee = $dao->findById($param['id']);
-        echo json_encode($employee);
->>>>>>> d0275cf62a930093eab1a563e6e2842fb68f7dec
+        var_dump($_POST);
+        var_dump($params['id']);
     }
+
 }
