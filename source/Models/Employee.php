@@ -23,6 +23,13 @@ class Employee extends User
         return $this;
     }
 
+    public function jsonSerialize() : array
+    {
+        $vars = parent::jsonSerialize();
+        unset($vars['password']);
+        return $vars;
+    }
+
     public function __toString()
     {
         return parent::__toString() . " - Função: {$this->job}";

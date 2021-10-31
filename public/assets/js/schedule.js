@@ -46,7 +46,7 @@ window.onload = () => {
         if (card.dataset.cardEmployee) {
             card.onclick = () => {
                 loadEmployee(card.dataset.cardEmployee)
-                // openModalEmployee()
+                openModalEmployee()
             }
         } else {
             card.onclick = () => {
@@ -90,8 +90,15 @@ const loadEmployee = id => {
     fetch(`/ajax/employee/${id}`)
         .then(response => {
             response.json()
-                .then(data => {
-                    console.log(data);
+                .then(obj => {
+                    fillModalEmployee(obj)
                 })
         })
+}
+
+const fillModalEmployee = employee => {
+    document.getElementById('employee-name').innerHTML = employee.name
+    document.getElementById('employee-job').innerHTML = employee.job
+    document.getElementById('employee-email').innerHTML = employee.email
+    document.getElementById('employee-phone').innerHTML = employee.phone
 }
