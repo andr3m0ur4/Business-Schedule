@@ -63,7 +63,7 @@ class Core
          */
         $route->namespace('Source\Controllers')->group('/ajax');
         $route->get('/employee/{id}', 'Employee:load');
-        $route->post('/employee/save/{id}', 'Employee:changePassword');
+        // $route->post('/employee/save/{id}', 'Employee:changePassword');
 
         /**
          * TESTS

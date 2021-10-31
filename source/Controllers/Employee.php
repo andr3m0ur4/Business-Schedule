@@ -114,6 +114,13 @@ class Employee extends Controller
         redirect('/funcionario');
     }
 
+    public function load($param) : void
+    {
+        $dao = new EmployeeDAO();
+        $employee = $dao->findById($param['id']);
+        echo json_encode($employee);
+    }
+
     public function changePassword($params) : void
     {
         var_dump("AAAAAAAAAA");
