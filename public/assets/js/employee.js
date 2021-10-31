@@ -25,6 +25,12 @@ $(() => {
         }
     }
 
+    if (document.querySelector('[name=changePassword]')) {
+        document.querySelector('[name=changePassword]').onclick = () => {
+            changePassword()
+        }
+    }
+
     if (document.querySelectorAll('[data-id]')) {
         const btnList = document.querySelectorAll('[data-id]')
         btnList.forEach(el => {
@@ -89,4 +95,31 @@ const remove = id => {
     const element = document.getElementById('question')
     element.classList.remove('d-none')
     element.lastElementChild.setAttribute('href', `/funcionario/${id}/excluir`)
+}
+
+const changePassword = () => {
+
+    $('#form_changePassword').submit(function(event){
+        event.preventDefault()
+
+        form = new FormData(document.getElementById('form_changePassword'));
+
+        console.log(`/ajax/employee/save/${id.value}`)
+        fetch(`/ajax/employee/save/${id.value}`,{
+            method: 'POST',
+            body: form
+        }).then(response => {
+            response.text()
+                .then(data => {
+                    console.log(data)
+                })
+        })
+    
+
+    })
+
+    $('#changePassword').click(() => {
+        $('#form_changePassword').submit()
+    })
+
 }
