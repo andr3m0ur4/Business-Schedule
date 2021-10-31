@@ -8,6 +8,6 @@ class NotFound extends Controller
 {
     public function error() : void
     {
-        $this->loadView('404', []);
+        echo $this->view->render('404', []);
     }
 }
