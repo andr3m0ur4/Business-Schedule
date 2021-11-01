@@ -50,6 +50,7 @@ window.onload = () => {
             }
         } else {
             card.onclick = () => {
+                loadEmployeeTime(card.dataset.cardTime)
                 openModal()
             }
         }
@@ -77,7 +78,7 @@ const modal = () => {
                 })
         })
 
-    fetch('/assets/resources/modal-schedule.phtml')
+    fetch('/assets/resources/modal-schedule.html')
         .then(response => {
             response.text()
                 .then(data => {
@@ -120,9 +121,24 @@ const loadEmployee = id => {
         })
 }
 
+const loadEmployeeTime = id => {
+    fetch(`/ajax/employee/${id}`)
+        .then(response => {
+            response.json()
+                .then(obj => {
+                    fillModalEmployeeTime(obj)
+                })
+        })
+}
+
 const fillModalEmployee = employee => {
     document.getElementById('employee-name').innerHTML = employee.name
     document.getElementById('employee-job').innerHTML = employee.job
     document.getElementById('employee-email').innerHTML = employee.email
     document.getElementById('employee-phone').innerHTML = employee.phone
+}
+
+const fillModalEmployeeTime = employee => {
+    document.getElementById('time-name').innerHTML = employee.name
+    document.getElementById('time-job').innerHTML = employee.job
 }

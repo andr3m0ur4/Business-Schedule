@@ -1,6 +1,7 @@
 $(() => {
     'use strict'
     clearPostJS()
+    modal()
     
     if (document.querySelector('[name=new]')) {
         document.querySelector('[name=new]').onclick = () => {
@@ -88,4 +89,33 @@ const remove = id => {
     const element = document.getElementById('question')
     element.classList.remove('d-none')
     element.lastElementChild.setAttribute('href', `/admin/${id}/excluir`)
+}
+
+const modal = () => {
+    fetch('/assets/resources/modal-password.html')
+        .then(response => {
+            response.text()
+                .then(data => {
+                    const div = document.createElement('div')
+                    div.innerHTML = data
+                    document.getElementById('myModal').appendChild(div)
+                    document.getElementById('form_changePassword').onsubmit = submitForm
+                    document.getElementById('changePassword').onclick = savePassword
+                })
+        })
+
+}
+
+const savePassword = event => {
+    const btn = event.target
+    const form = document.getElementById('form_changePassword')
+    const submitEvent = new SubmitEvent('submit', {
+        submitter: btn
+    })
+
+    form.dispatchEvent(submitEvent)
+}
+
+const submitForm = () => {
+    console.log('form')
 }
