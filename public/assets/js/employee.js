@@ -9,25 +9,29 @@ $(() => {
 
     if (document.querySelector('[name=clear]')) {
         document.querySelector('[name=clear]').onclick = () => {
-            clear()
+            clear();
         }
     }
 
     if (document.querySelector('[name=save]')) {
         document.querySelector('[name=save]').onclick = () => {
-            verify()
+            lista = ['id', 'phone'];
+            //temporario
+            if (verify('[name=form_employee]', lista, '[id=section]', 'save')) {
+                save();
+            }
         }
     }
 
     if (document.querySelector('[name=search]')) {
         document.querySelector('[name=search]').onclick = () => {
-            search()
+            search();
         }
     }
 
-    if (document.querySelector('[name=changePassword]')) {
-        document.querySelector('[name=changePassword]').onclick = () => {
-            changePassword()
+    if (document.querySelector('[name=fechar]')) {
+        document.querySelector('[name=fechar]').onclick = () => {
+            $('#modal').modal('hide');
         }
     }
 
@@ -39,42 +43,58 @@ $(() => {
             }
         })
     }
+
+    changePassword()
+
 })
 
-const verify = () => {
-    let form = document.querySelector('[name=form_employee]');
-    let messageText = "";
+const verify = (formFixed, lista = [], elementFather, idMessage) => {
+    let form = document.querySelector(formFixed);
+    let messageFixed = "";
     let messageConfiguration = "";
+    let fatherElement = elementFather;
     let inputs = form.querySelectorAll("input");
 
-    for (let i = 1; i < inputs.length; i++) {
-        console.log(i)
-        if (!inputs[i].value && i != 4) {
-            console.log('aaaaa')
-            let label = document.querySelector('[for=' + inputs[i].id + ']');
-            messageText = "Campo " + label.innerHTML + " precisa ser preenchido";
-            messageConfiguration = "alert alert-danger";
-            inputs[i].focus();
-            return message(messageText, messageConfiguration);
+    for (let i = 0; i < inputs.length; i++) {
+
+        let resp = lista.includes(inputs[i].id)
+
+        console.log(resp)
+
+
+        if(!resp){
+            if(inputs[i].value == ""){
+                console.log()
+                let label = document.querySelector('[for=' + inputs[i].id + ']');
+                messageFixed = "Campo " + label.innerHTML + " precisa ser preenchido";
+                messageConfiguration = "alert alert-danger";
+                inputs[i].focus();
+                //temporario
+                if(idMessage == 'save' ){
+                    messageText(messageFixed, messageConfiguration, fatherElement, '[id=message]');
+                    return false;
+                }
+                messageText(messageFixed, messageConfiguration, fatherElement, '[name=passwordMessage]');
+                return false;
+            }
         }
     }
     
-    save();
-    return message(messageText, messageConfiguration);
+    return true;
 }
 
-const message = (messageText, messageConfiguration) => {
-    if (document.querySelector('[id=message]')) {
-        let messageComponent = document.querySelector('[id=message]');
-        messageComponent.innerHTML = `${messageText}`;
+const messageText = (messageFixed, messageConfiguration, fatherElement, messageId) => {
+    if (document.querySelector(messageId)) {
+        let messageComponent = document.querySelector(messageId);
+        messageComponent.innerHTML = `${messageFixed}`;
         messageComponent.className = messageConfiguration;
 
     } else {
         let messageComponent = document.createElement("div");
         messageComponent.className = messageConfiguration;
-        messageComponent.id = "message";
-        messageComponent.innerHTML = `${messageText}`;
-        elementFather = document.querySelector('[id=section]');
+        messageComponent.id = messageId;
+        messageComponent.innerHTML = `${messageFixed}`;
+        elementFather = document.querySelector(fatherElement);
         elementFather.insertBefore(messageComponent, elementFather.firstElementChild);
     }
 }
@@ -99,22 +119,26 @@ const remove = id => {
 
 const changePassword = () => {
 
+    let fatherElement = '[id=passwordSection]';
+
     $('#form_changePassword').submit(function(event){
         event.preventDefault()
 
         form = new FormData(document.getElementById('form_changePassword'));
 
-        console.log(`/ajax/employee/save/${id.value}`)
-        fetch(`/ajax/employee/save/${id.value}`,{
-            method: 'POST',
-            body: form
-        }).then(response => {
-            response.text()
-                .then(data => {
-                    console.log(data)
-                })
-        })
+        if (verify('[name=form_changePassword]', [] , '[id=passwordSection]')) {
+            fetch(`/ajax/employee/save/${id.value}`,{
+                method: 'POST',
+                body: form
+            }).then(response => {
+                response.json()
+                    .then(data => {
+                        messageFixed = data.error;
     
+                        messagePassword(messageFixed, fatherElement);
+                    })
+            })
+        }
 
     })
 
@@ -122,4 +146,42 @@ const changePassword = () => {
         $('#form_changePassword').submit()
     })
 
+ 
+
 }
+
+const passwordVerify = (message, fatherElement) => {
+    let form = document.querySelector('[name=form_changePassword]');
+    let messageFixed = "";
+    let messageConfiguration = "";
+    let inputs = form.querySelectorAll("input");
+
+    for (let i = 0; i < inputs.length; i++) {
+        if (!inputs[i].value) {
+            let label = document.querySelector('[for=' + inputs[i].id + ']');
+            messageFixed = "Campo " + label.innerHTML + " precisa ser preenchido";
+            messageConfiguration = "alert alert-danger";
+            inputs[i].focus();
+            return messageText(messageFixed, messageConfiguration, fatherElement);
+        }
+    }
+    
+    return messagePassword(message, fatherElement);
+}
+
+const messagePassword = (messageFixed, fatherElement) => {
+
+    let messageConfiguration = '';
+    let messageId = '[name=passwordMessage]'
+
+    if (messageFixed != 'Dados salvos com sucesso') {
+        messageConfiguration = "alert alert-danger";
+        messageText(messageFixed, messageConfiguration, '[name=form_employee]', '[id=message]')
+    }else{
+        messageConfiguration = "alert alert-info";
+        messageText(messageFixed, messageConfiguration, fatherElement, )
+        $('#modal').modal('hide')
+    }
+
+}
+

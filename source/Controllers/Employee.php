@@ -6,6 +6,8 @@ use Source\Core\Controller;
 use Source\Models\Employee as EmployeeModel;
 use Source\Models\EmployeeDAO;
 
+use function PHPSTORM_META\type;
+
 class Employee extends Controller
 {
     public function index() : void
@@ -123,12 +125,46 @@ class Employee extends Controller
 
     public function changePassword($params) : void
     {
-        var_dump("AAAAAAAAAA");
+
+        $message = null;
+        $dao = new EmployeeDAO();
+        $employee = $dao->findById($params['id']);
+        $error = [
+            'error' => 'Senha antiga errada'
+        ];
+
+
         $oldPassword = filter_input(INPUT_POST, 'oldPassword', FILTER_SANITIZE_STRIPPED);
-        $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRIPPED);
+        $password = filter_input(INPUT_POST, 'passwordForgot', FILTER_SANITIZE_STRIPPED);
         $passwordConfirm = filter_input(INPUT_POST, 'passwordConfirm', FILTER_SANITIZE_STRIPPED);
-        var_dump($_POST);
-        var_dump($params['id']);
+
+
+        if (password_verify($oldPassword, $employee->getPassword())) {
+            $error['error'] = 'Senha atuais diferentes';
+            
+            if($password == $passwordConfirm){
+                $error['error'] = 'Senha antiga igual a senha atual';
+
+                if($oldPassword != $password){
+
+                    $employee->setPassword($password);
+                    $dao->save($employee);
+                    $message = $dao->message();
+                    echo($message->json());
+                    return;
+                
+                }
+            }
+        }
+
+        echo json_encode($error);
+
+
+
+    
+        
+        
+        
     }
 
 }
