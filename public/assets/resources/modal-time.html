@@ -1,7 +1,9 @@
-<button type="button" class="btn btn-primary d-none" id="btnModal" data-toggle="modal" data-target="#modalExemplo"></button>
+<button type="button" class="btn btn-primary d-none" id="btnModal" data-toggle="modal"
+    data-target="#modalExemplo"></button>
 
 <!-- Modal -->
-<div class="modal fade" id="modalExemplo" tabindex="-1" role="dialog" aria-labelledby="TituloModalCentralizado" aria-hidden="true">
+<div class="modal fade" id="modalExemplo" tabindex="-1" role="dialog" aria-labelledby="TituloModalCentralizado"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -37,7 +39,18 @@
                             </tr>
                             <tr>
                                 <td scope="row"><i class="fas fa-tv"></i> Programas</td>
-                                <td><span class="badge badge-info">No caminho da Fé</span></td>
+                                <td>
+                                    <select class="mdb-select md-form" multiple searchable="Search here..">
+                                        <option value="" data-fas="laptop blue-text"> example 1</option>
+                                        <option value="" data-far="circle red-text">
+                                            example
+                                            2</option>
+                                        <option value="" data-fab="facebook brown-text">
+                                            example
+                                            3</option>
+                                    </select>
+                                    <button class="btn-save btn btn-primary btn-sm">Save</button>
+                                </td>
                             </tr>
                             <tr>
                                 <th scope="row"><i class="fas fa-plus"></i> Adicionar</th>
@@ -66,7 +79,8 @@
                                         <textarea class="form-control" id="exampleFormControlTextarea1"
                                             rows="3"></textarea>
                                     </div>
-                                <td><i class="fas fa-paperclip"></i> <i class="fas fa-at"></i> <i class="fas fa-arrow-circle-up"></i></td>
+                                <td><i class="fas fa-paperclip"></i> <i class="fas fa-at"></i> <i
+                                        class="fas fa-arrow-circle-up"></i></td>
                                 </td>
                             </tr>
                     </table>
@@ -78,6 +92,13 @@
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                 <button type="button" class="btn btn-primary">Salvar mudanças</button>
             </div>
+
+            <script>
+                $(document).ready(function () {
+                    $('.mdb-select').materialSelect();
+                });
+            </script>
+
         </div>
     </div>
 </div>

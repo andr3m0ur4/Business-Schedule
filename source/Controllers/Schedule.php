@@ -9,9 +9,9 @@ class Schedule extends Controller
 {
     public function index() : void
     {
-        if (!session()->__get('idUser')) {
-            redirect('/entrar');
-        }
+        //if (!session()->__get('idUser')) {
+          //  redirect('/entrar');
+        //}
 
         $dao = new EmployeeDAO();
 
