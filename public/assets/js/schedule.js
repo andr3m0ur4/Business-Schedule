@@ -57,7 +57,7 @@ window.onload = () => {
 }
 
 const modal = () => {
-    fetch('/assets/resources/modal.html')
+    fetch('/assets/resources/modal-time.html')
         .then(response => {
             response.text()
                 .then(data => {
