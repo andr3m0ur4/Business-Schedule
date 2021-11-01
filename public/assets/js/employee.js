@@ -59,22 +59,19 @@ const verify = (formFixed, lista = [], elementFather, idMessage) => {
 
         let resp = lista.includes(inputs[i].id)
 
-        console.log(resp)
-
-
         if(!resp){
             if(inputs[i].value == ""){
-                console.log()
                 let label = document.querySelector('[for=' + inputs[i].id + ']');
                 messageFixed = "Campo " + label.innerHTML + " precisa ser preenchido";
                 messageConfiguration = "alert alert-danger";
                 inputs[i].focus();
                 //temporario
                 if(idMessage == 'save' ){
-                    messageText(messageFixed, messageConfiguration, fatherElement, '[id=message]');
+                    messageText(messageFixed, messageConfiguration, fatherElement, 'message');
                     return false;
                 }
-                messageText(messageFixed, messageConfiguration, fatherElement, '[name=passwordMessage]');
+                console.log("AA")
+                messageText(messageFixed, messageConfiguration, fatherElement, 'passwordMessage');
                 return false;
             }
         }
@@ -84,8 +81,8 @@ const verify = (formFixed, lista = [], elementFather, idMessage) => {
 }
 
 const messageText = (messageFixed, messageConfiguration, fatherElement, messageId) => {
-    if (document.querySelector(messageId)) {
-        let messageComponent = document.querySelector(messageId);
+    if (document.querySelector('[id='+ messageId +']')) {
+        let messageComponent = document.querySelector('[id='+ messageId +']');
         messageComponent.innerHTML = `${messageFixed}`;
         messageComponent.className = messageConfiguration;
 
@@ -172,14 +169,14 @@ const passwordVerify = (message, fatherElement) => {
 const messagePassword = (messageFixed, fatherElement) => {
 
     let messageConfiguration = '';
-    let messageId = '[name=passwordMessage]'
+    let messageId = 'passwordMessage'
 
     if (messageFixed != 'Dados salvos com sucesso') {
         messageConfiguration = "alert alert-danger";
-        messageText(messageFixed, messageConfiguration, '[name=form_employee]', '[id=message]')
+        messageText(messageFixed, messageConfiguration, fatherElement, messageId)
     }else{
         messageConfiguration = "alert alert-info";
-        messageText(messageFixed, messageConfiguration, fatherElement, )
+        messageText(messageFixed, messageConfiguration, '[id=section]', 'message')
         $('#modal').modal('hide')
     }
 
