@@ -23,7 +23,7 @@ window.onload = () => {
         animation: 150,
         ghostClass: 'blue-background-class'
     }
-    
+
     new Sortable(gridEmployees, objSortable)
 
     new Sortable(gridMonday, objSortableDays)
@@ -66,8 +66,18 @@ const modal = () => {
                     document.getElementById('myModal').appendChild(div)
                 })
         })
-        
+
     fetch('/assets/resources/modal-employee.html')
+        .then(response => {
+            response.text()
+                .then(data => {
+                    const div = document.createElement('div')
+                    div.innerHTML = data
+                    document.getElementById('myModal').appendChild(div)
+                })
+        })
+
+    fetch('/assets/resources/modal-schedule.phtml')
         .then(response => {
             response.text()
                 .then(data => {
@@ -84,6 +94,20 @@ const openModal = () => {
 
 const openModalEmployee = () => {
     document.getElementById('btnModalEmployee').click()
+}
+
+const openModalSchedule = () => {
+    document.getElementById('btnModalSchedule').click()
+}
+
+const loadSchedule = id => {
+    fetch(`/ajax/schedule/${id}`)
+        .then(response => {
+            response.json()
+                .then(obj => {
+                    fillModalSchedule(obj)
+                })
+        })
 }
 
 const loadEmployee = id => {
