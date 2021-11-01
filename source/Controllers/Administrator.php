@@ -66,9 +66,7 @@ class Administrator extends Controller
     {
         $message = null;
         $dao = new AdministratorDAO();
-        if (!empty($_POST)) {
-            var_dump($_POST);exit;
-        }
+
         
         if (isset($param['id']) && $param['id'] > 0) {
             $id = (int) filter_var($param['id'], FILTER_SANITIZE_STRIPPED);

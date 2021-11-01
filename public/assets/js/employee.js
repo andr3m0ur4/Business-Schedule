@@ -1,5 +1,6 @@
 $(() => {
     clearPostJS()
+    modal()
 
     if (document.querySelector('[name=new]')) {
         document.querySelector('[name=new]').onclick = () => {
@@ -31,7 +32,7 @@ $(() => {
 
     if (document.querySelector('[name=fechar]')) {
         document.querySelector('[name=fechar]').onclick = () => {
-            $('#modal').modal('hide');
+            $('#passwordModal').modal('hide');
         }
     }
 
@@ -44,11 +45,60 @@ $(() => {
         })
     }
 
-    changePassword()
-
 })
 
+const modal = () => {
+    fetch('/assets/resources/modal-password.html')
+        .then(response => {
+            response.text()
+                .then(data => {
+                    const div = document.createElement('div')
+                    div.innerHTML = data
+                    document.getElementById('myModal').appendChild(div)
+                    document.getElementById('form_changePassword').onsubmit = submitForm
+                    document.getElementById('changePassword').onclick = savePassword
+                })
+        })
+
+}
+
+const savePassword = event => {
+    const btn = event.target
+    const form = document.getElementById('form_changePassword')
+    const submitEvent = new SubmitEvent('submit', {
+        submitter: btn
+    })
+
+    form.dispatchEvent(submitEvent)
+}
+
+const submitForm = event => {
+
+    let fatherElement = '[id=passwordSection]';
+    
+    event.preventDefault()
+
+    form = new FormData(document.getElementById('form_changePassword'));
+
+    if (verify('[name=form_changePassword]', [] , '[id=passwordSection]')) {
+        fetch(`/ajax/employee/save/${id.value}`,{
+            method: 'POST',
+            body: form
+        }).then(response => {
+            response.json()
+                .then(data => {
+                    messageFixed = data.error;
+
+                    messagePassword(messageFixed, fatherElement);
+                })
+        })
+    }
+
+    
+}
+
 const verify = (formFixed, lista = [], elementFather, idMessage) => {
+    console.log(formFixed)
     let form = document.querySelector(formFixed);
     let messageFixed = "";
     let messageConfiguration = "";
@@ -61,6 +111,7 @@ const verify = (formFixed, lista = [], elementFather, idMessage) => {
 
         if(!resp){
             if(inputs[i].value == ""){
+                console.log(inputs[i])
                 let label = document.querySelector('[for=' + inputs[i].id + ']');
                 messageFixed = "Campo " + label.innerHTML + " precisa ser preenchido";
                 messageConfiguration = "alert alert-danger";
@@ -114,39 +165,6 @@ const remove = id => {
     element.lastElementChild.setAttribute('href', `/funcionario/${id}/excluir`)
 }
 
-const changePassword = () => {
-
-    let fatherElement = '[id=passwordSection]';
-
-    $('#form_changePassword').submit(function(event){
-        event.preventDefault()
-
-        form = new FormData(document.getElementById('form_changePassword'));
-
-        if (verify('[name=form_changePassword]', [] , '[id=passwordSection]')) {
-            fetch(`/ajax/employee/save/${id.value}`,{
-                method: 'POST',
-                body: form
-            }).then(response => {
-                response.json()
-                    .then(data => {
-                        messageFixed = data.error;
-    
-                        messagePassword(messageFixed, fatherElement);
-                    })
-            })
-        }
-
-    })
-
-    $('#changePassword').click(() => {
-        $('#form_changePassword').submit()
-    })
-
- 
-
-}
-
 const passwordVerify = (message, fatherElement) => {
     let form = document.querySelector('[name=form_changePassword]');
     let messageFixed = "";
@@ -177,7 +195,7 @@ const messagePassword = (messageFixed, fatherElement) => {
     }else{
         messageConfiguration = "alert alert-info";
         messageText(messageFixed, messageConfiguration, '[id=section]', 'message')
-        $('#modal').modal('hide')
+        $('#passwordModal').modal('hide')
     }
 
 }
