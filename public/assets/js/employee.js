@@ -16,10 +16,15 @@ $(() => {
 
     if (document.querySelector('[name=save]')) {
         document.querySelector('[name=save]').onclick = () => {
-            lista = ['id', 'phone'];
-            //temporario
-            if (verify('[name=form_employee]', lista, '[id=section]', 'save')) {
+            let lista = ['id', 'phone'];
+            let messageFixed = [];
+
+            if (verify('[name=form_employee]', lista).length == 0) {
                 save();
+            }else{
+                messageFixed = verify('[name=form_employee]', lista)[0]
+                console.log(messageFixed)
+                messageText(messageFixed,  'alert alert-danger', '[id=section]', 'message');
             }
         }
     }
@@ -27,12 +32,6 @@ $(() => {
     if (document.querySelector('[name=search]')) {
         document.querySelector('[name=search]').onclick = () => {
             search();
-        }
-    }
-
-    if (document.querySelector('[name=fechar]')) {
-        document.querySelector('[name=fechar]').onclick = () => {
-            $('#passwordModal').modal('hide');
         }
     }
 
@@ -57,6 +56,15 @@ const modal = () => {
                     document.getElementById('myModal').appendChild(div)
                     document.getElementById('form_changePassword').onsubmit = submitForm
                     document.getElementById('changePassword').onclick = savePassword
+                    document.getElementById('close').onclick = closeModal
+                    document.getElementById('closeX').onclick = closeModal
+                    document.getElementById('myModal').onclick = closeModal
+                    //teste
+                    let modal = document.getElementById('passwordModal')
+                    modal.addEventListener('click', (event) =>{
+                        console.log(event.target)
+                    })
+                    
                 })
         })
 
@@ -80,29 +88,28 @@ const submitForm = event => {
 
     form = new FormData(document.getElementById('form_changePassword'));
 
-    if (verify('[name=form_changePassword]', [] , '[id=passwordSection]')) {
+    if (verify('[name=form_changePassword]', []).length == 0) {
         fetch(`/ajax/employee/save/${id.value}`,{
             method: 'POST',
             body: form
         }).then(response => {
             response.json()
                 .then(data => {
-                    messageFixed = data.error;
-
-                    messagePassword(messageFixed, fatherElement);
+                    messagePassword(messageObject = data, fatherElement);
                 })
         })
+
+    }else{
+        messageFixed = verify('[name=form_changePassword]', [])[0]
+        messageText(messageFixed,  'alert alert-danger', '[id=passwordSection]', 'passwordMessage');
     }
 
     
 }
 
-const verify = (formFixed, lista = [], elementFather, idMessage) => {
-    console.log(formFixed)
+const verify = (formFixed, lista) => {
     let form = document.querySelector(formFixed);
     let messageFixed = "";
-    let messageConfiguration = "";
-    let fatherElement = elementFather;
     let inputs = form.querySelectorAll("input");
 
     for (let i = 0; i < inputs.length; i++) {
@@ -111,24 +118,15 @@ const verify = (formFixed, lista = [], elementFather, idMessage) => {
 
         if(!resp){
             if(inputs[i].value == ""){
-                console.log(inputs[i])
                 let label = document.querySelector('[for=' + inputs[i].id + ']');
                 messageFixed = "Campo " + label.innerHTML + " precisa ser preenchido";
-                messageConfiguration = "alert alert-danger";
                 inputs[i].focus();
-                //temporario
-                if(idMessage == 'save' ){
-                    messageText(messageFixed, messageConfiguration, fatherElement, 'message');
-                    return false;
-                }
-                console.log("AA")
-                messageText(messageFixed, messageConfiguration, fatherElement, 'passwordMessage');
-                return false;
+                return [messageFixed];
             }
         }
     }
     
-    return true;
+    return [];
 }
 
 const messageText = (messageFixed, messageConfiguration, fatherElement, messageId) => {
@@ -165,38 +163,29 @@ const remove = id => {
     element.lastElementChild.setAttribute('href', `/funcionario/${id}/excluir`)
 }
 
-const passwordVerify = (message, fatherElement) => {
-    let form = document.querySelector('[name=form_changePassword]');
-    let messageFixed = "";
-    let messageConfiguration = "";
-    let inputs = form.querySelectorAll("input");
-
-    for (let i = 0; i < inputs.length; i++) {
-        if (!inputs[i].value) {
-            let label = document.querySelector('[for=' + inputs[i].id + ']');
-            messageFixed = "Campo " + label.innerHTML + " precisa ser preenchido";
-            messageConfiguration = "alert alert-danger";
-            inputs[i].focus();
-            return messageText(messageFixed, messageConfiguration, fatherElement);
-        }
-    }
-    
-    return messagePassword(message, fatherElement);
-}
-
-const messagePassword = (messageFixed, fatherElement) => {
-
+const messagePassword = (messageObject, fatherElement) => {
     let messageConfiguration = '';
-    let messageId = 'passwordMessage'
 
-    if (messageFixed != 'Dados salvos com sucesso') {
+    if (messageObject.type == 1) {
         messageConfiguration = "alert alert-danger";
-        messageText(messageFixed, messageConfiguration, fatherElement, messageId)
+        messageText(messageObject.message, messageConfiguration, fatherElement, 'passwordMessage')
     }else{
         messageConfiguration = "alert alert-info";
-        messageText(messageFixed, messageConfiguration, '[id=section]', 'message')
+        messageText(messageObject.message, messageConfiguration, '[id=section]', 'message')
+        closeModal()
         $('#passwordModal').modal('hide')
+      
     }
-
 }
 
+const closeModal = () => {
+
+    if (document.querySelector('[id= passwordMessage]')) {
+        let messageFixed = document.querySelector('[id= passwordMessage]')
+        messageFixed.parentNode.removeChild(messageFixed);
+    } 
+
+    document.getElementById('form_changePassword').reset();
+
+
+}

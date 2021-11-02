@@ -130,7 +130,8 @@ class Employee extends Controller
         $dao = new EmployeeDAO();
         $employee = $dao->findById($params['id']);
         $error = [
-            'error' => 'Senha antiga errada'
+            'type' => 1,
+            'message' => 'Senha antiga errada'
         ];
 
 
@@ -140,10 +141,10 @@ class Employee extends Controller
 
 
         if (password_verify($oldPassword, $employee->getPassword())) {
-            $error['error'] = 'Senha atuais diferentes';
+            $error['message'] = 'Senha atuais diferentes';
             
             if($password == $passwordConfirm){
-                $error['error'] = 'Senha antiga igual a senha atual';
+                $error['message'] = 'Senha antiga igual a senha atual';
 
                 if($oldPassword != $password){
 
@@ -157,13 +158,7 @@ class Employee extends Controller
             }
         }
 
-        echo json_encode($error);
-
-
-
-    
-        
-        
+        echo json_encode($error);        
         
     }
 
