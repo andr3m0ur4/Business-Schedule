@@ -58,8 +58,8 @@ const modal = () => {
                     document.getElementById('changePassword').onclick = savePassword
                     document.getElementById('close').onclick = closeModal
                     document.getElementById('closeX').onclick = closeModal
-                    document.getElementById('myModal').onclick = closeModal
                     //teste
+                    document.getElementById('myModal').onclick = closeModal
                     let modal = document.getElementById('passwordModal')
                     modal.addEventListener('click', (event) =>{
                         console.log(event.target)
