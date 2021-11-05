@@ -33,7 +33,7 @@ $(() => {
             search();
         }
     }
-
+    
     if (document.querySelectorAll('[data-id]')) {
         const btnList = document.querySelectorAll('[data-id]')
         btnList.forEach(el => {
@@ -42,6 +42,7 @@ $(() => {
             }
         })
     }
+    
 
 })
 
@@ -125,19 +126,29 @@ const verify = (formFixed, lista) => {
 }
 
 const messageText = (messageFixed, messageConfiguration, fatherElement, messageId) => {
+
     if (document.querySelector('[id='+ messageId +']')) {
         let messageComponent = document.querySelector('[id='+ messageId +']');
         messageComponent.innerHTML = `${messageFixed}`;
         messageComponent.className = messageConfiguration;
+
+        createButtonAlert(messageId)
 
     } else {
         let messageComponent = document.createElement("div");
         messageComponent.className = messageConfiguration;
         messageComponent.id = messageId;
         messageComponent.innerHTML = `${messageFixed}`;
-        elementFather = document.querySelector(fatherElement);
+
+        let elementFather = document.querySelector(fatherElement);
         elementFather.insertBefore(messageComponent, elementFather.firstElementChild);
+
+        createButtonAlert(messageId)
     }
+
+    $('#' + messageId + '').show()
+    closeAlert(messageId)
+
 }
 
 const clear = () => {
@@ -181,6 +192,28 @@ const closeModal = () => {
     } 
 
     document.getElementById('form_changePassword').reset();
+}
 
+const createButtonAlert = (messageId) => {
+
+    let buttonComponent = document.createElement("i");
+    buttonComponent.className = "fa fa-times-circle fa-lg";
+    buttonComponent.id = "closeAlert" + messageId;
+    buttonComponent.name = "closeAlert" + messageId;
+    buttonComponent.type = "button";
+
+    let elementFather = document.querySelector('[id=' + messageId + ']');
+    elementFather.insertBefore(buttonComponent, elementFather.firstElementChild);
 
 }
+
+const closeAlert = (messageId) => {
+
+    if (document.querySelector('[name=closeAlert' + messageId + ']')) {
+        document.querySelector('[name=closeAlert' + messageId + ']').onclick = () => {
+            $('#' + messageId + '').hide()
+        }
+    }
+
+}
+

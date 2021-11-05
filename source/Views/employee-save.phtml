@@ -3,9 +3,15 @@
 <?php if (isset($message)) : ?>
     <div id="message">
         <?php if ($message->getType() == 'success') : ?>
-            <div class="alert alert-info"><?= "{$message->getText()}." ?></div>
+            <div class="alert alert-info">
+                <?= "{$message->getText()}." ?>
+                <i class="fa fa-times-circle fa-lg" title="Excluir" data-dismiss="alert"></i>
+            </div>
         <?php else : ?>
-            <div class="alert alert-danger"><?= "Ops, {$message->getText()}." ?></div>
+            <div class="alert alert-danger">
+                <?= "Ops, {$message->getText()}." ?>
+                <i class="fa fa-times-circle fa-lg" title="Excluir" data-dismiss="alert"></i>
+            </div>
         <?php endif ?>
     </div>
 <?php endif ?>
