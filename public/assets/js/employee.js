@@ -47,6 +47,7 @@ $(() => {
 })
 
 const modal = () => {
+    
     fetch('/assets/resources/modal-password.html')
         .then(response => {
             response.text()
@@ -56,13 +57,8 @@ const modal = () => {
                     document.getElementById('myModal').appendChild(div)
                     document.getElementById('form_changePassword').onsubmit = submitForm
                     document.getElementById('changePassword').onclick = savePassword
-                    document.getElementById('close').onclick = closeModal
-                    document.getElementById('closeX').onclick = closeModal
-                    //teste
-                    document.getElementById('myModal').onclick = closeModal
-                    let modal = document.getElementById('passwordModal')
-                    modal.addEventListener('click', (event) =>{
-                        console.log(event.target)
+                    $('#myModal').on('hidden.bs.modal', function (e) { 
+                        closeModal() 
                     })
                     
                 })
