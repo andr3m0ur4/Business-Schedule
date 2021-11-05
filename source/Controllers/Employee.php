@@ -47,8 +47,9 @@ class Employee extends Controller
             $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRIPPED);
             $phone = filter_input(INPUT_POST, 'phone', FILTER_SANITIZE_STRIPPED);
             $job = filter_input(INPUT_POST, 'job', FILTER_SANITIZE_STRIPPED);
+            $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_STRIPPED);
 
-            $employee = new EmployeeModel(null, $name, $email, $password, $phone, $job);
+            $employee = new EmployeeModel(null, $name, $email, $password, $phone, $job, $description);
 
             if ($dao->save($employee)) {
                 $employee = new EmployeeModel();
@@ -81,12 +82,13 @@ class Employee extends Controller
             $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRIPPED);
             $phone = filter_input(INPUT_POST, 'phone', FILTER_SANITIZE_STRIPPED);
             $job = filter_input(INPUT_POST, 'job', FILTER_SANITIZE_STRIPPED);
-            
+            $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_STRIPPED);
+
             if (empty($password)) {
                 $password = $employee->getPassword();
             }
             
-            $employee = new EmployeeModel($id, $name, $email, $password, $phone, $job);
+            $employee = new EmployeeModel($id, $name, $email, $password, $phone, $job, $description);
             
             if ($dao->save($employee)) {
                 $employee = $dao->data();

@@ -16,14 +16,13 @@ $(() => {
 
     if (document.querySelector('[name=save]')) {
         document.querySelector('[name=save]').onclick = () => {
-            let lista = ['id', 'phone'];
+            let lista = ['id', 'phone', 'description'];
             let messageFixed = [];
 
             if (verify('[name=form_employee]', lista).length == 0) {
                 save();
             }else{
                 messageFixed = verify('[name=form_employee]', lista)[0]
-                console.log(messageFixed)
                 messageText(messageFixed,  'alert alert-danger', '[id=section]', 'message');
             }
         }
