@@ -199,7 +199,6 @@ const createButtonAlert = (messageId) => {
     let buttonComponent = document.createElement("i");
     buttonComponent.className = "fa fa-times-circle fa-lg";
     buttonComponent.id = "closeAlert" + messageId;
-    buttonComponent.name = "closeAlert" + messageId;
     buttonComponent.type = "button";
 
     let elementFather = document.querySelector('[id=' + messageId + ']');
@@ -209,8 +208,8 @@ const createButtonAlert = (messageId) => {
 
 const closeAlert = (messageId) => {
 
-    if (document.querySelector('[name=closeAlert' + messageId + ']')) {
-        document.querySelector('[name=closeAlert' + messageId + ']').onclick = () => {
+    if (document.querySelector('[id=closeAlert' + messageId + ']')) {
+        document.querySelector('[id=closeAlert' + messageId + ']').onclick = () => {
             $('#' + messageId + '').hide()
         }
     }
