@@ -9,9 +9,9 @@ class Home extends Controller
 {
     public function index() : void
     {
-        if (!session()->__get('idUser')) {
-            redirect('/entrar');
-        }
+        //if (!session()->__get('idUser')) {
+            //redirect('/entrar');
+        //}
 
         $data = [
             'title' => 'Business Schedule',
