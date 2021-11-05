@@ -136,6 +136,7 @@ const fillModalEmployee = employee => {
     document.getElementById('employee-job').innerHTML = employee.job
     document.getElementById('employee-email').innerHTML = employee.email
     document.getElementById('employee-phone').innerHTML = employee.phone
+    document.getElementById('employee-description').innerHTML = employee.description
 }
 
 const fillModalEmployeeTime = employee => {

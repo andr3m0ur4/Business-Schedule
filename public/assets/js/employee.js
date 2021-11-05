@@ -21,7 +21,7 @@ $(() => {
 
             if (verify('[name=form_employee]', lista).length == 0) {
                 save();
-            }else{
+            } else {
                 messageFixed = verify('[name=form_employee]', lista)[0]
                 messageText(messageFixed,  'alert alert-danger', '[id=section]', 'message');
             }
@@ -95,7 +95,7 @@ const submitForm = event => {
                 })
         })
 
-    }else{
+    } else {
         messageFixed = verify('[name=form_changePassword]', [])[0]
         messageText(messageFixed,  'alert alert-danger', '[id=passwordSection]', 'passwordMessage');
     }
@@ -131,22 +131,20 @@ const messageText = (messageFixed, messageConfiguration, fatherElement, messageI
         let messageComponent = document.querySelector('[id='+ messageId +']');
         messageComponent.innerHTML = `${messageFixed}`;
         messageComponent.className = messageConfiguration;
-
-        createButtonAlert(messageId)
+    
 
     } else {
         let messageComponent = document.createElement("div");
+        messageComponent.innerHTML = `${messageFixed}`;
         messageComponent.className = messageConfiguration;
         messageComponent.id = messageId;
-        messageComponent.innerHTML = `${messageFixed}`;
-
         let elementFather = document.querySelector(fatherElement);
         elementFather.insertBefore(messageComponent, elementFather.firstElementChild);
 
-        createButtonAlert(messageId)
     }
 
-    $('#' + messageId + '').show()
+    createButtonAlert(messageId)
+    $('#' + messageId).show()
     closeAlert(messageId)
 
 }
@@ -175,7 +173,7 @@ const messagePassword = (messageObject, fatherElement) => {
     if (messageObject.type == 1) {
         messageConfiguration = "alert alert-danger";
         messageText(messageObject.message, messageConfiguration, fatherElement, 'passwordMessage')
-    }else{
+    } else { 
         messageConfiguration = "alert alert-info";
         messageText(messageObject.message, messageConfiguration, '[id=section]', 'message')
         closeModal()
@@ -210,7 +208,7 @@ const closeAlert = (messageId) => {
 
     if (document.querySelector('[id=closeAlert' + messageId + ']')) {
         document.querySelector('[id=closeAlert' + messageId + ']').onclick = () => {
-            $('#' + messageId + '').hide()
+            $('#' + messageId).hide()
         }
     }
 

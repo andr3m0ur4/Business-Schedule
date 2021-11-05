@@ -156,3 +156,8 @@ CREATE TABLE `employee_tv_show_hours` (
 ALTER TABLE `employee_tv_show_hours`
   ADD CONSTRAINT `employee_tv_show_hours_fk_id_employee_hours` FOREIGN KEY (`id_employee_hours`) REFERENCES `employee_hours` (`id`),
   ADD CONSTRAINT `employee_tv_show_hours_fk_id_tv_show_hours` FOREIGN KEY (`id_tv_show_hours`) REFERENCES `tv_shows_hours` (`id`);
+
+-- Ajuste na tabela employee
+-- dia 05 do 11 de 2021
+
+ALTER TABLE `employees` ADD COLUMN `description` VARCHAR(255) DEFAULT NULL;
