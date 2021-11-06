@@ -17,7 +17,15 @@ $(() => {
 
     if (document.querySelector('[name=save]')) {
         document.querySelector('[name=save]').onclick = () => {
-            verify()
+            let lista = ['id', 'phone'];
+            let messageFixed = [];
+
+            if (verify('[name=form_admin]', lista).length == 0) {
+                save();
+            } else {
+                messageFixed = verify('[name=form_admin]', lista)[0]
+                messageText(messageFixed,  'alert alert-danger', '[id=section]', 'message');
+            }
         }
     }
 
@@ -37,24 +45,83 @@ $(() => {
     }
 })
 
-const verify = () => {
-    let form = document.querySelector('[name=form_admin]');
-    let messageText = "";
-    let messageConfiguration = "";
+const modal = () => {
+    
+    fetch('/assets/resources/modal-password.html')
+        .then(response => {
+            response.text()
+                .then(data => {
+                    const div = document.createElement('div')
+                    div.innerHTML = data
+                    document.getElementById('myModal').appendChild(div)
+                    document.getElementById('form_changePassword').onsubmit = submitForm
+                    document.getElementById('changePassword').onclick = savePassword
+                    $('#myModal').on('hidden.bs.modal', function (e) { 
+                        closeModal() 
+                    })
+                    
+                })
+        })
+
+}
+
+const savePassword = event => {
+    const btn = event.target
+    const form = document.getElementById('form_changePassword')
+    const submitEvent = new SubmitEvent('submit', {
+        submitter: btn
+    })
+
+    form.dispatchEvent(submitEvent)
+}
+
+const submitForm = event => {
+
+    let fatherElement = '[id=passwordSection]';
+    
+    event.preventDefault()
+
+    form = new FormData(document.getElementById('form_changePassword'));
+
+    if (verify('[name=form_changePassword]', []).length == 0) {
+        fetch(`/ajax/administrator/save/${id.value}`,{
+            method: 'POST',
+            body: form
+        }).then(response => {
+            response.json()
+                .then(data => {
+                    messagePassword(messageObject = data, fatherElement);
+                })
+        })
+
+    } else {
+
+        messageFixed = verify('[name=form_changePassword]', [])[0]
+        messageText(messageFixed,  'alert alert-danger', fatherElement, 'passwordMessage');
+    }
+
+}
+
+const verify = (formFixed, lista) => {
+    let form = document.querySelector(formFixed);
+    let messageFixed = "";
     let inputs = form.querySelectorAll("input");
 
-    for (let i = 1; i < inputs.length; i++) {
-        if (!inputs[i].value && i != 4) {
-            let label = document.querySelector('[for=' + inputs[i].id + ']');
-            messageText = "Campo " + label.innerHTML + " precisa ser preenchido";
-            messageConfiguration = "alert alert-danger";
-            inputs[i].focus();
-            return message(messageText, messageConfiguration);
+    for (let i = 0; i < inputs.length; i++) {
+
+        let resp = lista.includes(inputs[i].id)
+
+        if(!resp){
+            if(inputs[i].value == ""){
+                let label = document.querySelector('[for=' + inputs[i].id + ']');
+                messageFixed = "Campo " + label.innerHTML + " precisa ser preenchido";
+                inputs[i].focus();
+                return [messageFixed];
+            }
         }
     }
     
-    save();
-    return message(messageText, messageConfiguration);
+    return [];
 }
 
 const message = (messageText, messageConfiguration) => {
@@ -71,6 +138,30 @@ const message = (messageText, messageConfiguration) => {
         elementFather = document.querySelector('[id=section]');
         elementFather.insertBefore(messageComponent, elementFather.firstElementChild);
     }
+}
+
+const messageText = (messageFixed, messageConfiguration, fatherElement, messageId) => {
+
+    if (document.querySelector('[id='+ messageId +']')) {
+        let messageComponent = document.querySelector('[id='+ messageId +']');
+        messageComponent.innerHTML = `${messageFixed}`;
+        messageComponent.className = messageConfiguration;
+    
+
+    } else {
+        let messageComponent = document.createElement("div");
+        messageComponent.innerHTML = `${messageFixed}`;
+        messageComponent.className = messageConfiguration;
+        messageComponent.id = messageId;
+        let elementFather = document.querySelector(fatherElement);
+        elementFather.insertBefore(messageComponent, elementFather.firstElementChild);
+
+    }
+
+    createButtonAlert(messageId)
+    $('#' + messageId).show()
+    closeAlert(messageId)
+
 }
 
 function clear() {
@@ -91,31 +182,49 @@ const remove = id => {
     element.lastElementChild.setAttribute('href', `/admin/${id}/excluir`)
 }
 
-const modal = () => {
-    fetch('/assets/resources/modal-password.html')
-        .then(response => {
-            response.text()
-                .then(data => {
-                    const div = document.createElement('div')
-                    div.innerHTML = data
-                    document.getElementById('myModal').appendChild(div)
-                    document.getElementById('form_changePassword').onsubmit = submitForm
-                    document.getElementById('changePassword').onclick = savePassword
-                })
-        })
+const messagePassword = (messageObject, fatherElement) => {
+    let messageConfiguration = '';
+
+    if (messageObject.type == 1) {
+        messageConfiguration = "alert alert-danger";
+        messageText(messageObject.message, messageConfiguration, fatherElement, 'passwordMessage')
+    } else { 
+        messageConfiguration = "alert alert-info";
+        messageText(messageObject.message, messageConfiguration, '[id=section]', 'message')
+        closeModal()
+        $('#passwordModal').modal('hide')
+      
+    }
+}
+
+const closeModal = () => {
+
+    if (document.querySelector('[id= passwordMessage]')) {
+        let messageFixed = document.querySelector('[id= passwordMessage]')
+        messageFixed.parentNode.removeChild(messageFixed);
+    } 
+
+    document.getElementById('form_changePassword').reset();
+}
+
+const createButtonAlert = (messageId) => {
+
+    let buttonComponent = document.createElement("i");
+    buttonComponent.className = "fa fa-times-circle fa-lg";
+    buttonComponent.id = "closeAlert" + messageId;
+    buttonComponent.type = "button";
+
+    let elementFather = document.querySelector('[id=' + messageId + ']');
+    elementFather.insertBefore(buttonComponent, elementFather.firstElementChild);
 
 }
 
-const savePassword = event => {
-    const btn = event.target
-    const form = document.getElementById('form_changePassword')
-    const submitEvent = new SubmitEvent('submit', {
-        submitter: btn
-    })
+const closeAlert = (messageId) => {
 
-    form.dispatchEvent(submitEvent)
-}
+    if (document.querySelector('[id=closeAlert' + messageId + ']')) {
+        document.querySelector('[id=closeAlert' + messageId + ']').onclick = () => {
+            $('#' + messageId).hide()
+        }
+    }
 
-const submitForm = () => {
-    console.log('form')
 }

@@ -47,8 +47,9 @@ class Employee extends Controller
             $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRIPPED);
             $phone = filter_input(INPUT_POST, 'phone', FILTER_SANITIZE_STRIPPED);
             $job = filter_input(INPUT_POST, 'job', FILTER_SANITIZE_STRIPPED);
+            $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_STRIPPED);
 
-            $employee = new EmployeeModel(null, $name, $email, $password, $phone, $job);
+            $employee = new EmployeeModel(null, $name, $email, $password, $phone, $job, $description);
 
             if ($dao->save($employee)) {
                 $employee = new EmployeeModel();
@@ -81,12 +82,13 @@ class Employee extends Controller
             $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRIPPED);
             $phone = filter_input(INPUT_POST, 'phone', FILTER_SANITIZE_STRIPPED);
             $job = filter_input(INPUT_POST, 'job', FILTER_SANITIZE_STRIPPED);
-            
+            $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_STRIPPED);
+
             if (empty($password)) {
                 $password = $employee->getPassword();
             }
             
-            $employee = new EmployeeModel($id, $name, $email, $password, $phone, $job);
+            $employee = new EmployeeModel($id, $name, $email, $password, $phone, $job, $description);
             
             if ($dao->save($employee)) {
                 $employee = $dao->data();
@@ -130,7 +132,8 @@ class Employee extends Controller
         $dao = new EmployeeDAO();
         $employee = $dao->findById($params['id']);
         $error = [
-            'error' => 'Senha antiga errada'
+            'type' => 1,
+            'message' => 'Senha antiga errada'
         ];
 
 
@@ -140,10 +143,10 @@ class Employee extends Controller
 
 
         if (password_verify($oldPassword, $employee->getPassword())) {
-            $error['error'] = 'Senha atuais diferentes';
+            $error['message'] = 'Senha atuais diferentes';
             
             if($password == $passwordConfirm){
-                $error['error'] = 'Senha antiga igual a senha atual';
+                $error['message'] = 'Senha antiga igual a senha atual';
 
                 if($oldPassword != $password){
 
@@ -157,13 +160,7 @@ class Employee extends Controller
             }
         }
 
-        echo json_encode($error);
-
-
-
-    
-        
-        
+        echo json_encode($error);        
         
     }
 

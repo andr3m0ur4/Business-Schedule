@@ -23,7 +23,7 @@ class EmployeeDAO extends DAO
             return null;
         }
 
-        return new Employee($employee->id, $employee->name, $employee->email, $employee->password, $employee->phone, $employee->job);
+        return new Employee($employee->id, $employee->name, $employee->email, $employee->password, $employee->phone, $employee->job, $employee->description);
     }
 
     public function findByEmail(string $email, string $collumns = '*') : ?Employee
@@ -37,7 +37,7 @@ class EmployeeDAO extends DAO
             return null;
         }
 
-        return new Employee($employee->id, $employee->name, $employee->email, $employee->password, $employee->phone, $employee->job);
+        return new Employee($employee->id, $employee->name, $employee->email, $employee->password, $employee->phone, $employee->job, $employee->description);
     }
 
     public function login(string $email, string $password) : bool
@@ -76,7 +76,8 @@ class EmployeeDAO extends DAO
                 $employee->email,
                 $employee->password,
                 $employee->phone,
-                $employee->job
+                $employee->job,
+                $employee->description
             );
         }
 
