@@ -6,6 +6,8 @@ use Source\Core\Controller;
 use Source\Models\Employee as EmployeeModel;
 use Source\Models\EmployeeDAO;
 
+use function PHPSTORM_META\type;
+
 class Employee extends Controller
 {
     public function index() : void
@@ -45,8 +47,9 @@ class Employee extends Controller
             $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRIPPED);
             $phone = filter_input(INPUT_POST, 'phone', FILTER_SANITIZE_STRIPPED);
             $job = filter_input(INPUT_POST, 'job', FILTER_SANITIZE_STRIPPED);
+            $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_STRIPPED);
 
-            $employee = new EmployeeModel(null, $name, $email, $password, $phone, $job);
+            $employee = new EmployeeModel(null, $name, $email, $password, $phone, $job, $description);
 
             if ($dao->save($employee)) {
                 $employee = new EmployeeModel();
@@ -79,12 +82,13 @@ class Employee extends Controller
             $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRIPPED);
             $phone = filter_input(INPUT_POST, 'phone', FILTER_SANITIZE_STRIPPED);
             $job = filter_input(INPUT_POST, 'job', FILTER_SANITIZE_STRIPPED);
-            
+            $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_STRIPPED);
+
             if (empty($password)) {
                 $password = $employee->getPassword();
             }
             
-            $employee = new EmployeeModel($id, $name, $email, $password, $phone, $job);
+            $employee = new EmployeeModel($id, $name, $email, $password, $phone, $job, $description);
             
             if ($dao->save($employee)) {
                 $employee = $dao->data();
@@ -113,4 +117,51 @@ class Employee extends Controller
 
         redirect('/funcionario');
     }
+
+    public function load($param) : void
+    {
+        $dao = new EmployeeDAO();
+        $employee = $dao->findById($param['id']);
+        echo json_encode($employee);
+    }
+
+    public function changePassword($params) : void
+    {
+
+        $message = null;
+        $dao = new EmployeeDAO();
+        $employee = $dao->findById($params['id']);
+        $error = [
+            'type' => 1,
+            'message' => 'Senha antiga errada'
+        ];
+
+
+        $oldPassword = filter_input(INPUT_POST, 'oldPassword', FILTER_SANITIZE_STRIPPED);
+        $password = filter_input(INPUT_POST, 'passwordForgot', FILTER_SANITIZE_STRIPPED);
+        $passwordConfirm = filter_input(INPUT_POST, 'passwordConfirm', FILTER_SANITIZE_STRIPPED);
+
+
+        if (password_verify($oldPassword, $employee->getPassword())) {
+            $error['message'] = 'Senha atuais diferentes';
+            
+            if($password == $passwordConfirm){
+                $error['message'] = 'Senha antiga igual a senha atual';
+
+                if($oldPassword != $password){
+
+                    $employee->setPassword($password);
+                    $dao->save($employee);
+                    $message = $dao->message();
+                    echo($message->json());
+                    return;
+                
+                }
+            }
+        }
+
+        echo json_encode($error);        
+        
+    }
+
 }

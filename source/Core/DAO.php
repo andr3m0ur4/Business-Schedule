@@ -174,6 +174,19 @@ abstract class DAO
         }
     }
 
+    public function getLastId() : int
+    {
+        try {
+            $sql = "SELECT max(id) AS last FROM " . static::$entity;
+            $result = $this->db->query($sql);
+            $row = $result->fetch(\PDO::FETCH_OBJ);
+            return intval($row->last);
+        } catch (\PDOException $ex) {
+            $this->fail = $ex;
+            return -1;
+        }
+    }
+
     private function filter(array $data) : array
     {
         $filter = [];

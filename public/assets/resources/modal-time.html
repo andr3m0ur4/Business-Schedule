@@ -1,0 +1,111 @@
+<button type="button" class="btn btn-primary d-none" id="btnModal" data-toggle="modal" data-target="#modalEmployeeTime"></button>
+
+<!-- Modal -->
+<div class="modal fade" id="modalEmployeeTime" tabindex="-1" role="dialog" data-id="" aria-labelledby="TituloModalCentralizado" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title TituloModalCentralizado" id="time-name"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <table class="table table-borderless">
+                        <tbody>
+                            <tr>
+                                <th scope="row"><i class="fa fa-bars"></i> Função</th>
+                                <td id="time-job"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><i class="fa fa-info-circle"></i> Status</th>
+                                <td><span class="badge badge-danger">Nome</span></td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><i class="fa fa-clock-o"></i> Horário inicial</th>
+                                <td colspan="2" id="time-start-time">
+                                    <input type="time" id="startTime">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><i class="fa fa-clock-o"></i> Horário final</th>
+                                <td colspan="2" id="final-time">
+                                    <input type="time" name="" id="finalTime">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><i class="fa fa-calendar-plus-o"></i> Data</th>
+                                <td colspan="2" id="time-date">
+                                    <input type="date" name="" id="date">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td scope="row"><i class="fa fa-tv"></i> Programas</td>
+                                <td>
+                                    <select class="mdb-select md-form" multiple searchable="Search here..">
+                                        <option value="" data-fas="laptop blue-text"> example 1</option>
+                                        <option value="" data-far="circle red-text">
+                                            example
+                                            2</option>
+                                        <option value="" data-fab="facebook brown-text">
+                                            example
+                                            3</option>
+                                    </select>
+                                    <button class="btn-save btn btn-primary btn-sm">Save</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><i class="fa fa-plus"></i> Adicionar</th>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <hr>
+                    <table class="table table-borderless">
+                        <tbody>
+                            <tr>
+                                <td scope="row"><i class="fa fa-id-badge"></i> <b>André Moura</b>
+                                    <p>Um comentario</p>
+                                </td>
+                                <td>Hoje as 11:30</td>
+                            </tr>
+                            <tr>
+                                <td scope="row"><i class="fa fa-id-badge"></i> <b>André Moura</b>
+                                    <p>Um comentario</p>
+                                </td>
+                                <td>Hoje as 11:32</td>
+                            </tr>
+                            <tr>
+                                <td scope="row"><i class="fa fa-plus"></i> Adicionar um comentário...
+                                    <div class="form-group">
+                                        <textarea class="form-control" id="exampleFormControlTextarea1"
+                                            rows="3"></textarea>
+                                    </div>
+                                </td>
+                                <td>
+                                    <i class="fa fa-paperclip"></i>
+                                    <i class="fa fa-at"></i>
+                                    <i class="fa fa-arrow-circle-up"></i>
+                                </td>
+                            </tr>
+                    </table>
+                    <hr>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-primary" id="saveTime">Salvar horário</button>
+            </div>
+
+            <script>
+                $(document).ready(function () {
+                    $('.mdb-select').materialSelect();
+                });
+            </script>
+
+        </div>
+    </div>
+</div>
+<!--   Final do conteudo da pagina -->

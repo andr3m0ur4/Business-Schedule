@@ -58,7 +58,22 @@ class Message
 
     public function json() : string
     {
-        return json_encode(["error" => $this->getText()]);
+        if($this->getType() == 'error' or $this->getType() == 'warning'){
+            
+            return json_encode([
+                'type' => 1,
+                'message' => $this->getText()
+            ]);
+
+        }else{
+
+            return json_encode([
+                'type' => 0,
+                'message' => $this->getText()
+            ]);
+
+        }
+      
     }
 
     public function flash(string $message) : void

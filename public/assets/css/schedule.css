@@ -19,3 +19,7 @@ main.content {
 .highlight {
     background-color: #B7F8C7 !important;
 }
+
+th[scope=row] {
+    white-space: nowrap;
+}

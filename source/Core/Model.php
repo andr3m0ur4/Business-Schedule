@@ -2,7 +2,9 @@
 
 namespace Source\Core;
 
-abstract class Model
+use JsonSerializable;
+
+abstract class Model implements JsonSerializable
 {
     protected static array $required;
     protected static array $protected;
@@ -32,5 +34,16 @@ abstract class Model
         }
 
         return true;
+    }
+
+    public function jsonSerialize() : array
+    {
+        $vars = [];
+
+        foreach (get_object_vars($this) as $key => $value) {
+            $vars[$key] = $value;
+        }
+
+        return $vars;
     }
 }

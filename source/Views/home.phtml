@@ -1,97 +1,57 @@
 <?php $this->layout('_template', $this->data) ?>
 
-<!--Começo Navbar-->
-<nav class="navbar navbar-expand-lg navbar-light bgnav">
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul class="navbar-nav">
+<section>
+    <div class="border col-12 mt-4 pt-2">
+        <div class="row border-bottom">
 
-            <a class="navbar-brand" href="#">
-                <img src="./assets/images/TV_Aparecida_2010.png" width="30" height="30"
-                    class="d-inline-block align-top" alt="">
-                Business Schedule
-            </a>
-
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Menu
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="#">Teste</a>
-                    <a class="dropdown-item" href="#">Teste</a>
-                    <a class="dropdown-item" href="#">Teste</a>
-                </div>
-            </li>
-
-        </ul>
-    </div>
-</nav>
-<!--Fim Navbar-->
-
-<figure class="text-center">
-    <img src="/assets/images/schedule-1024x605.jpg" alt="" class="img-fluid">
-</figure>
-
-<!--Começo Drag And Drop-->
-<div class="boards container justify-content-center">
-    <div class="board">
-        <h3>Nome</h3>
-        <div class="dropzone">
-            <div class="card" draggable="true">
-                <div class="status green"></div>
-                <div class="content"> Igor Marcondes Santos</div>
-            </div>
-            <div class="card" draggable="true">
-                <div class="status green"></div>
-                <div class="content"> André de Moura Benedicto</div>
+            <!-------------- Pub 1 ---------------->
+            <div class="col-9 mb-1">
+                <img src="/assets/images/TV_Aparecida_2010.png" width="30" height="30" class="rounded-circle ml-2">
+                <a class="font-weight-light text-dark">TV Aparecida</a>
             </div>
         </div>
 
-    </div>
-    <div class="board">
-        <h3>Estudio</h3>
-        <div class="dropzone">
-            <div class="card" draggable="true">
-                <div class="status blue"></div>
-                <div class="content"> Delta</div>
-            </div>
-            <div class="card" draggable="true">
-                <div class="status blue"></div>
-                <div class="content"> Bravo</div>
-            </div>
+        <div class="col-12 mt-2">
+            <figure class="figure">
+                <img src="/assets/images/full-screen-image-3.jpg" width="1000" id="photo" class="img-fluid mt-2">
+            </figure>
         </div>
-    </div>
-    <div class="board">
-        <h3>Programa</h3>
-        <div class="dropzone">
-            <div class="card" draggable="true">
-                <div class="status red"></div>
-                <div class="content"> Missa</div>
-            </div>
-            <div class="card" draggable="true">
-                <div class="status red"></div>
-                <div class="content"> Missa 2</div>
-            </div>
-        </div>
-    </div>
-    <div class="board">
-        <h3>Horario</h3>
-        <div class="dropzone">
-            <div class="card" draggable="true">
-                <div class="status red"></div>
-                <div class="content"> 18:00</div>
-            </div>
-            <div class="card" draggable="true">
-                <div class="status red"></div>
-                <div class="content"> 18:00</div>
-            </div>
-        </div>
-    </div>
-</div>
-<!--Fim Drag And Drop-->
 
-<div class="row mt-5 justify-content-center">
-    <button type="button" class="btn btn-primary mr-4">Apagar</button>
-    <button type="button" class="btn btn-primary">Salvar</button>
-</div>
-                    
+        <div>
+            <p class="espaco-paragrafo text-left">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vitae natus accusantium incidunt quos neque facere, doloremque quas.</p>
+        </div>
+
+        <div class="border-bottom mb-2">
+            <p class="espaco-paragrafo texto-cinza text-left">Há 2 horas</p>
+        </div>
+        <!-------------- Pub 1 ---------------->
+
+    </div>
+
+    <div class="border col-12 mt-4 pt-2">
+        <div class="row border-bottom">
+
+            <!-------------- Pub 2 ---------------->
+            <div class="col-9 mb-1">
+                <img src="/assets/images/TV_Aparecida_2010.png" width="30" height="30" class="rounded-circle ml-2">
+                <a class="font-weight-light text-dark">TV Aparecida</a>
+            </div>
+        </div>
+
+        <div class="col-12 mt-2">
+            <figure class="figure">
+                <img src="/assets/images/full-screen-image-3.jpg" width="1000" id="photo" class="img-fluid mt-2">
+            </figure>
+        </div>
+
+        <div>
+            <p class="espaco-paragrafo text-left">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vitae natus accusantium incidunt quos neque facere, doloremque quas.</p>
+        </div>
+
+        <div class="border-bottom mb-2">
+            <p class="espaco-paragrafo texto-cinza text-left">Há 2 horas</p>
+        </div>
+        <!-------------- Pub 2 ---------------->
+
+    </div>
+</section>

@@ -3,9 +3,15 @@
 <?php if (isset($message)) : ?>
     <div id="message">
         <?php if ($message->getType() == 'success') : ?>
-            <div class="alert alert-info"><?= "{$message->getText()}." ?></div>
+            <div class="alert alert-info">
+                <?= "{$message->getText()}." ?>
+                <i class="fa fa-times-circle fa-lg" title="Excluir" data-dismiss="alert"></i>
+        </div>
         <?php else : ?>
-            <div class="alert alert-danger"><?= "Ops, {$message->getText()}." ?></div>
+            <div class="alert alert-danger">
+                <?= "Ops, {$message->getText()}." ?>
+                <i class="fa fa-times-circle fa-lg" title="Excluir" data-dismiss="alert"></i>
+        </div>
         <?php endif ?>
     </div>
 <?php endif ?>
@@ -17,6 +23,7 @@
                 <h4>Cadastro de Administrador</h4>
             </div>
         </div>
+
         <div class="card-body">
             <form name="form_admin" method="POST" class="text-right">
 
@@ -54,13 +61,13 @@
                         <input type="tel" class="form-control" id="phone" name="phone" value="<?= $administrator->getPhone() ?>">
                     </div>
                 </div>
-
             </form>
         </div>
         <div class="card-footer">
             <div>
                 <button name="save" type="button" class="btn btn-success">Salvar</button>
                 <button name="clear" type="button" class="btn btn-warning">Limpar</button>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Editar senha</button>
             </div>
         </div>
     </div>

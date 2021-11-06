@@ -3,9 +3,15 @@
 <?php if (isset($message)) : ?>
     <div id="message">
         <?php if ($message->getType() == 'success') : ?>
-            <div class="alert alert-info"><?= "{$message->getText()}." ?></div>
+            <div class="alert alert-info">
+                <?= "{$message->getText()}." ?>
+                <i class="fa fa-times-circle fa-lg" title="Excluir" data-dismiss="alert"></i>
+            </div>
         <?php else : ?>
-            <div class="alert alert-danger"><?= "Ops, {$message->getText()}." ?></div>
+            <div class="alert alert-danger">
+                <?= "Ops, {$message->getText()}." ?>
+                <i class="fa fa-times-circle fa-lg" title="Excluir" data-dismiss="alert"></i>
+            </div>
         <?php endif ?>
     </div>
 <?php endif ?>
@@ -62,12 +68,19 @@
                     </div>
                 </div>
 
+                <div class="form-row align-items-center">
+                    <label for="description" class="col-sm-2 col-form-label">Descrição</label>
+                    <div class="col-sm-8">
+                        <textarea type="text" class="form-control" id="description" name="description" maxlength="255"><?= $employee->getDescription() ?></textarea>
+                    </div>
+                </div>
             </form>
         </div>
         <div class="card-footer">
             <div>
                 <button name="save" type="button" class="btn btn-success">Salvar</button>
                 <button name="clear" type="button" class="btn btn-warning">Limpar</button>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Editar senha</button>
             </div>
         </div>
     </div>

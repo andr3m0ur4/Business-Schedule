@@ -1,11 +1,11 @@
-<button type="button" class="btn btn-primary d-none" id="btnModal" data-toggle="modal" data-target="#modalExemplo"></button>
+<button type="button" class="btn btn-primary d-none" id="btnModalEmployee" data-toggle="modal" data-target="#modalEmployee"></button>
 
 <!-- Modal -->
-<div class="modal fade" id="modalExemplo" tabindex="-1" role="dialog" aria-labelledby="TituloModalCentralizado" aria-hidden="true">
+<div class="modal fade" id="modalEmployee" tabindex="-1" role="dialog" aria-labelledby="TituloModalCentralizado" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="TituloModalCentralizado">Igor Marcondes Santos</h5>
+                <h5 class="modal-title TituloModalCentralizado" id="employee-name"></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -15,12 +15,28 @@
                     <table class="table table-borderless">
                         <tbody>
                             <tr>
-                                <th scope="row"><i class="fas fa-bars"></i> Função</th>
-                                <td>Cinegrafista</td>
+                                <th scope="row">
+                                    <i class="fa fa-bars"></i> Função
+                                </th>
+                                <td id="employee-job"></td>
                             </tr>
                             <tr>
-                                <th scope="row"><i class="fas fa-bars"></i> Descrição</th>
-                                <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime in, natus, reiciendis explicabo temporibus sint nulla dolorem fuga nam nesciunt at omnis voluptatum non. Illo cumque aspernatur expedita adipisci minus!</td>
+                                <th scope="row">
+                                    <i class="fa fa-bars"></i> E-mail
+                                </th>
+                                <td id="employee-email"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">
+                                    <i class="fa fa-bars"></i> Telefone
+                                </th>
+                                <td id="employee-phone"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">
+                                    <i class="fa fa-bars"></i> Descrição
+                                </th>
+                                <td id="employee-description"></td>
                             </tr>
                         </tbody>
                     </table>
@@ -29,25 +45,13 @@
                     <table class="table table-borderless">
                         <tbody>
                             <tr>
-                                <td scope="row"><i class="far fa-id-badge"></i> <b>André Moura</b>
-                                    <p>Um comentario</p>
-                                </td>
-                                <td>Hoje as 11:30</td>
-                            </tr>
-                            <tr>
-                                <td scope="row"><i class="far fa-id-badge"></i> <b>André Moura</b>
-                                    <p>Um comentario</p>
-                                </td>
-                                <td>Hoje as 11:32</td>
-                            </tr>
-                            <tr>
-                                <td scope="row"><i class="fas fa-plus"></i> Envie uma mensagem...
+                                <td scope="row"><i class="fa fa-plus"></i> Envie uma mensagem...
                                     <div class="form-group">
                                         <textarea class="form-control" id="exampleFormControlTextarea1"
                                             rows="3"></textarea>
                                     </div>
                                 </td>
-                                <td><i class="fas fa-paperclip"></i> <i class="fas fa-at"></i> <i class="fas fa-arrow-circle-up"></i></td>
+                                <td><i class="fa fa-paperclip"></i> <i class="fa fa-at"></i> <i class="fa fa-arrow-circle-up"></i></td>
                             </tr>
                         </tbody>
                     </table>

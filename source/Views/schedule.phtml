@@ -1,144 +1,138 @@
 <?php $this->layout('_template', $this->data) ?>
 
+
 <div class="container-fluid">
     <h1>Escala</h1>
+
     <div class="row flex-nowrap">
         <div class="col">
-            <h4 class="text-nowrap">Funcionário</h4>
-            <div id="grid-employees">
+            <h4 class="text-nowrap" style="min-width: 200px;">Funcionário</h4>
+        </div>
+        <div class="col">
+            <h4 class="text-nowrap" style="min-width: 200px;">Segunda-Feira</h4>
+        </div>
+        <div class="col">
+            <h4 class="text-nowrap" style="min-width: 200px;">Terça-Feira</h4>
+        </div>
+        <div class="col">
+            <h4 class="text-nowrap" style="min-width: 200px;">Quarta-Feira</h4>
+        </div>
+        <div class="col">
+            <h4 class="text-nowrap" style="min-width: 200px;">Quinta-Feira</h4>
+        </div>
+        <div class="col">
+            <h4 class="text-nowrap" style="min-width: 200px;">Sexta-Feira</h4>
+        </div>
+        <div class="col">
+            <h4 class="text-nowrap" style="min-width: 200px;">Sábado</h4>
+        </div>
+        <div class="col">
+            <h4 class="text-nowrap" style="min-width: 200px;">Domingo</h4>
+        </div>
+    </div>
 
-                <?php foreach ($employees as $employee) : ?>
-                    <div class="card bg-light border-dark mb-3">
+    <?php foreach ($employees as $employee) : ?>
+        <div class="row flex-nowrap" data-row-id="<?= $employee->getId() ?>">
+            <div class="col">
+                <div grid-employees>
+
+                    <div class="card bg-light border-dark mb-3" data-card-employee="<?= $employee->getId() ?>">
                         <div class="card-header"><?= $employee->getName() ?></div>
                         <div class="card-body text-darrk">
                             <h5 class="card-title"><?= $employee->getJob() ?></h5>
                             <p class="card-text"></p>
                         </div>
                     </div>
-                <?php endforeach ?>
-                
+                    
+                </div>
             </div>
-        </div>
 
-        <div class="col">
-            <h4 class="text-nowrap">Segunda-Feira</h4>
-            <div id="grid-monday">
-
-                <?php foreach ($employees as $employee) : ?>
-                    <div class="card bg-light border-dark mb-3" style="max-width: 18rem;min-width: 200px;">
+            <div class="col">
+                <div grid-days>
+                    <div class="card bg-light border-dark mb-3" data-card-time="<?= $lastIdEmployeeHour++ ?>" style="max-width: 18rem;min-width: 200px;">
                         <div class="card-header">Cabeçalho 1</div>
                         <div class="card-body text-darrk">
                             <h5 class="card-title">Card Light</h5>
                             <p class="card-text"></p>
                         </div>
                     </div>
-                <?php endforeach ?>
-                
+                </div>
             </div>
-        </div>
-                
-        <div class="col">
-            <h4 class="text-nowrap">Terça-Feira</h4>
-            <div id="grid-tuesday">
-                
-                <?php foreach ($employees as $employee) : ?>
-                    <div class="card bg-light border-dark mb-3" style="max-width: 18rem;min-width: 200px;">
+
+            <div class="col">
+                <div grid-days>
+                    <div class="card bg-light border-dark mb-3" data-card-time="<?= $lastIdEmployeeHour++ ?>" style="max-width: 18rem;min-width: 200px;">
                         <div class="card-header">Cabeçalho 1</div>
                         <div class="card-body text-darrk">
                             <h5 class="card-title">Card Light</h5>
                             <p class="card-text"></p>
                         </div>
                     </div>
-                <?php endforeach ?>
-
+                </div>
             </div>
-        </div>
 
-        <div class="col">
-            <h4 class="text-nowrap">Quarta-Feira</h4>
-            <div id="grid-wednesday">
-
-                <?php foreach ($employees as $employee) : ?>
-                    <div class="card bg-light border-dark mb-3" style="max-width: 18rem;min-width: 200px;">
+            <div class="col">
+                <div grid-days>
+                    <div class="card bg-light border-dark mb-3" data-card-time="<?= $lastIdEmployeeHour++ ?>" style="max-width: 18rem;min-width: 200px;">
                         <div class="card-header">Cabeçalho 1</div>
                         <div class="card-body text-darrk">
                             <h5 class="card-title">Card Light</h5>
                             <p class="card-text"></p>
                         </div>
                     </div>
-                <?php endforeach ?>
-
+                </div>
             </div>
-        </div>
-                
-        <div class="col">
-            <h4 class="text-nowrap">Quinta-Feira</h4>
-            <div id="grid-thirsday">
 
-                <?php foreach ($employees as $employee) : ?>
-                    <div class="card bg-light border-dark mb-3" style="max-width: 18rem;min-width: 200px;">
+            <div class="col">
+                <div grid-days>
+                    <div class="card bg-light border-dark mb-3" data-card-time="<?= $lastIdEmployeeHour++ ?>" style="max-width: 18rem;min-width: 200px;">
                         <div class="card-header">Cabeçalho 1</div>
                         <div class="card-body text-darrk">
                             <h5 class="card-title">Card Light</h5>
                             <p class="card-text"></p>
                         </div>
                     </div>
-                <?php endforeach ?>
-
+                </div>
             </div>
-        </div>
 
-        <div class="col">
-            <h4 class="text-nowrap">Sexta-Feira</h4>
-            <div id="grid-friday">
-
-                <?php foreach ($employees as $employee) : ?>
-                    <div class="card bg-light border-dark mb-3" style="max-width: 18rem;min-width: 200px;">
+            <div class="col">
+                <div grid-days>
+                    <div class="card bg-light border-dark mb-3" data-card-time="<?= $lastIdEmployeeHour++ ?>" style="max-width: 18rem;min-width: 200px;">
                         <div class="card-header">Cabeçalho 1</div>
                         <div class="card-body text-darrk">
                             <h5 class="card-title">Card Light</h5>
                             <p class="card-text"></p>
                         </div>
                     </div>
-                <?php endforeach ?>
-
+                </div>
             </div>
-        </div>
 
-        <div class="col">
-            <h4 class="text-nowrap">Sábado</h4>
-            <div id="grid-saturday">
-                
-                <?php foreach ($employees as $employee) : ?>
-                    <div class="card bg-light border-dark mb-3" style="max-width: 18rem;min-width: 200px;">
+            <div class="col">
+                <div grid-days>
+                    <div class="card bg-light border-dark mb-3" data-card-time="<?= $lastIdEmployeeHour++ ?>" style="max-width: 18rem;min-width: 200px;">
                         <div class="card-header">Cabeçalho 1</div>
                         <div class="card-body text-darrk">
                             <h5 class="card-title">Card Light</h5>
                             <p class="card-text"></p>
                         </div>
                     </div>
-                <?php endforeach ?>
-
+                </div>
             </div>
-        </div>
 
-        <div class="col">
-            <h4 class="text-nowrap">Domingo</h4>
-            <div id="grid-sunday">
-
-                <?php foreach ($employees as $employee) : ?>
-                    <div class="card bg-light border-dark mb-3" style="max-width: 18rem;min-width: 200px;">
+            <div class="col">
+                <div grid-days>
+                    <div class="card bg-light border-dark mb-3" data-card-time="<?= $lastIdEmployeeHour++ ?>" style="max-width: 18rem;min-width: 200px;">
                         <div class="card-header">Cabeçalho 1</div>
                         <div class="card-body text-darrk">
                             <h5 class="card-title">Card Light</h5>
                             <p class="card-text"></p>
                         </div>
                     </div>
-                <?php endforeach ?>
-
+                </div>
             </div>
+
         </div>
-    </div>
+    <?php endforeach ?>
 </div>
 
 <div class="row mt-5 justify-content-center">

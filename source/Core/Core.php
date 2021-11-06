@@ -58,6 +58,13 @@ class Core
         $route->post('/programa/{id}/editar', 'TvShow:update');
         $route->get('/programa/{id}/excluir', 'TvShow:delete');
 
+        /**
+         * API
+         */
+        $route->namespace('Source\Controllers')->group('/ajax');
+        $route->get('/employee/{id}', 'Employee:load');
+        $route->post('/employee/save/{id}', 'Employee:changePassword');
+        $route->post('/administrator/save/{id}', 'Administrator:changePassword');
 
         /**
          * TESTS
