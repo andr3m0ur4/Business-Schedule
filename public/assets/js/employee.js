@@ -96,8 +96,9 @@ const submitForm = event => {
         })
 
     } else {
+
         messageFixed = verify('[name=form_changePassword]', [])[0]
-        messageText(messageFixed,  'alert alert-danger', '[id=passwordSection]', 'passwordMessage');
+        messageText(messageFixed,  'alert alert-danger', fatherElement, 'passwordMessage');
     }
 
     

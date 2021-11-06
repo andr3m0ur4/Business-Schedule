@@ -71,7 +71,7 @@
                 <div class="form-row align-items-center">
                     <label for="description" class="col-sm-2 col-form-label">Descrição</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="description" name="description" value="<?= $employee->getDescription() ?>">
+                        <textarea type="text" class="form-control" id="description" name="description" maxlength="255"><?= $employee->getDescription() ?></textarea>
                     </div>
                 </div>
             </form>
