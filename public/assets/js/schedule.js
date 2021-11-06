@@ -1,15 +1,18 @@
 window.onload = () => {
-    const gridEmployees = document.getElementById('grid-employees')
+    // const gridEmployees = document.getElementById('grid-employees')
+    const gridEmployees = document.querySelectorAll('[grid-employees]')
+    const gridDays = document.querySelectorAll('[grid-days]')
 
-    const gridMonday = document.getElementById('grid-monday')
-    const gridTuesday = document.getElementById('grid-tuesday')
-    const gridWednesday = document.getElementById('grid-wednesday')
-    const gridThirsday = document.getElementById('grid-thirsday')
-    const gridFriday = document.getElementById('grid-friday')
-    const gridSaturday = document.getElementById('grid-saturday')
-    const gridSunday = document.getElementById('grid-sunday')
+    // const gridMonday = document.getElementById('grid-monday')
+    // const gridTuesday = document.getElementById('grid-tuesday')
+    // const gridWednesday = document.getElementById('grid-wednesday')
+    // const gridThirsday = document.getElementById('grid-thirsday')
+    // const gridFriday = document.getElementById('grid-friday')
+    // const gridSaturday = document.getElementById('grid-saturday')
+    // const gridSunday = document.getElementById('grid-sunday')
 
     const objSortable = {
+        group: 'employees',
         swap: true,
         swapClass: "highlighted",
         animation: 150,
@@ -24,21 +27,25 @@ window.onload = () => {
         ghostClass: 'blue-background-class'
     }
 
-    new Sortable(gridEmployees, objSortable)
+    gridEmployees.forEach(function(employee) {
+        new Sortable(employee, objSortable)
+    })
 
-    new Sortable(gridMonday, objSortableDays)
+    gridDays.forEach(function(day) {
+        new Sortable(day, objSortableDays)
+    })
 
-    new Sortable(gridTuesday, objSortableDays)
+    // new Sortable(gridTuesday, objSortableDays)
 
-    new Sortable(gridWednesday, objSortableDays)
+    // new Sortable(gridWednesday, objSortableDays)
 
-    new Sortable(gridThirsday, objSortableDays)
+    // new Sortable(gridThirsday, objSortableDays)
 
-    new Sortable(gridFriday, objSortableDays)
+    // new Sortable(gridFriday, objSortableDays)
 
-    new Sortable(gridSaturday, objSortableDays)
+    // new Sortable(gridSaturday, objSortableDays)
 
-    new Sortable(gridSunday, objSortableDays)
+    // new Sortable(gridSunday, objSortableDays)
 
     modal()
 
@@ -49,8 +56,10 @@ window.onload = () => {
                 openModalEmployee()
             }
         } else {
-            card.onclick = () => {
-                loadEmployeeTime(card.dataset.cardTime)
+            card.onclick = e => {
+                const idEmployeeTime = parseInt(card.dataset.cardTime)
+                const idEmployee = parseInt(card.closest('.row').dataset.rowId)
+                loadEmployeeTime(idEmployeeTime, idEmployee)
                 openModal()
             }
         }
@@ -121,11 +130,12 @@ const loadEmployee = id => {
         })
 }
 
-const loadEmployeeTime = id => {
-    fetch(`/ajax/employee/${id}`)
+const loadEmployeeTime = (idEmployeeTime, idEmployee) => {
+    fetch(`/ajax/employee/${idEmployee}`)
         .then(response => {
             response.json()
                 .then(obj => {
+                    obj.idEmployeeTime = idEmployeeTime
                     fillModalEmployeeTime(obj)
                 })
         })
@@ -139,6 +149,20 @@ const fillModalEmployee = employee => {
 }
 
 const fillModalEmployeeTime = employee => {
+    document.getElementById('modalEmployeeTime').dataset.id = employee.idEmployeeTime
     document.getElementById('time-name').innerHTML = employee.name
     document.getElementById('time-job').innerHTML = employee.job
+    document.getElementById('saveTime').onclick = saveTime
+}
+
+const saveTime = () => {
+    employeeTime = {
+        id: parseInt(document.getElementById('modalEmployeeTime').dataset.id),
+        startTime: document.getElementById('startTime').value,
+        finalTime: document.getElementById('finalTime').value,
+        date: document.getElementById('date').value
+    }
+    
+    db = new Database()
+    db.save(employeeTime)
 }

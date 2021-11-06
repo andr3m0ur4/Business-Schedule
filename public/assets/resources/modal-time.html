@@ -1,9 +1,7 @@
-<button type="button" class="btn btn-primary d-none" id="btnModal" data-toggle="modal"
-    data-target="#modalExemplo"></button>
+<button type="button" class="btn btn-primary d-none" id="btnModal" data-toggle="modal" data-target="#modalEmployeeTime"></button>
 
 <!-- Modal -->
-<div class="modal fade" id="modalExemplo" tabindex="-1" role="dialog" aria-labelledby="TituloModalCentralizado"
-    aria-hidden="true">
+<div class="modal fade" id="modalEmployeeTime" tabindex="-1" role="dialog" data-id="" aria-labelledby="TituloModalCentralizado" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -27,19 +25,19 @@
                             <tr>
                                 <th scope="row"><i class="fa fa-clock-o"></i> Horário inicial</th>
                                 <td colspan="2" id="time-start-time">
-                                    <input type="time">
+                                    <input type="time" id="startTime">
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row"><i class="fa fa-clock-o"></i> Horário final</th>
                                 <td colspan="2" id="final-time">
-                                    <input type="time" name="" id="">
+                                    <input type="time" name="" id="finalTime">
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row"><i class="fa fa-calendar-plus-o"></i> Data</th>
                                 <td colspan="2" id="time-date">
-                                    <input type="date" name="" id="">
+                                    <input type="date" name="" id="date">
                                 </td>
                             </tr>
                             <tr>
@@ -98,7 +96,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                <button type="button" class="btn btn-primary">Salvar mudanças</button>
+                <button type="button" class="btn btn-primary" id="saveTime">Salvar horário</button>
             </div>
 
             <script>
