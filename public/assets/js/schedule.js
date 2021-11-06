@@ -73,7 +73,13 @@ const modal = () => {
                 .then(data => {
                     const div = document.createElement('div')
                     div.innerHTML = data
+                    const form = div.querySelector('[name=formEmployeeTime]')
                     document.getElementById('myModal').appendChild(div)
+                    form.onsubmit = validateInputs
+
+                    $('#modalEmployeeTime').on('hidden.bs.modal', e => {
+                        form.reset()
+                    })
                 })
         })
 
@@ -156,14 +162,31 @@ const fillModalEmployeeTime = employee => {
     document.getElementById('saveTime').onclick = saveTime
 }
 
-const saveTime = () => {
-    employeeTime = {
+const saveTime = e => {
+    const btn = e.target;
+    const form = document.querySelector('[name=formEmployeeTime]')
+    const submitEvent = new SubmitEvent('submit', {
+        submitter: btn
+    })
+    form.dispatchEvent(submitEvent)
+}
+
+const validateInputs = e => {
+    e.preventDefault()
+    const form = e.target
+    if (!form.reportValidity()) {
+        return false;
+    }
+
+    const employeeTime = {
         id: parseInt(document.getElementById('modalEmployeeTime').dataset.id),
-        startTime: document.getElementById('startTime').value,
-        finalTime: document.getElementById('finalTime').value,
-        date: document.getElementById('date').value
+        startTime: form.startTime.value,
+        finalTime: form.finalTime.value,
+        date: form.date.value
     }
     
-    db = new Database()
+    const db = new Database()
     db.save(employeeTime)
+
+    $('#modalEmployeeTime').modal('hide')
 }
