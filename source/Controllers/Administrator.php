@@ -112,4 +112,44 @@ class Administrator extends Controller
 
         redirect('/admin');
     }
+
+    public function changePassword($params) : void
+    {
+
+        $message = null;
+        $dao = new AdministratorDAO();
+        $employee = $dao->findById($params['id']);
+        $error = [
+            'type' => 1,
+            'message' => 'Senha antiga errada'
+        ];
+
+
+        $oldPassword = filter_input(INPUT_POST, 'oldPassword', FILTER_SANITIZE_STRIPPED);
+        $password = filter_input(INPUT_POST, 'passwordForgot', FILTER_SANITIZE_STRIPPED);
+        $passwordConfirm = filter_input(INPUT_POST, 'passwordConfirm', FILTER_SANITIZE_STRIPPED);
+
+
+        if (password_verify($oldPassword, $employee->getPassword())) {
+            $error['message'] = 'Senha atuais diferentes';
+            
+            if($password == $passwordConfirm){
+                $error['message'] = 'Senha antiga igual a senha atual';
+
+                if($oldPassword != $password){
+
+                    $employee->setPassword($password);
+                    $dao->save($employee);
+                    $message = $dao->message();
+                    echo($message->json());
+                    return;
+                
+                }
+            }
+        }
+
+        echo json_encode($error);        
+        
+    }
+
 }
