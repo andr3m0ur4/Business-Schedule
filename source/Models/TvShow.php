@@ -6,10 +6,8 @@ use Source\Core\Model;
 
 class TvShow extends Model
 {
-    private ?int $id;
+    protected ?int $id;
     protected ?string $name;
-    protected ?string $date;
-    protected ?string $type;
 
     public function __construct(?int $id = null, ?string $name = null)
     {
