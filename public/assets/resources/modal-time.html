@@ -46,12 +46,13 @@
                                 <tr>
                                     <td scope="row"><i class="fa fa-tv"></i> Programas</td>
                                     <td>
-                                        <select class="custom-select custom-select-sm">
-                                            <option selected>Abra este menu select</option>
-                                            <option value="1">Um</option>
-                                            <option value="2">Dois</option>
-                                            <option value="3">Três</option>
-                                          </select>
+                                        <select class="select2 form-control" id="idSelect2" multiple="" tabindex="-1" style="width: 200px;" >
+                                            <optgroup label="Programas">
+                                                <option value="1">teste1</option>
+                                                <option value="2">teste2</option>
+                                                <option value="3">teste3</option>
+                                            </optgroup>
+                                        </select>
                                     </td>
                                 </tr>
                                 <tr>
@@ -98,13 +99,6 @@
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                 <button type="button" class="btn btn-primary" id="saveTime">Salvar horário</button>
             </div>
-
-            <script>
-                $(document).ready(function () {
-                    $('.mdb-select').materialSelect();
-                });
-            </script>
-
         </div>
     </div>
 </div>

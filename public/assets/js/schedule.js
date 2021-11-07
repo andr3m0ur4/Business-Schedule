@@ -27,11 +27,11 @@ window.onload = () => {
         ghostClass: 'blue-background-class'
     }
 
-    gridEmployees.forEach(function(employee) {
+    gridEmployees.forEach(function (employee) {
         new Sortable(employee, objSortable)
     })
 
-    gridDays.forEach(function(day) {
+    gridDays.forEach(function (day) {
         new Sortable(day, objSortableDays)
     })
 
@@ -80,6 +80,9 @@ const modal = () => {
                     $('#modalEmployeeTime').on('hidden.bs.modal', e => {
                         form.reset()
                     })
+
+                    $(".select2").select2();
+
                 })
         })
 
@@ -184,7 +187,7 @@ const validateInputs = e => {
         finalTime: form.finalTime.value,
         date: form.date.value
     }
-    
+
     const db = new Database()
     db.save(employeeTime)
 
