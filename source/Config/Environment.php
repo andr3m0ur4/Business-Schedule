@@ -7,8 +7,8 @@ define('CONF_DB_HOST', 'localhost');
 //define('CONF_DB_USER', 'andre-moura');
   define('CONF_DB_USER', 'root');
 //define('CONF_DB_PASS', 'andre-moura');
-// define('CONF_DB_PASS', '');
-define('CONF_DB_PASS', 'root');
+ define('CONF_DB_PASS', '');
+//define('CONF_DB_PASS', 'root');
 define('CONF_DB_NAME', 'business_schedule');
 
 /**
