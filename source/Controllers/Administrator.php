@@ -8,8 +8,17 @@ use Source\Models\AdministratorDAO;
 
 class Administrator extends Controller
 {
+    public function session() : void
+    {
+        if (!session()->__get('idUser')) {
+            redirect('/entrar');
+        }
+    }
+    
     public function index() : void
     {
+        session();
+
         $dao = new AdministratorDAO();
         $message = null;
 
@@ -35,6 +44,8 @@ class Administrator extends Controller
 
     public function save($params) : void
     {
+        session();
+
         $message = null;
         $dao = new AdministratorDAO();
         $administrator = new AdministratorModel();
@@ -65,6 +76,8 @@ class Administrator extends Controller
 
     public function update($param) : void
     {
+        session();
+
         $message = null;
         $dao = new AdministratorDAO();
 
@@ -104,6 +117,8 @@ class Administrator extends Controller
 
     public function delete($param) : void
     {
+        session();
+
         if (isset($param['id'])) {
             $id = (int) filter_var($param['id'], FILTER_SANITIZE_STRIPPED);
             $dao = new AdministratorDAO();
@@ -118,6 +133,7 @@ class Administrator extends Controller
     public function changePassword($params) : void
     {
 
+        
         $message = null;
         $dao = new AdministratorDAO();
         $employee = $dao->findById($params['id']);

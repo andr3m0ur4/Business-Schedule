@@ -9,9 +9,9 @@ class Home extends Controller
 {
     public function index() : void
     {
-        //if (!session()->__get('idUser')) {
-            //redirect('/entrar');
-        //}
+        if (!session()->__get('idUser')) {
+            redirect('/entrar');
+        }
 
         $data = [
             'title' => 'Business Schedule',
@@ -23,6 +23,10 @@ class Home extends Controller
 
     public function signin() : void
     {
+        if (session()->__get('idUser')) {
+            redirect('/home');
+        }
+
         $error = null;
 
         if ($_POST) {
@@ -62,6 +66,9 @@ class Home extends Controller
 
     public function forgotPassword() : void
     {
+        if (session()->__get('idUser')) {
+            redirect('/home');
+        }
 
         $data = [
             'title' => 'Business Schedule',

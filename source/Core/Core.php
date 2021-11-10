@@ -17,7 +17,7 @@ class Core
         $route->get('/entrar', 'Home:signin');
         $route->get('/sair', 'Home:signout');
         $route->get('/sobre', 'Home:about');
-        $route->get('/escalas', 'Home:schedule');
+        //$route->get('/escalas', 'Home:schedule');
         $route->get('/recuperarSenha', 'Home:forgotPassword');
         
         $route->post('/entrar', 'Home:signin');

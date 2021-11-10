@@ -8,8 +8,17 @@ use Source\Models\SwitcherDAO;
 
 class Switcher extends Controller
 {
+    public function session() : void
+    {
+        if (!session()->__get('idUser')) {
+            redirect('/entrar');
+        }
+    }
+
     public function index() : void
     {
+        session();
+
         $dao = new SwitcherDAO();
         $message = null;
 
@@ -35,6 +44,8 @@ class Switcher extends Controller
 
     public function save($params) : void
     {
+        session();
+
         $message = null;
         $dao = new SwitcherDAO();
         $switcher = new SwitcherModel();
@@ -60,6 +71,8 @@ class Switcher extends Controller
 
     public function update($params) : void
     {
+        session();
+
         $message = null;
         $dao = new SWitcherDAO();
         
@@ -89,6 +102,8 @@ class Switcher extends Controller
 
     public function delete($param) : void
     {
+        session();
+
         if (isset($param['id'])) {
             $id = (int) filter_var($param['id'], FILTER_SANITIZE_STRIPPED);
             $dao = new SwitcherDAO();

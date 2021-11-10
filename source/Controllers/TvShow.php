@@ -8,8 +8,17 @@ use Source\Models\TvShowDAO;
 
 class TvShow extends Controller
 {
+    public function session() : void
+    {
+        if (!session()->__get('idUser')) {
+            redirect('/entrar');
+        }
+    }
+
     public function index() : void
     {
+        session();
+
         $dao = new TvShowDAO();
         $message = null;
 
@@ -34,6 +43,8 @@ class TvShow extends Controller
 
     public function save($params) : void
     {
+        session();
+
         $message = null;
         $dao = new TvShowDAO();
         $tvShow = new TvShowModel();
@@ -59,6 +70,8 @@ class TvShow extends Controller
 
     public function update($params) : void
     {
+        session();
+
         $message = null;
         $dao = new TvShowDAO();
         
@@ -90,6 +103,8 @@ class TvShow extends Controller
 
     public function delete($param) : void
     {
+        session();
+
         if (isset($param['id'])) {
             $id = (int) filter_var($param['id'], FILTER_SANITIZE_STRIPPED);
             $dao = new TvShowDAO();
