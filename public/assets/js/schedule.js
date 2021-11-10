@@ -1,3 +1,6 @@
+const dbEmployeeTime = new Database('employeeTime')
+const dbTvShowTime = new Database('tvShowTime')
+
 window.onload = () => {
     // const gridEmployees = document.getElementById('grid-employees')
     const gridEmployees = document.querySelectorAll('[grid-employees]')
@@ -88,7 +91,6 @@ const modal = () => {
                     })
 
                     $(".select2").select2();
-
                 })
         })
 
@@ -120,7 +122,7 @@ const modal = () => {
                     div.innerHTML = data
                     document.getElementById('myModal').appendChild(div)
                     document.getElementById('form_TvShowHour').onsubmit = saveTvShowHour
-                    document.getElementById('saveTvShow').onclick = submitTvShow
+                    document.getElementById('saveTvShow').onclick = submitTvShowHour
                     loadItems(`/ajax/tvshow/list`, 'tvShow')
                     loadItems(`/ajax/switcher/list`, 'tvSwitcher')
                     loadItems(`/ajax/studio/list`, 'tvStudio')
@@ -197,6 +199,14 @@ const fillModalEmployeeTime = employee => {
     document.getElementById('modalEmployeeTime').dataset.id = employee.idEmployeeTime
     document.getElementById('time-name').innerHTML = employee.name
     document.getElementById('time-job').innerHTML = employee.job
+
+    if (dbEmployeeTime.has(employee.idEmployeeTime)) {
+        const employeeTime = dbEmployeeTime.get(employee.idEmployeeTime)
+        document.getElementById('startTime').value = employeeTime.startTime
+        document.getElementById('finalTime').value = employeeTime.finalTime
+        document.getElementById('date').value = employeeTime.date
+    }
+    
     document.getElementById('saveTime').onclick = saveTime
 }
 
@@ -216,19 +226,35 @@ const validateInputs = e => {
         return false;
     }
 
+    const idEmployeeTime = parseInt(document.getElementById('modalEmployeeTime').dataset.id)
     const employeeTime = {
-        id: parseInt(document.getElementById('modalEmployeeTime').dataset.id),
+        id: idEmployeeTime,
         startTime: form.startTime.value,
         finalTime: form.finalTime.value,
         date: form.date.value
     }
 
-    const db = new Database()
-    db.save(employeeTime)
+    dbEmployeeTime.save(employeeTime)
+    updateCard(idEmployeeTime)
     $('#modalEmployeeTime').modal('hide')
 }
 
-const submitTvShow = e => {
+
+const updateCard = id => {
+    const employeeTime = dbEmployeeTime.get(id)
+    
+    const startTime = document.createElement('span')
+    startTime.innerHTML = employeeTime.startTime
+    const finalTime = document.createElement('span')
+    finalTime.innerHTML = employeeTime.finalTime
+    
+    const card = document.querySelector(`.card[data-card-time="${id}"]`)
+    card.querySelector('.card-header').innerHTML = ''
+    card.querySelector('.card-header').appendChild(startTime)
+    card.querySelector('.card-header').appendChild(finalTime)
+}
+
+const submitTvShowHour = e => {
     
     e.preventDefault()
 
@@ -266,5 +292,3 @@ const addItens = (tvShows, selectId) => {
         document.getElementById(selectId).appendChild(option)
     });
 }
-
-
