@@ -8,17 +8,12 @@ use Source\Models\EmployeeHourDAO;
 
 class Schedule extends Controller
 {
-    public function session() : void
-    {
-        if (!session()->__get('idUser')) {
-            redirect('/entrar');
-        }
-    }
-    
     public function index() : void
     {
-        session();
-        
+        if (!session()->__get('idUser')) {
+           redirect('/entrar');
+        }
+
         $dao = new EmployeeDAO();
 
         $data = [

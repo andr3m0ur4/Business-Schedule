@@ -10,16 +10,11 @@ use function PHPSTORM_META\type;
 
 class Employee extends Controller
 {
-    public function session() : void
+    public function index() : void
     {
         if (!session()->__get('idUser')) {
             redirect('/entrar');
         }
-    }
-
-    public function index() : void
-    {
-        session();
 
         $dao = new EmployeeDAO();
         $message = null;
@@ -47,7 +42,9 @@ class Employee extends Controller
     public function save($params) : void
     {
 
-        session();
+        if (!session()->__get('idUser')) {
+            redirect('/entrar');
+        }
 
         $message = null;
         $dao = new EmployeeDAO();
@@ -81,8 +78,9 @@ class Employee extends Controller
 
     public function update($params) : void
     {
-
-        session();
+        if (!session()->__get('idUser')) {
+            redirect('/entrar');
+        }
 
         $message = null;
         $dao = new EmployeeDAO();
@@ -124,8 +122,9 @@ class Employee extends Controller
 
     public function delete($param) : void
     {
-        
-        session();
+        if (!session()->__get('idUser')) {
+            redirect('/entrar');
+        }
         
         if (isset($param['id'])) {
             $id = (int) filter_var($param['id'], FILTER_SANITIZE_STRIPPED);
