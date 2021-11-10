@@ -63,6 +63,9 @@ class Core
          */
         $route->namespace('Source\Controllers')->group('/ajax');
         $route->get('/employee/{id}', 'Employee:load');
+        $route->get('/tvshow/list', 'TvShow:listTvShow');
+        $route->get('/switcher/list', 'Switcher:listSwitcher');
+        $route->get('/studio/list', 'Studio:listStudio');
         $route->post('/employee/save/{id}', 'Employee:changePassword');
         $route->post('/administrator/save/{id}', 'Administrator:changePassword');
 

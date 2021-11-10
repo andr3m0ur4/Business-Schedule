@@ -62,7 +62,8 @@ class Employee extends Controller
             'title' => 'Business Schedule - Funcionário',
             'file' => 'employee',
             'employee' => $employee,
-            'message' => $message
+            'message' => $message,
+            'exibir' => false
         ]);
     }
 
@@ -101,7 +102,8 @@ class Employee extends Controller
             'title' => 'Business Schedule - Funcionário',
             'file' => 'employee',
             'employee' => $employee,
-            'message' => $message
+            'message' => $message,
+            'exibir' => true
         ]);
     }
 

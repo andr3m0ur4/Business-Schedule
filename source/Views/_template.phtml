@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,12 +11,14 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="/assets/css/animate.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="/assets/css/light-bootstrap-dashboard.css">
     <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="/assets/css/style.css">
     <!-- <script src="https://kit.fontawesome.com/a81368914c.js"></script> -->
     <link rel="stylesheet" type="text/css" href="/assets/css/<?= $file ?>.css">
 </head>
+
 <body>
 
     <div class="wrapper">
@@ -46,36 +49,11 @@
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation-example-2" aria-controls="navbarNav" aria-expanded="false" aria-label="Alterna navegação">
                             <span class="navbar-toggler-icon"></span>
                         </button>
-                        <a class="navbar-brand py-0" href="#"> <i class="fa fa-code"></i> Código-fonte</a>
+
                     </div>
                     <div class="collapse navbar-collapse">
-                        <ul class="nav navbar-nav">
-                            <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle my-0" data-toggle="dropdown" id="navbarDropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fa fa-dashboard"></i>
-                                    <p class="d-inline-block d-lg-none d-md-none ml-0">Dashboard</p>
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="#">Ação</a>
-                                    <a class="dropdown-item" href="#">Outra ação</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">Algo mais aqui</a>
-                                </div>
-                            </li>
-                        </ul>
                         <ul class="nav navbar-nav ml-lg-auto align-items-lg-center">
-                            <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle my-0" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                    <p class="d-inline-block">
-                                        Atalhos
-                                    </p>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="/escala">Escalas</a></li>
-                                    <li><a href="/funcionario">Funcionários</a></li>
-                                    <li><a href="/programa">Programas</a></li>
-                                </ul>
-                            </li>
+                            <img src="/assets/images/TV_Aparecida_2010.png" width="20" height="20" class="rounded-circle ml-2">
                             <li>
                                 <a href="/sair" class="my-0">
                                     <p>Sair</p>
@@ -116,9 +94,10 @@
     <script src="/assets/js/light-bootstrap-dashboard.js?v=1.4.0"></script>
     <!-- jsDelivr :: Sortable :: Latest (https://www.jsdelivr.com/package/npm/sortablejs) -->
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
     <script src="/assets/js/localStorage.js"></script>
     <script type="text/javascript" src="/assets/js/<?= $file ?>.js"></script>
     <script src="/assets/js/script.js"></script>
-
 </body>
+
 </html>

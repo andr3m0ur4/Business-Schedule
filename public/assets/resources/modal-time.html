@@ -1,7 +1,9 @@
-<button type="button" class="btn btn-primary d-none" id="btnModal" data-toggle="modal" data-target="#modalEmployeeTime"></button>
+<button type="button" class="btn btn-primary d-none" id="btnModal" data-toggle="modal"
+    data-target="#modalEmployeeTime"></button>
 
 <!-- Modal -->
-<div class="modal fade" id="modalEmployeeTime" tabindex="-1" role="dialog" data-id="" aria-labelledby="TituloModalCentralizado" aria-hidden="true">
+<div class="modal fade" id="modalEmployeeTime" tabindex="-1" role="dialog" data-id=""
+    aria-labelledby="TituloModalCentralizado" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -12,54 +14,53 @@
             </div>
             <div class="modal-body">
                 <div class="container">
-                    <table class="table table-borderless">
-                        <tbody>
-                            <tr>
-                                <th scope="row"><i class="fa fa-bars"></i> Função</th>
-                                <td id="time-job"></td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><i class="fa fa-info-circle"></i> Status</th>
-                                <td><span class="badge badge-danger">Nome</span></td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><i class="fa fa-clock-o"></i> Horário inicial</th>
-                                <td colspan="2" id="time-start-time">
-                                    <input type="time" id="startTime">
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><i class="fa fa-clock-o"></i> Horário final</th>
-                                <td colspan="2" id="final-time">
-                                    <input type="time" name="" id="finalTime">
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><i class="fa fa-calendar-plus-o"></i> Data</th>
-                                <td colspan="2" id="time-date">
-                                    <input type="date" name="" id="date">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td scope="row"><i class="fa fa-tv"></i> Programas</td>
-                                <td>
-                                    <select class="mdb-select md-form" multiple searchable="Search here..">
-                                        <option value="" data-fas="laptop blue-text"> example 1</option>
-                                        <option value="" data-far="circle red-text">
-                                            example
-                                            2</option>
-                                        <option value="" data-fab="facebook brown-text">
-                                            example
-                                            3</option>
-                                    </select>
-                                    <button class="btn-save btn btn-primary btn-sm">Save</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><i class="fa fa-plus"></i> Adicionar</th>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <form name="formEmployeeTime">
+                        <table class="table table-borderless">
+                            <tbody>
+                                <tr>
+                                    <th scope="row"><i class="fa fa-bars"></i> Função</th>
+                                    <td id="time-job"></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"><i class="fa fa-info-circle"></i> Status</th>
+                                    <td><span class="badge badge-danger">Nome</span></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"><i class="fa fa-clock-o"></i> Horário inicial</th>
+                                    <td colspan="2" id="time-start-time">
+                                        <input type="time" id="startTime" name="startTime" required>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"><i class="fa fa-clock-o"></i> Horário final</th>
+                                    <td colspan="2" id="final-time">
+                                        <input type="time" name="finalTime" id="finalTime" required>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"><i class="fa fa-calendar-plus-o"></i> Data</th>
+                                    <td colspan="2" id="time-date">
+                                        <input type="date" name="date" id="date" required>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td scope="row"><i class="fa fa-tv"></i> Programas</td>
+                                    <td>
+                                        <select class="select2 form-control" id="idSelect2" multiple="" tabindex="-1" style="width: 200px;" >
+                                            <optgroup label="Programas">
+                                                <option value="1">teste1</option>
+                                                <option value="2">teste2</option>
+                                                <option value="3">teste3</option>
+                                            </optgroup>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"><i class="fa fa-plus"></i> Adicionar</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </form>
 
                     <hr>
                     <table class="table table-borderless">
@@ -98,13 +99,6 @@
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                 <button type="button" class="btn btn-primary" id="saveTime">Salvar horário</button>
             </div>
-
-            <script>
-                $(document).ready(function () {
-                    $('.mdb-select').materialSelect();
-                });
-            </script>
-
         </div>
     </div>
 </div>

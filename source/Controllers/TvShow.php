@@ -100,4 +100,11 @@ class TvShow extends Controller
 
         redirect('/programa');
     }
+
+    public function listTvShow() : void
+    {
+        $dao = new TvShowDAO();
+        $tvShows = $dao->find()->all();
+        echo json_encode($tvShows);
+    }
 }

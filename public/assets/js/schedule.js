@@ -27,11 +27,11 @@ window.onload = () => {
         ghostClass: 'blue-background-class'
     }
 
-    gridEmployees.forEach(function(employee) {
+    gridEmployees.forEach(function (employee) {
         new Sortable(employee, objSortable)
     })
 
-    gridDays.forEach(function(day) {
+    gridDays.forEach(function (day) {
         new Sortable(day, objSortableDays)
     })
 
@@ -64,6 +64,12 @@ window.onload = () => {
             }
         }
     })
+
+    if (document.querySelector('[id=btnModalTvShowSchedule]')) {
+        document.querySelector('[id=btnModalTvShowSchedule]').onclick = () => {
+            openModalTvShow()
+        }
+    }
 }
 
 const modal = () => {
@@ -73,7 +79,16 @@ const modal = () => {
                 .then(data => {
                     const div = document.createElement('div')
                     div.innerHTML = data
+                    const form = div.querySelector('[name=formEmployeeTime]')
                     document.getElementById('myModal').appendChild(div)
+                    form.onsubmit = validateInputs
+
+                    $('#modalEmployeeTime').on('hidden.bs.modal', e => {
+                        form.reset()
+                    })
+
+                    $(".select2").select2();
+
                 })
         })
 
@@ -96,6 +111,20 @@ const modal = () => {
                     document.getElementById('myModal').appendChild(div)
                 })
         })
+
+    fetch('/assets/resources/modal-tvShowHour.html')
+        .then(response => {
+            response.text()
+                .then(data => {
+                    const div = document.createElement('div')
+                    div.innerHTML = data
+                    document.getElementById('myModal').appendChild(div)
+                    document.getElementById('saveTvShow').onclick = saveTvShow
+                    loadItems(`/ajax/tvshow/list`, 'tvShow')
+                    loadItems(`/ajax/switcher/list`, 'tvSwitcher')
+                    loadItems(`/ajax/studio/list`, 'tvStudio')
+                })
+        })
 }
 
 const openModal = () => {
@@ -108,6 +137,10 @@ const openModalEmployee = () => {
 
 const openModalSchedule = () => {
     document.getElementById('btnModalSchedule').click()
+}
+
+const openModalTvShow = () => {
+    document.getElementById('btnModalTvShow').click()
 }
 
 const loadSchedule = id => {
@@ -141,6 +174,16 @@ const loadEmployeeTime = (idEmployeeTime, idEmployee) => {
         })
 }
 
+const loadItems = (url, selectId) => {
+    fetch(url)
+        .then(response => {
+            response.json()
+                .then(obj => {
+                    addItens(obj, selectId)
+                })
+        })
+}
+
 const fillModalEmployee = employee => {
     document.getElementById('employee-name').innerHTML = employee.name
     document.getElementById('employee-job').innerHTML = employee.job
@@ -156,14 +199,57 @@ const fillModalEmployeeTime = employee => {
     document.getElementById('saveTime').onclick = saveTime
 }
 
-const saveTime = () => {
-    employeeTime = {
+const saveTime = e => {
+    const btn = e.target;
+    const form = document.querySelector('[name=formEmployeeTime]')
+    const submitEvent = new SubmitEvent('submit', {
+        submitter: btn
+    })
+    form.dispatchEvent(submitEvent)
+}
+
+const validateInputs = e => {
+    e.preventDefault()
+    const form = e.target
+    if (!form.reportValidity()) {
+        return false;
+    }
+
+    const employeeTime = {
         id: parseInt(document.getElementById('modalEmployeeTime').dataset.id),
-        startTime: document.getElementById('startTime').value,
-        finalTime: document.getElementById('finalTime').value,
-        date: document.getElementById('date').value
+        startTime: form.startTime.value,
+        finalTime: form.finalTime.value,
+        date: form.date.value
+    }
+
+    const db = new Database()
+    db.save(employeeTime)
+    $('#modalEmployeeTime').modal('hide')
+}
+
+const saveTvShow = () => {
+    tvShowHour = {
+        id: parseInt(document.getElementById('tvId').value),
+        idTvShow: document.getElementById('tvShow').value,
+        startTime: document.getElementById('tvStartTime').value,
+        finalTime: document.getElementById('tvFinalTime').value,
+        date: document.getElementById('tvDate').value, 
+        idSwitcher: document.getElementById('tvSwitcher').value,
+        idStudio: document.getElementById('tvStudio').value,
+        type: document.getElementById('tvType').value, 
     }
     
-    db = new Database()
-    db.save(employeeTime)
+    db2 = new Database()
+    db2.save(tvShowHour)
 }
+
+const addItens = (tvShows, selectId) => {
+    tvShows.forEach(tvShow => {
+        let option = document.createElement('option')
+        option.innerHTML = tvShow.name
+        option.id = tvShow.id
+        document.getElementById(selectId).appendChild(option)
+    });
+}
+
+
