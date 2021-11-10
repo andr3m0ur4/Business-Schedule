@@ -59,4 +59,15 @@ class Home extends Controller
     {
         $this->loadTemplate('escala', []);
     }
+
+    public function forgotPassword() : void
+    {
+
+        $data = [
+            'title' => 'Business Schedule',
+            'file' => 'signin'
+        ];
+
+        echo $this->view->render('forgot-password', $data);
+    }
 }
