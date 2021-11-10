@@ -82,7 +82,7 @@ const submitForm = event => {
     
     event.preventDefault()
 
-    form = new FormData(document.getElementById('form_changePassword'));
+    let form = new FormData(document.getElementById('form_changePassword'));
 
     if (verify('[name=form_changePassword]', []).length == 0) {
         fetch(`/ajax/employee/save/${id.value}`,{
@@ -91,13 +91,14 @@ const submitForm = event => {
         }).then(response => {
             response.json()
                 .then(data => {
-                    messagePassword(messageObject = data, fatherElement);
+                    let messageObject = data
+                    messagePassword(messageObject, fatherElement);
                 })
         })
 
     } else {
 
-        messageFixed = verify('[name=form_changePassword]', [])[0]
+        let messageFixed = verify('[name=form_changePassword]', [])[0]
         messageText(messageFixed,  'alert alert-danger', fatherElement, 'passwordMessage');
     }
 

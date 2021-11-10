@@ -67,7 +67,7 @@ class Core
         $route->get('/switcher/list', 'Switcher:listSwitcher');
         $route->get('/studio/list', 'Studio:listStudio');
         $route->post('/employee/save/{id}', 'Employee:changePassword');
-        $route->post('/administrator/save/{id}', 'Administrator:changePassword');
+        $route->post('/tvShowHour/save', 'TvShowHour:save');
 
         /**
          * TESTS

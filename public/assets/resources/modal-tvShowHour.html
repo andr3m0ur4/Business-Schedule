@@ -12,64 +12,66 @@
             </div>
             <div class="modal-body">
                 <div class="container">
-                    <table class="table table-borderless">
-                        <tbody>
-                            <tr>
-                                <th scope="row"><i class="fa fa-bars"></i>Horário do programa</th>
-                                <td id="tv-show-hours"></td>
-                            </tr>
-                            <tr>
-                                <td style="display:none" colspan="2" id="tv-show">
-                                    <input id="tvId" value="1">
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><i class="fa fa-clock-o"></i> Programa</th>
-                                <td colspan="2" id="tv-show">
-                                    <select id="tvShow"></select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><i class="fa fa-clock-o"></i> Horário inicial</th>
-                                <td colspan="2" id="start-time">
-                                    <input type="time" id="tvStartTime">
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><i class="fa fa-clock-o"></i> Horário final</th>
-                                <td colspan="2" id="final-time">
-                                    <input type="time" name="" id="tvFinalTime">
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><i class="fa fa-calendar-plus-o"></i>Switcher</th>
-                                <td colspan="2" id="switcher">
-                                    <select id="tvSwitcher"></select>
-                                </td>
-                            </tr>
+                    <form id="form_TvShowHour">
+                        <table class="table table-borderless">
+                            <tbody>
+                                <tr>
+                                    <th scope="row"><i class="fa fa-bars"></i>Horário do programa</th>
+                                    <td id="tv-show-hours"></td>
+                                </tr>
+                                <tr>
+                                    <td style="display:none" colspan="2" id="tv-show">
+                                        <input id="tvId" name="tvId">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"><i class="fa fa-clock-o"></i> Programa</th>
+                                    <td colspan="2" id="tv-show">
+                                        <select name="tvShow" id="tvShow"></select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"><i class="fa fa-clock-o"></i> Horário inicial</th>
+                                    <td colspan="2" id="start-time">
+                                        <input type="time" name="tvStartTime" id="tvStartTime">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"><i class="fa fa-clock-o"></i> Horário final</th>
+                                    <td colspan="2" id="final-time">
+                                        <input type="time" name="tvFinalTime" id="tvFinalTime">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"><i class="fa fa-calendar-plus-o"></i>Switcher</th>
+                                    <td colspan="2" id="switcher">
+                                        <select name="tvSwitcher" id="tvSwitcher"></select>
+                                    </td>
+                                </tr>
 
-                            <tr>
-                                <th scope="row"><i class="fa fa-calendar-plus-o"></i>Estudio</th>
-                                <td colspan="2" id="studio">
-                                    <select id="tvStudio"></select>
-                                </td>
-                            </tr>
+                                <tr>
+                                    <th scope="row"><i class="fa fa-calendar-plus-o"></i>Estudio</th>
+                                    <td colspan="2" id="studio">
+                                        <select name="tvStudio" id="tvStudio"></select>
+                                    </td>
+                                </tr>
 
-                            <tr>
-                                <th scope="row"><i class="fa fa-calendar-plus-o"></i>Dia</th>
-                                <td colspan="2" id="studio">
-                                    <input type="date" name="" id="tvDate">
-                                </td>
-                            </tr>
+                                <tr>
+                                    <th scope="row"><i class="fa fa-calendar-plus-o"></i>Dia</th>
+                                    <td colspan="2" id="studio">
+                                        <input type="date" name="tvDate" id="tvDate">
+                                    </td>
+                                </tr>
 
-                            <tr>
-                                <th scope="row"><i class="fa fa-calendar-plus-o"></i>Tipo</th>
-                                <td colspan="2" id="studio">
-                                    <input name="" id="tvType">
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                <tr>
+                                    <th scope="row"><i class="fa fa-calendar-plus-o"></i>Tipo</th>
+                                    <td colspan="2" id="studio">
+                                        <input name="tvType" id="tvType">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </form>
                     <hr>
 
                 </div>

@@ -119,7 +119,8 @@ const modal = () => {
                     const div = document.createElement('div')
                     div.innerHTML = data
                     document.getElementById('myModal').appendChild(div)
-                    document.getElementById('saveTvShow').onclick = saveTvShow
+                    document.getElementById('form_TvShowHour').onsubmit = saveTvShowHour
+                    document.getElementById('saveTvShow').onclick = submitTvShow
                     loadItems(`/ajax/tvshow/list`, 'tvShow')
                     loadItems(`/ajax/switcher/list`, 'tvSwitcher')
                     loadItems(`/ajax/studio/list`, 'tvStudio')
@@ -227,20 +228,34 @@ const validateInputs = e => {
     $('#modalEmployeeTime').modal('hide')
 }
 
-const saveTvShow = () => {
-    tvShowHour = {
-        id: parseInt(document.getElementById('tvId').value),
-        idTvShow: document.getElementById('tvShow').value,
-        startTime: document.getElementById('tvStartTime').value,
-        finalTime: document.getElementById('tvFinalTime').value,
-        date: document.getElementById('tvDate').value, 
-        idSwitcher: document.getElementById('tvSwitcher').value,
-        idStudio: document.getElementById('tvStudio').value,
-        type: document.getElementById('tvType').value, 
-    }
+const submitTvShow = e => {
     
-    db2 = new Database()
-    db2.save(tvShowHour)
+    e.preventDefault()
+
+    let form = new FormData(document.getElementById('form_TvShowHour'));
+    console.log(document.getElementById('form_TvShowHour'))
+    console.log(form)
+
+    fetch(`/ajax/tvShowHour/save`,{
+        method: 'POST',
+        body: form
+    }).then(response => {
+        response.json()
+            .then(data => {
+                console.log(data)
+            })
+    })
+    
+}
+
+const saveTvShowHour = event => {
+    const btn = event.target
+    const form = document.getElementById('form_TvShowHour')
+    const submitEvent = new SubmitEvent('submit', {
+        submitter: btn
+    })
+
+    form.dispatchEvent(submitEvent)
 }
 
 const addItens = (tvShows, selectId) => {

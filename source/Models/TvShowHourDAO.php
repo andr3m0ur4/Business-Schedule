@@ -25,7 +25,6 @@ class TvShowHourDAO extends DAO
         return new TvShowHour(
             $tvShowHour->id,
             $tvShowHour->id_tv_show,
-            $tvShowHour->id_employee_hour,
             $tvShowHour->start_time,
             $tvShowHour->final_time,
             $tvShowHour->id_switcher,
@@ -50,7 +49,6 @@ class TvShowHourDAO extends DAO
             $tvShowHours[] =  new TvShowHour(
                 $tvShowHour->id,
                 $tvShowHour->id_tv_show,
-                $tvShowHour->id_employee_hour,
                 $tvShowHour->start_time,
                 $tvShowHour->final_time,
                 $tvShowHour->id_switcher,
@@ -84,8 +82,9 @@ class TvShowHourDAO extends DAO
         
         // TV Show Hour Create
         if (empty($tvShowHour->getId())) {
+
             $tvShowHourId = $this->create($tvShowHour->safe());
-            
+
             if ($this->fail()) {
                 $this->message->error('Erro ao cadastrar, verifique os dados');
                 return false;
