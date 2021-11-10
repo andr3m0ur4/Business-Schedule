@@ -91,7 +91,6 @@ const modal = () => {
                     })
 
                     $(".select2").select2();
-
                 })
         })
 
@@ -199,6 +198,14 @@ const fillModalEmployeeTime = employee => {
     document.getElementById('modalEmployeeTime').dataset.id = employee.idEmployeeTime
     document.getElementById('time-name').innerHTML = employee.name
     document.getElementById('time-job').innerHTML = employee.job
+
+    if (dbEmployeeTime.has(employee.idEmployeeTime)) {
+        const employeeTime = dbEmployeeTime.get(employee.idEmployeeTime)
+        document.getElementById('startTime').value = employeeTime.startTime
+        document.getElementById('finalTime').value = employeeTime.finalTime
+        document.getElementById('date').value = employeeTime.date
+    }
+    
     document.getElementById('saveTime').onclick = saveTime
 }
 

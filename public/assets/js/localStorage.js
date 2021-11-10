@@ -11,4 +11,8 @@ class Database {
     get(id) {
         return JSON.parse(localStorage.getItem(`${this.keyName}-${id}`))
     }
+
+    has(id) {
+        return localStorage.getItem(`${this.keyName}-${id}`) != null
+    }
 }
