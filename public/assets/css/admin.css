@@ -1,3 +1,11 @@
 div.alert.question a {
     margin-top: -9px;
 }
+
+@media (max-width: 320px) {
+    .btn {
+        display: block;
+        margin-top: 10px;
+        width: 100%;
+    }
+}

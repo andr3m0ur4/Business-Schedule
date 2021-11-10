@@ -58,7 +58,8 @@ class Administrator extends Controller
             'title' => 'Business Schedule - Admin',
             'file' => 'admin',
             'administrator' => $administrator,
-            'message' => $message
+            'message' => $message,
+            'exibirAdmin' => false
         ]);
     }
 
@@ -96,7 +97,8 @@ class Administrator extends Controller
             'title' => 'Business Schedule - Admin',
             'file' => 'admin',
             'administrator' => $administrator,
-            'message' => $message
+            'message' => $message,
+            'exibirAdmin' => true
         ]);
     }
 
