@@ -200,3 +200,9 @@ body {
         width: 100%;
     }
 }
+
+@media (max-width: 425px) {
+    form label {
+        text-align: left;
+    }
+}
