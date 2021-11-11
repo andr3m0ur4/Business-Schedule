@@ -192,3 +192,11 @@ body {
         margin-top: 0;
     }
 }
+
+@media (max-width: 320px) {
+    .btn {
+        display: block;
+        margin-top: 10px;
+        width: 100%;
+    }
+}
