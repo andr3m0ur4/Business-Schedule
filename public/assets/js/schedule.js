@@ -121,8 +121,8 @@ const modal = () => {
                     const div = document.createElement('div')
                     div.innerHTML = data
                     document.getElementById('myModal').appendChild(div)
-                    document.getElementById('form_TvShowHour').onsubmit = saveTvShowHour
-                    document.getElementById('saveTvShow').onclick = submitTvShowHour
+                    document.getElementById('saveTvShow').onclick = saveTvShowHour 
+                    document.getElementById('form_TvShowHour').onsubmit = submitTvShowHour
                     loadItems(`/ajax/tvshow/list`, 'tvShow')
                     loadItems(`/ajax/switcher/list`, 'tvSwitcher')
                     loadItems(`/ajax/studio/list`, 'tvStudio')
@@ -220,6 +220,7 @@ const saveTime = e => {
 }
 
 const validateInputs = e => {
+    console.log(e)
     e.preventDefault()
     const form = e.target
     if (!form.reportValidity()) {
@@ -256,11 +257,16 @@ const updateCard = id => {
 
 const submitTvShowHour = e => {
     
+    console.log(e)
     e.preventDefault()
 
+    const formTvShow = e.target
+    if (!formTvShow.reportValidity()) {
+        return false;
+    }
+
     let form = new FormData(document.getElementById('form_TvShowHour'));
-    console.log(document.getElementById('form_TvShowHour'))
-    console.log(form)
+    let fatherElement = '[id=tvShowHour]';
 
     fetch(`/ajax/tvShowHour/save`,{
         method: 'POST',
@@ -268,13 +274,15 @@ const submitTvShowHour = e => {
     }).then(response => {
         response.json()
             .then(data => {
-                console.log(data)
+                let messageObject = data
+                messageTvShow(messageObject, fatherElement);
             })
     })
     
 }
 
 const saveTvShowHour = event => {
+
     const btn = event.target
     const form = document.getElementById('form_TvShowHour')
     const submitEvent = new SubmitEvent('submit', {
@@ -282,13 +290,77 @@ const saveTvShowHour = event => {
     })
 
     form.dispatchEvent(submitEvent)
+
+
 }
 
-const addItens = (tvShows, selectId) => {
-    tvShows.forEach(tvShow => {
+const addItens = (itens, selectId) => {
+    itens.forEach(iten => {
         let option = document.createElement('option')
-        option.innerHTML = tvShow.name
-        option.id = tvShow.id
+        option.innerHTML = iten.name
         document.getElementById(selectId).appendChild(option)
     });
+}
+
+const messageText = (messageFixed, messageConfiguration, fatherElement, messageId) => {
+
+    if (document.querySelector('[id='+ messageId +']')) {
+        let messageComponent = document.querySelector('[id='+ messageId +']');
+        messageComponent.innerHTML = `${messageFixed}`;
+        messageComponent.className = messageConfiguration;
+    
+
+    } else {
+        let messageComponent = document.createElement("div");
+        messageComponent.innerHTML = `${messageFixed}`;
+        messageComponent.className = messageConfiguration;
+        messageComponent.id = messageId;
+        let elementFather = document.querySelector(fatherElement);
+        elementFather.insertBefore(messageComponent, elementFather.firstElementChild);
+
+    }
+
+    createButtonAlert(messageId)
+    $('#' + messageId).show()
+    closeAlert(messageId)
+
+}
+
+const createButtonAlert = (messageId) => {
+
+    let buttonComponent = document.createElement("i");
+    buttonComponent.className = "fa fa-times-circle fa-lg";
+    buttonComponent.id = "closeAlert" + messageId;
+    buttonComponent.type = "button";
+
+    let elementFather = document.querySelector('[id=' + messageId + ']');
+    elementFather.insertBefore(buttonComponent, elementFather.firstElementChild);
+
+}
+
+const closeAlert = (messageId) => {
+
+    if (document.querySelector('[id=closeAlert' + messageId + ']')) {
+        document.querySelector('[id=closeAlert' + messageId + ']').onclick = () => {
+            $('#' + messageId).hide()
+        }
+    }
+
+}
+
+const messageTvShow = (messageObject, fatherElement) => {
+    let messageConfiguration = '';
+    let messageId = 'tvShowHourMessage'
+
+    if (messageObject.type == 1) {
+
+        messageConfiguration = "alert alert-danger";
+    } else { 
+
+        messageConfiguration = "alert alert-info";
+
+    }
+
+    messageText(messageObject.message, messageConfiguration, fatherElement, messageId)
+      
 }

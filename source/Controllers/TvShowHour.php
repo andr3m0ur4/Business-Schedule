@@ -2,6 +2,7 @@
 
 namespace Source\Controllers;
 
+use DateTime;
 use Source\Core\Controller;
 use Source\Models\TvShowHour as TvShowHourModel;
 use Source\Models\TvShowHourDAO;
@@ -15,6 +16,10 @@ class TvShowHour extends Controller
     {
         $message = null;
         $tvShowHour = new TvShowHourModel();
+        $error = [
+            'type' => 1,
+            'message' => 'Horario Final está antes do horario inicial'
+        ];
 
 
         if (!empty($params)) {
@@ -30,8 +35,6 @@ class TvShowHour extends Controller
             $tvShowDAO = new TvShowDAO();
             $tvShow = $tvShowDAO->findByFullName($tvTvShow);
 
-    
-
             $switcherDAO = new SwitcherDAO();
             $switcher = $switcherDAO->findByFullName($tvSwitcher);
 
@@ -41,13 +44,19 @@ class TvShowHour extends Controller
             $tvShowHour = new TvShowHourModel(null, $tvShow->getId(), $tvStartTime, $tvFinalTime, $switcher->getId(), $studio->getId(), $tvDate, $tvType);
             $dao = new TvShowHourDAO();
 
-            if ($dao->save($tvShowHour)) {
-                $tvShowHour = new TvShowHourModel();
+            $startTime = new DateTime($tvStartTime);
+            $finalTime = new DateTime($tvFinalTime);
+
+            if ($finalTime > $startTime) {
+
+                $dao->save($tvShowHour);
+                $message = $dao->message();
+                echo($message->json());
+                return;
+
             }
 
-            $message = $dao->message();
-
-            var_dump($message);
+            echo json_encode($error);   
         
         }
 
