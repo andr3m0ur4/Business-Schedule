@@ -54,9 +54,15 @@ window.onload = () => {
 
     document.querySelectorAll('.card').forEach(initCards)
 
-    if (document.querySelector('[id=btnModalTvShowSchedule]')) {
-        document.querySelector('[id=btnModalTvShowSchedule]').onclick = () => {
+    if (document.querySelector('[id=btnAddModalTvShow]')) {
+        document.querySelector('[id=btnAddModalTvShow]').onclick = () => {
             openModalTvShow()
+        }
+    }
+
+    if (document.querySelector('[id=btnMenuTvShow]')) {
+        document.querySelector('[id=btnMenuTvShow]').onclick = () => {
+            openModalMenuTvShow()
         }
     }
 }
@@ -136,6 +142,16 @@ const modal = () => {
                     loadItems(`/ajax/studio/list`, 'tvStudio')
                 })
         })
+
+    fetch('/assets/resources/modal-menuTvShowHour.html')
+        .then(response => {
+            response.text()
+                .then(data => {
+                    const div = document.createElement('div')
+                    div.innerHTML = data
+                    document.getElementById('myModal').appendChild(div)
+                })
+    })
 }
 
 const openModal = () => {
@@ -152,6 +168,10 @@ const openModalSchedule = () => {
 
 const openModalTvShow = () => {
     document.getElementById('btnModalTvShow').click()
+}
+
+const openModalMenuTvShow = () => {
+    document.getElementById('btnModalMenuTvShow').click()
 }
 
 const loadSchedule = id => {
@@ -277,8 +297,8 @@ const submitTvShowHour = e => {
         return false;
     }
 
-    let form = new FormData(document.getElementById('form_TvShowHour'));
-    let fatherElement = '[id=tvShowHour]';
+    const form = new FormData(document.getElementById('form_TvShowHour'));
+    const fatherElement = '[id=tvShowHour]';
 
     fetch(`/ajax/tvShowHour/save`,{
         method: 'POST',
@@ -308,7 +328,7 @@ const saveTvShowHour = event => {
 
 const addItens = (itens, selectId) => {
     itens.forEach(iten => {
-        let option = document.createElement('option')
+        const option = document.createElement('option')
         option.innerHTML = iten.name
         document.getElementById(selectId).appendChild(option)
     });
@@ -323,7 +343,7 @@ const messageText = (messageFixed, messageConfiguration, fatherElement, messageI
     
 
     } else {
-        let messageComponent = document.createElement("div");
+        const messageComponent = document.createElement("div");
         messageComponent.innerHTML = `${messageFixed}`;
         messageComponent.className = messageConfiguration;
         messageComponent.id = messageId;
@@ -340,7 +360,7 @@ const messageText = (messageFixed, messageConfiguration, fatherElement, messageI
 
 const createButtonAlert = (messageId) => {
 
-    let buttonComponent = document.createElement("i");
+    const buttonComponent = document.createElement("i");
     buttonComponent.className = "fa fa-times-circle fa-lg";
     buttonComponent.id = "closeAlert" + messageId;
     buttonComponent.type = "button";
@@ -362,7 +382,7 @@ const closeAlert = (messageId) => {
 
 const messageTvShow = (messageObject, fatherElement) => {
     let messageConfiguration = '';
-    let messageId = 'tvShowHourMessage'
+    const messageId = 'tvShowHourMessage'
 
     if (messageObject.type == 1) {
 
