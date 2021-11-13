@@ -192,3 +192,9 @@ function session() : Source\Support\Session
 {
     return new Source\Support\Session();
 }
+
+if (!function_exists('str_ends_with')) {
+    function str_ends_with($str, $end) {
+        return (@substr_compare($str, $end, -strlen($end)) == 0);
+    }
+}
