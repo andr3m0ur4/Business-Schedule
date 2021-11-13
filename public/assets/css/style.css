@@ -113,6 +113,12 @@ body {
     border-left: 4px solid transparent;
 } */
 
+.alert button.close {
+    width: 20px;
+    height: 20px;
+    margin-top: -10px;
+}
+
 @media (max-width: 991px) {
 
     .navbar-collapse.show,

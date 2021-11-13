@@ -78,15 +78,7 @@ const initCards = card => {
 
         if (dbEmployeeTime.has(idEmployeeTime)) {
             const employeeTime = dbEmployeeTime.get(idEmployeeTime)
-
-            const startTime = document.createElement('span')
-            startTime.innerHTML = employeeTime.startTime
-            const finalTime = document.createElement('span')
-            finalTime.innerHTML = employeeTime.finalTime
-
-            card.querySelector('.card-header').innerHTML = ''
-            card.querySelector('.card-header').appendChild(startTime)
-            card.querySelector('.card-header').appendChild(finalTime)
+            fillCardEmployeeTime(card, employeeTime)
         }
 
         card.onclick = e => {
@@ -246,6 +238,17 @@ const fillModalEmployeeTime = employee => {
     document.getElementById('saveTime').onclick = saveTime
 }
 
+const fillCardEmployeeTime = (card, employeeTime) => {
+    const startTime = document.createElement('span')
+    startTime.innerHTML = employeeTime.startTime
+    const finalTime = document.createElement('span')
+    finalTime.innerHTML = employeeTime.finalTime
+    
+    card.querySelector('.card-header').innerHTML = ''
+    card.querySelector('.card-header').appendChild(startTime)
+    card.querySelector('.card-header').appendChild(finalTime)
+}
+
 const saveTime = e => {
     const btn = e.target;
     const form = document.querySelector('[name=formEmployeeTime]')
@@ -279,16 +282,9 @@ const validateInputs = e => {
 
 const updateCard = id => {
     const employeeTime = dbEmployeeTime.get(id)
-    
-    const startTime = document.createElement('span')
-    startTime.innerHTML = employeeTime.startTime
-    const finalTime = document.createElement('span')
-    finalTime.innerHTML = employeeTime.finalTime
-    
+
     const card = document.querySelector(`.card[data-card-time="${id}"]`)
-    card.querySelector('.card-header').innerHTML = ''
-    card.querySelector('.card-header').appendChild(startTime)
-    card.querySelector('.card-header').appendChild(finalTime)
+    fillCardEmployeeTime(card, employeeTime)
 }
 
 const submitTvShowHour = e => {

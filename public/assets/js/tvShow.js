@@ -15,7 +15,7 @@ $(() => {
 
     if (document.querySelector('[name=save]')) {
         document.querySelector('[name=save]').onclick = () => {
-            verify()
+            verify(document.querySelector('[name=form_tvShow]'))
         }
     }
 
@@ -35,40 +35,52 @@ $(() => {
     }
 })
 
-const verify = () => {
-    let form = document.querySelector('[name=form_tvShow]');
-    let messageText = "";
-    let messageConfiguration = "";
-    let inputs = form.querySelectorAll("input");
-    console.log(inputs)
+const verify = (form) => {
+    const inputs = form.querySelectorAll("input")
+    let error = false
 
-    for (let i = 1; i < inputs.length; i++) {
-        if (!inputs[i].value) {
-            let label = document.querySelector('[for=' + inputs[i].id + ']');
-            messageText = "Campo " + label.innerHTML + " precisa ser preenchido";
-            messageConfiguration = "alert alert-danger";
-            inputs[i].focus();
-            return message(messageText, messageConfiguration);
+    inputs.forEach(input => {
+        if (input.id != 'id' && input.value == '') {
+            const label = input.labels[0]
+            const messageText = `Campo ${label.innerHTML} precisa ser preenchido`
+            const messageConfiguration = "alert alert-danger"
+            input.focus()
+            message(messageText, messageConfiguration)
+            error = true
         }
-    }
+    })
     
-    save();
-    return message(messageText, messageConfiguration);
+    if (!error) {
+        save()
+    }
 }
 
 const message = (messageText, messageConfiguration) => {
-    if (document.querySelector('[id=message]')) {
-        let messageComponent = document.querySelector('[id=message]');
-        messageComponent.innerHTML = `${messageText}`;
-        messageComponent.className = messageConfiguration;
-
+    if (document.getElementById('message')) {
+        const messageComponent = document.getElementById('message')
+        messageComponent.innerHTML = messageText
+        messageComponent.className = messageConfiguration
     } else {
-        let messageComponent = document.createElement("div");
-        messageComponent.className = messageConfiguration;
-        messageComponent.id = "message";
-        messageComponent.innerHTML = `${messageText}`;
-        elementFather = document.querySelector('[id=section]');
-        elementFather.insertBefore(messageComponent, elementFather.firstElementChild);
+        const messageComponent = document.createElement("div")
+        messageComponent.className = messageConfiguration
+        messageComponent.id = "message"
+        messageComponent.innerHTML = messageText
+
+        const button = document.createElement('button')
+        button.setAttribute('type', 'button')
+        button.setAttribute('aria-label', 'Close')
+        button.className = 'close'
+        button.dataset.dismiss = 'alert'
+
+        const span = document.createElement('span')
+        span.setAttribute('aria-hidden', 'true')
+        span.innerHTML = '&times;'
+
+        button.appendChild(span)
+        messageComponent.appendChild(button)
+
+        const parentElement = document.getElementById('section')
+        parentElement.insertBefore(messageComponent, parentElement.firstElementChild);
     }
 }
 
