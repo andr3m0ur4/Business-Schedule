@@ -6,7 +6,7 @@ use Source\Core\Model;
 
 class TvShowHour extends Model
 {
-    private ?int $id;
+    protected ?int $id;
     protected ?int $id_tv_show;
     protected ?string $start_time;
     protected ?string $final_time;

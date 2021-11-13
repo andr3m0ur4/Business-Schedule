@@ -46,7 +46,7 @@ class TvShowHourDAO extends DAO
         $tvShowHours = [];
 
         foreach ($all as $tvShowHour) {
-            $tvShowHours[] =  new TvShowHour(
+            $tvShowHour =  new TvShowHour(
                 $tvShowHour->id,
                 $tvShowHour->id_tv_show,
                 $tvShowHour->start_time,
@@ -56,6 +56,12 @@ class TvShowHourDAO extends DAO
                 $tvShowHour->date,
                 $tvShowHour->type
             );
+
+            $tvShowHour->tvShow = (new TvShowDAO())->findById($tvShowHour->getIdTvShow());
+            $tvShowHour->studio = (new StudioDAO())->findById($tvShowHour->getIdStudio());
+            $tvShowHour->switcher = (new SwitcherDAO())->findById($tvShowHour->getIdSwitcher());
+
+            $tvShowHours[] = $tvShowHour;
         }
 
         return $tvShowHours;
