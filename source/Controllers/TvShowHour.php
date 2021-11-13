@@ -9,6 +9,7 @@ use Source\Models\TvShowHourDAO;
 use Source\Models\TvShowDAO;
 use Source\Models\SwitcherDAO;
 use Source\Models\StudioDAO;
+use Source\Models\TvShow;
 
 class TvShowHour extends Controller
 {
@@ -62,8 +63,11 @@ class TvShowHour extends Controller
             echo json_encode($error);   
         
         }
-
     }
 
-   
+    public function load()
+    {
+        $dao = new TvShowHourDAO();
+        echo json_encode($dao->find()->all());
+    }
 }
