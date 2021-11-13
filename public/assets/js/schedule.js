@@ -52,25 +52,41 @@ window.onload = () => {
 
     modal()
 
-    document.querySelectorAll('.card').forEach(card => {
-        if (card.dataset.cardEmployee) {
-            card.onclick = () => {
-                loadEmployee(card.dataset.cardEmployee)
-                openModalEmployee()
-            }
-        } else {
-            card.onclick = e => {
-                const idEmployeeTime = parseInt(card.dataset.cardTime)
-                const idEmployee = parseInt(card.closest('.row').dataset.rowId)
-                loadEmployeeTime(idEmployeeTime, idEmployee)
-                openModal()
-            }
-        }
-    })
+    document.querySelectorAll('.card').forEach(initCards)
 
     if (document.querySelector('[id=btnModalTvShowSchedule]')) {
         document.querySelector('[id=btnModalTvShowSchedule]').onclick = () => {
             openModalTvShow()
+        }
+    }
+}
+
+const initCards = card => {
+    if (card.dataset.cardEmployee) {
+        card.onclick = () => {
+            loadEmployee(card.dataset.cardEmployee)
+            openModalEmployee()
+        }
+    } else {
+        const idEmployeeTime = parseInt(card.dataset.cardTime)
+
+        if (dbEmployeeTime.has(idEmployeeTime)) {
+            const employeeTime = dbEmployeeTime.get(idEmployeeTime)
+
+            const startTime = document.createElement('span')
+            startTime.innerHTML = employeeTime.startTime
+            const finalTime = document.createElement('span')
+            finalTime.innerHTML = employeeTime.finalTime
+
+            card.querySelector('.card-header').innerHTML = ''
+            card.querySelector('.card-header').appendChild(startTime)
+            card.querySelector('.card-header').appendChild(finalTime)
+        }
+
+        card.onclick = e => {
+            const idEmployee = parseInt(card.closest('.row').dataset.rowId)
+            loadEmployeeTime(idEmployeeTime, idEmployee)
+            openModal()
         }
     }
 }
