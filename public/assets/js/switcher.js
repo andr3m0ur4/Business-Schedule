@@ -1,6 +1,11 @@
 $(() => {
     clearPostJS()
     
+    if (document.querySelector('[name=save]')) {
+        document.getElementById('save').onclick = save 
+        document.getElementById('form_switcher').onsubmit = submitForm
+    }
+
     if (document.querySelector('[name=new]')) {
         document.querySelector('[name=new]').onclick = () => {
             location.href = '/switcher/novo'
@@ -10,12 +15,6 @@ $(() => {
     if (document.querySelector('[name=clear]')) {
         document.querySelector('[name=clear]').onclick = () => {
             clear()
-        }
-    }
-
-    if (document.querySelector('[name=save]')) {
-        document.querySelector('[name=save]').onclick = () => {
-            verify()
         }
     }
 
@@ -35,47 +34,30 @@ $(() => {
     }
 })
 
-const verify = () => {
-    let form = document.querySelector('[name=form_switcher]');
-    let messageText = "";
-    let messageConfiguration = "";
-    let inputs = form.querySelectorAll("input");
-
-    for (let i = 1; i < inputs.length; i++) {
-        if (!inputs[i].value) {
-            let label = document.querySelector('[for=' + inputs[i].id + ']');
-            messageText = "Campo " + label.innerHTML + " precisa ser preenchido";
-            messageConfiguration = "alert alert-danger";
-            inputs[i].focus();
-            return message(messageText, messageConfiguration);
-        }
-    }
-    
-    save();
-    return message(messageText, messageConfiguration);
-}
-
-const message = (messageText, messageConfiguration) => {
-    if (document.querySelector('[id=message]')) {
-        let messageComponent = document.querySelector('[id=message]');
-        messageComponent.innerHTML = `${messageText}`;
-        messageComponent.className = messageConfiguration;
-
-    } else {
-        let messageComponent = document.createElement("div");
-        messageComponent.className = messageConfiguration;
-        messageComponent.id = "message";
-        messageComponent.innerHTML = `${messageText}`;
-        elementFather = document.querySelector('[id=section]');
-        elementFather.insertBefore(messageComponent, elementFather.firstElementChild);
-    }
-}
-
 const clear = () => {
     document.form_switcher.reset()
 }
 
-const save = () => {
+const save = event => {
+
+    const btn = event.target
+    const form = document.getElementById('form_switcher')
+    const submitEvent = new SubmitEvent('submit', {
+        submitter: btn
+    })
+
+    form.dispatchEvent(submitEvent)
+}
+
+const submitForm = e => {
+    
+    e.preventDefault()
+    
+    const formTvShow = e.target
+    if (!formTvShow.reportValidity()) {
+        return false;
+    }
+
     document.form_switcher.submit()
 }
 

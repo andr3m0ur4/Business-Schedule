@@ -2,6 +2,11 @@ $(() => {
     clearPostJS()
     modal()
 
+    if (document.querySelector('[name=save]')) {
+        document.getElementById('save').onclick = save 
+        document.getElementById('form_employee').onsubmit = submitForm
+    }
+
     if (document.querySelector('[name=new]')) {
         document.querySelector('[name=new]').onclick = () => {
             location.href = '/funcionario/novo'
@@ -11,20 +16,6 @@ $(() => {
     if (document.querySelector('[name=clear]')) {
         document.querySelector('[name=clear]').onclick = () => {
             clear();
-        }
-    }
-
-    if (document.querySelector('[name=save]')) {
-        document.querySelector('[name=save]').onclick = () => {
-            let lista = ['id', 'phone', 'description'];
-            let messageFixed = [];
-
-            if (verify('[name=form_employee]', lista).length == 0) {
-                save();
-            } else {
-                messageFixed = verify('[name=form_employee]', lista)[0]
-                messageText(messageFixed,  'alert alert-danger', '[id=section]', 'message');
-            }
         }
     }
 
@@ -55,7 +46,7 @@ const modal = () => {
                     const div = document.createElement('div')
                     div.innerHTML = data
                     document.getElementById('myModal').appendChild(div)
-                    document.getElementById('form_changePassword').onsubmit = submitForm
+                    document.getElementById('form_changePassword').onsubmit = submitPasswordForm
                     document.getElementById('changePassword').onclick = savePassword
                     $('#myModal').on('hidden.bs.modal', function (e) { 
                         closeModal() 
@@ -76,78 +67,66 @@ const savePassword = event => {
     form.dispatchEvent(submitEvent)
 }
 
-const submitForm = event => {
+const submitPasswordForm = event => {
 
     let fatherElement = '[id=passwordSection]';
     
     event.preventDefault()
 
+    const formPassword = event.target
+    if (!formPassword.reportValidity()) {
+        return false;
+    }
+
     let form = new FormData(document.getElementById('form_changePassword'));
 
-    if (verify('[name=form_changePassword]', []).length == 0) {
-        fetch(`/ajax/employee/save/${id.value}`,{
-            method: 'POST',
-            body: form
-        }).then(response => {
-            response.json()
-                .then(data => {
-                    let messageObject = data
-                    messagePassword(messageObject, fatherElement);
-                })
-        })
-
-    } else {
-
-        let messageFixed = verify('[name=form_changePassword]', [])[0]
-        messageText(messageFixed,  'alert alert-danger', fatherElement, 'passwordMessage');
-    }
-
+    fetch(`/ajax/employee/save/${id.value}`,{
+        method: 'POST',
+        body: form
+    }).then(response => {
+        response.json()
+            .then(data => {
+                let messageObject = data
+                messagePassword(messageObject, fatherElement);
+            })
+    })
     
 }
 
-const verify = (formFixed, lista) => {
-    let form = document.querySelector(formFixed);
-    let messageFixed = "";
-    let inputs = form.querySelectorAll("input");
-
-    for (let i = 0; i < inputs.length; i++) {
-
-        let resp = lista.includes(inputs[i].id)
-
-        if(!resp){
-            if(inputs[i].value == ""){
-                let label = document.querySelector('[for=' + inputs[i].id + ']');
-                messageFixed = "Campo " + label.innerHTML + " precisa ser preenchido";
-                inputs[i].focus();
-                return [messageFixed];
-            }
-        }
-    }
-    
-    return [];
-}
 
 const messageText = (messageFixed, messageConfiguration, fatherElement, messageId) => {
 
+    let messageComponent;
+
     if (document.querySelector('[id='+ messageId +']')) {
-        let messageComponent = document.querySelector('[id='+ messageId +']');
+        messageComponent = document.querySelector('[id='+ messageId +']');
         messageComponent.innerHTML = `${messageFixed}`;
         messageComponent.className = messageConfiguration;
     
 
     } else {
-        let messageComponent = document.createElement("div");
+        messageComponent = document.createElement("div");
         messageComponent.innerHTML = `${messageFixed}`;
         messageComponent.className = messageConfiguration;
         messageComponent.id = messageId;
-        let elementFather = document.querySelector(fatherElement);
+
+        const elementFather = document.querySelector(fatherElement);
         elementFather.insertBefore(messageComponent, elementFather.firstElementChild);
 
     }
 
-    createButtonAlert(messageId)
-    $('#' + messageId).show()
-    closeAlert(messageId)
+    const button = document.createElement('button')
+    button.setAttribute('type', 'button')
+    button.setAttribute('aria-label', 'Close')
+    button.className = 'close'
+    button.dataset.dismiss = 'alert'
+
+    const span = document.createElement('span')
+    span.setAttribute('aria-hidden', 'true')
+    span.innerHTML = '&times;'
+
+    button.appendChild(span)
+    messageComponent.appendChild(button)
 
 }
 
@@ -155,7 +134,26 @@ const clear = () => {
     document.form_employee.reset()
 }
 
-const save = () => {
+const save = event => {
+
+    const btn = event.target
+    const form = document.getElementById('form_employee')
+    const submitEvent = new SubmitEvent('submit', {
+        submitter: btn
+    })
+
+    form.dispatchEvent(submitEvent)
+}
+
+const submitForm = e => {
+    
+    e.preventDefault()
+    
+    const form = e.target
+    if (!form.reportValidity()) {
+        return false;
+    }
+
     document.form_employee.submit()
 }
 
@@ -193,26 +191,3 @@ const closeModal = () => {
 
     document.getElementById('form_changePassword').reset();
 }
-
-const createButtonAlert = (messageId) => {
-
-    let buttonComponent = document.createElement("i");
-    buttonComponent.className = "fa fa-times-circle fa-lg";
-    buttonComponent.id = "closeAlert" + messageId;
-    buttonComponent.type = "button";
-
-    let elementFather = document.querySelector('[id=' + messageId + ']');
-    elementFather.insertBefore(buttonComponent, elementFather.firstElementChild);
-
-}
-
-const closeAlert = (messageId) => {
-
-    if (document.querySelector('[id=closeAlert' + messageId + ']')) {
-        document.querySelector('[id=closeAlert' + messageId + ']').onclick = () => {
-            $('#' + messageId).hide()
-        }
-    }
-
-}
-

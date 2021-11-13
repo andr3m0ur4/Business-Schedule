@@ -1,6 +1,11 @@
 $(() => {
     clearPostJS()
     
+    if (document.querySelector('[name=save]')) {
+        document.getElementById('save').onclick = save 
+        document.getElementById('form_tvShow').onsubmit = submitForm
+    }
+
     if (document.querySelector('[name=new]')) {
         document.querySelector('[name=new]').onclick = () => {
             location.href = '/programa/novo'
@@ -10,12 +15,6 @@ $(() => {
     if (document.querySelector('[name=clear]')) {
         document.querySelector('[name=clear]').onclick = () => {
             clear()
-        }
-    }
-
-    if (document.querySelector('[name=save]')) {
-        document.querySelector('[name=save]').onclick = () => {
-            verify(document.querySelector('[name=form_tvShow]'))
         }
     }
 
@@ -35,60 +34,30 @@ $(() => {
     }
 })
 
-const verify = (form) => {
-    const inputs = form.querySelectorAll("input")
-    let error = false
-
-    inputs.forEach(input => {
-        if (input.id != 'id' && input.value == '') {
-            const label = input.labels[0]
-            const messageText = `Campo ${label.innerHTML} precisa ser preenchido`
-            const messageConfiguration = "alert alert-danger"
-            input.focus()
-            message(messageText, messageConfiguration)
-            error = true
-        }
-    })
-    
-    if (!error) {
-        save()
-    }
-}
-
-const message = (messageText, messageConfiguration) => {
-    if (document.getElementById('message')) {
-        const messageComponent = document.getElementById('message')
-        messageComponent.innerHTML = messageText
-        messageComponent.className = messageConfiguration
-    } else {
-        const messageComponent = document.createElement("div")
-        messageComponent.className = messageConfiguration
-        messageComponent.id = "message"
-        messageComponent.innerHTML = messageText
-
-        const button = document.createElement('button')
-        button.setAttribute('type', 'button')
-        button.setAttribute('aria-label', 'Close')
-        button.className = 'close'
-        button.dataset.dismiss = 'alert'
-
-        const span = document.createElement('span')
-        span.setAttribute('aria-hidden', 'true')
-        span.innerHTML = '&times;'
-
-        button.appendChild(span)
-        messageComponent.appendChild(button)
-
-        const parentElement = document.getElementById('section')
-        parentElement.insertBefore(messageComponent, parentElement.firstElementChild);
-    }
-}
-
 const clear = () => {
     document.form_tvShow.reset()
 }
 
-const save = () => {
+const save = event => {
+
+    const btn = event.target
+    const form = document.getElementById('form_tvShow')
+    const submitEvent = new SubmitEvent('submit', {
+        submitter: btn
+    })
+
+    form.dispatchEvent(submitEvent)
+}
+
+const submitForm = e => {
+    
+    e.preventDefault()
+    
+    const formTvShow = e.target
+    if (!formTvShow.reportValidity()) {
+        return false;
+    }
+
     document.form_tvShow.submit()
 }
 

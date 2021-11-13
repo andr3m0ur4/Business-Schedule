@@ -289,7 +289,6 @@ const updateCard = id => {
 
 const submitTvShowHour = e => {
     
-    console.log(e)
     e.preventDefault()
 
     const formTvShow = e.target
