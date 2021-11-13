@@ -46,14 +46,17 @@ class TvShowHour extends Controller
 
             $startTime = new DateTime($tvStartTime);
             $finalTime = new DateTime($tvFinalTime);
+            $date = new DateTime($tvDate);
+            $dateNow = new DateTime('NOW');
 
             if ($finalTime > $startTime) {
-
-                $dao->save($tvShowHour);
-                $message = $dao->message();
-                echo($message->json());
-                return;
-
+                $error['message'] = 'A data é anterior ao ano atual';
+                if ($date >= $dateNow) {
+                    $dao->save($tvShowHour);
+                    $message = $dao->message();
+                    echo($message->json());
+                    return;
+                }
             }
 
             echo json_encode($error);   
