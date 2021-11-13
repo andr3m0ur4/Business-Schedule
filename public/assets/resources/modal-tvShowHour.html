@@ -11,7 +11,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="container">
+                <div id="tvShowHour" class="container">
                     <form id="form_TvShowHour">
                         <table class="table table-borderless">
                             <tbody>
@@ -33,13 +33,13 @@
                                 <tr>
                                     <th scope="row"><i class="fa fa-clock-o"></i> Horário inicial</th>
                                     <td colspan="2" id="start-time">
-                                        <input type="time" name="tvStartTime" id="tvStartTime">
+                                        <input type="time" name="tvStartTime" id="tvStartTime" required>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th scope="row"><i class="fa fa-clock-o"></i> Horário final</th>
                                     <td colspan="2" id="final-time">
-                                        <input type="time" name="tvFinalTime" id="tvFinalTime">
+                                        <input type="time" name="tvFinalTime" id="tvFinalTime" required>
                                     </td>
                                 </tr>
                                 <tr>
@@ -59,14 +59,14 @@
                                 <tr>
                                     <th scope="row"><i class="fa fa-calendar-plus-o"></i>Dia</th>
                                     <td colspan="2" id="studio">
-                                        <input type="date" name="tvDate" id="tvDate">
+                                        <input type="date" name="tvDate" id="tvDate" required>
                                     </td>
                                 </tr>
 
                                 <tr>
                                     <th scope="row"><i class="fa fa-calendar-plus-o"></i>Tipo</th>
                                     <td colspan="2" id="studio">
-                                        <input name="tvType" id="tvType">
+                                        <input name="tvType" id="tvType" required>
                                     </td>
                                 </tr>
                             </tbody>
@@ -80,12 +80,6 @@
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                 <button type="button" class="btn btn-primary" id="saveTvShow">Salvar horário</button>
             </div>
-
-            <script>
-                $(document).ready(function () {
-                    $('.mdb-select').materialSelect();
-                });
-            </script>
 
         </div>
     </div>
