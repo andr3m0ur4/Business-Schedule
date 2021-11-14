@@ -3,7 +3,6 @@
 namespace Source\Models;
 
 use Source\Core\DAO;
-use Source\Support\Session;
 
 class EmployeeDAO extends DAO
 {

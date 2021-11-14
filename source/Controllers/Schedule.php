@@ -4,7 +4,7 @@ namespace Source\Controllers;
 
 use Source\Core\Controller;
 use Source\Models\EmployeeDAO;
-use Source\Models\EmployeeHourDAO;
+use Source\Models\EmployeeTimeDAO;
 
 class Schedule extends Controller
 {
@@ -20,7 +20,7 @@ class Schedule extends Controller
             'title' => 'Business Schedule - Escala',
             'file' => 'schedule',
             'employees' => $dao->find()->all(),
-            'lastIdEmployeeHour' => (new EmployeeHourDAO())->getLastId() + 1
+            'lastIdEmployeeTime' => (new EmployeeTimeDAO())->getLastId() + 1
         ];
 
         // echo $this->view->render('examples/schedule', $data);

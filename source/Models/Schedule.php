@@ -6,19 +6,18 @@ use Source\Core\Model;
 
 class Schedule extends Model
 {
-    private ?int $id;
-    protected ?string $start_date;
-    protected ?string $final_date;
-    protected ?string $year;
-    protected static array $safe = ['id'];
-    protected static array $required = ['start_date', 'final_date', 'year'];
+    protected ?int $id;
+    protected ?int $id_employee;
+    protected ?int $id_tv_show_time;
 
-    public function __construct(?int $id = null, ?string $startDate = null, ?string $finalDate = null, ?string $year = null)
+    public function __construct(
+        ?int $id = null, ?int $id_employee = null, ?int $id_tv_show_time = null
+    )
     {
+        parent::__construct(['id'], ['id_employee, id_tv_show_time']);
         $this->setId($id);
-        $this->setStartDate($startDate);
-        $this->setFinalDate($finalDate);
-        $this->setYear($year);
+        $this->setIdEmployee($id_employee);
+        $this->setIdTvShowTime($id_tv_show_time);
     }
 
     public function getId() : ?int
@@ -32,42 +31,31 @@ class Schedule extends Model
         return $this;
     }
 
-    public function getStartDate() : string
+    public function getIdEmployee() : ?int
     {
-        return $this->start_date;
+        return $this->id_employee;
     }
 
-    public function setStartDate(?string $startDate)
+    public function setIdEmployee($id_employee)
     {
-        $this->start_date = date_format_app($startDate);
+        $this->id_employee = $id_employee;
         return $this;
     }
 
-    public function getFinalDate() : string
+    public function getIdTvShowTime() : ?int
     {
-        return $this->final_date;
+        return $this->id_tv_show_time;
     }
 
-    public function setFinalDate(?string $finalDate)
+    public function setIdTvShowTime($id_tv_show_time)
     {
-        $this->final_date = date_format_app($finalDate);
-        return $this;
-    }
-
-    public function getYear() : string
-    {
-        return $this->year;
-    }
-
-    public function setYear($year)
-    {
-        $this->year = $year;
+        $this->id_tv_show_time = $id_tv_show_time;
         return $this;
     }
 
     public function __toString()
     {
-        return "Id: {$this->id} - Data Inicial: " . date_formatt($this->start_date, 'd/m') . ' - Data Final: ' .
-            date_formatt($this->final_date, 'd/m') . " - Ano: {$this->year}";
+        return "ID: {$this->id} - Id do Funcionario: {$this->id_employee} -
+            Id do programa: {$this->id_tv_show_time}";
     }
 }

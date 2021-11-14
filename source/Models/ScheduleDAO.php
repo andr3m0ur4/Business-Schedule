@@ -18,11 +18,11 @@ class ScheduleDAO extends DAO
         $schedule = $find->fetch();
 
         if ($this->fail() || !$schedule) {
-            $this->message->warning('Escala não encontrada para o código informado');
+            $this->message->warning('não encontrada o código informado');
             return null;
         }
 
-        return new Schedule($schedule->id, $schedule->start_date, $schedule->final_date, $schedule->year);
+        return new Schedule($schedule->id, $schedule->id_employee, $schedule->id_tv_show_time);
     }
 
     public function all() : array
@@ -30,14 +30,18 @@ class ScheduleDAO extends DAO
         $all = parent::fetch(true);
 
         if ($this->fail() || !$all) {
-            $this->message->warning('Sua consulta não retornou escalas');
+            $this->message->warning('Sua consulta não retornou nada');
             return [];
         }
 
         $schedules = [];
 
         foreach ($all as $schedule) {
-            $schedules[] = new Schedule($schedule->id, $schedule->start_date, $schedule->final_date, $schedule->year);
+            $schedules[] = new Schedule(
+                $schedule->id,
+                $schedule->id_employee,
+                $schedule->id_tv_show_time
+            );
         }
 
         return $schedules;
@@ -46,7 +50,7 @@ class ScheduleDAO extends DAO
     public function save(Schedule $schedule) : bool
     {
         if (!$schedule->required()) {
-            $this->message->warning('Data de início, data final e ano são obrigatórios');
+            $this->message->warning('Campos obrigatórios não preenchidos');
             return false;
         }
 

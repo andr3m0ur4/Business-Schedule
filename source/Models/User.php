@@ -11,6 +11,7 @@ abstract class User extends Model
     protected ?string $email;
     protected ?string $password;
     protected ?string $phone;
+    protected ?bool $status;
 
     public function __construct(?int $id = null, ?string $name = null, ?string $email = null, ?string $password = null, ?string $phone = null)
     {
@@ -20,6 +21,7 @@ abstract class User extends Model
         $this->setEmail($email);
         $this->setPassword($password);
         $this->setPhone($phone);
+        $this->setStatus(true);
     }
 
     public function getId() : ?int
@@ -74,6 +76,17 @@ abstract class User extends Model
     public function setPhone($phone)
     {
         $this->phone = $phone;
+        return $this;
+    }
+
+    public function getStatus() : ?bool
+    {
+        return $this->status;
+    }
+
+    public function setStatus($status)
+    {
+        $this->status = $status;
         return $this;
     }
 

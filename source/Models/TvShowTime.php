@@ -4,28 +4,39 @@ namespace Source\Models;
 
 use Source\Core\Model;
 
-class TvShowHour extends Model
+class TvShowTime extends Model
 {
     protected ?int $id;
-    protected ?int $id_tv_show;
     protected ?string $start_time;
     protected ?string $final_time;
+    protected ?string $date;
+    protected ?int $week_day;
+    protected ?string $type;
+    protected ?int $id_tv_show;
     protected ?int $id_switcher;
     protected ?int $id_studio;
-    protected ?string $date;
-    protected ?string $type;
+    protected ?bool $status;
 
-    public function __construct(?int $id = null, ?int $id_tv_show = null, ?string $start_time = null, ?string $final_time = null, ?int $id_switcher = null, ?int $id_studio = null, ?string $date = null, ?string $type = null)
+    public function __construct(
+        ?int $id = null, ?string $start_time = null, ?string $final_time = null,
+        ?string $date = null, ?int $week_day = null, ?string $type = null,
+        ?int $id_tv_show = null, ?int $id_switcher = null, ?int $id_studio = null
+    )
     {
-        parent::__construct(['id'], ['id_tv_show', 'start_time', 'final_time', 'id_switcher', 'id_studio', 'date', 'type']);
+        parent::__construct(
+            ['id'], ['id_tv_show', 'start_time', 'final_time', 'id_switcher', 'id_studio', 'date', 'type']
+        );
+
         $this->setId($id);
-        $this->setIdTvShow($id_tv_show);
         $this->setStartTime($start_time);
         $this->setFinalTime($final_time);
+        $this->setDate($date);
+        $this->setWeekDay($week_day);
+        $this->setType($type);
+        $this->setIdTvShow($id_tv_show);
         $this->setIdSwitcher($id_switcher);
         $this->setIdStudio($id_studio);
-        $this->setDate($date);
-        $this->setType($type);
+        $this->setStatus(true);
     }
 
     public function getId() : ?int
@@ -105,6 +116,17 @@ class TvShowHour extends Model
         return $this;
     }
 
+    public function getWeekDay() : int
+    {
+        return $this->week_day;
+    }
+
+    public function setWeekDay($week_day)
+    {
+        $this->week_day = $week_day;
+        return $this;
+    }
+
     public function getType() : ?string
     {
         return $this->type;
@@ -113,6 +135,17 @@ class TvShowHour extends Model
     public function setType($type)
     {
         $this->type = $type;
+        return $this;
+    }
+
+    public function getStatus() : ?bool
+    {
+        return $this->status;
+    }
+
+    public function setStatus($status)
+    {
+        $this->status = $status;
         return $this;
     }
 

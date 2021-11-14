@@ -161,3 +161,43 @@ ALTER TABLE `employee_tv_show_hours`
 -- dia 05 do 11 de 2021
 
 ALTER TABLE `employees` ADD COLUMN `description` VARCHAR(255) DEFAULT NULL;
+
+-- @ndreMoura 14-11-2021
+
+ALTER TABLE `employees` CHANGE `description` `description` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+
+ALTER TABLE `employees` ADD `status` ENUM('S','N') NOT NULL AFTER `description`;
+
+RENAME TABLE `business_schedule`.`employee_hours` TO `business_schedule`.`employees_times`;
+
+ALTER TABLE `employees_times` ADD `week_day` TINYINT NOT NULL AFTER `date`;
+
+ALTER TABLE business_schedule.employees_times DROP FOREIGN KEY employee_hours_fk_id_schedule;
+
+ALTER TABLE `employees_times` DROP `id_schedule`;
+
+ALTER TABLE `employees_times` ADD `status` ENUM('S','N') NOT NULL AFTER `id_employee`;
+
+ALTER TABLE `administrators` ADD `status` ENUM('S','N') NOT NULL AFTER `phone`;
+
+DROP TABLE `business_schedule`.`schedules`;
+
+RENAME TABLE `business_schedule`.`employee_tv_show_hours` TO `business_schedule`.`schedules`;
+
+ALTER TABLE `schedules` CHANGE `id_employee_hours` `id_employee` INT NOT NULL;
+
+ALTER TABLE `schedules` CHANGE `id_tv_show_hours` `id_tv_show_time` INT NOT NULL;
+
+RENAME TABLE `business_schedule`.`tv_shows_hours` TO `business_schedule`.`tv_shows_times`;
+
+ALTER TABLE `tv_shows_times` CHANGE `id_tv_show` `id_tv_show` INT NOT NULL AFTER `final_time`;
+
+ALTER TABLE `tv_shows_times` CHANGE `date` `date` DATE NOT NULL AFTER `final_time`;
+
+ALTER TABLE `tv_shows_times` ADD `week_day` TINYINT NOT NULL AFTER `date`;
+
+ALTER TABLE `tv_shows_times` CHANGE `type` `type` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `week_day`;
+
+ALTER TABLE `tv_shows_times` ADD `status` ENUM('S','N') NOT NULL AFTER `id_studio`;
+
+ALTER TABLE `tv_shows_times` CHANGE `type` `type` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL;

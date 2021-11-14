@@ -6,8 +6,6 @@ use Source\Core\Controller;
 use Source\Models\Employee as EmployeeModel;
 use Source\Models\EmployeeDAO;
 
-use function PHPSTORM_META\type;
-
 class Employee extends Controller
 {
     public function index() : void

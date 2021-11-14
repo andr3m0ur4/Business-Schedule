@@ -4,27 +4,30 @@ namespace Source\Models;
 
 use Source\Core\Model;
 
-class EmployeeHour extends Model
+class EmployeeTime extends Model
 {
     private ?int $id;
     protected ?string $start_time;
     protected ?string $final_time;
     protected ?string $date;
+    protected ?int $week_day;
     protected ?int $id_employee;
-    protected ?int $id_schedule;
+    protected ?bool $status;
     protected static array $safe = ['id'];
-    protected static array $required = ['start_time', 'final_time', 'date'];
+    protected static array $required = ['start_time', 'final_time', 'date', 'week_day'];
 
     public function __construct(
-        ?int $id = null, ?string $startTime = null, ?string $finalTime = null, ?string $date = null, ?int $idEmployee = null, ?int $idSchedule  = null
+        ?int $id = null, ?string $startTime = null, ?string $finalTime = null,
+        ?string $date = null, ?int $week_day = null, ?int $idEmployee = null
     )
     {
         $this->setId($id);
         $this->setStartTime($startTime);
         $this->setFinalTime($finalTime);
         $this->setDate($date);
+        $this->setWeekDay($week_day);
         $this->setIdEmployee($idEmployee);
-        $this->setIdSchedule($idSchedule );
+        $this->setStatus(true);
     }
 
     public function getId() : ?int
@@ -71,6 +74,17 @@ class EmployeeHour extends Model
         return $this;
     }
 
+    public function getWeekDay() : int
+    {
+        return $this->week_day;
+    }
+
+    public function setWeekDay($week_day)
+    {
+        $this->week_day = $week_day;
+        return $this;
+    }
+
     public function getIdEmployee() : string
     {
         return $this->id_employee;
@@ -82,14 +96,14 @@ class EmployeeHour extends Model
         return $this;
     }
 
-    public function getIdSchedule() : string
+    public function getStatus() : ?bool
     {
-        return $this->id_schedule ;
+        return $this->status;
     }
 
-    public function setIdSchedule($idSchedule )
+    public function setStatus($status)
     {
-        $this->id_schedule  = $idSchedule ;
+        $this->status = $status;
         return $this;
     }
 

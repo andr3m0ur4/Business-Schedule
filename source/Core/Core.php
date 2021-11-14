@@ -59,6 +59,8 @@ class Core
         $route->post('/programa/{id}/editar', 'TvShow:update');
         $route->get('/programa/{id}/excluir', 'TvShow:delete');
 
+        $route->get('/horario-programa', 'TvShowTime:index');
+
         /**
          * API
          */

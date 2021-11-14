@@ -4,31 +4,31 @@ namespace Source\Models;
 
 use Source\Core\DAO;
 
-class EmployeeHourDAO extends DAO
+class EmployeeTimeDAO extends DAO
 {
     public function __construct()
     {
-        parent::__construct('employee_hours');
+        parent::__construct('employees_times');
     }
 
-    public function findById(int $id, string $collumns = '*') : ?EmployeeHour
+    public function findById(int $id, string $collumns = '*') : ?EmployeeTime
     {
         $find = $this->find('id = :id', "id={$id}", $collumns);
 
-        $employeeHour = $find->fetch();
+        $employeeTime = $find->fetch();
 
-        if ($this->fail() || !$employeeHour) {
+        if ($this->fail() || !$employeeTime) {
             $this->message->warning('Horário não encontrado para o código informado');
             return null;
         }
 
-        return new EmployeeHour(
-            $employeeHour->id,
-            $employeeHour->start_time,
-            $employeeHour->final_time,
-            $employeeHour->date,
-            $employeeHour->id_employee,
-            $employeeHour->id_schedule
+        return new EmployeeTime(
+            $employeeTime->id,
+            $employeeTime->start_time,
+            $employeeTime->final_time,
+            $employeeTime->date,
+            $employeeTime->week_day,
+            $employeeTime->id_employee
         );
     }
 
@@ -41,34 +41,34 @@ class EmployeeHourDAO extends DAO
             return [];
         }
 
-        $employeeHours = [];
+        $employeeTimes = [];
 
-        foreach ($all as $employeeHour) {
-            $employeeHours[] = new EmployeeHour(
-                $employeeHour->id,
-                $employeeHour->start_time,
-                $employeeHour->final_time,
-                $employeeHour->date,
-                $employeeHour->id_employee,
-                $employeeHour->id_schedule
+        foreach ($all as $employeeTime) {
+            $employeeTimes[] = new EmployeeTime(
+                $employeeTime->id,
+                $employeeTime->start_time,
+                $employeeTime->final_time,
+                $employeeTime->date,
+                $employeeTime->week_day,
+                $employeeTime->id_employee
             );
         }
 
-        return $employeeHours;
+        return $employeeTimes;
     }
 
-    public function save(EmployeeHour $employeeHour) : bool
+    public function save(EmployeeTime $employeeTime) : bool
     {
-        if (!$employeeHour->required()) {
+        if (!$employeeTime->required()) {
             $this->message->warning('Horário inicial, horário final e data são obrigatórios');
             return false;
         }
 
         // Employee Hour Update
-        if (!empty($employeeHour->getId())) {
-            $employeeHourId = $employeeHour->getId();
+        if (!empty($employeeTime->getId())) {
+            $employeeTimeId = $employeeTime->getId();
 
-            $this->update($employeeHour->safe(), 'id = :id', "id={$employeeHourId}");
+            $this->update($employeeTime->safe(), 'id = :id', "id={$employeeTimeId}");
 
             if ($this->fail()) {
                 $this->message->error('Erro ao atualizar, verifique os dados');
@@ -77,8 +77,8 @@ class EmployeeHourDAO extends DAO
         }
         
         // Employee Hour Create
-        if (empty($employeeHour->getId())) {
-            $employeeHourId = $this->create($employeeHour->safe());
+        if (empty($employeeTime->getId())) {
+            $employeeTimeId = $this->create($employeeTime->safe());
             
             if ($this->fail()) {
                 $this->message->error('Erro ao cadastrar, verifique os dados');
@@ -87,7 +87,7 @@ class EmployeeHourDAO extends DAO
         }
 
         $this->message->success('Dados salvos com sucesso');
-        $this->data = $this->findById($employeeHourId);
+        $this->data = $this->findById($employeeTimeId);
         return true;
     }
 
