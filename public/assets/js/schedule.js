@@ -99,12 +99,13 @@ const modal = () => {
                     const form = div.querySelector('[name=formEmployeeTime]')
                     document.getElementById('myModal').appendChild(div)
                     form.onsubmit = validateInputs
-
+                    document.getElementById('addTvShow').onclick = openAddTvShowHour
                     $('#modalEmployeeTime').on('hidden.bs.modal', e => {
                         form.reset()
                     })
 
                     $(".select2").select2();
+
                 })
         })
 
@@ -140,6 +141,9 @@ const modal = () => {
                     loadItems(`/ajax/tvshow/list`, 'tvShow')
                     loadItems(`/ajax/switcher/list`, 'tvSwitcher')
                     loadItems(`/ajax/studio/list`, 'tvStudio')
+                    $('#modalTvShowAdd').on('hidden.bs.modal', e => {
+                        closeModalTvShowHour()
+                    })
                 })
         })
 
@@ -307,6 +311,9 @@ const submitTvShowHour = e => {
             .then(data => {
                 let messageObject = data
                 messageTvShow(messageObject, fatherElement);
+                if (data.type != 1) {
+                    document.getElementById('form_TvShowHour').reset();
+                }
             })
     })
     
@@ -335,47 +342,37 @@ const addItens = (itens, selectId) => {
 
 const messageText = (messageFixed, messageConfiguration, fatherElement, messageId) => {
 
+    let messageComponent;
+
     if (document.querySelector('[id='+ messageId +']')) {
-        let messageComponent = document.querySelector('[id='+ messageId +']');
+        messageComponent = document.querySelector('[id='+ messageId +']');
         messageComponent.innerHTML = `${messageFixed}`;
         messageComponent.className = messageConfiguration;
     
 
     } else {
-        const messageComponent = document.createElement("div");
+        messageComponent = document.createElement("div");
         messageComponent.innerHTML = `${messageFixed}`;
         messageComponent.className = messageConfiguration;
         messageComponent.id = messageId;
-        let elementFather = document.querySelector(fatherElement);
+
+        const elementFather = document.querySelector(fatherElement);
         elementFather.insertBefore(messageComponent, elementFather.firstElementChild);
 
     }
 
-    createButtonAlert(messageId)
-    $('#' + messageId).show()
-    closeAlert(messageId)
+    const button = document.createElement('button')
+    button.setAttribute('type', 'button')
+    button.setAttribute('aria-label', 'Close')
+    button.className = 'close'
+    button.dataset.dismiss = 'alert'
 
-}
+    const span = document.createElement('span')
+    span.setAttribute('aria-hidden', 'true')
+    span.innerHTML = '&times;'
 
-const createButtonAlert = (messageId) => {
-
-    const buttonComponent = document.createElement("i");
-    buttonComponent.className = "fa fa-times-circle fa-lg";
-    buttonComponent.id = "closeAlert" + messageId;
-    buttonComponent.type = "button";
-
-    let elementFather = document.querySelector('[id=' + messageId + ']');
-    elementFather.insertBefore(buttonComponent, elementFather.firstElementChild);
-
-}
-
-const closeAlert = (messageId) => {
-
-    if (document.querySelector('[id=closeAlert' + messageId + ']')) {
-        document.querySelector('[id=closeAlert' + messageId + ']').onclick = () => {
-            $('#' + messageId).hide()
-        }
-    }
+    button.appendChild(span)
+    messageComponent.appendChild(button)
 
 }
 
@@ -395,3 +392,22 @@ const messageTvShow = (messageObject, fatherElement) => {
     messageText(messageObject.message, messageConfiguration, fatherElement, messageId)
       
 }
+
+const openAddTvShowHour = () => {
+
+    document.getElementById('modalEmployeeTime').style.display = "none"
+    openModalTvShow()
+}
+
+const closeModalTvShowHour = () => {
+
+    if (document.querySelector('[id= tvShowHourMessage]')) {
+        const messageFixed = document.querySelector('[id= tvShowHourMessage]')
+        messageFixed.parentNode.removeChild(messageFixed);
+    } 
+
+    document.getElementById('modalEmployeeTime').style.display = "block"
+    document.getElementById('form_TvShowHour').reset();
+}
+
+

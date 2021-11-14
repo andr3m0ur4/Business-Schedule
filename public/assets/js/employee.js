@@ -185,7 +185,7 @@ const messagePassword = (messageObject, fatherElement) => {
 const closeModal = () => {
 
     if (document.querySelector('[id= passwordMessage]')) {
-        let messageFixed = document.querySelector('[id= passwordMessage]')
+        const messageFixed = document.querySelector('[id= passwordMessage]')
         messageFixed.parentNode.removeChild(messageFixed);
     } 
 
