@@ -5,12 +5,16 @@
         <?php if ($message->getType() == 'success') : ?>
             <div class="alert alert-info">
                 <?= "{$message->getText()}." ?>
-                <i class="fa fa-times-circle fa-lg" title="Excluir" data-dismiss="alert"></i>
+                <button type="button" aria-label="Close" class="close" data-dismiss="alert">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
         <?php else : ?>
             <div class="alert alert-danger">
                 <?= "Ops, {$message->getText()}." ?>
-                <i class="fa fa-times-circle fa-lg" title="Excluir" data-dismiss="alert"></i>
+                <button type="button" aria-label="Close" class="close" data-dismiss="alert">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
         <?php endif ?>
     </div>
@@ -24,7 +28,7 @@
             </div>
         </div>
         <div class="card-body">
-            <form name="form_employee" method="POST" class="text-right">
+            <form id="form_employee" name="form_employee" method="POST" class="text-right">
 
                 <div class="form-row align-items-center">
                     <label for="id" class="col-sm-2 col-form-label">Código</label>
@@ -36,14 +40,14 @@
                 <div class="form-row align-items-center">
                     <label for="name" class="col-sm-2 col-form-label mt-sm-2">Nome</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="name" name="name" value="<?= $employee->getName() ?>">
+                        <input type="text" class="form-control" id="name" name="name" value="<?= $employee->getName() ?>" required>
                     </div>
                 </div>
 
                 <div class="form-row align-items-center">
                     <label for="email" class="col-sm-2 col-form-label mt-sm-2">Email</label>
                     <div class="col-sm-8">
-                        <input type="email" class="form-control" id="email" name="email" value="<?= $employee->getEmail() ?>">
+                        <input type="email" class="form-control" id="email" name="email" value="<?= $employee->getEmail() ?>" required>
                     </div>
                 </div>
 
@@ -51,7 +55,7 @@
                     <div class="form-row align-items-center">
                         <label for="password" class="col-sm-2 col-form-label mt-sm-2">Senha</label>
                         <div class="col-sm-8">
-                            <input type="password" class="form-control" id="password" name="password">
+                            <input type="password" class="form-control" id="password" name="password" required>
                         </div>
                     </div>
                 <?php endif ?>
@@ -66,7 +70,7 @@
                 <div class="form-row align-items-center">
                     <label for="job" class="col-sm-2 col-form-label mt-sm-2">Função</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="job" name="job" value="<?= $employee->getJob() ?>">
+                        <input type="text" class="form-control" id="job" name="job" value="<?= $employee->getJob() ?>" required>
                     </div>
                 </div>
 
@@ -80,7 +84,7 @@
         </div>
         <div class="card-footer">
             <div>
-                <button name="save" type="button" class="btn btn-success">Salvar</button>
+                <button id="save" name="save" type="button" class="btn btn-success">Salvar</button>
                 <button name="clear" type="button" class="btn btn-warning">Limpar</button>
                 <?php if ($exibir == true) : ?>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Editar senha</button>

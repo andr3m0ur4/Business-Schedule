@@ -2,12 +2,14 @@
 
 namespace Source\Controllers;
 
+use DateTime;
 use Source\Core\Controller;
 use Source\Models\TvShowHour as TvShowHourModel;
 use Source\Models\TvShowHourDAO;
 use Source\Models\TvShowDAO;
 use Source\Models\SwitcherDAO;
 use Source\Models\StudioDAO;
+use Source\Models\TvShow;
 
 class TvShowHour extends Controller
 {
@@ -15,6 +17,10 @@ class TvShowHour extends Controller
     {
         $message = null;
         $tvShowHour = new TvShowHourModel();
+        $error = [
+            'type' => 1,
+            'message' => 'Horario Final está antes do horario inicial'
+        ];
 
 
         if (!empty($params)) {
@@ -30,8 +36,6 @@ class TvShowHour extends Controller
             $tvShowDAO = new TvShowDAO();
             $tvShow = $tvShowDAO->findByFullName($tvTvShow);
 
-    
-
             $switcherDAO = new SwitcherDAO();
             $switcher = $switcherDAO->findByFullName($tvSwitcher);
 
@@ -41,17 +45,29 @@ class TvShowHour extends Controller
             $tvShowHour = new TvShowHourModel(null, $tvShow->getId(), $tvStartTime, $tvFinalTime, $switcher->getId(), $studio->getId(), $tvDate, $tvType);
             $dao = new TvShowHourDAO();
 
-            if ($dao->save($tvShowHour)) {
-                $tvShowHour = new TvShowHourModel();
+            $startTime = new DateTime($tvStartTime);
+            $finalTime = new DateTime($tvFinalTime);
+            $date = new DateTime($tvDate);
+            $dateNow = new DateTime('NOW');
+
+            if ($finalTime > $startTime) {
+                $error['message'] = 'A data é anterior ao ano atual';
+                if ($date >= $dateNow) {
+                    $dao->save($tvShowHour);
+                    $message = $dao->message();
+                    echo($message->json());
+                    return;
+                }
             }
 
-            $message = $dao->message();
-
-            var_dump($message);
+            echo json_encode($error);   
         
         }
-
     }
 
-   
+    public function load()
+    {
+        $dao = new TvShowHourDAO();
+        echo json_encode($dao->find()->all());
+    }
 }

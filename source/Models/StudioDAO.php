@@ -77,7 +77,7 @@ class StudioDAO extends DAO
                 $this->message->warning('O nome do estúdio informado já está cadastrado');
                 return false;
             }
-            echo $studio;
+
             $this->update($studio->safe(), 'id = :id', "id={$studioId}");
 
             if ($this->fail()) {

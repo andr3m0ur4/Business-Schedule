@@ -3,6 +3,11 @@ $(() => {
     clearPostJS()
     modal()
     
+    if (document.querySelector('[name=save]')) {
+        document.getElementById('save').onclick = save 
+        document.getElementById('form_admin').onsubmit = submitForm
+    }
+
     if (document.querySelector('[name=new]')) {
         document.querySelector('[name=new]').onclick = () => {
             location.href = '/admin/novo'
@@ -12,20 +17,6 @@ $(() => {
     if (document.querySelector('[name=clear]')) {
         document.querySelector('[name=clear]').onclick = () => {
             clear()
-        }
-    }
-
-    if (document.querySelector('[name=save]')) {
-        document.querySelector('[name=save]').onclick = () => {
-            let lista = ['id', 'phone'];
-            let messageFixed = [];
-
-            if (verify('[name=form_admin]', lista).length == 0) {
-                save();
-            } else {
-                messageFixed = verify('[name=form_admin]', lista)[0]
-                messageText(messageFixed,  'alert alert-danger', '[id=section]', 'message');
-            }
         }
     }
 
@@ -54,7 +45,7 @@ const modal = () => {
                     const div = document.createElement('div')
                     div.innerHTML = data
                     document.getElementById('myModal').appendChild(div)
-                    document.getElementById('form_changePassword').onsubmit = submitForm
+                    document.getElementById('form_changePassword').onsubmit = submitPasswordForm
                     document.getElementById('changePassword').onclick = savePassword
                     $('#myModal').on('hidden.bs.modal', function (e) { 
                         closeModal() 
@@ -75,30 +66,29 @@ const savePassword = event => {
     form.dispatchEvent(submitEvent)
 }
 
-const submitForm = event => {
+const submitPasswordForm = event => {
 
     let fatherElement = '[id=passwordSection]';
     
     event.preventDefault()
 
+    const formPassword = event.target
+    if (!formPassword.reportValidity()) {
+        return false;
+    }
+
     form = new FormData(document.getElementById('form_changePassword'));
 
-    if (verify('[name=form_changePassword]', []).length == 0) {
-        fetch(`/ajax/administrator/save/${id.value}`,{
-            method: 'POST',
-            body: form
-        }).then(response => {
-            response.json()
-                .then(data => {
-                    messagePassword(messageObject = data, fatherElement);
-                })
-        })
 
-    } else {
-
-        messageFixed = verify('[name=form_changePassword]', [])[0]
-        messageText(messageFixed,  'alert alert-danger', fatherElement, 'passwordMessage');
-    }
+    fetch(`/ajax/administrator/save/${id.value}`,{
+        method: 'POST',
+        body: form
+    }).then(response => {
+        response.json()
+            .then(data => {
+                messagePassword(messageObject = data, fatherElement);
+            })
+    })
 
 }
 
@@ -124,43 +114,39 @@ const verify = (formFixed, lista) => {
     return [];
 }
 
-const message = (messageText, messageConfiguration) => {
-    if (document.querySelector('[id=message]')) {
-        let messageComponent = document.querySelector('[id=message]');
-        messageComponent.innerHTML = `${messageText}`;
-        messageComponent.className = messageConfiguration;
-
-    } else {
-        let messageComponent = document.createElement("div");
-        messageComponent.className = messageConfiguration;
-        messageComponent.id = "message";
-        messageComponent.innerHTML = `${messageText}`;
-        elementFather = document.querySelector('[id=section]');
-        elementFather.insertBefore(messageComponent, elementFather.firstElementChild);
-    }
-}
-
 const messageText = (messageFixed, messageConfiguration, fatherElement, messageId) => {
 
+    let messageComponent;
+
     if (document.querySelector('[id='+ messageId +']')) {
-        let messageComponent = document.querySelector('[id='+ messageId +']');
+        messageComponent = document.querySelector('[id='+ messageId +']');
         messageComponent.innerHTML = `${messageFixed}`;
         messageComponent.className = messageConfiguration;
     
 
     } else {
-        let messageComponent = document.createElement("div");
+        messageComponent = document.createElement("div");
         messageComponent.innerHTML = `${messageFixed}`;
         messageComponent.className = messageConfiguration;
         messageComponent.id = messageId;
-        let elementFather = document.querySelector(fatherElement);
+
+        const elementFather = document.querySelector(fatherElement);
         elementFather.insertBefore(messageComponent, elementFather.firstElementChild);
 
     }
 
-    createButtonAlert(messageId)
-    $('#' + messageId).show()
-    closeAlert(messageId)
+    const button = document.createElement('button')
+    button.setAttribute('type', 'button')
+    button.setAttribute('aria-label', 'Close')
+    button.className = 'close'
+    button.dataset.dismiss = 'alert'
+
+    const span = document.createElement('span')
+    span.setAttribute('aria-hidden', 'true')
+    span.innerHTML = '&times;'
+
+    button.appendChild(span)
+    messageComponent.appendChild(button)
 
 }
 
@@ -168,7 +154,26 @@ function clear() {
     document.form_admin.reset()
 }
 
-const save = () => {
+const save = event => {
+
+    const btn = event.target
+    const form = document.getElementById('form_admin')
+    const submitEvent = new SubmitEvent('submit', {
+        submitter: btn
+    })
+
+    form.dispatchEvent(submitEvent)
+}
+
+const submitForm = e => {
+    
+    e.preventDefault()
+    
+    const form = e.target
+    if (!form.reportValidity()) {
+        return false;
+    }
+
     document.form_admin.submit()
 }
 
@@ -205,26 +210,4 @@ const closeModal = () => {
     } 
 
     document.getElementById('form_changePassword').reset();
-}
-
-const createButtonAlert = (messageId) => {
-
-    let buttonComponent = document.createElement("i");
-    buttonComponent.className = "fa fa-times-circle fa-lg";
-    buttonComponent.id = "closeAlert" + messageId;
-    buttonComponent.type = "button";
-
-    let elementFather = document.querySelector('[id=' + messageId + ']');
-    elementFather.insertBefore(buttonComponent, elementFather.firstElementChild);
-
-}
-
-const closeAlert = (messageId) => {
-
-    if (document.querySelector('[id=closeAlert' + messageId + ']')) {
-        document.querySelector('[id=closeAlert' + messageId + ']').onclick = () => {
-            $('#' + messageId).hide()
-        }
-    }
-
 }

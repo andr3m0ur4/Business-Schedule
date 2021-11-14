@@ -4,19 +4,19 @@
  * DATABASE
  */
 define('CONF_DB_HOST', 'localhost');
-//efine('CONF_DB_USER', 'andre-moura');
- define('CONF_DB_USER', 'root');
+//define('CONF_DB_USER', 'andre-moura');
+  define('CONF_DB_USER', 'root');
 //define('CONF_DB_PASS', 'andre-moura');
-   define('CONF_DB_PASS', '');
+    define('CONF_DB_PASS', '');
 //efine('CONF_DB_PASS', 'root');
 define('CONF_DB_NAME', 'business_schedule');
 
 /**
  * URL
  */
-define('ENVIRONMENT', 'development');
-//define('ENVIRONMENT', 'production');
-define('CONF_URL_BASE', 'https://www.website.com');
+// define('ENVIRONMENT', 'development');
+define('ENVIRONMENT', 'production');
+define('CONF_URL_BASE', 'https://business-schedule.ml');
 define('CONF_URL_DEV', 'http://localhost:8000');
 define('CONF_URL_ADMIN', '/admin');
 define('CONF_URL_ERROR', CONF_URL_BASE . '/404');
