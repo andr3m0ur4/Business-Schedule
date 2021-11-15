@@ -12,6 +12,9 @@ class Administrator extends Controller
     {
         if (!session()->__get('idUser')) {
             redirect('/entrar');
+            
+        } else if (session()->__get('level') != 2) {
+            redirect('/home');
         }
 
         $dao = new AdministratorDAO();
@@ -41,6 +44,9 @@ class Administrator extends Controller
     {
         if (!session()->__get('idUser')) {
             redirect('/entrar');
+            
+        } else if (session()->__get('level') != 2) {
+            redirect('/home');
         }
 
         $message = null;
@@ -75,6 +81,9 @@ class Administrator extends Controller
     {
         if (!session()->__get('idUser')) {
             redirect('/entrar');
+            
+        } else if (session()->__get('level') != 2) {
+            redirect('/home');
         }
 
         $message = null;
@@ -118,6 +127,9 @@ class Administrator extends Controller
     {
         if (!session()->__get('idUser')) {
             redirect('/entrar');
+            
+        } else if (session()->__get('level') != 2) {
+            redirect('/home');
         }
 
         if (isset($param['id'])) {
