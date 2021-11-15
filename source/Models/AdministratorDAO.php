@@ -39,6 +39,20 @@ class AdministratorDAO extends DAO
         return new Administrator($administrator->id, $administrator->name, $administrator->email, $administrator->password, $administrator->phone);
     }
 
+    public function login(string $email, string $password) : bool
+    {
+        if ($administrator = $this->findByEmail($email)) {
+            if (password_verify($password, $administrator->getPassword())) {
+                session()->set('idUser', $administrator->getId());
+                session()->set('level', 2);
+                redirect('/');
+            }
+        }
+        
+        $this->message->error('E-mail e ou senha estão incorretos');
+        return false;
+    }
+
     public function findByName(string $name, string $collumns = '*') : ?AdministratorDAO
     {
         return $this->find('name LIKE :name', "name=%{$name}%", $collumns);

@@ -13,6 +13,9 @@ class Studio extends Controller
     {
         if (!session()->__get('idUser')) {
             redirect('/entrar');
+
+        } else if (session()->__get('level') != 2) {
+            redirect('/home');
         }
 
         $dao = new StudioDAO();
@@ -42,6 +45,9 @@ class Studio extends Controller
     {
         if (!session()->__get('idUser')) {
             redirect('/entrar');
+
+        } else if (session()->__get('level') != 2) {
+            redirect('/home');
         }
 
         $message = null;
@@ -71,6 +77,9 @@ class Studio extends Controller
     {
         if (!session()->__get('idUser')) {
             redirect('/entrar');
+            
+        } else if (session()->__get('level') != 2) {
+            redirect('/home');
         }
 
         $message = null;
@@ -103,6 +112,9 @@ class Studio extends Controller
     {
         if (!session()->__get('idUser')) {
             redirect('/entrar');
+            
+        } else if (session()->__get('level') != 2) {
+            redirect('/home');
         }
 
         if (isset($param['id'])) {

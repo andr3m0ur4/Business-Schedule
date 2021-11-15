@@ -13,6 +13,9 @@ class TvShow extends Controller
     {
         if (!session()->__get('idUser')) {
             redirect('/entrar');
+            
+        } else if (session()->__get('level') != 2) {
+            redirect('/home');
         }
 
         $dao = new TvShowDAO();
@@ -41,6 +44,9 @@ class TvShow extends Controller
     {
         if (!session()->__get('idUser')) {
             redirect('/entrar');
+            
+        } else if (session()->__get('level') != 2) {
+            redirect('/home');
         }
 
         $message = null;
@@ -70,6 +76,9 @@ class TvShow extends Controller
     {
         if (!session()->__get('idUser')) {
             redirect('/entrar');
+            
+        } else if (session()->__get('level') != 2) {
+            redirect('/home');
         }
 
         $message = null;
@@ -105,6 +114,9 @@ class TvShow extends Controller
     {
         if (!session()->__get('idUser')) {
             redirect('/entrar');
+            
+        } else if (session()->__get('level') != 2) {
+            redirect('/home');
         }
 
         if (isset($param['id'])) {

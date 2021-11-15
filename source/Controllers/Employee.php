@@ -12,6 +12,9 @@ class Employee extends Controller
     {
         if (!session()->__get('idUser')) {
             redirect('/entrar');
+            
+        } else if (session()->__get('level') != 2) {
+            redirect('/home');
         }
 
         $dao = new EmployeeDAO();
@@ -42,6 +45,9 @@ class Employee extends Controller
 
         if (!session()->__get('idUser')) {
             redirect('/entrar');
+            
+        } else if (session()->__get('level') != 2) {
+            redirect('/home');
         }
 
         $message = null;
@@ -78,6 +84,9 @@ class Employee extends Controller
     {
         if (!session()->__get('idUser')) {
             redirect('/entrar');
+            
+        } else if (session()->__get('level') != 2) {
+            redirect('/home');
         }
 
         $message = null;
@@ -122,6 +131,9 @@ class Employee extends Controller
     {
         if (!session()->__get('idUser')) {
             redirect('/entrar');
+            
+        } else if (session()->__get('level') != 2) {
+            redirect('/home');
         }
         
         if (isset($param['id'])) {

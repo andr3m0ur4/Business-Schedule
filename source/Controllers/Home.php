@@ -4,6 +4,7 @@ namespace Source\Controllers;
 
 use Source\Core\Controller;
 use Source\Models\EmployeeDAO;
+use Source\Models\AdministratorDAO;
 
 class Home extends Controller
 {
@@ -15,7 +16,7 @@ class Home extends Controller
 
         $data = [
             'title' => 'Business Schedule',
-            'file' => 'home'
+            'file' => 'home',
         ];
 
         echo $this->view->render('home', $data);
@@ -33,10 +34,18 @@ class Home extends Controller
             $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_STRIPPED);
             $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRIPPED);
             
-            $dao = new EmployeeDAO();
-            if (!$dao->login($email, $password)) {
-                $error = $dao->message()->getText();
+            $adminDao = new AdministratorDAO();
+            if (!$adminDao->login($email, $password)) {
+
+                $employeeDao = new EmployeeDAO();
+                if (!$employeeDao->login($email, $password)) {
+                    $error = $employeeDao->message()->getText();
+                }
+
             }
+
+           
+
         }
 
         $data = [

@@ -12,6 +12,9 @@ class Switcher extends Controller
     {
         if (!session()->__get('idUser')) {
             redirect('/entrar');
+            
+        } else if (session()->__get('level') != 2) {
+            redirect('/home');
         }
 
         $dao = new SwitcherDAO();
@@ -41,6 +44,9 @@ class Switcher extends Controller
     {
         if (!session()->__get('idUser')) {
             redirect('/entrar');
+            
+        } else if (session()->__get('level') != 2) {
+            redirect('/home');
         }
 
         $message = null;
@@ -70,6 +76,9 @@ class Switcher extends Controller
     {
         if (!session()->__get('idUser')) {
             redirect('/entrar');
+            
+        } else if (session()->__get('level') != 2) {
+            redirect('/home');
         }
 
         $message = null;
@@ -103,6 +112,9 @@ class Switcher extends Controller
     {
         if (!session()->__get('idUser')) {
             redirect('/entrar');
+            
+        } else if (session()->__get('level') != 2) {
+            redirect('/home');
         }
         
         if (isset($param['id'])) {

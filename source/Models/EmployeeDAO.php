@@ -44,6 +44,7 @@ class EmployeeDAO extends DAO
         if ($employee = $this->findByEmail($email)) {
             if (password_verify($password, $employee->getPassword())) {
                 session()->set('idUser', $employee->getId());
+                session()->set('level', 1);
                 redirect('/');
             }
         }
