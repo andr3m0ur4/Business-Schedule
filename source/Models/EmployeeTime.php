@@ -14,11 +14,11 @@ class EmployeeTime extends Model
     protected ?int $id_employee;
     protected ?bool $status;
     protected static array $safe = ['id'];
-    protected static array $required = ['start_time', 'final_time', 'date', 'week_day'];
+    protected static array $required = ['start_time', 'final_time', 'date', 'week_day', 'id_employee'];
 
     public function __construct(
         ?int $id = null, ?string $startTime = null, ?string $finalTime = null,
-        ?string $date = null, ?int $week_day = null, ?int $idEmployee = null
+        ?string $date = null, ?int $week_day = null, ?int $id_employee = null
     )
     {
         $this->setId($id);
@@ -26,7 +26,7 @@ class EmployeeTime extends Model
         $this->setFinalTime($finalTime);
         $this->setDate($date);
         $this->setWeekDay($week_day);
-        $this->setIdEmployee($idEmployee);
+        $this->setIdEmployee($id_employee);
         $this->setStatus(true);
     }
 
@@ -90,9 +90,9 @@ class EmployeeTime extends Model
         return $this->id_employee;
     }
 
-    public function setIdEmployee($idEmployee)
+    public function setIdEmployee($id_employee)
     {
-        $this->id_employee = $idEmployee;
+        $this->id_employee = $id_employee;
         return $this;
     }
 
@@ -105,6 +105,15 @@ class EmployeeTime extends Model
     {
         $this->status = $status;
         return $this;
+    }
+
+    public function employee() : ?Employee
+    {
+        if ($this->id_employee) {
+            return (new EmployeeDAO())->findById($this->id_employee);
+        }
+
+        return null;
     }
 
     public function __toString()

@@ -34,13 +34,43 @@ class Home extends Controller
             $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_STRIPPED);
             $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRIPPED);
             
+
+
+            $employeeDao = new EmployeeDAO();
+            if (!$employeeDao->login($email, $password)) {
+                $error = $employeeDao->message()->getText();
+            }
+
+
+           
+
+        }
+
+        $data = [
+            'title' => 'Business Schedule - Login',
+            'file' => 'signin',
+            'error' => $error
+        ];
+
+        echo $this->view->render('signin', $data);
+    }
+
+    public function signinAdm() : void
+    {
+        if (session()->__get('idUser')) {
+            redirect('/home');
+        }
+
+        $error = null;
+
+        if ($_POST) {
+            $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_STRIPPED);
+            $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRIPPED);
+            
             $adminDao = new AdministratorDAO();
             if (!$adminDao->login($email, $password)) {
 
-                $employeeDao = new EmployeeDAO();
-                if (!$employeeDao->login($email, $password)) {
-                    $error = $employeeDao->message()->getText();
-                }
+                $error = $adminDao->message()->getText();
 
             }
 
