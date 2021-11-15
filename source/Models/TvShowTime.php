@@ -149,11 +149,39 @@ class TvShowTime extends Model
         return $this;
     }
 
+    public function tvShow() : ?TvShow
+    {
+        if ($this->id_tv_show) {
+            return (new TvShowDAO())->findById($this->id_tv_show);
+        }
+
+        return null;
+    }
+
+    public function studio() : ?Studio
+    {
+        if ($this->id_studio) {
+            return (new StudioDAO())->findById($this->id_studio);
+        }
+
+        return null;
+    }
+
+    public function switcher() : ?Switcher
+    {
+        if ($this->id_switcher) {
+            return (new SwitcherDAO())->findById($this->id_switcher);
+        }
+
+        return null;
+    }
+
     public function __toString()
     {
-        return "Id: {$this->id} - Programa: {$this->id_tv_show} - "
-        . date_formatt($this->start_time, 'H\hi') .  " - Hora Final: " . date_formatt($this->final_time, 'H\hi') .
-        " - Switcher: {$this->id_switcher} - Estudio: {$this->id_studio}" . " - Data: " . date_formatt($this->date, 'd/m') .
-        " - Tipo: {$this->type}";
+        return "Id: {$this->id} - " . date_formatt($this->start_time, 'H\hi') .
+            " - Hora Final: " . date_formatt($this->final_time, 'H\hi') .
+            " - Data: " . date_formatt($this->date, 'd/m') .
+            " - Programa: {$this->tvShow()} - Switcher: {$this->switcher()}
+            - Estudio: {$this->studio()} - Tipo: {$this->type}";
     }
 }

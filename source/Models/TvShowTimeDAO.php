@@ -8,7 +8,7 @@ class TvShowTimeDAO extends DAO
 {
     public function __construct()
     {
-        parent::__construct('tv_shows_hours');
+        parent::__construct('tv_shows_times');
     }
 
     public function findById(int $id, string $collumns = '*') : ?TvShowTime
@@ -35,6 +35,11 @@ class TvShowTimeDAO extends DAO
         );
     }
 
+    // public function findByName(string $name, string $collumns = '*') : ?TvShowDAO
+    // {
+    //     return $this->find('name LIKE :name', "name=%{$name}%", $collumns);
+    // }
+
     public function all() : array
     {
         $all = parent::fetch(true);
@@ -59,9 +64,9 @@ class TvShowTimeDAO extends DAO
                 $tvShowTime->id_studio
             );
 
-            $tvShowTime->tvShow = (new TvShowDAO())->findById($tvShowTime->getIdTvShow());
-            $tvShowTime->studio = (new StudioDAO())->findById($tvShowTime->getIdStudio());
-            $tvShowTime->switcher = (new SwitcherDAO())->findById($tvShowTime->getIdSwitcher());
+            // $tvShowTime->tvShow = (new TvShowDAO())->findById($tvShowTime->getIdTvShow());
+            // $tvShowTime->studio = (new StudioDAO())->findById($tvShowTime->getIdStudio());
+            // $tvShowTime->switcher = (new SwitcherDAO())->findById($tvShowTime->getIdSwitcher());
 
             $tvShowTimes[] = $tvShowTime;
         }

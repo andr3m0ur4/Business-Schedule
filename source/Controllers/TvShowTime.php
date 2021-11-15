@@ -10,11 +10,35 @@ use Source\Models\SwitcherDAO;
 use Source\Models\StudioDAO;
 use Source\Models\TvShowTimeDAO;
 
-class TvShowHour extends Controller
+class TvShowTime extends Controller
 {
     public function index()
     {
-        echo 'horário do programa';
+        if (!session()->__get('idUser')) {
+            redirect('/entrar');
+        }
+
+        $dao = new TvShowTimeDAO();
+        $message = null;
+
+        if ($_GET) {
+            $name = filter_input(INPUT_GET, 'name', FILTER_SANITIZE_STRIPPED);
+            //$tvShows = $dao->findByName($name)->all();
+        } else {
+            $tvShowsTimes = $dao->find()->all();
+        }
+
+        if (session()->has('message')) {
+            $message = session()->__get('message');
+            session()->unset('message');
+        }
+
+        echo $this->view->render('tvShowTime', [
+            'title' => 'Business Schedule - Horários de Programas',
+            'file' => 'tvShow',
+            'tvShowsTimes' => $tvShowsTimes,
+            'message' => $message
+        ]);
     }
     
     public function save($params) : void
