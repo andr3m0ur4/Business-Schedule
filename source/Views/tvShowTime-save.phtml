@@ -101,12 +101,12 @@
                 </div>
 
                 <div class="form-row align-items-center">
-                    <label for="mode" class="col-sm-2 col-form-label mt-sm-2">Tipo</label>
+                    <label for="mode" class="col-sm-2 col-form-label mt-sm-2">Formato</label>
                     <div class="col-sm-2">
                         <select name="mode" id="mode" class="form-control">
-                            <option value="1">Ao Vivo</option>
-                            <option value="2">Gravado</option>
-                            <option value="3">Unidade Móvel</option>
+                            <option value="1" <?= is_selected('Ao Vivo', $tvShowTime->getMode()) ?>>Ao Vivo</option>
+                            <option value="1" <?= is_selected('Gravado', $tvShowTime->getMode()) ?>>Gravado</option>
+                            <option value="3" <?= is_selected('Unidade Móvel', $tvShowTime->getMode()) ?>>Unidade Móvel</option>
                         </select>
                     </div>
                 </div>

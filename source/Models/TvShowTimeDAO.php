@@ -28,7 +28,7 @@ class TvShowTimeDAO extends DAO
             $tvShowTime->final_time,
             $tvShowTime->date,
             $tvShowTime->week_day,
-            $tvShowTime->type,
+            $tvShowTime->mode,
             $tvShowTime->id_tv_show,
             $tvShowTime->id_switcher,
             $tvShowTime->id_studio
@@ -64,7 +64,7 @@ class TvShowTimeDAO extends DAO
                 $tvShowTime->final_time,
                 $tvShowTime->date,
                 $tvShowTime->week_day,
-                $tvShowTime->type,
+                $tvShowTime->mode,
                 $tvShowTime->id_tv_show,
                 $tvShowTime->id_switcher,
                 $tvShowTime->id_studio
