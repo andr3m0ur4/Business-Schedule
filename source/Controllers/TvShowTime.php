@@ -12,7 +12,7 @@ use Source\Models\TvShowTimeDAO;
 
 class TvShowTime extends Controller
 {
-    public function index()
+    public function index() : void
     {
         if (!session()->__get('idUser')) {
             redirect('/entrar');
@@ -23,7 +23,7 @@ class TvShowTime extends Controller
 
         if ($_GET) {
             $name = filter_input(INPUT_GET, 'name', FILTER_SANITIZE_STRIPPED);
-            //$tvShows = $dao->findByName($name)->all();
+            $tvShowsTimes = $dao->findByName($name)->all();
         } else {
             $tvShowsTimes = $dao->find()->all();
         }
@@ -35,13 +35,49 @@ class TvShowTime extends Controller
 
         echo $this->view->render('tvShowTime', [
             'title' => 'Business Schedule - Horários de Programas',
-            'file' => 'tvShow',
+            'file' => 'tvShowTime',
             'tvShowsTimes' => $tvShowsTimes,
             'message' => $message
         ]);
     }
+
+    public function save() : void
+    {
+        if (!session()->__get('idUser')) {
+            redirect('/entrar');
+        }
+
+        $message = null;
+        $dao = new TvShowTimeDAO();
+        $tvShowTime = new TvShowTimeModel();
+
+        if (!empty($params)) {
+            $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRIPPED);
+
+            $tvShow = new TvShowTimeModel(null, $name);
+            if ($dao->save($tvShow)) {
+                $tvShow = new TvShowTimeModel();
+            }
+
+            $message = $dao->message();
+        }
+
+        $tvShows = (new TvShowDAO())->find()->all();
+        $studios = (new StudioDAO())->find()->all();
+        $switchers = (new SwitcherDAO())->find()->all();
+
+        echo $this->view->render('tvShowTime-save', [
+            'title' => 'Business Schedule - Horários de Programas',
+            'file' => 'tvShowTime',
+            'tvShowTime' => $tvShowTime,
+            'tvShows' => $tvShows,
+            'studios' => $studios,
+            'switchers' => $switchers,
+            'message' => $message
+        ]);
+    }
     
-    public function save($params) : void
+    public function create($params) : void
     {
         $message = null;
         $tvShowHour = new TvShowTimeModel();

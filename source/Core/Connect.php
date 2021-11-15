@@ -25,6 +25,7 @@ class Connect
                 );
             } catch (\PDOException $ex) {
                 die("Erro: {$ex->getMessage()}");
+                // redirect('/ops/problemas');
             }
         }
 
