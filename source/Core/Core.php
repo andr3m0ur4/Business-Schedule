@@ -60,6 +60,7 @@ class Core
         $route->get('/programa/{id}/excluir', 'TvShow:delete');
 
         $route->get('/horario-programa', 'TvShowTime:index');
+        $route->get('/horario-programa/novo', 'TvShowTime:save');
 
         /**
          * API
@@ -72,7 +73,7 @@ class Core
         $route->get('/tvShowHour/load', 'TvShowHour:load');
         $route->post('/employee/save/{id}', 'Employee:changePassword');
         $route->post('/administrator/save/{id}', 'Administrator:changePassword');
-        $route->post('/tvShowHour/save', 'TvShowHour:save');
+        $route->post('/tvShowHour/save', 'TvShowHour:create');
 
         /**
          * TESTS

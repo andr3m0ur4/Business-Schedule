@@ -35,10 +35,16 @@ class TvShowTimeDAO extends DAO
         );
     }
 
-    // public function findByName(string $name, string $collumns = '*') : ?TvShowDAO
-    // {
-    //     return $this->find('name LIKE :name', "name=%{$name}%", $collumns);
-    // }
+    public function findByName(string $name, string $collumns = 'TST.*') : ?TvShowTimeDAO
+    {
+        $this->query = "SELECT {$collumns} FROM tv_shows_times AS TST
+                        INNER JOIN tv_shows AS TS
+                        ON (TS.id = TST.id_tv_show)
+                        WHERE TS.name LIKE :name";
+        
+        parse_str("name=%{$name}%", $this->params);
+        return $this;
+    }
 
     public function all() : array
     {
@@ -52,7 +58,7 @@ class TvShowTimeDAO extends DAO
         $tvShowTimes = [];
 
         foreach ($all as $tvShowTime) {
-            $tvShowTime =  new TvShowTime(
+            $tvShowTimes[] =  new TvShowTime(
                 $tvShowTime->id,
                 $tvShowTime->start_time,
                 $tvShowTime->final_time,
@@ -63,12 +69,6 @@ class TvShowTimeDAO extends DAO
                 $tvShowTime->id_switcher,
                 $tvShowTime->id_studio
             );
-
-            // $tvShowTime->tvShow = (new TvShowDAO())->findById($tvShowTime->getIdTvShow());
-            // $tvShowTime->studio = (new StudioDAO())->findById($tvShowTime->getIdStudio());
-            // $tvShowTime->switcher = (new SwitcherDAO())->findById($tvShowTime->getIdSwitcher());
-
-            $tvShowTimes[] = $tvShowTime;
         }
 
         return $tvShowTimes;
