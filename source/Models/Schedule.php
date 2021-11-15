@@ -53,6 +53,24 @@ class Schedule extends Model
         return $this;
     }
 
+    public function employee() : ?Employee
+    {
+        if ($this->id_employee) {
+            return (new EmployeeDAO())->findById($this->id_employee);
+        }
+
+        return null;
+    }
+
+    public function tvShowTime() : ?TvShowTimeDAO
+    {
+        if ($this->id_tv_show_time) {
+            return (new TvShowTimeDAO())->findById($this->id_tv_show_time);
+        }
+
+        return null;
+    }
+
     public function __toString()
     {
         return "ID: {$this->id} - Id do Funcionario: {$this->id_employee} -

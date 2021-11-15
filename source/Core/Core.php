@@ -15,12 +15,14 @@ class Core
         $route->get('/', 'Home:index');
         $route->get('/home', 'Home:index');
         $route->get('/entrar', 'Home:signin');
+        $route->get('/entrarAdm', 'Home:signinAdm');
         $route->get('/sair', 'Home:signout');
         $route->get('/sobre', 'Home:about');
         //$route->get('/escalas', 'Home:schedule');
         $route->get('/recuperarSenha', 'Home:forgotPassword');
         
         $route->post('/entrar', 'Home:signin');
+        $route->post('/entrarAdm', 'Home:signinAdm');
         
         $route->get('/escala', 'Schedule:index');
 

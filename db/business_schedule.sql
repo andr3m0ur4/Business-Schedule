@@ -201,3 +201,7 @@ ALTER TABLE `tv_shows_times` CHANGE `type` `type` VARCHAR(255) CHARACTER SET utf
 ALTER TABLE `tv_shows_times` ADD `status` ENUM('S','N') NOT NULL AFTER `id_studio`;
 
 ALTER TABLE `tv_shows_times` CHANGE `type` `type` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL;
+
+-- rodigo 15-11-2021 ajuste no type
+
+ALTER TABLE `tv_shows_times` CHANGE `type` `mode` ENUM('Ao Vivo', 'Gravado', 'Unidade Móvel') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
