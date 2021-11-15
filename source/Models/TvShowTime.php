@@ -11,7 +11,7 @@ class TvShowTime extends Model
     protected ?string $final_time;
     protected ?string $date;
     protected ?int $week_day;
-    protected ?string $type;
+    protected ?string $mode;
     protected ?int $id_tv_show;
     protected ?int $id_switcher;
     protected ?int $id_studio;
@@ -19,12 +19,12 @@ class TvShowTime extends Model
 
     public function __construct(
         ?int $id = null, ?string $start_time = null, ?string $final_time = null,
-        ?string $date = null, ?int $week_day = null, ?string $type = null,
+        ?string $date = null, ?int $week_day = null, ?string $mode = null,
         ?int $id_tv_show = null, ?int $id_switcher = null, ?int $id_studio = null
     )
     {
         parent::__construct(
-            ['id'], ['id_tv_show', 'start_time', 'final_time', 'id_switcher', 'id_studio', 'date', 'type']
+            ['id'], ['id_tv_show', 'start_time', 'final_time', 'id_switcher', 'id_studio', 'date', 'mode']
         );
 
         $this->setId($id);
@@ -32,7 +32,7 @@ class TvShowTime extends Model
         $this->setFinalTime($final_time);
         $this->setDate($date);
         $this->setWeekDay($week_day);
-        $this->setType($type);
+        $this->setMode($mode);
         $this->setIdTvShow($id_tv_show);
         $this->setIdSwitcher($id_switcher);
         $this->setIdStudio($id_studio);
@@ -127,14 +127,14 @@ class TvShowTime extends Model
         return $this;
     }
 
-    public function getType() : ?string
+    public function getMode() : ?string
     {
-        return $this->type;
+        return $this->mode;
     }
 
-    public function setType($type)
+    public function setMode($mode)
     {
-        $this->type = $type;
+        $this->mode = $mode;
         return $this;
     }
 
@@ -182,6 +182,6 @@ class TvShowTime extends Model
             " - Hora Final: " . date_formatt($this->final_time, 'H\hi') .
             " - Data: " . date_formatt($this->date, 'd/m') .
             " - Programa: {$this->tvShow()} - Switcher: {$this->switcher()}
-            - Estudio: {$this->studio()} - Tipo: {$this->type}";
+            - Estudio: {$this->studio()} - Tipo: {$this->mode}";
     }
 }
