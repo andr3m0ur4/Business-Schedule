@@ -149,31 +149,31 @@ class TvShowTime extends Model
         return $this;
     }
 
-    public function tvShow() : ?TvShow
+    public function tvShow() : TvShow
     {
         if ($this->id_tv_show) {
             return (new TvShowDAO())->findById($this->id_tv_show);
         }
 
-        return null;
+        return new TvShow();
     }
 
-    public function studio() : ?Studio
+    public function studio() : Studio
     {
         if ($this->id_studio) {
             return (new StudioDAO())->findById($this->id_studio);
         }
 
-        return null;
+        return new Studio();
     }
 
-    public function switcher() : ?Switcher
+    public function switcher() : Switcher
     {
         if ($this->id_switcher) {
             return (new SwitcherDAO())->findById($this->id_switcher);
         }
 
-        return null;
+        return new Switcher();
     }
 
     public function __toString()

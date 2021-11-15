@@ -56,7 +56,7 @@
                         <th class="text-left" width="10%">Dia</th>
                         <th class="text-left" width="15%">Switcher</th>
                         <th class="text-left" width="15%">Estúdio</th>
-                        <th class="text-left" width="10%">Tipo</th>
+                        <th class="text-left" width="10%">Formato</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -86,7 +86,7 @@
                             </td>
                             <td class="text-left" width="15%"><?= $tvShowTime->switcher()->getName() ?></td>
                             <td class="text-left" width="15%"><?= $tvShowTime->studio()->getName() ?></td>
-                            <td class="text-left" width="10%"><?= $tvShowTime->getType() ?></td>
+                            <td class="text-left" width="10%"><?= $tvShowTime->getMode() ?></td>
                         </tr>
                     <?php endforeach ?>
 
