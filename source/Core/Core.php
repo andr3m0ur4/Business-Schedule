@@ -61,6 +61,10 @@ class Core
 
         $route->get('/horario-programa', 'TvShowTime:index');
         $route->get('/horario-programa/novo', 'TvShowTime:save');
+        $route->post('/horario-programa/novo', 'TvShowTime:save');
+        $route->get('/horario-programa/{id}/editar', 'TvShowTime:update');
+        $route->post('/horario-programa/{id}/editar', 'TvShowTime:update');
+        $route->get('/horario-programa/{id}/excluir', 'TvShowTime:delete');
 
         /**
          * API

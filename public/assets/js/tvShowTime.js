@@ -66,5 +66,5 @@ const search = () => {
 const remove = id => {
     const element = document.getElementById('question')
     element.classList.remove('d-none')
-    element.lastElementChild.setAttribute('href', `/programa/${id}/excluir`)
+    element.lastElementChild.setAttribute('href', `/horario-programa/${id}/excluir`)
 }

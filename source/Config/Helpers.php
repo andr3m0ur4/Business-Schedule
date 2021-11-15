@@ -20,6 +20,15 @@
      return mb_strlen($password) >= CONF_PASSWORD_MIN_LEN && mb_strlen($password) <= CONF_PASSWORD_MAX_LEN;
  }
 
+ function is_selected(string $value, string $option) : string
+ {
+     if ($value == $option) {
+         return 'selected';
+     }
+
+     return '';
+ }
+
  /**
  * ######################
  * ###      STRING    ###

@@ -43,7 +43,9 @@
                         <select name="tvShow" id="tvShow" class="form-control" required>
                             <option>-- Selecione um Programa --</option>
                             <?php foreach ($tvShows as $tvShow) : ?>
-                                <option value="<?= $tvShow->getId() ?>"><?= $tvShow->getName() ?></option>
+                                <option value="<?= $tvShow->getId() ?>" <?= is_selected($tvShow->getId(), $tvShowTime->tvShow()->getId()) ?>>
+                                    <?= $tvShow->getName() ?>
+                                </option>
                             <?php endforeach ?>
                         </select>
                     </div>
@@ -52,14 +54,14 @@
                 <div class="form-row align-items-center">
                     <label for="startTime" class="col-sm-2 col-form-label mt-sm-2">Horário Inicial</label>
                     <div class="col-sm-2">
-                        <input type="time" class="form-control" id="startTime" name="startTime" value="<?= $tvShowTime->getStartTime() ?>" required>
+                        <input type="time" class="form-control" id="startTime" name="startTime" value="<?= date_formatt($tvShowTime->getStartTime(), 'H:i') ?>" required>
                     </div>
                 </div>
 
                 <div class="form-row align-items-center">
                     <label for="finalTime" class="col-sm-2 col-form-label mt-sm-2">Horário Final</label>
                     <div class="col-sm-2">
-                        <input type="time" class="form-control" id="finalTime" name="finalTime" value="<?= $tvShowTime->getFinalTime() ?>" required>
+                        <input type="time" class="form-control" id="finalTime" name="finalTime" value="<?= date_formatt($tvShowTime->getFinalTime(), 'H:i') ?>" required>
                     </div>
                 </div>
 
@@ -76,7 +78,9 @@
                         <select name="studio" id="studio" class="form-control" required>
                             <option>-- Selecione um Estúdio --</option>
                             <?php foreach ($studios as $studio) : ?>
-                                <option value="<?= $studio->getId() ?>"><?= $studio->getName() ?></option>
+                                <option value="<?= $studio->getId() ?>" <?= is_selected($studio->getId(), $tvShowTime->studio()->getId()) ?>>
+                                    <?= $studio->getName() ?>
+                                </option>
                             <?php endforeach ?>
                         </select>
                     </div>
@@ -88,7 +92,9 @@
                         <select name="switcher" id="switcher" class="form-control" required>
                             <option>-- Selecione um Switcher --</option>
                             <?php foreach ($switchers as $switcher) : ?>
-                                <option value="<?= $switcher->getId() ?>"><?= $switcher->getName() ?></option>
+                                <option value="<?= $switcher->getId() ?>" <?= is_selected($switcher->getId(), $tvShowTime->switcher()->getId()) ?>>
+                                    <?= $switcher->getName() ?>
+                                </option>
                             <?php endforeach ?>
                         </select>
                     </div>

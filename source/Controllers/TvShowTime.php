@@ -41,7 +41,7 @@ class TvShowTime extends Controller
         ]);
     }
 
-    public function save() : void
+    public function save($params) : void
     {
         if (!session()->__get('idUser')) {
             redirect('/entrar');
@@ -52,13 +52,76 @@ class TvShowTime extends Controller
         $tvShowTime = new TvShowTimeModel();
 
         if (!empty($params)) {
-            $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRIPPED);
+            $startTime = filter_input(INPUT_POST, 'startTime', FILTER_SANITIZE_STRIPPED);
+            $finalTime = filter_input(INPUT_POST, 'finalTime', FILTER_SANITIZE_STRIPPED);
+            $date = filter_input(INPUT_POST, 'date', FILTER_SANITIZE_STRIPPED);
+            $weekDay = date_formatt($date, 'N');
+            $mode = filter_input(INPUT_POST, 'mode', FILTER_SANITIZE_STRIPPED);
+            $idTvShow = filter_input(INPUT_POST, 'tvShow', FILTER_SANITIZE_STRIPPED);
+            $idSwitcher = filter_input(INPUT_POST, 'switcher', FILTER_SANITIZE_STRIPPED);
+            $idStudio = filter_input(INPUT_POST, 'studio', FILTER_SANITIZE_STRIPPED);
 
-            $tvShow = new TvShowTimeModel(null, $name);
-            if ($dao->save($tvShow)) {
-                $tvShow = new TvShowTimeModel();
+            $tvShowTime = new TvShowTimeModel(
+                null, $startTime, $finalTime, $date, $weekDay, $mode, $idTvShow, $idSwitcher, $idStudio
+            );
+
+            if ($dao->save($tvShowTime)) {
+                $tvShowTime = new TvShowTimeModel();
             }
 
+            $message = $dao->message();
+        }
+
+        $tvShows = (new TvShowDAO())->find()->all();
+        $studios = (new StudioDAO())->find()->all();
+        $switchers = (new SwitcherDAO())->find()->all();
+
+        echo $this->view->render('tvShowTime-save', [
+            'title' => 'Business Schedule - Horários de Programas',
+            'file' => 'tvShowTime',
+            'tvShowTime' => $tvShowTime,
+            'tvShows' => $tvShows,
+            'studios' => $studios,
+            'switchers' => $switchers,
+            'message' => $message
+        ]);
+    }
+
+    public function update($params) : void
+    {
+        if (!session()->__get('idUser')) {
+            redirect('/entrar');
+            
+        } else if (session()->__get('level') != 2) {
+            redirect('/home');
+        }
+
+        $message = null;
+        $dao = new TvShowTimeDAO();
+        
+        if (isset($params['id']) && $params['id'] > 0) {
+            $id = (int) filter_var($params['id'], FILTER_SANITIZE_STRIPPED);
+            $tvShowTime = $dao->findById($id);
+        }
+
+        if (isset($params['startTime'])) {
+            $startTime = filter_input(INPUT_POST, 'startTime', FILTER_SANITIZE_STRIPPED);
+            $finalTime = filter_input(INPUT_POST, 'finalTime', FILTER_SANITIZE_STRIPPED);
+            $date = filter_input(INPUT_POST, 'date', FILTER_SANITIZE_STRIPPED);
+            $weekDay = date_formatt($date, 'N');
+            $mode = filter_input(INPUT_POST, 'mode', FILTER_SANITIZE_STRIPPED);
+            $idTvShow = filter_input(INPUT_POST, 'tvShow', FILTER_SANITIZE_STRIPPED);
+            $idSwitcher = filter_input(INPUT_POST, 'switcher', FILTER_SANITIZE_STRIPPED);
+            $idStudio = filter_input(INPUT_POST, 'studio', FILTER_SANITIZE_STRIPPED);
+            
+            $tvShowTime = new TvShowTimeModel(
+                $id, $startTime, $finalTime, $date, $weekDay, $mode, $idTvShow, $idSwitcher, $idStudio
+            );
+
+            if ($dao->save($tvShowTime)) {
+                $tvShowTime = $dao->data();
+            }
+            
             $message = $dao->message();
         }
 
@@ -133,5 +196,25 @@ class TvShowTime extends Controller
     {
         $dao = new TvShowTimeDAO();
         echo json_encode($dao->find()->all());
+    }
+
+    public function delete($param) : void
+    {
+        if (!session()->__get('idUser')) {
+            redirect('/entrar');
+            
+        } else if (session()->__get('level') != 2) {
+            redirect('/home');
+        }
+
+        if (isset($param['id'])) {
+            $id = (int) filter_var($param['id'], FILTER_SANITIZE_STRIPPED);
+            $dao = new TvShowTimeDAO();
+            $dao->destroy($id);
+            $message = $dao->message();
+            session()->set('message', $message);
+        }
+
+        redirect('/horario-programa');
     }
 }
