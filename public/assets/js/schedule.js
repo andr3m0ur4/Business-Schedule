@@ -54,14 +54,14 @@ window.onload = () => {
 
     document.querySelectorAll('.card').forEach(initCards)
 
-    if (document.querySelector('[id=btnAddModalTvShow]')) {
-        document.querySelector('[id=btnAddModalTvShow]').onclick = () => {
+    if (document.getElementById('btnAddModalTvShow')) {
+        document.getElementById('btnAddModalTvShow').onclick = () => {
             openModalTvShow()
         }
     }
 
-    if (document.querySelector('[id=btnMenuTvShow]')) {
-        document.querySelector('[id=btnMenuTvShow]').onclick = () => {
+    if (document.getElementById('btnMenuTvShow')) {
+        document.getElementById('btnMenuTvShow').onclick = () => {
             openModalMenuTvShow()
         }
     }
@@ -99,13 +99,13 @@ const modal = () => {
                     const form = div.querySelector('[name=formEmployeeTime]')
                     document.getElementById('myModal').appendChild(div)
                     form.onsubmit = validateInputs
-                    document.getElementById('addTvShow').onclick = openAddTvShowHour
+
                     $('#modalEmployeeTime').on('hidden.bs.modal', e => {
                         form.reset()
                     })
-
-                    $(".select2").select2();
-
+                    
+                    $(".select2").select2()
+                    document.getElementById('addTvShow').onclick = openAddTvShowHour
                 })
         })
 
@@ -129,18 +129,21 @@ const modal = () => {
                 })
         })
 
-    fetch('/assets/resources/modal-tvShowHour.html')
+    fetch('/assets/resources/modal-tvShowTime.html')
         .then(response => {
             response.text()
                 .then(data => {
                     const div = document.createElement('div')
                     div.innerHTML = data
                     document.getElementById('myModal').appendChild(div)
+
                     document.getElementById('saveTvShow').onclick = saveTvShowHour 
-                    document.getElementById('form_TvShowHour').onsubmit = submitTvShowHour
+                    document.form_TvShowTime.onsubmit = submitTvShowHour
+
                     loadItems(`/ajax/tvshow/list`, 'tvShow')
                     loadItems(`/ajax/switcher/list`, 'tvSwitcher')
                     loadItems(`/ajax/studio/list`, 'tvStudio')
+
                     $('#modalTvShowAdd').on('hidden.bs.modal', e => {
                         closeModalTvShowHour()
                     })
@@ -214,7 +217,7 @@ const loadItems = (url, selectId) => {
         .then(response => {
             response.json()
                 .then(obj => {
-                    addItens(obj, selectId)
+                    addItems(obj, selectId)
                 })
         })
 }
@@ -332,12 +335,12 @@ const saveTvShowHour = event => {
 
 }
 
-const addItens = (itens, selectId) => {
-    itens.forEach(iten => {
+const addItems = (items, selectId) => {
+    items.forEach(item => {
         const option = document.createElement('option')
-        option.innerHTML = iten.name
+        option.innerHTML = item.name
         document.getElementById(selectId).appendChild(option)
-    });
+    })
 }
 
 const messageText = (messageFixed, messageConfiguration, fatherElement, messageId) => {
@@ -394,20 +397,17 @@ const messageTvShow = (messageObject, fatherElement) => {
 }
 
 const openAddTvShowHour = () => {
-
-    document.getElementById('modalEmployeeTime').style.display = "none"
+    document.getElementById('modalEmployeeTime').classList.add("d-none")
     openModalTvShow()
 }
 
 const closeModalTvShowHour = () => {
 
-    if (document.querySelector('[id= tvShowHourMessage]')) {
-        const messageFixed = document.querySelector('[id= tvShowHourMessage]')
+    if (document.getElementById('tvShowHourMessage')) {
+        const messageFixed = document.getElementById('tvShowHourMessage')
         messageFixed.parentNode.removeChild(messageFixed);
     } 
 
-    document.getElementById('modalEmployeeTime').style.display = "block"
-    document.getElementById('form_TvShowHour').reset();
+    document.getElementById('modalEmployeeTime').classList.remove("d-none")
+    document.form_TvShowTime.reset()
 }
-
-

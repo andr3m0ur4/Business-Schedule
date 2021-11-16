@@ -12,7 +12,7 @@
             </div>
             <div class="modal-body">
                 <div id="tvShowHour" class="container">
-                    <form id="form_TvShowHour">
+                    <form name="form_TvShowTime">
                         <table class="table table-borderless">
                             <tbody>
                                 <tr>
@@ -58,15 +58,19 @@
 
                                 <tr>
                                     <th scope="row"><i class="fa fa-calendar-plus-o"></i>Dia</th>
-                                    <td colspan="2" id="studio">
+                                    <td colspan="2" id="day">
                                         <input type="date" name="tvDate" id="tvDate" required>
                                     </td>
                                 </tr>
 
                                 <tr>
-                                    <th scope="row"><i class="fa fa-calendar-plus-o"></i>Tipo</th>
-                                    <td colspan="2" id="studio">
-                                        <input name="tvType" id="tvType" required>
+                                    <th scope="row"><i class="fa fa-calendar-plus-o"></i>Formato</th>
+                                    <td colspan="2" id="mode">
+                                        <select name="mode">
+                                            <option value="1">Ao Vivo</option>
+                                            <option value="2">Gravado</option>
+                                            <option value="3">Unidade Móvel</option>
+                                        </select>
                                     </td>
                                 </tr>
                             </tbody>

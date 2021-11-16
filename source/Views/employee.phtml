@@ -50,11 +50,10 @@
                         <th>
                         <th>
                         <th class="text-center" width="10%">Código</th>
-                        <th class="text-left" width="20%">Nome</th>
-                        <th class="text-left" width="20%">Email</th>
+                        <th class="text-left" width="30%">Nome</th>
+                        <th class="text-left" width="30%">Email</th>
                         <th class="text-right" width="15%">Telefone</th>
                         <th class="text-right" width="15%">Função</th>
-                        <th class="text-right" width="20%">Descrição</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -72,11 +71,10 @@
                                 </a>
                             </td>
                             <td class="text-center" width="10%"><?= $employee->getId() ?></td>
-                            <td class="text-left" width="20%"><?= $employee->getName() ?></td>
-                            <td class="text-left" width="20%"><?= $employee->getEmail() ?></td>
+                            <td class="text-left" width="30%"><?= $employee->getName() ?></td>
+                            <td class="text-left" width="30%"><?= $employee->getEmail() ?></td>
                             <td class="text-right" width="15%"><?= $employee->getPhone() ?></td>
                             <td class="text-right" width="15%"><?= $employee->getJob() ?></td>
-                            <td class="text-right" width="20%"><?= $employee->getDescription() ?></td>
                         </tr>
                     <?php endforeach ?>
 
