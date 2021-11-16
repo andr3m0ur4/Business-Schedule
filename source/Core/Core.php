@@ -76,10 +76,11 @@ class Core
         $route->get('/tvshow/list', 'TvShow:list');
         $route->get('/switcher/list', 'Switcher:list');
         $route->get('/studio/list', 'Studio:list');
+        $route->get('/tvShowTime/list', 'TvShowTime:list');
         $route->get('/tvShowHour/load', 'TvShowHour:load');
         $route->post('/employee/save/{id}', 'Employee:changePassword');
         $route->post('/administrator/save/{id}', 'Administrator:changePassword');
-        $route->post('/tvShowHour/save', 'TvShowHour:create');
+        $route->post('/tvShowTime/save', 'TvShowTime:create');
 
         /**
          * TESTS

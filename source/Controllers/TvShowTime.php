@@ -41,6 +41,20 @@ class TvShowTime extends Controller
         ]);
     }
 
+    public function list() : void
+    {
+        $dao = new TvShowTimeDAO();
+        $tvShowsTimes = $dao->find()->all();
+
+        foreach ($tvShowsTimes as $tvShowTime) {
+            $tvShowTime->tvShow = $tvShowTime->tvShow();
+            $tvShowTime->setStartTime(date_formatt($tvShowTime->getStartTime(), 'H:i'));
+            $tvShowTime->setFinalTime(date_formatt($tvShowTime->getFinalTime(), 'H:i'));
+        }
+
+        echo json_encode($tvShowsTimes);
+    }
+
     public function save($params) : void
     {
         if (!session()->__get('idUser')) {
@@ -143,52 +157,45 @@ class TvShowTime extends Controller
     public function create($params) : void
     {
         $message = null;
-        $tvShowHour = new TvShowTimeModel();
-        $error = [
+        $tvShowTime = new TvShowTimeModel();
+        $response = [
             'type' => 1,
             'message' => 'Horario Final está antes do horario inicial'
         ];
 
-
         if (!empty($params)) {
-  
-            $tvTvShow = filter_input(INPUT_POST, 'tvShow', FILTER_SANITIZE_STRIPPED);
-            $tvStartTime = filter_input(INPUT_POST, 'tvStartTime', FILTER_SANITIZE_STRIPPED);
-            $tvFinalTime = filter_input(INPUT_POST, 'tvFinalTime', FILTER_SANITIZE_STRIPPED);
-            $tvSwitcher = filter_input(INPUT_POST, 'tvSwitcher', FILTER_SANITIZE_STRIPPED);
-            $tvStudio = filter_input(INPUT_POST, 'tvStudio', FILTER_SANITIZE_STRIPPED);
-            $tvDate = filter_input(INPUT_POST, 'tvDate', FILTER_SANITIZE_STRIPPED);
-            $tvType = filter_input(INPUT_POST, 'tvType', FILTER_SANITIZE_STRIPPED);
+            $startTime = filter_input(INPUT_POST, 'startTime', FILTER_SANITIZE_STRIPPED);
+            $finalTime = filter_input(INPUT_POST, 'finalTime', FILTER_SANITIZE_STRIPPED);
+            $date = filter_input(INPUT_POST, 'date', FILTER_SANITIZE_STRIPPED);
+            $weekDay = date_formatt($date, 'N');
+            $idTvShow = filter_input(INPUT_POST, 'tvShow', FILTER_SANITIZE_STRIPPED);
+            $idSwitcher = filter_input(INPUT_POST, 'switcher', FILTER_SANITIZE_STRIPPED);
+            $idStudio = filter_input(INPUT_POST, 'studio', FILTER_SANITIZE_STRIPPED);
+            $mode = filter_input(INPUT_POST, 'mode', FILTER_SANITIZE_STRIPPED);
 
-            $tvShowDAO = new TvShowDAO();
-            $tvShow = $tvShowDAO->findByFullName($tvTvShow);
+            $tvShowTime = new TvShowTimeModel(
+                null, $startTime, $finalTime, $date, $weekDay, $mode, $idTvShow, $idSwitcher, $idStudio
+            );
 
-            $switcherDAO = new SwitcherDAO();
-            $switcher = $switcherDAO->findByFullName($tvSwitcher);
-
-            $studioDAO = new StudioDAO();
-            $studio = $studioDAO->findByFullName($tvStudio);
-
-            $tvShowHour = new TvShowTimeModel(null, $tvShow->getId(), $tvStartTime, $tvFinalTime, $switcher->getId(), $studio->getId(), $tvDate, $tvType);
             $dao = new TvShowTimeDAO();
 
-            $startTime = new DateTime($tvStartTime);
-            $finalTime = new DateTime($tvFinalTime);
-            $date = new DateTime($tvDate);
-            $dateNow = new DateTime('NOW');
+            $startTime = new DateTime($startTime);
+            $finalTime = new DateTime($finalTime);
+            $date = new DateTime($date);
+            $dateNow = new DateTime('today');
 
             if ($finalTime > $startTime) {
-                $error['message'] = 'A data é anterior ao ano atual';
+                $response['message'] = 'A data é anterior ao ano atual';
+
                 if ($date >= $dateNow) {
-                    $dao->save($tvShowHour);
+                    $dao->save($tvShowTime);
                     $message = $dao->message();
-                    echo($message->json());
+                    echo $message->json();
                     return;
                 }
             }
 
-            echo json_encode($error);   
-        
+            echo json_encode($response);
         }
     }
 

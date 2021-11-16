@@ -103,6 +103,8 @@ const modal = () => {
                     $('#modalEmployeeTime').on('hidden.bs.modal', e => {
                         form.reset()
                     })
+
+                    loadItems(`/ajax/tvShowTime/list`, 'selectTvShowTime', addTvShowsTimes)
                     
                     $(".select2").select2()
                     document.getElementById('addTvShow').onclick = openAddTvShowHour
@@ -137,12 +139,11 @@ const modal = () => {
                     div.innerHTML = data
                     document.getElementById('myModal').appendChild(div)
 
-                    document.getElementById('saveTvShow').onclick = saveTvShowHour 
-                    document.form_TvShowTime.onsubmit = submitTvShowHour
-
-                    loadItems(`/ajax/tvshow/list`, 'tvShow')
-                    loadItems(`/ajax/switcher/list`, 'tvSwitcher')
-                    loadItems(`/ajax/studio/list`, 'tvStudio')
+                    document.getElementById('saveTvShow').onclick = saveTvShowTime 
+                    document.form_TvShowTime.onsubmit = submitTvShowTime
+                    loadItems(`/ajax/tvshow/list`, 'tvShow', addItems)
+                    loadItems(`/ajax/switcher/list`, 'switcher', addItems)
+                    loadItems(`/ajax/studio/list`, 'studio', addItems)
 
                     $('#modalTvShowAdd').on('hidden.bs.modal', e => {
                         closeModalTvShowHour()
@@ -212,12 +213,12 @@ const loadEmployeeTime = (idEmployeeTime, idEmployee) => {
         })
 }
 
-const loadItems = (url, selectId) => {
+const loadItems = (url, selectId, callback) => {
     fetch(url)
         .then(response => {
             response.json()
                 .then(obj => {
-                    addItems(obj, selectId)
+                    callback(obj, selectId)
                 })
         })
 }
@@ -294,52 +295,74 @@ const updateCard = id => {
     fillCardEmployeeTime(card, employeeTime)
 }
 
-const submitTvShowHour = e => {
-    
+const submitTvShowTime = e => {
     e.preventDefault()
 
-    const formTvShow = e.target
-    if (!formTvShow.reportValidity()) {
-        return false;
+    const formTvShowTime = e.target
+    if (!formTvShowTime.reportValidity()) {
+        return false
     }
 
-    const form = new FormData(document.getElementById('form_TvShowHour'));
-    const fatherElement = '[id=tvShowHour]';
+    const form = new FormData(formTvShowTime)
+    const parentElement = '[id=tvShowHour]';
 
-    fetch(`/ajax/tvShowHour/save`,{
+    fetch('/ajax/tvShowTime/save', {
         method: 'POST',
         body: form
     }).then(response => {
         response.json()
             .then(data => {
-                let messageObject = data
-                messageTvShow(messageObject, fatherElement);
+                const messageObject = data
+                messageTvShow(messageObject, parentElement)
+
                 if (data.type != 1) {
-                    document.getElementById('form_TvShowHour').reset();
+                    formTvShowTime.reset()
                 }
             })
     })
-    
 }
 
-const saveTvShowHour = event => {
-
+const saveTvShowTime = event => {
     const btn = event.target
-    const form = document.getElementById('form_TvShowHour')
+    const form = document.form_TvShowTime
     const submitEvent = new SubmitEvent('submit', {
         submitter: btn
     })
 
     form.dispatchEvent(submitEvent)
-
-
 }
 
 const addItems = (items, selectId) => {
     items.forEach(item => {
         const option = document.createElement('option')
+        option.value = item.id
         option.innerHTML = item.name
         document.getElementById(selectId).appendChild(option)
+    })
+}
+
+const addTvShowsTimes = (items, selectId) => {
+    debugger
+    items.forEach(item => {
+        const option = document.createElement('option')
+        option.value = item.id
+
+        const tvShow = document.createElement('span')
+        tvShow.innerHTML = item.tvShow.name
+        const startTime = document.createElement('span')
+        startTime.innerHTML = item.start_time
+        const finalTime = document.createElement('span')
+        finalTime.innerHTML = item.final_time
+
+        option.appendChild(tvShow)
+        option.appendChild(startTime)
+        option.appendChild(finalTime)
+
+        document.getElementById(selectId).appendChild(option)
+
+        // <span tvShow></span>
+        // <span startTime></span>
+        // <span finalTime></span>
     })
 }
 
