@@ -128,7 +128,7 @@ class Switcher extends Controller
         redirect('/switcher');
     }
 
-    public function listSwitcher() : void
+    public function list() : void
     {
         $dao = new SwitcherDAO();
         $switchers = $dao->find()->all();

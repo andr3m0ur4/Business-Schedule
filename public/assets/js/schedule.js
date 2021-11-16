@@ -54,14 +54,14 @@ window.onload = () => {
 
     document.querySelectorAll('.card').forEach(initCards)
 
-    if (document.querySelector('[id=btnAddModalTvShow]')) {
-        document.querySelector('[id=btnAddModalTvShow]').onclick = () => {
+    if (document.getElementById('btnAddModalTvShow')) {
+        document.getElementById('btnAddModalTvShow').onclick = () => {
             openModalTvShow()
         }
     }
 
-    if (document.querySelector('[id=btnMenuTvShow]')) {
-        document.querySelector('[id=btnMenuTvShow]').onclick = () => {
+    if (document.getElementById('btnMenuTvShow')) {
+        document.getElementById('btnMenuTvShow').onclick = () => {
             openModalMenuTvShow()
         }
     }
@@ -99,13 +99,15 @@ const modal = () => {
                     const form = div.querySelector('[name=formEmployeeTime]')
                     document.getElementById('myModal').appendChild(div)
                     form.onsubmit = validateInputs
-                    document.getElementById('addTvShow').onclick = openAddTvShowHour
+
                     $('#modalEmployeeTime').on('hidden.bs.modal', e => {
                         form.reset()
                     })
 
-                    $(".select2").select2();
-
+                    loadItems(`/ajax/tvShowTime/list`, 'selectTvShowTime', addTvShowsTimes)
+                    
+                    $(".select2").select2()
+                    document.getElementById('addTvShow').onclick = openAddTvShowHour
                 })
         })
 
@@ -129,18 +131,20 @@ const modal = () => {
                 })
         })
 
-    fetch('/assets/resources/modal-tvShowHour.html')
+    fetch('/assets/resources/modal-tvShowTime.html')
         .then(response => {
             response.text()
                 .then(data => {
                     const div = document.createElement('div')
                     div.innerHTML = data
                     document.getElementById('myModal').appendChild(div)
-                    document.getElementById('saveTvShow').onclick = saveTvShowHour 
-                    document.getElementById('form_TvShowHour').onsubmit = submitTvShowHour
-                    loadItems(`/ajax/tvshow/list`, 'tvShow')
-                    loadItems(`/ajax/switcher/list`, 'tvSwitcher')
-                    loadItems(`/ajax/studio/list`, 'tvStudio')
+
+                    document.getElementById('saveTvShow').onclick = saveTvShowTime 
+                    document.form_TvShowTime.onsubmit = submitTvShowTime
+                    loadItems(`/ajax/tvshow/list`, 'tvShow', addItems)
+                    loadItems(`/ajax/switcher/list`, 'switcher', addItems)
+                    loadItems(`/ajax/studio/list`, 'studio', addItems)
+
                     $('#modalTvShowAdd').on('hidden.bs.modal', e => {
                         closeModalTvShowHour()
                     })
@@ -209,12 +213,12 @@ const loadEmployeeTime = (idEmployeeTime, idEmployee) => {
         })
 }
 
-const loadItems = (url, selectId) => {
+const loadItems = (url, selectId, callback) => {
     fetch(url)
         .then(response => {
             response.json()
                 .then(obj => {
-                    addItens(obj, selectId)
+                    callback(obj, selectId)
                 })
         })
 }
@@ -291,53 +295,75 @@ const updateCard = id => {
     fillCardEmployeeTime(card, employeeTime)
 }
 
-const submitTvShowHour = e => {
-    
+const submitTvShowTime = e => {
     e.preventDefault()
 
-    const formTvShow = e.target
-    if (!formTvShow.reportValidity()) {
-        return false;
+    const formTvShowTime = e.target
+    if (!formTvShowTime.reportValidity()) {
+        return false
     }
 
-    const form = new FormData(document.getElementById('form_TvShowHour'));
-    const fatherElement = '[id=tvShowHour]';
+    const form = new FormData(formTvShowTime)
+    const parentElement = '[id=tvShowHour]';
 
-    fetch(`/ajax/tvShowHour/save`,{
+    fetch('/ajax/tvShowTime/save', {
         method: 'POST',
         body: form
     }).then(response => {
         response.json()
             .then(data => {
-                let messageObject = data
-                messageTvShow(messageObject, fatherElement);
+                const messageObject = data
+                messageTvShow(messageObject, parentElement)
+
                 if (data.type != 1) {
-                    document.getElementById('form_TvShowHour').reset();
+                    formTvShowTime.reset()
                 }
             })
     })
-    
 }
 
-const saveTvShowHour = event => {
-
+const saveTvShowTime = event => {
     const btn = event.target
-    const form = document.getElementById('form_TvShowHour')
+    const form = document.form_TvShowTime
     const submitEvent = new SubmitEvent('submit', {
         submitter: btn
     })
 
     form.dispatchEvent(submitEvent)
-
-
 }
 
-const addItens = (itens, selectId) => {
-    itens.forEach(iten => {
+const addItems = (items, selectId) => {
+    items.forEach(item => {
         const option = document.createElement('option')
-        option.innerHTML = iten.name
+        option.value = item.id
+        option.innerHTML = item.name
         document.getElementById(selectId).appendChild(option)
-    });
+    })
+}
+
+const addTvShowsTimes = (items, selectId) => {
+    debugger
+    items.forEach(item => {
+        const option = document.createElement('option')
+        option.value = item.id
+
+        const tvShow = document.createElement('span')
+        tvShow.innerHTML = item.tvShow.name
+        const startTime = document.createElement('span')
+        startTime.innerHTML = item.start_time
+        const finalTime = document.createElement('span')
+        finalTime.innerHTML = item.final_time
+
+        option.appendChild(tvShow)
+        option.appendChild(startTime)
+        option.appendChild(finalTime)
+
+        document.getElementById(selectId).appendChild(option)
+
+        // <span tvShow></span>
+        // <span startTime></span>
+        // <span finalTime></span>
+    })
 }
 
 const messageText = (messageFixed, messageConfiguration, fatherElement, messageId) => {
@@ -394,20 +420,17 @@ const messageTvShow = (messageObject, fatherElement) => {
 }
 
 const openAddTvShowHour = () => {
-
-    document.getElementById('modalEmployeeTime').style.display = "none"
+    document.getElementById('modalEmployeeTime').classList.add("d-none")
     openModalTvShow()
 }
 
 const closeModalTvShowHour = () => {
 
-    if (document.querySelector('[id= tvShowHourMessage]')) {
-        const messageFixed = document.querySelector('[id= tvShowHourMessage]')
+    if (document.getElementById('tvShowHourMessage')) {
+        const messageFixed = document.getElementById('tvShowHourMessage')
         messageFixed.parentNode.removeChild(messageFixed);
     } 
 
-    document.getElementById('modalEmployeeTime').style.display = "block"
-    document.getElementById('form_TvShowHour').reset();
+    document.getElementById('modalEmployeeTime').classList.remove("d-none")
+    document.form_TvShowTime.reset()
 }
-
-

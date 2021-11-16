@@ -128,8 +128,7 @@ class Studio extends Controller
         redirect('/estudio');
     }
 
-    
-    public function listStudio() : void
+    public function list() : void
     {
         $dao = new StudioDAO();
         $studios = $dao->find()->all();

@@ -130,7 +130,7 @@ class TvShow extends Controller
         redirect('/programa');
     }
 
-    public function listTvShow() : void
+    public function list() : void
     {
         $dao = new TvShowDAO();
         $tvShows = $dao->find()->all();
