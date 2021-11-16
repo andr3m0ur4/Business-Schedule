@@ -225,14 +225,20 @@ body {
 side.sidebar ul ul {
 
     flex-direction : row;
-    justify-content: center;
 
 }
 
 side.sidebar ul ul img {
 
-    align-self: center;
     width: 29px;
     height: 29px;
 
 }
+
+ul.pagination{
+    
+    display:flex;
+    justify-content: center;
+}
+
+
