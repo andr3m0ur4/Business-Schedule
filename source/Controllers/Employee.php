@@ -20,6 +20,8 @@ class Employee extends Controller
         $dao = new EmployeeDAO();
         $message = null;
 
+        $name = '';
+
         $limit = 7;
         $current_page = intval($_GET['pag'] ?? 1);
         $current_page = $current_page > 0 ? $current_page : 1;
@@ -29,6 +31,8 @@ class Employee extends Controller
             $name = filter_input(INPUT_GET, 'name', FILTER_SANITIZE_STRIPPED);
             $employees = $dao->findByName($name)->limit($limit)->offset($offset)->all();
             $total = $dao->countEmployee($name);
+
+            $name = 'name=' . $_GET['name'] . '&';
         } else {
             $employees = $dao->find()->limit($limit)->offset($offset)->all();
             $total = $dao->countEmployee();
@@ -36,12 +40,6 @@ class Employee extends Controller
         }
 
         $pages = ceil($total / $limit);
-        
-        $name = '';
-
-        if (isset($_GET['name'])){
-            $name = 'name=' . $_GET['name'] . '&';
-        }
 
         $url = "/funcionario?" . $name . "pag=";
 
