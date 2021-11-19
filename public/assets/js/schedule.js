@@ -106,7 +106,6 @@ const modal = () => {
 
                     loadItems(`/ajax/tvShowTime/list`, 'selectTvShowTime', addTvShowsTimes)
                     
-                    $(".select2").select2()
                     document.getElementById('addTvShow').onclick = openAddTvShowHour
                 })
         })
@@ -342,28 +341,20 @@ const addItems = (items, selectId) => {
 }
 
 const addTvShowsTimes = (items, selectId) => {
-    debugger
-    items.forEach(item => {
-        const option = document.createElement('option')
-        option.value = item.id
 
-        const tvShow = document.createElement('span')
-        tvShow.innerHTML = item.tvShow.name
-        const startTime = document.createElement('span')
-        startTime.innerHTML = item.start_time
-        const finalTime = document.createElement('span')
-        finalTime.innerHTML = item.final_time
-
-        option.appendChild(tvShow)
-        option.appendChild(startTime)
-        option.appendChild(finalTime)
-
-        document.getElementById(selectId).appendChild(option)
-
-        // <span tvShow></span>
-        // <span startTime></span>
-        // <span finalTime></span>
+    const children = items.map(item => {
+        return {
+            id: item.id,
+            text: item.tvShow.name
+        }
     })
+
+    const data = [{
+        text: 'Programas',
+        children
+    }]
+
+    $(".select2").html('').select2({ data })
 }
 
 const messageText = (messageFixed, messageConfiguration, fatherElement, messageId) => {
