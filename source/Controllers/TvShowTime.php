@@ -48,8 +48,8 @@ class TvShowTime extends Controller
 
         foreach ($tvShowsTimes as $tvShowTime) {
             $tvShowTime->tvShow = $tvShowTime->tvShow();
-            $tvShowTime->setStartTime(date_formatt($tvShowTime->getStartTime(), 'H:i'));
-            $tvShowTime->setFinalTime(date_formatt($tvShowTime->getFinalTime(), 'H:i'));
+            // $tvShowTime->setStartTime(date_formatt($tvShowTime->getStartTime(), 'H:i'));
+            // $tvShowTime->setFinalTime(date_formatt($tvShowTime->getFinalTime(), 'H:i'));
         }
 
         echo json_encode($tvShowsTimes);
