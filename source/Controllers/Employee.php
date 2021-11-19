@@ -21,9 +21,10 @@ class Employee extends Controller
         $message = null;
 
         $name = '';
+        $pag = filter_input(INPUT_GET, 'pag', FILTER_SANITIZE_STRIPPED);
 
         $limit = 7;
-        $current_page = intval($_GET['pag'] ?? 1);
+        $current_page = intval($pag ?? 1);
         $current_page = $current_page > 0 ? $current_page : 1;
         $offset = ($current_page * $limit) - $limit;
 
