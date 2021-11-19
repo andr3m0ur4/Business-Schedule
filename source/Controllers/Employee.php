@@ -20,12 +20,28 @@ class Employee extends Controller
         $dao = new EmployeeDAO();
         $message = null;
 
-        if ($_GET) {
+        $name = '';
+
+        $limit = 7;
+        $current_page = intval($_GET['pag'] ?? 1);
+        $current_page = $current_page > 0 ? $current_page : 1;
+        $offset = ($current_page * $limit) - $limit;
+
+        if (isset($_GET['name']) && !empty($_GET['name']) ) {
             $name = filter_input(INPUT_GET, 'name', FILTER_SANITIZE_STRIPPED);
-            $employees = $dao->findByName($name)->all();
+            $employees = $dao->findByName($name)->limit($limit)->offset($offset)->all();
+            $total = $dao->countEmployee($name);
+
+            $name = 'name=' . $_GET['name'] . '&';
         } else {
-            $employees = $dao->find()->all();
+            $employees = $dao->find()->limit($limit)->offset($offset)->all();
+            $total = $dao->countEmployee();
+
         }
+
+        $pages = ceil($total / $limit);
+
+        $url = "/funcionario?" . $name . "pag=";
 
         if (session()->has('message')) {
             $message = session()->__get('message');
@@ -36,7 +52,10 @@ class Employee extends Controller
             'title' => 'Business Schedule - Funcionário',
             'file' => 'employee',
             'employees' => $employees,
-            'message' => $message
+            'message' => $message,
+            'pages' => $pages,
+            'current_page' => $current_page,
+            'url' => $url
         ]);
     }
 

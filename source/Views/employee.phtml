@@ -82,4 +82,42 @@
             </table>
         </div>
     </div>
+    
+
+    <div class="mt-3">
+        <nav aria-label="Navegação de página">
+            <ul class="pagination">
+                <li class="page-item <?= ($current_page == 1 || $pages == 0) ? 'disabled' : '' ?>">
+                    <a class="page-link"   href = "<?= $url . ($current_page - 1)?>" tabindex="-1">Anterior</a>
+                </li>
+
+                <?php if ($current_page > 3) : ?>
+                <li class="page-item <?= $current_page == 1 ? 'active' : '' ?>">
+                        <a class="page-link"   href = "<?= $url . (1) ?>">Inicio</a>
+                </li>
+                <?php endif ?>
+
+                <?php for ($i = ($current_page - 3); $i < ($current_page + 2); $i++) : ?>
+
+                    <?php if ($i < $pages && $i >= 0) : ?>
+                    <li class="page-item <?= $current_page == ($i + 1) ? 'active' : '' ?>">
+                        <a class="page-link"   href = "<?= $url . ($i + 1) ?>"> <?= $i + 1 ?></a>
+                    </li>
+                    <?php endif ?>
+
+
+                <?php endfor ?>
+
+                <?php if ($current_page <= ($pages - 3)) : ?>
+                <li class="page-item <?= $current_page == $pages ? 'active' : '' ?>">
+                        <a class="page-link"   href = "<?= $url . $pages ?>">Fim</a>
+                </li>
+                <?php endif ?>
+
+                <li class="page-item <?= ($current_page == $pages || $pages == 0) ? 'disabled' : '' ?>">
+                    <a class="page-link"  href = "<?= $url . ($current_page + 1) ?>" >Próximo</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
 </section>

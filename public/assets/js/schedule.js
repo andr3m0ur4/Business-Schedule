@@ -52,7 +52,7 @@ window.onload = () => {
 
     modal()
 
-    document.querySelectorAll('.card').forEach(initCards)
+    document.querySelectorAll('#schedule .card').forEach(initCards)
 
     if (document.getElementById('btnAddModalTvShow')) {
         document.getElementById('btnAddModalTvShow').onclick = () => {

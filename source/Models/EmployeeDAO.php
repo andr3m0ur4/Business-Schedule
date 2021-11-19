@@ -157,4 +157,10 @@ class EmployeeDAO extends DAO
         $this->message->success('Funcionário removido com sucesso');
         return true;
     }
+
+    public function countEmployee(String $name = '') : int
+    {
+        
+        return $this->count( 'name', $name);
+    }
 }

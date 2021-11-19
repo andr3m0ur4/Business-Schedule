@@ -114,11 +114,14 @@ abstract class DAO
         }
     }
 
-    public function count(string $key = 'id') : int
+    public function count($collumn, $params) : int
     {
-        $stmt = $this->db->prepare($this->query);
-        $stmt->execute($this->params);
-        return $stmt->rowCount();
+        $count = 'COUNT(*)';
+        $table =  static::$entity;
+        $sql = "SELECT {$count} AS counter FROM {$table} WHERE {$collumn} like '%{$params}%'";
+        $result = $this->db->query($sql);
+        $row = $result->fetch(\PDO::FETCH_OBJ);
+        return intval($row->counter);
     }
     
     protected function create(array $data) : ?int
