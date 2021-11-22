@@ -107,6 +107,10 @@ const modal = () => {
 
                     loadItems(`/ajax/tvShowTime/list`, 'selectTvShowTime', addTvShowsTimes)
                     
+                    $('.select2').on('select2:select', function (e) {
+                        console.log(e);
+                    });
+                    
                     document.getElementById('addTvShow').onclick = openAddTvShowHour
                 })
         })
@@ -381,7 +385,9 @@ const addTvShowsTimes = (items, selectId) => {
     const children = items.map(item => {
         return {
             id: item.id,
-            text: item.tvShow.name
+            text: item.tvShow.name,
+            title: `${formatTime(item.start_time)} - ${formatTime(item.final_time)}`,
+            tvShowTime: item
         }
     })
 
