@@ -236,6 +236,7 @@ const fillModalEmployee = employee => {
 
 const fillModalEmployeeTime = employee => {
     document.getElementById('modalEmployeeTime').dataset.id = employee.idEmployeeTime
+    document.getElementById('modalEmployeeTime').dataset.idEmployee = employee.id
     document.getElementById('time-name').innerHTML = employee.name
     document.getElementById('time-job').innerHTML = employee.job
 
@@ -246,7 +247,7 @@ const fillModalEmployeeTime = employee => {
         document.getElementById('date').value = employeeTime.date
     }
     
-    document.getElementById('saveTime').onclick = saveTime
+    document.getElementById('saveTime').onclick = saveEmployeeTime
 }
 
 const fillCardEmployeeTime = (card, employeeTime) => {
@@ -260,9 +261,9 @@ const fillCardEmployeeTime = (card, employeeTime) => {
     card.querySelector('.card-header').appendChild(finalTime)
 }
 
-const saveTime = e => {
-    const btn = e.target;
-    const form = document.querySelector('[name=formEmployeeTime]')
+const saveEmployeeTime = e => {
+    const btn = e.target
+    const form = document.formEmployeeTime
     const submitEvent = new SubmitEvent('submit', {
         submitter: btn
     })
@@ -270,26 +271,32 @@ const saveTime = e => {
 }
 
 const validateInputs = e => {
-    console.log(e)
     e.preventDefault()
+
     const form = e.target
     if (!form.reportValidity()) {
         return false;
     }
+    
+    const tvShowsTimes = $('#idSelect2').select2('data').map(item => {
+        return item.tvShowTime
+    })
 
     const idEmployeeTime = parseInt(document.getElementById('modalEmployeeTime').dataset.id)
+    const idEmployee = parseInt(document.getElementById('modalEmployeeTime').dataset.idEmployee)
     const employeeTime = {
         id: idEmployeeTime,
         startTime: form.startTime.value,
         finalTime: form.finalTime.value,
-        date: form.date.value
+        date: form.date.value,
+        idEmployee,
+        tvShowsTimes
     }
 
     dbEmployeeTime.save(employeeTime)
     updateCard(idEmployeeTime)
     $('#modalEmployeeTime').modal('hide')
 }
-
 
 const updateCard = id => {
     const employeeTime = dbEmployeeTime.get(id)
