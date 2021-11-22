@@ -1,6 +1,6 @@
 const dbEmployeeTime = new Database('employeeTime')
 const dbTvShowTime = new Database('tvShowTime')
-
+const dbSchedule = new Database('schedule')
 window.onload = () => {
     // const gridEmployees = document.getElementById('grid-employees')
     const gridEmployees = document.querySelectorAll('[grid-employees]')
@@ -82,8 +82,9 @@ const initCards = card => {
         }
 
         card.onclick = e => {
+            const idScheduleCard = validateIdSchedule(card.dataset.idSchedule)
             const idEmployee = parseInt(card.closest('.row').dataset.rowId)
-            loadEmployeeTime(idEmployeeTime, idEmployee)
+            loadEmployeeTime(idEmployeeTime, idEmployee, idScheduleCard)
             openModal()
         }
     }
@@ -205,13 +206,15 @@ const loadEmployee = id => {
         })
 }
 
-const loadEmployeeTime = (idEmployeeTime, idEmployee) => {
+const loadEmployeeTime = (idEmployeeTime, idEmployee, idScheduleCard) => {
     fetch(`/ajax/employee/${idEmployee}`)
         .then(response => {
             response.json()
                 .then(obj => {
                     obj.idEmployeeTime = idEmployeeTime
-                    fillModalEmployeeTime(obj)
+                    fillModalEmployeeTime(obj,idScheduleCard)
+                    document.getElementById('employee-info').dataset.idEmployee = idEmployee
+                    document.getElementById('modalEmployeeTime').dataset.idSchedule = idScheduleCard
                 })
         })
 }
@@ -284,6 +287,8 @@ const validateInputs = e => {
 
     const idEmployeeTime = parseInt(document.getElementById('modalEmployeeTime').dataset.id)
     const idEmployee = parseInt(document.getElementById('modalEmployeeTime').dataset.idEmployee)
+    const idScheduleCard = parseInt(document.getElementById('modalEmployeeTime').dataset.idSchedule)
+
     const employeeTime = {
         id: idEmployeeTime,
         startTime: form.startTime.value,
@@ -293,15 +298,45 @@ const validateInputs = e => {
         tvShowsTimes
     }
 
+    const idEmployee = document.getElementById('employee-info').dataset.idEmployee
+    const tvShows = $('#idSelect2').select2('data')
+    let tvShowsId = []
+    tvShows.forEach(tvShow => {
+
+        tvShowsId.push(tvShow.id);
+
+    });
+
+    let schedule = dbSchedule.hasInfo('idEmployee', idEmployee)
+
+    if (!schedule) {
+
+        schedule = {
+            id: idScheduleCard,
+            idEmployee: idEmployee,
+            idTvShowTime: tvShowsId
+        }
+    
+        dbSchedule.save(schedule)
+
+    } else {
+
+        schedule.idTvShowTime = tvShowsId
+
+        dbSchedule.save(schedule)
+    }
+
+
     dbEmployeeTime.save(employeeTime)
-    updateCard(idEmployeeTime)
+    updateCard(idEmployeeTime, idScheduleCard, tvShows)
     $('#modalEmployeeTime').modal('hide')
 }
 
-const updateCard = id => {
-    const employeeTime = dbEmployeeTime.get(id)
 
-    const card = document.querySelector(`.card[data-card-time="${id}"]`)
+const updateCard = (idEmployeeTime, idScheduleCard, tvShows) => {
+    const employeeTime = dbEmployeeTime.get(idEmployeeTime)
+    const card = document.querySelector(`.card[data-card-time="${idEmployeeTime}"]`)
+    card.dataset.idSchedule = idScheduleCard
     fillCardEmployeeTime(card, employeeTime)
 }
 
@@ -437,4 +472,15 @@ const closeModalTvShowHour = () => {
 
     document.getElementById('modalEmployeeTime').classList.remove("d-none")
     document.form_TvShowTime.reset()
+}
+
+const validateIdSchedule = idScheduleCard => {
+
+    if (idScheduleCard == "") {
+        
+        return dbSchedule.lastId()
+
+    }
+
+    return parseInt(idScheduleCard)
 }
