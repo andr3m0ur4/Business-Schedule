@@ -15,4 +15,35 @@ class Database {
     has(id) {
         return localStorage.getItem(`${this.keyName}-${id}`) != null
     }
+
+    lastId() {
+        let id = 1
+        while (true) {
+            if (!localStorage.getItem(`${this.keyName}-${id}`)) {
+                return id
+            }
+
+            id++
+        }
+
+    }
+
+    hasInfo(label, idEmployee) {
+        let id = 1
+        while (true) {
+            const  item = JSON.parse(localStorage.getItem(`${this.keyName}-${id}`))
+                        
+            if (!item) {
+                return null
+            }
+
+            if (item[label] && item[label] == idEmployee) {
+                return item
+            }
+
+            id++
+        }
+
+    }
+
 }
