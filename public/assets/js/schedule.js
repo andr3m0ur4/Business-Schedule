@@ -103,6 +103,7 @@ const modal = () => {
 
                     $('#modalEmployeeTime').on('hidden.bs.modal', e => {
                         form.reset()
+                        $('#idSelect2').val(null).trigger('change')
                     })
 
                     loadItems(`/ajax/tvShowTime/list`, 'selectTvShowTime', addTvShowsTimes)
@@ -324,7 +325,6 @@ const validateInputs = e => {
 
         dbSchedule.save(schedule)
     }
-
 
     dbEmployeeTime.save(employeeTime)
     updateCard(idEmployeeTime, idScheduleCard, tvShows)
