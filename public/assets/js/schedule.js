@@ -298,7 +298,6 @@ const validateInputs = e => {
         tvShowsTimes
     }
 
-    const idEmployee = document.getElementById('employee-info').dataset.idEmployee
     const tvShows = $('#idSelect2').select2('data')
     let tvShowsId = []
     tvShows.forEach(tvShow => {
