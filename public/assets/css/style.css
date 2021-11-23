@@ -140,7 +140,7 @@ margin-bottom: 5.4px;
 }
 
 .color-nav{
-background-color: royalblue;
+    background: linear-gradient(to right, #1aa3ff 0, #2553cb 100%);
 }
 
 @media (max-width: 991px) {
