@@ -135,6 +135,12 @@ ul.pagination{
     justify-content: center;
 }
 
+.mb-nav{
+
+margin-bottom: 6px;
+
+}
+
 @media (max-width: 991px) {
     .navbar-collapse.show,
     .sidebar.show {
