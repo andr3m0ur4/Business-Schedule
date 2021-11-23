@@ -213,8 +213,8 @@ const loadEmployeeTime = (idEmployeeTime, idEmployee, idScheduleCard) => {
             response.json()
                 .then(obj => {
                     obj.idEmployeeTime = idEmployeeTime
-                    fillModalEmployeeTime(obj,idScheduleCard)
-                    document.getElementById('employee-info').dataset.idEmployee = idEmployee
+                    fillModalEmployeeTime(obj, idScheduleCard)
+                    document.getElementById('time-name').dataset.idEmployee = idEmployee
                     document.getElementById('modalEmployeeTime').dataset.idSchedule = idScheduleCard
                 })
         })
@@ -249,6 +249,15 @@ const fillModalEmployeeTime = employee => {
         document.getElementById('startTime').value = employeeTime.startTime
         document.getElementById('finalTime').value = employeeTime.finalTime
         document.getElementById('date').value = employeeTime.date
+
+        if (employeeTime.tvShowsTimes) {
+            const idsTvsShowsTimes = employeeTime.tvShowsTimes.map(tvShowTime => {
+                return tvShowTime.id
+            })
+
+            $('#idSelect2').val(idsTvsShowsTimes)
+            $('#idSelect2').trigger('change')
+        }
     }
     
     document.getElementById('saveTime').onclick = saveEmployeeTime
