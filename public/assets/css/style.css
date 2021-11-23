@@ -136,9 +136,11 @@ ul.pagination{
 }
 
 .mb-nav{
+margin-bottom: 5.4px;
+}
 
-margin-bottom: 6px;
-
+.color-nav{
+background-color: royalblue;
 }
 
 @media (max-width: 991px) {
