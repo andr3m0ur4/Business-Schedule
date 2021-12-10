@@ -1,0 +1,117 @@
+/**CSS navbar*/
+
+/**CSS drag and drop*/
+/* html {
+    font-family: 'Nunito';
+}
+
+body {
+	background-color: #2a61c7;
+	font-family     : 'Poppins', sans-serif;
+	overflow        : hidden;
+}
+
+.boards {
+    display: flex;
+    margin-top: 32px;
+}
+
+.board {
+    background: #c7b72a;
+    border: 1px solid #FD951F11;
+    border-radius: 4px;
+
+    margin: 0 16px;
+}
+
+.board h3 {
+    padding: 16px;
+    margin: 0;
+    color: #000000cc;
+}
+
+.dropzone {
+    padding: 16px;
+    min-width: 282px;
+    min-height: 200px;
+}
+
+.card {
+    background-color: #1d4083;
+    padding: 16px;
+    box-shadow: 0 2px 2px -1px #fdc91fcc;
+    width: 250px;
+    margin: 25px 0;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.status {
+    width: 30px;
+    height: 8px;
+    background: gray;
+    margin-bottom: 16px;
+    border-radius: 8px;
+}
+
+.status.green {
+    background: #23d2ac;
+}
+
+.status.blue {
+    background: #33adff;
+}
+
+.status.red {
+    background: red;
+}
+
+.highlight {
+    background-color: #FD951F08;
+}
+
+.card, .dropzone {
+    transition: 400ms;
+}
+
+.is-dragging {
+    cursor: move;
+    opacity: 0.3;
+}
+
+.over {
+    background-color: #4cd13711;
+}
+
+.bgnav{
+
+    background-color: #1d4083;
+    font-family     : 'Poppins', sans-serif;
+
+}
+
+.fontcolor {
+	display        : block;
+	text-align     : center;
+	color          : #c7b72a;
+
+}
+
+.btn {
+	display         : block;
+	height          : 50px;
+	border-radius   : 60px;
+	outline         : none;
+	border          : #000000;
+	background-image: linear-gradient(to right, #1d4083, #1d4083, #1d4083);
+	background-size : 200%;
+	font-size       : 1.2rem;
+	color           : rgb(255, 255, 255);
+	font-family     : 'Poppins', sans-serif;
+	text-transform  : uppercase;
+	margin          : 1rem 0;
+	cursor          : pointer;
+	transition      : .5s;
+} */
+

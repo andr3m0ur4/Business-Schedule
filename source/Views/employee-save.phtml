@@ -1,0 +1,96 @@
+<?php $this->layout('_template', $this->data) ?>
+
+<?php if (isset($message)) : ?>
+    <div id="message">
+        <?php if ($message->getType() == 'success') : ?>
+            <div class="alert alert-info">
+                <?= "{$message->getText()}." ?>
+                <button type="button" aria-label="Close" class="close" data-dismiss="alert">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        <?php else : ?>
+            <div class="alert alert-danger">
+                <?= "Ops, {$message->getText()}." ?>
+                <button type="button" aria-label="Close" class="close" data-dismiss="alert">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        <?php endif ?>
+    </div>
+<?php endif ?>
+
+<section id="section">
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">
+                <h4>Cadastro de Funcionário</h4>
+            </div>
+        </div>
+        <div class="card-body">
+            <form id="form_employee" name="form_employee" method="POST" class="text-right">
+
+                <div class="form-row align-items-center">
+                    <label for="id" class="col-sm-2 col-form-label">Código</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="id" name="id" value="<?= $employee->getId() ?>" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row align-items-center">
+                    <label for="name" class="col-sm-2 col-form-label mt-sm-2">Nome</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="name" name="name" value="<?= $employee->getName() ?>" required>
+                    </div>
+                </div>
+
+                <div class="form-row align-items-center">
+                    <label for="email" class="col-sm-2 col-form-label mt-sm-2">Email</label>
+                    <div class="col-sm-8">
+                        <input type="email" class="form-control" id="email" name="email" value="<?= $employee->getEmail() ?>" required>
+                    </div>
+                </div>
+
+                <?php if ($exibir == false) : ?>
+                    <div class="form-row align-items-center">
+                        <label for="password" class="col-sm-2 col-form-label mt-sm-2">Senha</label>
+                        <div class="col-sm-8">
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                    </div>
+                <?php endif ?>
+
+                <div class="form-row align-items-center">
+                    <label for="phone" class="col-sm-2 col-form-label mt-sm-2">Celular</label>
+                    <div class="col-sm-8">
+                        <input type="tel" class="form-control" id="phone" name="phone" value="<?= $employee->getPhone() ?>">
+                    </div>
+                </div>
+
+                <div class="form-row align-items-center">
+                    <label for="job" class="col-sm-2 col-form-label mt-sm-2">Função</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="job" name="job" value="<?= $employee->getJob() ?>" required>
+                    </div>
+                </div>
+
+                <div class="form-row align-items-center">
+                    <label for="description" class="col-sm-2 col-form-label mt-sm-2">Descrição</label>
+                    <div class="col-sm-8">
+                        <textarea type="text" class="form-control" id="description" name="description" maxlength="255"><?= $employee->getDescription() ?></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="card-footer">
+            <div>
+                <button id="save" name="save" type="button" class="btn btn-success">Salvar</button>
+                <button name="clear" type="button" class="btn btn-warning">Limpar</button>
+                <?php if ($exibir == true) : ?>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Editar senha</button>
+                <?php endif ?>
+                <button name="back" type="button" class="btn btn-info" onclick="location.href = '/funcionario'">Voltar</button>
+            </div>
+        </div>
+    </div>
+</section>

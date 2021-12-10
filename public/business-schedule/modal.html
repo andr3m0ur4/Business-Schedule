@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+        integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+</head>
+
+<body>
+
+    <!--   Começo do conteudo da pagina -->
+    <!-- Botão para acionar modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ExemploModalCentralizado">
+        Abrir modal de demonstração
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="ExemploModalCentralizado" tabindex="-1" role="dialog"
+        aria-labelledby="TituloModalCentralizado" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="TituloModalCentralizado">Igor Marcondes Santos</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <table class="table table-borderless">
+                            <tbody>
+                                <tr>
+
+                                    <th scope="row"><i class="fas fa-bars"></i> Função</th>
+                                    <td>Cinegrafista</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"><i class="fas fa-info-circle"></i> Status</th>
+                                    <td><span class="badge badge-danger">Nome</span></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"><i class="far fa-calendar-minus"></i> Horário inicial</th>
+                                    <td colspan="2">02/10/2021 as 11:00</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"><i class="far fa-calendar-minus"></i> Horário final</th>
+                                    <td colspan="2">02/10/2021 as 12:00</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"><i class="far fa-clock"></i> Data</th>
+                                    <td colspan="2">02 de outubro de 2021</td>
+                                </tr>
+                                <tr>
+                                    <td scope="row"><i class="fas fa-tv"></i> Programas</td>
+                                    <td><span class="badge badge-info">No caminho da Fé</span></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"><i class="fas fa-plus"></i> Adicionar</th>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <hr>
+                        <table class="table table-borderless">
+                            <tbody>
+                                <tr>
+                                    <td scope="row"><i class="far fa-id-badge"></i> <b>André Moura</b>
+                                        <p>Um comentario</p>
+                                    </td>
+                                    <td>Hoje as 11:30</td>
+                                </tr>
+                                <tr>
+                                    <td scope="row"><i class="far fa-id-badge"></i> <b>André Moura</b>
+                                        <p>Um comentario</p>
+                                    </td>
+                                    <td>Hoje as 11:32</td>
+                                </tr>
+                                <tr>
+                                    <td scope="row"><i class="fas fa-plus"></i> Adicionar um comentário...
+                                        <div class="form-group">
+                                            <textarea class="form-control" id="exampleFormControlTextarea1"
+                                                rows="3"></textarea>
+                                        </div>
+                                    <td><i class="fas fa-paperclip"></i> <i class="fas fa-at"></i> <i class="fas fa-arrow-circle-up"></i></td>
+                                    </td>
+                                </tr>
+                        </table>
+                        <hr>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary">Salvar mudanças</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--   Final do conteudo da pagina -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

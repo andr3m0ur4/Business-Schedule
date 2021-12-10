@@ -1,0 +1,57 @@
+<?php $this->layout('_template', $this->data) ?>
+
+<?php if (isset($message)) : ?>
+    <div id="message">
+        <?php if ($message->getType() == 'success') : ?>
+            <div class="alert alert-info">
+                <?= "{$message->getText()}." ?>
+                <button type="button" aria-label="Close" class="close" data-dismiss="alert">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        <?php else : ?>
+            <div class="alert alert-danger">
+                <?= "Ops, {$message->getText()}." ?>
+                <button type="button" aria-label="Close" class="close" data-dismiss="alert">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        <?php endif ?>
+    </div>
+<?php endif ?>
+
+<section id="section">
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">
+                <h4>Cadastro de Estudio</h4>
+            </div>
+        </div>
+        <div class="card-body">
+            <form id="form_studio" name="form_studio" method="POST" class="text-right">
+
+                <div class="form-row align-items-center">
+                    <label for="id" class="col-sm-2 col-form-label">Código</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="id" name="id" value="<?= $studio->getId() ?>" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row align-items-center">
+                    <label for="name" class="col-sm-2 col-form-label mt-sm-2">Nome</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="name" name="name" value="<?= $studio->getName()?>" required>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+        <div class="card-footer">
+            <div>
+                <button id="save" name="save" type="button" class="btn btn-success">Salvar</button>
+                <button name="clear" type="button" class="btn btn-warning">Limpar</button>
+                <button name="back" type="button" class="btn btn-info" onclick="location.href = '/estudio'">Voltar</button>
+            </div>
+        </div>
+    </div>
+</section>

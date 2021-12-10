@@ -1,0 +1,87 @@
+<button type="button" class="btn btn-primary d-none" id="btnModalMenuTvShow" data-toggle="modal" data-target="#modalMenuTvShow"></button>
+
+<!-- Modal -->
+<div class="modal fade" id="modalMenuTvShow" tabindex="-1" role="dialog" data-id="" aria-labelledby="TituloModalCentralizado" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title TituloModalCentralizado" id="time-name">Cadastrar Horário do Programa</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="tvShowHour" class="container">
+                    <form id="form_TvShowHour">
+                        <table class="table table-borderless">
+                            <tbody>
+                                <tr>
+                                    <th scope="row"><i class="fa fa-bars"></i>Horário do programa</th>
+                                    <td id="tv-show-hours"></td>
+                                </tr>
+                                <tr>
+                                    <td style="display:none" colspan="2" id="tv-show">
+                                        <input id="tvId" name="tvId">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"><i class="fa fa-clock-o"></i> Programa</th>
+                                    <td colspan="2" id="tv-show">
+                                        <select name="tvShow" id="tvShow"></select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"><i class="fa fa-clock-o"></i> Horário inicial</th>
+                                    <td colspan="2" id="start-time">
+                                        <input type="time" name="tvStartTime" id="tvStartTime" required>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"><i class="fa fa-clock-o"></i> Horário final</th>
+                                    <td colspan="2" id="final-time">
+                                        <input type="time" name="tvFinalTime" id="tvFinalTime" required>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"><i class="fa fa-calendar-plus-o"></i>Switcher</th>
+                                    <td colspan="2" id="switcher">
+                                        <select name="tvSwitcher" id="tvSwitcher"></select>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="row"><i class="fa fa-calendar-plus-o"></i>Estudio</th>
+                                    <td colspan="2" id="studio">
+                                        <select name="tvStudio" id="tvStudio"></select>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="row"><i class="fa fa-calendar-plus-o"></i>Dia</th>
+                                    <td colspan="2" id="studio">
+                                        <input type="date" name="tvDate" id="tvDate" required>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="row"><i class="fa fa-calendar-plus-o"></i>Tipo</th>
+                                    <td colspan="2" id="studio">
+                                        <input name="tvType" id="tvType" required>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </form>
+                    <hr>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-primary" id="saveTvShow">Salvar horário</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--   Final do conteudo da pagina -->

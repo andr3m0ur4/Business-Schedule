@@ -1,0 +1,311 @@
+<?php $this->layout('_template', $this->data) ?>
+
+
+<div class="container-fluid">
+
+    <div class="accordion" id="accordionExample">
+        <div class="card">
+            <div class="card-header btn btn-link collapsed" id="headingOne" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                <h5 class="mb-0">
+                    Filtros
+                </h5>
+            </div>
+
+            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <div class="card-body">
+                    <div class="container">
+                        <label for="customRange1" class="form-label mt-3">Dia da semana:</label>
+                        <div class="form-check">
+                            <input class="form-check-input" onclick="filtro(this, 2)" type="checkbox" id="gridCheck1">
+                            <label class="form-check-label" for="gridCheck1">
+                                Segunda-feira
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" onclick="filtro(this, 3)" type="checkbox" value="" id="flexCheckChecked2">
+                            <label class="form-check-label" for="flexCheckChecked2">
+                                Terça-feira
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" onclick="filtro(this, 4)" type="checkbox" value="" id="flexCheckChecked3">
+                            <label class="form-check-label" for="flexCheckChecked3">
+                                Quarta-feira
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" onclick="filtro(this, 5)" type="checkbox" value="" id="flexCheckChecked4">
+                            <label class="form-check-label" for="flexCheckChecked4">
+                                Quinta-feira
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" onclick="filtro(this, 6)" type="checkbox" value="" id="flexCheckChecked5">
+                            <label class="form-check-label" for="flexCheckChecked5">
+                                Sexta-feira
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" onclick="filtro(this, 7)" value="" id="flexCheckChecked6">
+                            <label class="form-check-label" for="flexCheckChecked6">
+                                Sabado
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" onclick="filtro(this, 8)" type="checkbox" value="" id="flexCheckChecked7">
+                            <label class="form-check-label" for="flexCheckChecked7">
+                                Domingo
+                            </label>
+                        </div>
+                        <label for="customRange1" class="form-label mt-3">Horário incial:</label>
+                        <div class="container">
+                            <div class="row">
+                                <input type="range" class="form-range" id="customRange1">
+                            </div>
+                        </div>
+                        <label for="customRange1" class="form-label mt-3">Horário final:</label>
+                        <div class="container">
+                            <div class="row">
+                                <input type="range" class="form-range" id="customRange1">
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <label for="inputPassword" class="col-form-label">Funcionário:</label>
+                            <input type="password" class="form-control" id="inputPassword">
+                        </div>
+
+                        <label for="exampleDataList" class="form-label mt-2">Função:</label>
+                        <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Pesquisar...">
+                        <datalist id="datalistOptions">
+                            <option value="San Francisco">
+                            <option value="New York">
+                            <option value="Seattle">
+                            <option value="Los Angeles">
+                            <option value="Chicago">
+                        </datalist>
+
+                        <label for="exampleDataList" class="form-label mt-2">Programa:</label>
+                        <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Pesquisar...">
+                        <datalist id="datalistOptions">
+                            <option value="San Francisco">
+                            <option value="New York">
+                            <option value="Seattle">
+                            <option value="Los Angeles">
+                            <option value="Chicago">
+                        </datalist>
+
+                        <label for="exampleDataList" class="form-label mt-2">Switcher:</label>
+                        <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Pesquisar...">
+                        <datalist id="datalistOptions">
+                            <option value="San Francisco">
+                            <option value="New York">
+                            <option value="Seattle">
+                            <option value="Los Angeles">
+                            <option value="Chicago">
+                        </datalist>
+
+                        <label for="exampleDataList" class="form-label mt-2">Estudio:</label>
+                        <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Pesquisar...">
+                        <datalist id="datalistOptions">
+                            <option value="San Francisco">
+                            <option value="New York">
+                            <option value="Seattle">
+                            <option value="Los Angeles">
+                            <option value="Chicago">
+                        </datalist>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h1 class="mt-3">Escala</h1>
+
+    <div class="row flex-nowrap">
+        <div class="col">
+            <h4 class="text-nowrap" style="min-width: 200px;">Funcionário</h4>
+        </div>
+        <div class="col">
+            <h4 class="text-nowrap" style="min-width: 200px;">Segunda-Feira</h4>
+        </div>
+        <div class="col">
+            <h4 class="text-nowrap" style="min-width: 200px;">Terça-Feira</h4>
+        </div>
+        <div class="col">
+            <h4 class="text-nowrap" style="min-width: 200px;">Quarta-Feira</h4>
+        </div>
+        <div class="col">
+            <h4 class="text-nowrap" style="min-width: 200px;">Quinta-Feira</h4>
+        </div>
+        <div class="col">
+            <h4 class="text-nowrap" style="min-width: 200px;">Sexta-Feira</h4>
+        </div>
+        <div class="col">
+            <h4 class="text-nowrap" style="min-width: 200px;">Sábado</h4>
+        </div>
+        <div class="col">
+            <h4 class="text-nowrap" style="min-width: 200px;">Domingo</h4>
+        </div>
+    </div>
+
+    <?php foreach ($employees as $employee) : ?>
+        <div id="schedule" class="row flex-nowrap" data-row-id="<?= $employee->getId() ?>">
+            <div class="col">
+                <div grid-employees>
+
+                    <div class="card bg-light border-dark mb-3" data-card-employee="<?= $employee->getId() ?>">
+                        <div class="card-header"><?= $employee->getName() ?></div>
+                        <div class="card-body text-darrk">
+                            <h5 class="card-title"><?= $employee->getJob() ?></h5>
+                            <p class="card-text"></p>
+
+                            <div class="container">
+                                <div class="row">
+                                    <a href="#" class="badge badge-primary mr-2">Primary</a>
+                                    <a href="#" class="badge badge-primary mr-2">Primary</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col">
+                <div grid-days>
+                    <div class="card bg-light border-dark mb-3" data-card-time="<?= $lastIdEmployeeTime++ ?>" data-id-schedule="" style="max-width: 18rem;min-width: 200px;">
+                        <div class="card-header d-flex justify-content-around">Horário</div>
+                        <div class="card-body text-darrk">
+                            <h5 class="card-title">Card Light</h5>
+                            <p class="card-text"></p>
+                            <div class="container">
+                                <div class="row">
+                                    <a href="#" class="badge badge-primary mr-2">Primary</a>
+                                    <a href="#" class="badge badge-primary mr-2">Primary</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div grid-days>
+                    <div class="card bg-light border-dark mb-3" data-card-time="<?= $lastIdEmployeeTime++ ?>" data-id-schedule="" style="max-width: 18rem;min-width: 200px;">
+                        <div class="card-header d-flex justify-content-around">Horário</div>
+                        <div class="card-body text-darrk">
+                            <h5 class="card-title">Card Light</h5>
+                            <p class="card-text"></p>
+                            <div class="container">
+                                <div class="row">
+                                    <a href="#" class="badge badge-primary mr-2">Primary</a>
+                                    <a href="#" class="badge badge-primary mr-2">Primary</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div grid-days>
+                    <div class="card bg-light border-dark mb-3" data-card-time="<?= $lastIdEmployeeTime++ ?>" data-id-schedule="" style="max-width: 18rem;min-width: 200px;">
+                        <div class="card-header d-flex justify-content-around">Horário</div>
+                        <div class="card-body text-darrk">
+                            <h5 class="card-title">Card Light</h5>
+                            <p class="card-text"></p>
+                            <div class="container">
+                                <div class="row">
+                                    <a href="#" class="badge badge-primary mr-2">Primary</a>
+                                    <a href="#" class="badge badge-primary mr-2">Primary</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div grid-days>
+                    <div class="card bg-light border-dark mb-3" data-card-time="<?= $lastIdEmployeeTime++ ?>" data-id-schedule="" style="max-width: 18rem;min-width: 200px;">
+                        <div class="card-header d-flex justify-content-around">Horário</div>
+                        <div class="card-body text-darrk">
+                            <h5 class="card-title">Card Light</h5>
+                            <p class="card-text"></p>
+                            <div class="container">
+                                <div class="row">
+                                    <a href="#" class="badge badge-primary mr-2">Primary</a>
+                                    <a href="#" class="badge badge-primary mr-2">Primary</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div grid-days>
+                    <div class="card bg-light border-dark mb-3" data-card-time="<?= $lastIdEmployeeTime++ ?>" data-id-schedule="" style="max-width: 18rem;min-width: 200px;">
+                        <div class="card-header d-flex justify-content-around">Horário</div>
+                        <div class="card-body text-darrk">
+                            <h5 class="card-title">Card Light</h5>
+                            <p class="card-text"></p>
+                            <div class="container">
+                                <div class="row">
+                                    <a href="#" class="badge badge-primary mr-2">Primary</a>
+                                    <a href="#" class="badge badge-primary mr-2">Primary</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div grid-days>
+                    <div class="card bg-light border-dark mb-3" data-card-time="<?= $lastIdEmployeeTime++ ?>" data-id-schedule="" style="max-width: 18rem;min-width: 200px;">
+                        <div class="card-header d-flex justify-content-around">Horário</div>
+                        <div class="card-body text-darrk">
+                            <h5 class="card-title">Card Light</h5>
+                            <p class="card-text"></p>
+                            <div class="container">
+                                <div class="row">
+                                    <a href="#" class="badge badge-primary mr-2">Primary</a>
+                                    <a href="#" class="badge badge-primary mr-2">Primary</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div grid-days>
+                    <div class="card bg-light border-dark mb-3" data-card-time="<?= $lastIdEmployeeTime++ ?>" data-id-schedule="" style="max-width: 18rem;min-width: 200px;">
+                        <div class="card-header d-flex justify-content-around">Horário</div>
+                        <div class="card-body text-darrk">
+                            <h5 class="card-title">Card Light</h5>
+                            <p class="card-text"></p>
+                            <div class="container">
+                                <div class="row">
+                                    <a href="#" class="badge badge-primary mr-2">Primary</a>
+                                    <a href="#" class="badge badge-primary mr-2">Primary</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    <?php endforeach ?>
+</div>
+
+<?php if (session()->__get('level') == 2) : ?>
+    <div class="row mt-5 justify-content-center">
+        <button type="button" class="btn btn-primary mr-4">Apagar</button>
+        <button type="button" class="btn btn-primary mr-4">Salvar</button>
+        <!-- <button id="btnAddModalTvShow" type="button" class="btn btn-primary">Adicionar programa</button> -->
+        <!-- <button id="btnMenuTvShow" type="button" class="btn btn-primary">Menu programa</button> -->
+    </div>
+<?php endif ?>
