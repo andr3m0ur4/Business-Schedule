@@ -98,13 +98,14 @@ class EmployeeDAO extends DAO
         }
 
         if (!is_password($employee->getPassword())) {
-            $this->message->warning(
-                'A senha deve ter entre ' . CONF_PASSWORD_MIN_LEN . ' e ' . CONF_PASSWORD_MAX_LEN . ' caracteres'
-            );
+            $min = CONF_PASSWORD_MIN_LEN;
+            $max = CONF_PASSWORD_MAX_LEN;
+            $this->message->warning("A senha deve ter entre {$min} e {$max} caracteres");
             return false;
+        } else {
+            $employee->setPassword(password($employee->getPassword()));
         }
 
-        $employee->setPassword(password_hash($employee->getPassword(), PASSWORD_DEFAULT));
         
         // Employee Update
         if (!empty($employee->getId())) {

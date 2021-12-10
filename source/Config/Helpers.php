@@ -173,6 +173,10 @@ function date_format_app_to_br(string $date, string $format = 'Y-m-d') : string
 
 function password(string $password) : string
 {
+    if (!empty(password_get_info($password)['algo'])) {
+        return $password;
+    }
+    
     return password_hash($password, CONF_PASSWORD_ALGO, CONF_PASSWORD_OPTION);
 }
 

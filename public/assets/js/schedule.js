@@ -67,6 +67,15 @@ window.onload = () => {
     }
 }
 
+function filtro(input, indice) {
+    if (input.checked) {
+        $('.col:not(:first-child)').addClass('d-none')
+        $(`.col:nth-child(${indice})`).removeClass('d-none')
+    } else {
+        $('.col:not(:first-child)').removeClass('d-none')
+    }
+}
+
 const initCards = card => {
     if (card.dataset.cardEmployee) {
         card.onclick = () => {

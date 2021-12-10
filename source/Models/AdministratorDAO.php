@@ -95,13 +95,13 @@ class AdministratorDAO extends DAO
         }
 
         if (!is_password($administrator->getPassword())) {
-            $this->message->warning(
-                'A senha deve ter entre ' . CONF_PASSWORD_MIN_LEN . ' e ' . CONF_PASSWORD_MAX_LEN . ' caracteres'
-            );
+            $min = CONF_PASSWORD_MIN_LEN;
+            $max = CONF_PASSWORD_MAX_LEN;
+            $this->message->warning("A senha deve ter entre {$min} e {$max} caracteres");
             return false;
+        } else {
+            $administrator->setPassword(password($administrator->getPassword()));
         }
-
-        $administrator->setPassword(password_hash($administrator->getPassword(), PASSWORD_DEFAULT));
 
         // Administrator Update
         if (!empty($administrator->getId())) {
