@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class, 'index'])->name('website.index');
+Route::get('/home', [HomeController::class, 'index']);
+Route::get('/entrar', 'HomeController@signin')->name('website.signin');
+Route::get('/sair', 'HomeController@signout')->name('website.signout');
+Route::get('/sobre', 'HomeController@about')->name('website.about');
+Route::get('/recuperar-senha', 'HomeController@forgotPassword')->name('website.forgotPassword');
