@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('phone', 20);
             $table->foreignId('job_id')->constrained();
             $table->string('description', 255)->nullable();
+            $table->enum('type', ['Admin', 'Employee']);
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
