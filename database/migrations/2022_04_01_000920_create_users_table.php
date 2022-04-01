@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('password', 100);
             $table->string('phone', 20);
             $table->foreignId('job_id')->constrained();
-            $table->string('description', 255);
+            $table->string('description', 255)->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
