@@ -15,17 +15,7 @@ class StudioController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return Studio::all();
     }
 
     /**
@@ -36,7 +26,8 @@ class StudioController extends Controller
      */
     public function store(StoreStudioRequest $request)
     {
-        //
+        $studio = Studio::create($request->all());
+        return $studio;
     }
 
     /**
@@ -47,18 +38,7 @@ class StudioController extends Controller
      */
     public function show(Studio $studio)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Studio  $studio
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Studio $studio)
-    {
-        //
+        return $studio;
     }
 
     /**
@@ -70,7 +50,8 @@ class StudioController extends Controller
      */
     public function update(UpdateStudioRequest $request, Studio $studio)
     {
-        //
+        $studio->update($request->all());
+        return $studio;
     }
 
     /**
@@ -81,6 +62,7 @@ class StudioController extends Controller
      */
     public function destroy(Studio $studio)
     {
-        //
+        $studio->delete();
+        return $studio;
     }
 }
