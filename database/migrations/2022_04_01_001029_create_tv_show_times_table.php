@@ -15,7 +15,16 @@ return new class extends Migration
     {
         Schema::create('tv_show_times', function (Blueprint $table) {
             $table->id();
+            $table->time('start_time');
+            $table->time('final_time');
+            $table->date('date');
+            $table->tinyInteger('week_day');
+            $table->enum('mode', ['Ao Vivo', 'Gravado', 'Externa']);
+            $table->foreignId('switcher_id')->constrained();
+            $table->foreignId('studio_id')->constrained();
+            $table->foreignId('tv_show_id')->constrained();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
