@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateTvShowRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class UpdateTvShowRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,8 +24,36 @@ class UpdateTvShowRequest extends FormRequest
      */
     public function rules()
     {
+        $rules = [
+            'name' => ['required', Rule::unique('tv_shows')->ignore($this->tv_show->id)],
+            'description' => []
+        ];
+
+        if ($this->method() === 'PATCH') {
+            $customRules = [];
+
+            foreach ($rules as $input => $rule) {
+                if (array_key_exists($input, $this->request->all())) {
+                    $customRules[$input] = $rule;
+                }
+            }
+
+            return $customRules;
+        }
+
+        return $rules;
+    }
+
+    /**
+     * Get custom messages for validator errors.
+     *
+     * @return array
+     */
+    public function messages()
+    {
         return [
-            //
+            'required' => 'O campo nome é obrigatório.',
+            'unique' => 'O nome já existe.'
         ];
     }
 }

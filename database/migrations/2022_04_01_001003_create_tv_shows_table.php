@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('tv_shows', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100);
+            $table->text('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

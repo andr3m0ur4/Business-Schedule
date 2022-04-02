@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreTvShowRequest;
 use App\Http\Requests\UpdateTvShowRequest;
 use App\Models\TvShow;
+use Illuminate\Http\Response;
 
 class TvShowController extends Controller
 {
@@ -15,17 +16,7 @@ class TvShowController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return response()->json(TvShow::all());
     }
 
     /**
@@ -36,7 +27,8 @@ class TvShowController extends Controller
      */
     public function store(StoreTvShowRequest $request)
     {
-        //
+        $tvShow = TvShow::create($request->validated());
+        return response()->json($tvShow, Response::HTTP_CREATED);
     }
 
     /**
@@ -47,18 +39,7 @@ class TvShowController extends Controller
      */
     public function show(TvShow $tvShow)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\TvShow  $tvShow
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(TvShow $tvShow)
-    {
-        //
+        return response()->json($tvShow);
     }
 
     /**
@@ -70,7 +51,8 @@ class TvShowController extends Controller
      */
     public function update(UpdateTvShowRequest $request, TvShow $tvShow)
     {
-        //
+        $tvShow->update($request->validated());
+        return response()->json($tvShow);
     }
 
     /**
@@ -81,6 +63,7 @@ class TvShowController extends Controller
      */
     public function destroy(TvShow $tvShow)
     {
-        //
+        $tvShow->delete();
+        return response()->json($tvShow);
     }
 }
