@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreStudioRequest;
 use App\Http\Requests\UpdateStudioRequest;
 use App\Models\Studio;
+use Illuminate\Http\Response;
 
 class StudioController extends Controller
 {
@@ -27,7 +28,7 @@ class StudioController extends Controller
     public function store(StoreStudioRequest $request)
     {
         $studio = Studio::create($request->validated());
-        return response()->json($studio, 201);
+        return response()->json($studio, Response::HTTP_CREATED);
     }
 
     /**
@@ -50,7 +51,7 @@ class StudioController extends Controller
      */
     public function update(UpdateStudioRequest $request, Studio $studio)
     {
-        $studio->update($request->all());
+        $studio->update($request->validated());
         return response()->json($studio);
     }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateStudioRequest extends FormRequest
 {
@@ -24,7 +25,20 @@ class UpdateStudioRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => ['required', Rule::unique('studios')->ignore($this->studio->id)]
+        ];
+    }
+
+    /**
+     * Get custom messages for validator errors.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'required' => 'O campo nome é obrigatório.',
+            'unique' => 'O nome já existe.'
         ];
     }
 }
