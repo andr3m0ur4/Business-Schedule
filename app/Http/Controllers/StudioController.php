@@ -15,7 +15,7 @@ class StudioController extends Controller
      */
     public function index()
     {
-        return Studio::all();
+        return response()->json(Studio::all());
     }
 
     /**
@@ -27,7 +27,7 @@ class StudioController extends Controller
     public function store(StoreStudioRequest $request)
     {
         $studio = Studio::create($request->all());
-        return $studio;
+        return response()->json($studio, 201);
     }
 
     /**
@@ -38,7 +38,7 @@ class StudioController extends Controller
      */
     public function show(Studio $studio)
     {
-        return $studio;
+        return response()->json($studio);
     }
 
     /**
@@ -51,7 +51,7 @@ class StudioController extends Controller
     public function update(UpdateStudioRequest $request, Studio $studio)
     {
         $studio->update($request->all());
-        return $studio;
+        return response()->json($studio);
     }
 
     /**
@@ -63,6 +63,6 @@ class StudioController extends Controller
     public function destroy(Studio $studio)
     {
         $studio->delete();
-        return $studio;
+        return response()->json($studio);
     }
 }
