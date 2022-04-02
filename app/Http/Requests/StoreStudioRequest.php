@@ -24,7 +24,20 @@ class StoreStudioRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => ['required', 'unique:studios']
+        ];
+    }
+
+    /**
+     * Get custom messages for validator errors.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'required' => 'O campo nome é obrigatório.',
+            'unique' => 'O nome já existe.'
         ];
     }
 }

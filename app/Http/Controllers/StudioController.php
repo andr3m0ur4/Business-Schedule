@@ -26,7 +26,7 @@ class StudioController extends Controller
      */
     public function store(StoreStudioRequest $request)
     {
-        $studio = Studio::create($request->all());
+        $studio = Studio::create($request->validated());
         return response()->json($studio, 201);
     }
 
