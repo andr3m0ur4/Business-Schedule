@@ -6,6 +6,7 @@ use App\Http\Requests\StoreTvShowRequest;
 use App\Http\Requests\UpdateTvShowRequest;
 use App\Models\TvShow;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 
 class TvShowController extends Controller
 {
@@ -28,7 +29,7 @@ class TvShowController extends Controller
     public function store(StoreTvShowRequest $request)
     {
         $fileUrn = null;
-        if ($request->file('file')) {
+        if ($request->hasFile('file')) {
             $file = $request->file('file');
             $fileUrn = $file->store('files', 'public');
         }
@@ -62,7 +63,19 @@ class TvShowController extends Controller
      */
     public function update(UpdateTvShowRequest $request, TvShow $tvShow)
     {
-        $tvShow->update($request->validated());
+        $fileUrn = null;
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $fileUrn = $file->store('files', 'public');
+            Storage::disk('public')->delete($tvShow->file);
+        }
+
+        $tvShow->update([
+            'name' => $request->input('name', $tvShow->name),
+            'description' => $request->input('description', $tvShow->description),
+            'file' => $fileUrn
+        ]);
+
         return response()->json($tvShow);
     }
 
@@ -74,6 +87,8 @@ class TvShowController extends Controller
      */
     public function destroy(TvShow $tvShow)
     {
+        Storage::disk('public')->delete($tvShow->file);
+
         $tvShow->delete();
         return response()->json($tvShow);
     }

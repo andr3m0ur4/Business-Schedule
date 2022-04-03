@@ -24,24 +24,11 @@ class UpdateTvShowRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = [
-            'name' => ['required', Rule::unique('tv_shows')->ignore($this->tv_show->id)],
-            'description' => []
+        return [
+            'name' => ['sometimes', 'required', Rule::unique('tv_shows')->ignore($this->tv_show->id)],
+            'description' => [],
+            'file' => ['file', 'mimes:png,jpeg,pdf,docx']
         ];
-
-        if ($this->method() === 'PATCH') {
-            $customRules = [];
-
-            foreach ($rules as $input => $rule) {
-                if (array_key_exists($input, $this->request->all())) {
-                    $customRules[$input] = $rule;
-                }
-            }
-
-            return $customRules;
-        }
-
-        return $rules;
     }
 
     /**
@@ -53,7 +40,8 @@ class UpdateTvShowRequest extends FormRequest
     {
         return [
             'required' => 'O campo nome é obrigatório.',
-            'unique' => 'O nome já existe.'
+            'unique' => 'O nome já existe.',
+            'mimes' => 'O arquivo deve ser do tipo: png, jpeg, pdf, docx.'
         ];
     }
 }
