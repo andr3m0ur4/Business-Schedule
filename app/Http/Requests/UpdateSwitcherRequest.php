@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateSwitcherRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class UpdateSwitcherRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +25,20 @@ class UpdateSwitcherRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => ['required', Rule::unique('switchers')->ignore($this->switcher->id)]
+        ];
+    }
+
+    /**
+     * Get custom messages for validator errors.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'required' => 'O campo nome é obrigatório.',
+            'unique' => 'O nome já existe.'
         ];
     }
 }

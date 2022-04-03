@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreSwitcherRequest;
 use App\Http\Requests\UpdateSwitcherRequest;
 use App\Models\Switcher;
+use Illuminate\Http\Response;
 
 class SwitcherController extends Controller
 {
@@ -15,17 +16,7 @@ class SwitcherController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return response()->json(Switcher::all());
     }
 
     /**
@@ -36,7 +27,8 @@ class SwitcherController extends Controller
      */
     public function store(StoreSwitcherRequest $request)
     {
-        //
+        $switcher = Switcher::create($request->validated());
+        return response()->json($switcher, Response::HTTP_CREATED);
     }
 
     /**
@@ -47,18 +39,7 @@ class SwitcherController extends Controller
      */
     public function show(Switcher $switcher)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Switcher  $switcher
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Switcher $switcher)
-    {
-        //
+        return response()->json($switcher);
     }
 
     /**
@@ -70,7 +51,8 @@ class SwitcherController extends Controller
      */
     public function update(UpdateSwitcherRequest $request, Switcher $switcher)
     {
-        //
+        $switcher->update($request->validated());
+        return response()->json($switcher);
     }
 
     /**
@@ -81,6 +63,7 @@ class SwitcherController extends Controller
      */
     public function destroy(Switcher $switcher)
     {
-        //
+        $switcher->delete();
+        return response()->json($switcher);
     }
 }

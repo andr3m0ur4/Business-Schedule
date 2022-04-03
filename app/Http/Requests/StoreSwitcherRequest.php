@@ -13,7 +13,7 @@ class StoreSwitcherRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,20 @@ class StoreSwitcherRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => ['required', 'unique:switchers']
+        ];
+    }
+
+    /**
+     * Get custom messages for validator errors.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'required' => 'O campo nome é obrigatório.',
+            'unique' => 'O nome já existe.'
         ];
     }
 }
