@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreStudioRequest;
 use App\Http\Requests\UpdateStudioRequest;
+use App\Http\Resources\StudioResource;
 use App\Models\Studio;
 use Illuminate\Http\Response;
 
@@ -39,7 +40,7 @@ class StudioController extends Controller
      */
     public function show(Studio $studio)
     {
-        return response()->json($studio);
+        return response()->json(new StudioResource($studio));
     }
 
     /**

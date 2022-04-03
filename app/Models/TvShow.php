@@ -11,4 +11,9 @@ class TvShow extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = ['name', 'description', 'file'];
+
+    public function tv_show_times()
+    {
+        return $this->hasMany(TvShowTime::class);
+    }
 }

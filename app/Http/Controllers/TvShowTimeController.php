@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTvShowTimeRequest;
 use App\Http\Requests\UpdateTvShowTimeRequest;
+use App\Http\Resources\TvShowTimeResource;
 use App\Models\TvShowTime;
 use Illuminate\Http\Response;
 
@@ -17,7 +18,7 @@ class TvShowTimeController extends Controller
     public function index()
     {
         $tvShowTimes = TvShowTime::all();
-        return response()->json($tvShowTimes);
+        return response()->json(TvShowTimeResource::collection($tvShowTimes));
     }
 
     /**
@@ -40,7 +41,7 @@ class TvShowTimeController extends Controller
      */
     public function show(TvShowTime $tvShowTime)
     {
-        return response()->json($tvShowTime);
+        return response()->json(new TvShowTimeResource($tvShowTime));
     }
 
     /**
