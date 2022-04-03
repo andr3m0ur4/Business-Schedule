@@ -27,7 +27,18 @@ class TvShowController extends Controller
      */
     public function store(StoreTvShowRequest $request)
     {
-        $tvShow = TvShow::create($request->validated());
+        $fileUrn = null;
+        if ($request->file('file')) {
+            $file = $request->file('file');
+            $fileUrn = $file->store('files', 'public');
+        }
+
+        $tvShow = TvShow::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'file' => $fileUrn
+        ]);
+
         return response()->json($tvShow, Response::HTTP_CREATED);
     }
 

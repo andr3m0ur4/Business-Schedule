@@ -10,5 +10,5 @@ class TvShow extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['name', 'description'];
+    protected $fillable = ['name', 'description', 'file'];
 }

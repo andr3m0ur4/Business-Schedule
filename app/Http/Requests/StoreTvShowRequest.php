@@ -25,7 +25,8 @@ class StoreTvShowRequest extends FormRequest
     {
         return [
             'name' => ['required', 'unique:tv_shows'],
-            'description' => []
+            'description' => [],
+            'file' => ['file', 'mimes:png,jpeg,pdf,docx']
         ];
     }
 
@@ -38,7 +39,8 @@ class StoreTvShowRequest extends FormRequest
     {
         return [
             'required' => 'O campo nome é obrigatório.',
-            'unique' => 'O nome já existe.'
+            'unique' => 'O nome já existe.',
+            'mimes' => 'O arquivo deve ser do tipo: png, jpeg, pdf, docx.'
         ];
     }
 }
