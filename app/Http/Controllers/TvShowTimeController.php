@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreTvShowTimeRequest;
 use App\Http\Requests\UpdateTvShowTimeRequest;
 use App\Models\TvShowTime;
+use Illuminate\Http\Response;
 
 class TvShowTimeController extends Controller
 {
@@ -15,17 +16,8 @@ class TvShowTimeController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $tvShowTimes = TvShowTime::all();
+        return response()->json($tvShowTimes);
     }
 
     /**
@@ -36,7 +28,8 @@ class TvShowTimeController extends Controller
      */
     public function store(StoreTvShowTimeRequest $request)
     {
-        //
+        $tvShowTime = TvShowTime::create($request->validated());
+        return response()->json($tvShowTime, Response::HTTP_CREATED);
     }
 
     /**
@@ -47,18 +40,7 @@ class TvShowTimeController extends Controller
      */
     public function show(TvShowTime $tvShowTime)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\TvShowTime  $tvShowTime
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(TvShowTime $tvShowTime)
-    {
-        //
+        return response()->json($tvShowTime);
     }
 
     /**
@@ -70,7 +52,8 @@ class TvShowTimeController extends Controller
      */
     public function update(UpdateTvShowTimeRequest $request, TvShowTime $tvShowTime)
     {
-        //
+        $tvShowTime->update($request->validated());
+        return response()->json($tvShowTime);
     }
 
     /**
@@ -81,6 +64,7 @@ class TvShowTimeController extends Controller
      */
     public function destroy(TvShowTime $tvShowTime)
     {
-        //
+        $tvShowTime->delete();
+        return response()->json($tvShowTime);
     }
 }
