@@ -32,5 +32,6 @@ Route::apiResource('employee-times', EmployeeTimeController::class);
 Route::apiResource('switchers', SwitcherController::class);
 Route::apiResource('studios', StudioController::class);
 Route::apiResource('tv-shows', TvShowController::class);
+Route::get('tv-show-times/filters', [TvShowTimeController::class, 'filters']);
 Route::apiResource('tv-show-times', TvShowTimeController::class);
 Route::apiResource('schedules', ScheduleController::class);

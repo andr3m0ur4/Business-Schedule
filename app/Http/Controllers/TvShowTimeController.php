@@ -6,10 +6,19 @@ use App\Http\Requests\StoreTvShowTimeRequest;
 use App\Http\Requests\UpdateTvShowTimeRequest;
 use App\Http\Resources\TvShowTimeResource;
 use App\Models\TvShowTime;
+use App\Repositories\TvShowTimeRepository;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class TvShowTimeController extends Controller
 {
+    private $repository;
+
+    public function __construct(TvShowTimeRepository $tvShowTimeRepository)
+    {
+        $this->repository = $tvShowTimeRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -67,5 +76,14 @@ class TvShowTimeController extends Controller
     {
         $tvShowTime->delete();
         return response()->json($tvShowTime);
+    }
+
+    public function filters(Request $request)
+    {
+        $tvShowTimes = $this->repository->selectAttributesRelational($request)
+            ->filter($request)
+            ->selectAttributes($request)
+            ->getResults();
+        return response()->json($tvShowTimes);
     }
 }
