@@ -29,10 +29,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('login', [AuthController::class, 'login']);
 Route::post('logout', [AuthController::class, 'logout']);
-Route::post('refresh', [AuthController::class, 'refresh']);
 
 Route::prefix('v1')->middleware('jwt.auth')->group(function() {
     Route::post('me', [AuthController::class, 'me']);
+    Route::post('refresh', [AuthController::class, 'refresh']);
     Route::apiResource('users', UserController::class);
     Route::apiResource('jobs', JobController::class);
     Route::apiResource('employee-times', EmployeeTimeController::class);
