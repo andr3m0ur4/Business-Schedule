@@ -1,5 +1,5 @@
 <template>
-  <div class="iq-top-navbar">
+  <header class="iq-top-navbar">
     <div class="container">
       <div class="iq-navbar-custom">
         <div class="d-flex align-items-center justify-content-between">
@@ -520,7 +520,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </header>
 </template>
 
 <script>
