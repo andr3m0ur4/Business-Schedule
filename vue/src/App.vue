@@ -1,15 +1,10 @@
 <template>
-  <AppMain />
+  <router-view></router-view>
 </template>
 
 <script>
-import AppMain from './components/AppMain.vue'
-
 export default {
-  name: 'App',
-  components: {
-    AppMain
-  }
+  name: 'App'
 }
 </script>
 
