@@ -1,3 +1,6 @@
+import $ from 'jquery';
+const jQuery = $;
+
 (function (jQuery) {
     "use strict";
     const urlParams = new URLSearchParams(window.location.search);
@@ -29,7 +32,7 @@
         }
     }
 
-    jQuery(document).on("change", '.change-mode input[type="checkbox"]' ,function (e) {
+    jQuery(document).on("change", '.change-mode input[type="checkbox"]' ,function () {
         const dark = $(this).attr('data-active');
         if (dark === 'true') {
             $(this).attr('data-active','false')
@@ -58,6 +61,7 @@
             dark = false
         }
         updateSessionStorage(dark)
+        updateLocalStorage(dark)
         const event = new CustomEvent("ChangeColorMode", {detail: {dark: dark} });
         document.dispatchEvent(event);
     }

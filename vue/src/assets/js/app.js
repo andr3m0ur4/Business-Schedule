@@ -37,6 +37,11 @@ Index Of Script
 Index Of Script
 ----------------------------------------------*/
 
+import $ from 'jquery';
+import moment from 'moment';
+
+const jQuery = $;
+
 (function(jQuery) {
 
 
@@ -48,8 +53,10 @@ Index Of Script
         /*---------------------------------------------------------------------
         Tooltip
         -----------------------------------------------------------------------*/
-        jQuery('[data-toggle="popover"]').popover();
-        jQuery('[data-toggle="tooltip"]').tooltip();
+        try {
+            jQuery('[data-toggle="popover"]').popover();
+            jQuery('[data-toggle="tooltip"]').tooltip();
+        } catch(e) {}
 
         /*---------------------------------------------------------------------
         Fixed Nav
@@ -174,7 +181,7 @@ Index Of Script
             const counterUp = window.counterUp["default"]
             const $counters = $(".counter");
             $counters.each(function (ignore, counter) {
-                var waypoint = new Waypoint( {
+                new Waypoint( {
                     element: $(this),
                     handler: function() {
                         counterUp(counter, {
@@ -273,7 +280,7 @@ Index Of Script
             // Fetch all the forms we want to apply custom Bootstrap validation styles to
             var forms = document.getElementsByClassName('needs-validation');
             // Loop over them and prevent submission
-            var validation = Array.prototype.filter.call(forms, function(form) {
+            Array.prototype.filter.call(forms, function(form) {
                 form.addEventListener('submit', function(event) {
                     if (form.checkValidity() === false) {
                         event.preventDefault();
@@ -434,7 +441,7 @@ Index Of Script
 
         $('[data-placement="daterange"]').daterangepicker({
             opens: 'center'
-        }, function(start, end, label) {
+        }, function(start, end) {
             console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
         });
 
@@ -487,7 +494,7 @@ Index Of Script
             elem.remove();
         }
 
-        $(document).on('change', '.card-change', function (e) {
+        $(document).on('change', '.card-change', function () {
             $(this).closest('.event-detail').find('.dropdown').addClass('d-none')
             $(this).closest('.event-detail').addClass('disabled')
             $(this).closest('.event-detail').find('.copy').addClass('d-none')
@@ -653,7 +660,9 @@ Index Of Script
     }
 
     // Enable all tooltips
-    $('[data-toggle="tooltip"]').tooltip();
+    try {
+        $('[data-toggle="tooltip"]').tooltip();
+    } catch(e) {}
     // quill
     if (jQuery("#editor").length) {
         new Quill('#editor', {theme: 'snow'});
@@ -707,7 +716,7 @@ Index Of Script
         }
         if (nextBtn !== undefined && nextBtn !== null) {
             Array.from(nextBtn, (btn) => {
-                btn.addEventListener('click', (elemNext) => {
+                btn.addEventListener('click', () => {
                     const currentPan = btn.closest('fieldset')
                     currentPan.classList.remove('active')
                     currentPan.style.display = 'none'
@@ -718,7 +727,7 @@ Index Of Script
         }
         if (prevBtn !== undefined && prevBtn !== null) {
             Array.from(prevBtn, (btn) => {
-                btn.addEventListener('click', (elemNext) => {
+                btn.addEventListener('click', () => {
                     const currentPan = btn.closest('fieldset')
                     currentPan.classList.remove('active')
                     currentPan.style.display = 'none'

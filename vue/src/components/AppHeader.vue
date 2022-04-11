@@ -21,14 +21,12 @@
               </div>
               <ul id="iq-sidebar-toggle" class="iq-menu d-flex">
                 <li class="active">
-                  <a href="../backend/index.html" class="">
-                    <span>Dashboard</span>
-                  </a>
+                  <router-link to="/" class=""><span>Dashboard</span></router-link>
                 </li>
                 <li class="">
-                  <a href="../backend/main-my-schedule.html" class="">
+                  <router-link to="/my-schedule" class="">
                     <span>My Schedule</span>
-                  </a>
+                  </router-link>
                 </li>
                 <li class="">
                   <a href="../backend/main-integration.html" class="">
@@ -529,6 +527,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.fixed-top-navbar .iq-sidebar-menu .iq-menu li > a.active {
+    color: #465af7;
+}
 </style>
