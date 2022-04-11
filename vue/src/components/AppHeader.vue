@@ -4,24 +4,26 @@
       <div class="iq-navbar-custom">
         <div class="d-flex align-items-center justify-content-between">
           <div class="iq-navbar-logo d-flex align-items-center justify-content-between">
-              <i class="ri-menu-line wrapper-menu"></i>
-              <a href="index.html" class="header-logo">
-                  <img src="../assets/images/logo.png" class="img-fluid rounded-normal light-logo" alt="logo">
-              </a>
+            <i class="ri-menu-line wrapper-menu"></i>
+            <router-link to="/" class="header-logo">
+              <img src="../assets/images/logo.png" class="img-fluid rounded-normal light-logo" alt="logo">
+            </router-link>
           </div>
           <div class="iq-menu-horizontal">
             <nav class="iq-sidebar-menu">
               <div class="iq-sidebar-logo d-flex align-items-center justify-content-between">
-                <a href="index.html" class="header-logo">
+                <router-link to="/" class="header-logo">
                   <img src="../assets/images/logo.png" class="img-fluid rounded-normal" alt="logo">
-                </a>
+                </router-link>
                 <div class="iq-menu-bt-sidebar">
                   <i class="las la-bars wrapper-menu"></i>
                 </div>
               </div>
               <ul id="iq-sidebar-toggle" class="iq-menu d-flex">
-                <li class="active">
-                  <router-link to="/" class=""><span>Dashboard</span></router-link>
+                <li class="">
+                  <router-link to="/" class="">
+                    <span>Dashboard</span>
+                  </router-link>
                 </li>
                 <li class="">
                   <router-link to="/my-schedule" class="">
@@ -505,9 +507,9 @@
                             </div>
                           </a>
                         </div>
-                        <a class="right-ic p-3 border-top btn-block position-relative text-center" href="auth-sign-in.html" role="button">
+                        <router-link to="/sign-in" class="right-ic p-3 border-top btn-block position-relative text-center" role="button">
                           Logout
-                        </a>
+                        </router-link>
                       </div>
                     </div>
                   </div>
