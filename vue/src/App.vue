@@ -1,5 +1,5 @@
 <template>
-  <router-view teste="Minha mensagem de teste para o login"></router-view>
+  <router-view></router-view>
 </template>
 
 <script>
