@@ -507,7 +507,7 @@
                             </div>
                           </a>
                         </div>
-                        <router-link to="/sign-in" class="right-ic p-3 border-top btn-block position-relative text-center" role="button">
+                        <router-link to="/entrar" class="right-ic p-3 border-top btn-block position-relative text-center" role="button">
                           Logout
                         </router-link>
                       </div>
