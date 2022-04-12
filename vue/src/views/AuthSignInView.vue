@@ -14,36 +14,33 @@
                <div class="col-md-5 col-sm-12 col-12 align-self-center">
                   <div class="card">
                      <div class="card-body text-center">
-                        <h2>Sign In</h2>
-                        <p>Login to stay connected.</p>
-                        <form>
+                        <h2>Entrar</h2>
+                        <p>Faça Login para acessar o sistema.</p>
+                        <form @submit.prevent="login($event)">
                            <div class="row">
                               <div class="col-lg-12">
                                  <div class="floating-input form-group">
-                                    <input class="form-control" type="text" name="email" id="email" required />
-                                    <label class="form-label" for="email">Email</label>
+                                    <input class="form-control" type="text" name="email" id="email" v-model="email" required />
+                                    <label class="form-label" for="email">E-mail</label>
                                  </div>
                               </div>
                               <div class="col-lg-12">
                                  <div class="floating-input form-group">
-                                    <input class="form-control" type="password" name="password" id="password" required />
-                                    <label class="form-label" for="password">Password</label>
+                                    <input class="form-control" type="password" name="password" id="password" v-model="password" required />
+                                    <label class="form-label" for="password">Senha</label>
                                  </div>
                               </div>
                               <div class="col-lg-6">
                                  <div class="custom-control custom-checkbox mb-3 text-left">
                                     <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                    <label class="custom-control-label" for="customCheck1">Remember Me</label>
+                                    <label class="custom-control-label" for="customCheck1">Lembrar de mim</label>
                                  </div>
                               </div>
                               <div class="col-lg-6">
-                                 <a href="auth-recoverpw.html" class="text-primary float-right">Forgot Password?</a>
+                                 <a href="auth-recoverpw.html" class="text-primary float-right">Esqueceu a Senha?</a>
                               </div>
                            </div>
-                           <button type="submit" class="btn btn-primary">Sign In</button>
-                           <p class="mt-3">
-                              Create an Account <a href="auth-sign-up.html" class="text-primary">Sign Up</a>
-                           </p>
+                           <button type="submit" class="btn btn-primary">Entrar</button>
                         </form>
                      </div>
                   </div>
@@ -52,14 +49,13 @@
          </div>
       </section>
     </div>
-    
+
     <!-- Backend Bundle JavaScript -->
     <!-- <script src="../assets/js/backend-bundle.min.js"></script> -->
-    
+
     <!-- Chart Custom JavaScript -->
     <!-- <script src="../assets/js/customizer.js"></script> -->
-    
-    
+
     <!-- app JavaScript -->
     <!-- <script src="../assets/js/app.js"></script> -->
   </div>
@@ -67,7 +63,31 @@
 
 <script>
 export default {
-    name: 'AuthSignInView'
+  name: 'AuthSignInView',
+  data() {
+    return {
+      email: '',
+      password: ''
+    }
+  },
+  methods: {
+    login() {
+      axios
+        .post('login', {
+          email: this.email,
+          password: this.password
+        })
+        .then(response => {
+          if (response.data.token) {
+            document.cookie = `token=${response.data.token};SameSite=Lax`
+            localStorage.setItem('token', response.data.token)
+          }
+        })
+        .catch(error => {
+          console.log(error.response);
+        })
+    }
+  }
 }
 </script>
 

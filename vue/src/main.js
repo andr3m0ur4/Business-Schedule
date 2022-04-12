@@ -8,6 +8,15 @@ import '@/assets/vendor/remixicon/fonts/remixicon.css'
 import router from './router/routes'
 import App from './App.vue'
 
+import axios from 'axios'
+
+window.axios = axios.create({
+    baseURL: 'http://localhost:8000/api/',
+    headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+    }
+})
+
 createApp(App)
     .use(router)
     .mount('#app')
