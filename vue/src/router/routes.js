@@ -4,6 +4,7 @@ import DefaultLayout from '@/components/DefaultLayout'
 import DashboardView from '@/views/DashboardView'
 import MyScheduleView from '@/views/MyScheduleView'
 import AuthSignInView from '@/views/AuthSignInView'
+import StudioView from '@/views/StudioView'
 import StudioCreateView from '@/views/StudioCreateView'
 // import store from '@/store'
 
@@ -22,6 +23,11 @@ const routes = [
             {
                 path: '/my-schedule',
                 component: MyScheduleView
+            },
+            {
+                path: '/estudio',
+                name: 'studio',
+                component: StudioView
             }
         ]
     },

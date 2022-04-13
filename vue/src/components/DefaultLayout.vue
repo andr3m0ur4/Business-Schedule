@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed-top-navbar top-nav  ">
+  <div class="fixed-top-navbar top-nav">
     <!-- loader Start -->
     <!-- <div id="loading">
       <div id="loading-center">
