@@ -5,6 +5,7 @@ import '@/assets/vendor/@fontawesome/fontawesome-free/css/all.min.css'
 import '@/assets/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css'
 import '@/assets/vendor/remixicon/fonts/remixicon.css'
 
+import store from './store'
 import router from './router/routes'
 import App from './App.vue'
 
@@ -19,4 +20,5 @@ window.axios = axios.create({
 
 createApp(App)
     .use(router)
+    .use(store)
     .mount('#app')

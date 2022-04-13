@@ -14,7 +14,8 @@
     "moment": "^2.29.2",
     "popper.js": "^1.16.1",
     "vue": "^3.2.13",
-    "vue-router": "^4.0.14"
+    "vue-router": "^4.0.14",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
@@ -40,7 +41,8 @@
     "rules": {
       "no-undef": "off",
       "no-empty": "off",
-      "no-unreachable": "off"
+      "no-unreachable": "off",
+      "no-debugger": "off"
     }
   },
   "browserslist": [

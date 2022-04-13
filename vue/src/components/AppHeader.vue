@@ -507,9 +507,9 @@
                             </div>
                           </a>
                         </div>
-                        <router-link to="/entrar" class="right-ic p-3 border-top btn-block position-relative text-center" role="button">
+                        <a @click="logout()" class="right-ic p-3 border-top btn-block position-relative text-center" role="button">
                           Logout
-                        </router-link>
+                        </a>
                       </div>
                     </div>
                   </div>
@@ -524,8 +524,28 @@
 </template>
 
 <script>
+import { computed } from 'vue'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
+
 export default {
-  name: 'AppHeader'
+  name: 'AppHeader',
+  setup() {
+    const store = useStore()
+    const router = useRouter()
+
+    function logout() {
+      store.commit('logout')
+      router.push({
+        name: 'sign-in'
+      })
+    }
+
+    return {
+      user: computed(() => store.state.user.data),
+      logout
+    }
+  }
 }
 </script>
 
