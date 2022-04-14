@@ -469,7 +469,7 @@
                       aria-haspopup="true" aria-expanded="false">
                     <img src="../assets/images/user/01.jpg" class="avatar-40 img-fluid rounded" alt="user">
                     <div class="caption ml-3">
-                        <h6 class="mb-0 line-height">Rick O'shea<i class="las la-angle-down ml-3"></i></h6>
+                        <h6 class="mb-0 line-height">{{ user.name }}<i class="las la-angle-down ml-3"></i></h6>
                     </div>
                   </a>
                   <div class="iq-sub-dropdown dropdown-menu user-dropdown" aria-labelledby="dropdownMenuButton3">
