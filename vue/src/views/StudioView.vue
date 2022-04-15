@@ -17,7 +17,7 @@
                     <tr>
                       <th>#</th>
                       <th>Nome</th>
-                      <th>Action</th>
+                      <th>Ação</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -25,9 +25,7 @@
                       <td>{{ studio.id }}</td>
                       <td>{{ studio.name }}</td>
                       <td>
-                          <div class="d-flex align-items-center list-action">
-                            <a class="badge bg-warning-light mr-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="Rating"
-                                href="#"><i class="far fa-star"></i></a>
+                          <div class="d-flex align-items-center list-action justify-content-end">
                             <a class="badge bg-success-light mr-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="View"
                                 href="#"><i class="lar la-eye"></i></a>
                             <div class="badge bg-primary-light" data-toggle="tooltip" data-placement="top" title="" data-original-title="Action">
@@ -38,7 +36,6 @@
                                   <div class="dropdown-menu" aria-labelledby="moreOptions1">
                                       <a class="dropdown-item" href="#">Edit</a>
                                       <a class="dropdown-item" href="#">Delete</a>
-                                      <a class="dropdown-item" href="#">Hide from Contacts</a>
                                   </div>
                                 </div>
                             </div>
@@ -55,42 +52,12 @@
     </div>
   </div>
 
-  <!-- Modal -->
-  <div class="modal fade" id="addStudio" tabindex="-1" role="dialog" aria-labelledby="addStudioLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="addStudioLabel">Cadastrar Estúdio</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <form id="form-wizard" class="text-center" @submit.prevent="saveStudio()">
-              <fieldset>
-                <div class="form-card text-left">
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <label for="name">Nome: *</label>
-                        <input type="text" class="form-control" id="name" name="name" v-model="studio.name" placeholder="Nome" required="required" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </fieldset>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-            <button type="button" class="btn btn-primary" @click="saveStudio()">Salvar</button>
-          </div>
-        </div>
-    </div>
-  </div>
+  <StudioModal title="Cadastrar Estúdio" :event="saveStudio" @studio="getName" />
 </template>
 
 <script>
+import StudioModal from '@/components/StudioModal.vue'
+
 export default {
   name: 'StudioView',
   data() {
@@ -142,13 +109,19 @@ export default {
             this.$swal('Ops...', error.response.data.message, 'error')
           }
         })
+    },
+    getName(name) {
+      this.studio.name = name
     }
+  },
+  components: {
+    StudioModal
   }
 }
 
 $(() => {
   $('#addStudio').on('shown.bs.modal', function() {
-    $('#name').focus()
+    $('#sname').focus()
   })
 })
 </script>
