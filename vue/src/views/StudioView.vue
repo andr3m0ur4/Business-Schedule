@@ -15,7 +15,7 @@
                 <table class="data-tables table" style="width:100%">
                   <thead>
                     <tr>
-                      <th>ID</th>
+                      <th>#</th>
                       <th>Nome</th>
                       <th>Action</th>
                     </tr>
@@ -34,7 +34,6 @@
                                 <div class="dropdown">
                                   <div class="text-primary dropdown-toggle action-item" id="moreOptions1" data-toggle="dropdown" aria-haspopup="true" role="button"
                                       aria-expanded="false">
-
                                   </div>
                                   <div class="dropdown-menu" aria-labelledby="moreOptions1">
                                       <a class="dropdown-item" href="#">Edit</a>
@@ -116,7 +115,12 @@ export default {
           $('.data-tables').DataTable().destroy()
         })
         .catch(error => {
-          console.log(error);
+          if (error.response.status == 401) {
+            this.$store.commit('logout')
+            this.$router.push({
+              name: 'sign-in'
+            })
+          }
         })
     },
     saveStudio() {
@@ -126,6 +130,7 @@ export default {
         .then(() => {
           $('#addStudio').modal('hide')
           this.$swal('Sucesso', 'Estúdio cadastrado com sucesso!', 'success')
+          this.getStudios()
         })
         .catch(error => {
           if (error.response.status == 401) {
