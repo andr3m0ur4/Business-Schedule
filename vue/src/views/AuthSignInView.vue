@@ -79,7 +79,6 @@ export default {
         })
         .then(response => {
           if (response.data.token) {
-            document.cookie = `token=${response.data.token};SameSite=Lax`
             localStorage.setItem('token', response.data.token)
             this.$router.push('/')
           }

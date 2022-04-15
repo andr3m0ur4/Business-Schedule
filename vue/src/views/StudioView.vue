@@ -8,7 +8,7 @@
               <div class="iq-header-title">
                 <h4 class="card-title mb-0">Estúdios</h4>
               </div>
-              <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#addContact">Add New</a>
+              <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#addStudio">Add New</a>
             </div>
             <div class="card-body">
               <div class="table-responsive data-table">
@@ -57,24 +57,24 @@
   </div>
 
   <!-- Modal -->
-  <div class="modal fade" id="addContact" tabindex="-1" role="dialog" aria-labelledby="addContactLabel" aria-hidden="true">
+  <div class="modal fade" id="addStudio" tabindex="-1" role="dialog" aria-labelledby="addStudioLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="addContactLabel">Cadastrar Estúdio</h5>
+            <h5 class="modal-title" id="addStudioLabel">Cadastrar Estúdio</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <form id="form-wizard" class="text-center">
+            <form id="form-wizard" class="text-center" @submit.prevent="saveStudio()">
               <fieldset>
                 <div class="form-card text-left">
                   <div class="row">
                     <div class="col-md-12">
                       <div class="form-group">
-                        <label for="fname">Nome: *</label>
-                        <input type="text" class="form-control" id="fname" name="fname" placeholder="Nome" required="required" />
+                        <label for="name">Nome: *</label>
+                        <input type="text" class="form-control" id="name" name="name" v-model="studio.name" placeholder="Nome" required="required" />
                       </div>
                     </div>
                   </div>
@@ -84,7 +84,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-            <button type="button" class="btn btn-primary">Salvar</button>
+            <button type="button" class="btn btn-primary" @click="saveStudio()">Salvar</button>
           </div>
         </div>
     </div>
@@ -96,7 +96,10 @@ export default {
   name: 'StudioView',
   data() {
     return {
-      studios: []
+      studios: [],
+      studio: {
+        name: null
+      }
     }
   },
   created() {
@@ -107,18 +110,42 @@ export default {
   },
   methods: {
     getStudios() {
-      axios
-        .get('v1/studios')
-          .then(response => {
-            this.studios = response.data
-            $('.data-tables').DataTable().destroy()
-          })
-          .catch(error => {
-            console.log(error);
-          })
+      axios.get('v1/studios')
+        .then(response => {
+          this.studios = response.data
+          $('.data-tables').DataTable().destroy()
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    },
+    saveStudio() {
+      axios.post('v1/studios', {
+        name: this.studio.name
+      })
+        .then(() => {
+          $('#addStudio').modal('hide')
+          this.$swal('Sucesso', 'Estúdio cadastrado com sucesso!', 'success')
+        })
+        .catch(error => {
+          if (error.response.status == 401) {
+            this.$store.commit('logout')
+            this.$router.push({
+              name: 'sign-in'
+            })
+          } else {
+            this.$swal('Ops...', error.response.data.message, 'error')
+          }
+        })
     }
   }
 }
+
+$(() => {
+  $('#addStudio').on('shown.bs.modal', function() {
+    $('#name').focus()
+  })
+})
 </script>
 
 <style scoped>
