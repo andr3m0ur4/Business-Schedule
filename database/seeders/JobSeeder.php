@@ -14,6 +14,6 @@ class JobSeeder extends Seeder
      */
     public function run()
     {
-        //
+        $jobs = \App\Models\Job::factory(1)->create();
     }
 }

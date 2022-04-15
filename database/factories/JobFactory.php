@@ -17,7 +17,7 @@ class JobFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => 'Admin',
         ];
     }
 }
