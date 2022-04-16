@@ -4,10 +4,11 @@ import DefaultLayout from '@/components/DefaultLayout'
 import DashboardView from '@/views/DashboardView'
 import MyScheduleView from '@/views/MyScheduleView'
 import AuthSignInView from '@/views/AuthSignInView'
+import EmployeeView from '@/views/EmployeeView'
 import StudioView from '@/views/StudioView'
 import SwitcherView from '@/views/SwitcherView'
 import TvShowView from '@/views/TvShowView'
-// import store from '@/store'
+import store from '@/store'
 
 const routes = [
     {
@@ -24,6 +25,11 @@ const routes = [
             {
                 path: '/my-schedule',
                 component: MyScheduleView
+            },
+            {
+                path: '/funcionarios',
+                name: 'employees',
+                component: EmployeeView
             },
             {
                 path: '/estudios',
@@ -57,9 +63,9 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    if (to.meta.requiresAuth && !localStorage.getItem('token')) {
+    if (to.meta.requiresAuth && !store.state.user.token) {
         next({ name: 'sign-in' })
-    } else if (localStorage.getItem('token') && (to.meta.isGuest)) {
+    } else if (store.state.user.token && (to.meta.isGuest)) {
         next({ name: 'dashboard'})
     } else {
         next()

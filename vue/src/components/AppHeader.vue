@@ -42,42 +42,14 @@
                   </a>
                   <ul id="pages" class="iq-submenu sub-scrll collapse" data-parent="#iq-sidebar-toggle">
                     <li class="">
-                      <router-link to="/estudios">
-                        <span>Estúdios</span>
+                      <router-link to="/funcionarios">
+                        <span>Funcionários</span>
                       </router-link>
                     </li>
                     <li class="">
-                      <a href="#auth" class="collapsed" data-toggle="collapse" aria-expanded="false">
-                          <span>Authentication</span>
-                          <i class="ri-arrow-right-s-line iq-arrow-right"></i>
-                      </a>
-                      <ul id="auth" class="iq-submenu iq-submenu-data collapse" data-parent="#pages">
-                        <li class="">
-                          <a href="../backend/auth-sign-in.html">
-                            <span>Login</span>
-                          </a>
-                        </li>
-                        <li class="">
-                          <a href="../backend/auth-sign-up.html">
-                            <span>Register</span>
-                          </a>
-                        </li>
-                        <li class="">
-                          <a href="../backend/auth-recoverpw.html">
-                            <span>Recover Password</span>
-                          </a>
-                        </li>
-                        <li class="">
-                          <a href="../backend/auth-confirm-mail.html">
-                            <span>Confirm Mail</span>
-                          </a>
-                        </li>
-                        <li class="">
-                          <a href="../backend/auth-lock-screen.html">
-                            <span>Lock Screen</span>
-                          </a>
-                        </li>
-                      </ul>
+                      <router-link to="/estudios">
+                        <span>Estúdios</span>
+                      </router-link>
                     </li>
                     <li class="">
                       <a href="#contact" class="collapsed" data-toggle="collapse" aria-expanded="false">

@@ -6,7 +6,7 @@ const store = createStore({
             data: {
                 name: 'Rick O\'shea'
             },
-            token: 123
+            token: sessionStorage.getItem('token')
         }
     },
     getters: {},
@@ -15,7 +15,7 @@ const store = createStore({
         logout(state) {
             state.user.data = {}
             state.user.token = null
-            localStorage.removeItem('token')
+            sessionStorage.removeItem('token')
         }
     },
     modules: {}

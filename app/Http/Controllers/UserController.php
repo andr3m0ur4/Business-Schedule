@@ -41,7 +41,8 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            'type' => $request->type
+            'type' => $request->type,
+            'phone' => $request->phone
         ]);
 
         return response()->json($user, Response::HTTP_CREATED);

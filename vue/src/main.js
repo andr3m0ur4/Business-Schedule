@@ -14,7 +14,7 @@ import axios from 'axios'
 window.axios = axios.create({
     baseURL: 'http://localhost:8000/api/',
     headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`
     }
 })
 
