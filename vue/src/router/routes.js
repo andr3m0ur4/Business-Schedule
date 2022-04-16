@@ -8,6 +8,8 @@ import StudioView from '@/views/StudioView'
 import SwitcherView from '@/views/SwitcherView'
 import TvShowView from '@/views/TvShowView'
 import JobView from '@/views/JobView'
+import ErrorView from '@/views/ErrorView'
+import ForgotPasswordView from '@/views/ForgotPasswordView'
 // import store from '@/store'
 
 const routes = [
@@ -53,6 +55,17 @@ const routes = [
         name: 'sign-in',
         meta: { isGuest: true },
         component: AuthSignInView
+    },
+    {
+        path: '/erro',
+        name: 'erro',
+        component: ErrorView
+    }
+    ,
+    {
+        path: '/esqueceu-senha',
+        name: 'esqueceu-senha',
+        component: ForgotPasswordView
     }
 ]
 
