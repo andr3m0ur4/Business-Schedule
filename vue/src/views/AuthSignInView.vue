@@ -80,11 +80,11 @@ export default {
         .then(response => {
           if (response.data.token) {
             localStorage.setItem('token', response.data.token)
-            this.$router.push('/')
+            window.location.href = '/'
           }
         })
         .catch(error => {
-          console.log(error.response);
+          this.$swal('Ops...', error.response.data.error, 'error')
         })
     }
   }

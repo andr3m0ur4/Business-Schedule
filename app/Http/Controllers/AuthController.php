@@ -13,7 +13,7 @@ class AuthController extends Controller
         $token = auth('api')->attempt($credentials);
 
         if (!$token) {
-            return response()->json(['error' => 'Usuário e/ou senha inválido!'], Response::HTTP_FORBIDDEN);
+            return response()->json(['error' => 'Usuário e/ou senha inválidos!'], Response::HTTP_FORBIDDEN);
         }
 
         return response()->json(['token' => $token]);
