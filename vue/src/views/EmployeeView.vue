@@ -399,6 +399,8 @@
 </template>
 
 <script>
+import axios from '@/axios'
+
 export default {
   name: 'EmployeeView',
   data() {
@@ -406,11 +408,18 @@ export default {
       employee: {}
     }
   },
+  mounted() {
+    $('.selectpicker').selectpicker()
+  },
   updated() {
     $('.data-tables').DataTable()
   },
   methods: {
     saveEmployee() {
+      if (!$('#registerEmployee form').get(0).reportValidity()) {
+        return false
+      }
+
       axios.post('v1/users', this.employee)
         .then(response => {
           this.$swal('Sucesso', `${response.data.name} cadastrado com sucesso!`, 'success')

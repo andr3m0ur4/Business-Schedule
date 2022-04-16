@@ -9,15 +9,6 @@ import store from './store'
 import router from './router/routes'
 import App from './App.vue'
 
-import axios from 'axios'
-
-window.axios = axios.create({
-    baseURL: 'http://localhost:8000/api/',
-    headers: {
-        Authorization: `Bearer ${sessionStorage.getItem('token')}`
-    }
-})
-
 import VueSweetalert2 from 'vue-sweetalert2'
 import 'sweetalert2/dist/sweetalert2.min.css';
 

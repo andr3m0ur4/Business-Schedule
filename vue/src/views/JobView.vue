@@ -68,6 +68,7 @@
 
 <script>
 import JobModal from '@/components/JobModal.vue'
+import axios from '@/axios'
 
 export default {
   name: 'JobView',

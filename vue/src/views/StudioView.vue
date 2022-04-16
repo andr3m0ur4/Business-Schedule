@@ -68,6 +68,7 @@
 
 <script>
 import StudioModal from '@/components/StudioModal.vue'
+import axios from '@/axios'
 
 export default {
   name: 'StudioView',
@@ -102,9 +103,11 @@ export default {
         })
     },
     saveStudio() {
-      axios.post('v1/studios', {
-        name: this.studio.name
-      })
+      if (!$('#addStudio form').get(0).reportValidity()) {
+        return false
+      }
+
+      axios.post('v1/studios', this.studio)
         .then(response => {
           $('#addStudio').modal('hide')
           this.$swal('Sucesso', `${response.data.name} cadastrado com sucesso!`, 'success')
@@ -131,6 +134,10 @@ export default {
         })
     },
     updateStudio(id) {
+      if (!$('#updateStudio form').get(0).reportValidity()) {
+        return false
+      }
+
       axios.put(`v1/studios/${id}`, {
         name: this.studio.name
       })

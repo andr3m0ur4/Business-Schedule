@@ -68,6 +68,7 @@
 
 <script>
 import SwitcherModal from '@/components/SwitcherModal.vue'
+import axios from '@/axios'
 
 export default {
   name: 'SwitcherView',

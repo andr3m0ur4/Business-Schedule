@@ -68,6 +68,7 @@
 
 <script>
 import TvShowModal from '@/components/TvShowModal.vue'
+import axios from '@/axios'
 
 export default {
   name: 'TvShowView',

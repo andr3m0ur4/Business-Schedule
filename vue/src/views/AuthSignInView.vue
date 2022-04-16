@@ -20,13 +20,13 @@
                            <div class="row">
                               <div class="col-lg-12">
                                  <div class="floating-input form-group">
-                                    <input class="form-control" type="text" name="email" id="email" v-model="email" required />
+                                    <input class="form-control" type="text" name="email" id="email" v-model="user.email" required />
                                     <label class="form-label" for="email">E-mail</label>
                                  </div>
                               </div>
                               <div class="col-lg-12">
                                  <div class="floating-input form-group">
-                                    <input class="form-control" type="password" name="password" id="password" v-model="password" required />
+                                    <input class="form-control" type="password" name="password" id="password" v-model="user.password" required />
                                     <label class="form-label" for="password">Senha</label>
                                  </div>
                               </div>
@@ -62,26 +62,24 @@
 </template>
 
 <script>
+import store from '@/store'
+
 export default {
   name: 'AuthSignInView',
   data() {
     return {
-      email: '',
-      password: ''
+      user: {
+        email: '',
+        password: '',
+        remember: false
+      }
     }
   },
   methods: {
     login() {
-      axios
-        .post('login', {
-          email: this.email,
-          password: this.password
-        })
-        .then(response => {
-          if (response.data.token) {
-            sessionStorage.setItem('token', response.data.token)
-            window.location.href = '/'
-          }
+      store.dispatch('login', this.user)
+        .then(() => {
+          this.$router.push('/')
         })
         .catch(error => {
           this.$swal('Ops...', error.response.data.error, 'error')
