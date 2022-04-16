@@ -87,7 +87,7 @@ export default {
   },
   methods: {
     getSwitchers() {
-      axios.get('v1/switchers')
+      axios.get('v1/switcher')
         .then(response => {
           this.switchers = response.data
           $('.data-tables').DataTable().destroy()
@@ -102,7 +102,7 @@ export default {
         })
     },
     saveSwitcher() {
-      axios.post('v1/switchers', {
+      axios.post('v1/switcher', {
         name: this.switcher.name
       })
         .then(response => {
@@ -122,7 +122,7 @@ export default {
         })
     },
     loadSwitcher(id) {
-      axios.get(`v1/switchers/${id}`)
+      axios.get(`v1/switcher/${id}`)
         .then(response => {
           this.switcher = response.data
         })
@@ -131,7 +131,7 @@ export default {
         })
     },
     updateSwitcher(id) {
-      axios.put(`v1/switchers/${id}`, {
+      axios.put(`v1/switcher/${id}`, {
         name: this.switcher.name
       })
         .then(response => {
@@ -155,7 +155,7 @@ export default {
       })
         .then(result => {
           if (result.isConfirmed) {
-            axios.delete(`v1/switchers/${id}`)
+            axios.delete(`v1/switcher/${id}`)
               .then(response => {
                 this.$swal(
                   'Excluído!',
