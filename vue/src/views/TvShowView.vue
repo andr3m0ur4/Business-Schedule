@@ -15,9 +15,9 @@
                 <table class="data-tables table" style="width:100%">
                   <thead>
                     <tr>
-                      <th>ID</th>
+                      <th>#</th>
                       <th>Nome</th>
-                      <th>Action</th>
+                      <th>Ação</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -25,25 +25,20 @@
                       <td>{{ tvShow.id }}</td>
                       <td>{{ tvShow.name }}</td>
                       <td>
-                          <div class="d-flex align-items-center list-action">
-                            <a class="badge bg-warning-light mr-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="Rating"
-                                href="#"><i class="far fa-star"></i></a>
-                            <a class="badge bg-success-light mr-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="View"
-                                href="#"><i class="lar la-eye"></i></a>
-                            <div class="badge bg-primary-light" data-toggle="tooltip" data-placement="top" title="" data-original-title="Action">
-                                <div class="dropdown">
-                                  <div class="text-primary dropdown-toggle action-item" id="moreOptions1" data-toggle="dropdown" aria-haspopup="true" role="button"
-                                      aria-expanded="false">
-
-                                  </div>
-                                  <div class="dropdown-menu" aria-labelledby="moreOptions1">
-                                      <a class="dropdown-item" href="#">Edit</a>
-                                      <a class="dropdown-item" href="#">Delete</a>
-                                      <a class="dropdown-item" href="#">Hide from Contacts</a>
-                                  </div>
-                                </div>
+                        <div class="d-flex align-items-center list-action justify-content-end">
+                          <a class="badge bg-success-light mr-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="View" href="#">
+                            <i class="lar la-eye"></i>
+                          </a>
+                          <div class="badge bg-primary-light" data-toggle="tooltip" data-placement="top" title="" data-original-title="Action">
+                            <div class="dropdown">
+                              <div class="text-primary dropdown-toggle action-item" id="moreOptions1" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false"></div>
+                              <div class="dropdown-menu" aria-labelledby="moreOptions1">
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#updateTvShow" @click="loadTvShow(tvShow.id)">Editar</a>
+                                <a class="dropdown-item" href="#" @click="deleteTvShow(tvShow.id, tvShow.name)">Excluir</a>
+                              </div>
                             </div>
                           </div>
+                        </div>
                       </td>
                     </tr>
                   </tbody>
@@ -54,44 +49,26 @@
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Modal -->
-  <div class="modal fade" id="addTvShow" tabindex="-1" role="dialog" aria-labelledby="addTvShowLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="addTvShowLabel">Cadastrar Programas</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <form id="form-wizard" class="text-center" @submit.prevent="saveTvShow()">
-              <fieldset>
-                <div class="form-card text-left">
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <label for="name">Nome: *</label>
-                        <input type="text" class="form-control" id="name" name="name" v-model="tvShow.name" placeholder="Nome" required="required" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </fieldset>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-            <button type="button" class="btn btn-primary" @click="saveTvShow()">Salvar</button>
-          </div>
-        </div>
-    </div>
+    <TvShowModal
+      id-modal="addTvShow"
+      title="Cadastrar Programa"
+      :event="saveTvShow"
+      v-model:name="tvShow.name"
+    />
+    <TvShowModal
+      id-modal="updateTvShow"
+      title="Alterar Programa"
+      :event="updateTvShow"
+      v-model:id="tvShow.id"
+      v-model:name="tvShow.name"
+    />
   </div>
 </template>
 
 <script>
+import TvShowModal from '@/components/TvShowModal.vue'
+
 export default {
   name: 'TvShowView',
   data() {
@@ -118,7 +95,12 @@ export default {
           $('.data-tables').DataTable().destroy()
         })
         .catch(error => {
-          console.log(error);
+          if (error.response.status == 401) {
+            this.$store.commit('logout')
+            this.$router.push({
+              name: 'sign-in'
+            })
+          }
         })
     },
     saveTvShow() {
@@ -127,9 +109,10 @@ export default {
         //description: this.tvShow.description,
         //file : this.tvShow.file
       })
-        .then(() => {
+        .then(response => {
           $('#addTvShow').modal('hide')
-          this.$swal('Sucesso', 'Programa cadastrado com sucesso!', 'success')
+          this.$swal('Sucesso', `${response.data.name} cadastrado com sucesso!`, 'success')
+          this.getTvShows()
         })
         .catch(error => {
           if (error.response.status == 401) {
@@ -141,15 +124,61 @@ export default {
             this.$swal('Ops...', error.response.data.message, 'error')
           }
         })
+    },
+    loadTvShow(id) {
+      axios.get(`v1/tv-shows/${id}`)
+        .then(response => {
+          this.tvShow = response.data
+        })
+        .catch(error => {
+          this.$swal('Ops...', error.response.data.message, 'error')
+        })
+    },
+    updateTvShow(id) {
+      axios.put(`v1/tv-shows/${id}`, {
+        name: this.tvShow.name
+      })
+        .then(response => {
+          $('#updateTvShow').modal('hide')
+          this.$swal('Sucesso', `${response.data.name} atualizado com sucesso!`, 'success')
+          this.getTvShows()
+        })
+        .catch(error => {
+          this.$swal('Ops...', error.response.data.message, 'error')
+        })
+    },
+    deleteTvShow(id, name) {
+      this.$swal({
+        title: 'Você tem certeza?',
+        text: `Deseja excluir ${name}? Não é possível reverter essa ação!`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sim, excluir!'
+      })
+        .then(result => {
+          if (result.isConfirmed) {
+            axios.delete(`v1/tv-shows/${id}`)
+              .then(response => {
+                this.$swal(
+                  'Excluído!',
+                  `${response.data.name} foi excluído.`,
+                  'success'
+                )
+                this.getTvShows()
+              })
+              .catch(error => {
+                this.$swal('Ops...', error.response.data.message, 'error')
+              })
+          }
+        })
     }
+  },
+  components: {
+    TvShowModal
   }
 }
-
-$(() => {
-  $('#addTvShow').on('shown.bs.modal', function() {
-    $('#name').focus()
-  })
-})
 </script>
 
 <style scoped>
