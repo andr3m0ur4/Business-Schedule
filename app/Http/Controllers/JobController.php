@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreJobRequest;
 use App\Http\Requests\UpdateJobRequest;
 use App\Models\Job;
+use Illuminate\Http\Response;
 
 class JobController extends Controller
 {
@@ -15,17 +16,7 @@ class JobController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return response()->json(Job::all());
     }
 
     /**
@@ -36,7 +27,8 @@ class JobController extends Controller
      */
     public function store(StoreJobRequest $request)
     {
-        //
+        $job = Job::create($request->validated());
+        return response()->json($job, Response::HTTP_CREATED);
     }
 
     /**
@@ -47,18 +39,7 @@ class JobController extends Controller
      */
     public function show(Job $job)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Job  $job
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Job $job)
-    {
-        //
+        return response()->json($job);
     }
 
     /**
@@ -70,7 +51,11 @@ class JobController extends Controller
      */
     public function update(UpdateJobRequest $request, Job $job)
     {
-        //
+        $job->fill($request->validated());
+
+        $job->save();
+
+        return response()->json($job);
     }
 
     /**
@@ -81,6 +66,7 @@ class JobController extends Controller
      */
     public function destroy(Job $job)
     {
-        //
+        $job->delete();
+        return response()->json($job);
     }
 }

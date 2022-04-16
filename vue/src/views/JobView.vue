@@ -6,9 +6,9 @@
           <div class="card card-block card-stretch card-height">
             <div class="card-header d-flex justify-content-between">
               <div class="iq-header-title">
-                <h4 class="card-title mb-0">Programas</h4>
+                <h4 class="card-title mb-0">Cargos</h4>
               </div>
-              <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#addTvShow">Add New</a>
+              <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#addJob">Adicionar Novo</a>
             </div>
             <div class="card-body">
               <div class="table-responsive data-table">
@@ -21,9 +21,9 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="tvShow in tvShows" :key="tvShow.id">
-                      <td>{{ tvShow.id }}</td>
-                      <td>{{ tvShow.name }}</td>
+                    <tr v-for="job in jobs" :key="job.id">
+                      <td>{{ job.id }}</td>
+                      <td>{{ job.name }}</td>
                       <td>
                         <div class="d-flex align-items-center list-action justify-content-end">
                           <a class="badge bg-success-light mr-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="View" href="#">
@@ -33,8 +33,8 @@
                             <div class="dropdown">
                               <div class="text-primary dropdown-toggle action-item" id="moreOptions1" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false"></div>
                               <div class="dropdown-menu" aria-labelledby="moreOptions1">
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#updateTvShow" @click="loadTvShow(tvShow.id)">Editar</a>
-                                <a class="dropdown-item" href="#" @click="deleteTvShow(tvShow.id, tvShow.name)">Excluir</a>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#updateJob" @click="loadJob(job.id)">Editar</a>
+                                <a class="dropdown-item" href="#" @click="deleteJob(job.id, job.name)">Excluir</a>
                               </div>
                             </div>
                           </div>
@@ -50,31 +50,31 @@
       </div>
     </div>
 
-    <TvShowModal
-      id-modal="addTvShow"
-      title="Cadastrar Programa"
-      :event="saveTvShow"
-      v-model:name="tvShow.name"
+    <JobModal
+      id-modal="addJob"
+      title="Cadastrar Cargo"
+      :event="saveJob"
+      v-model:name="job.name"
     />
-    <TvShowModal
-      id-modal="updateTvShow"
-      title="Alterar Programa"
-      :event="updateTvShow"
-      v-model:id="tvShow.id"
-      v-model:name="tvShow.name"
+    <JobModal
+      id-modal="updateJob"
+      title="Alterar Cargo"
+      :event="updateJob"
+      v-model:id="job.id"
+      v-model:name="job.name"
     />
   </div>
 </template>
 
 <script>
-import TvShowModal from '@/components/TvShowModal.vue'
+import JobModal from '@/components/JobModal.vue'
 
 export default {
-  name: 'TvShowView',
+  name: 'JobView',
   data() {
     return {
-      tvShows: [],
-      tvShow: {
+      jobs: [],
+      job: {
         name: null
         //description: null,
         //file : null
@@ -82,16 +82,16 @@ export default {
     }
   },
   created() {
-    this.getTvShows()
+    this.getJobs()
   },
   updated() {
     $('.data-tables').DataTable()
   },
   methods: {
-    getTvShows() {
-      axios.get('v1/tv-shows')
+    getJobs() {
+      axios.get('v1/jobs')
         .then(response => {
-          this.tvShows = response.data
+          this.jobs = response.data
           $('.data-tables').DataTable().destroy()
         })
         .catch(error => {
@@ -103,16 +103,16 @@ export default {
           }
         })
     },
-    saveTvShow() {
-      axios.post('v1/tv-shows', {
-        name: this.tvShow.name
+    saveJob() {
+      axios.post('v1/jobs', {
+        name: this.job.name
         //description: this.tvShow.description,
         //file : this.tvShow.file
       })
         .then(response => {
-          $('#addTvShow').modal('hide')
+          $('#addJob').modal('hide')
           this.$swal('Sucesso', `${response.data.name} cadastrado com sucesso!`, 'success')
-          this.getTvShows()
+          this.getJobs()
         })
         .catch(error => {
           if (error.response.status == 401) {
@@ -125,29 +125,29 @@ export default {
           }
         })
     },
-    loadTvShow(id) {
-      axios.get(`v1/tv-shows/${id}`)
+    loadJob(id) {
+      axios.get(`v1/jobs/${id}`)
         .then(response => {
-          this.tvShow = response.data
+          this.job = response.data
         })
         .catch(error => {
           this.$swal('Ops...', error.response.data.message, 'error')
         })
     },
-    updateTvShow(id) {
-      axios.put(`v1/tv-shows/${id}`, {
-        name: this.tvShow.name
+    updateJob(id) {
+      axios.put(`v1/jobs/${id}`, {
+        name: this.job.name
       })
         .then(response => {
-          $('#updateTvShow').modal('hide')
+          $('#updateJob').modal('hide')
           this.$swal('Sucesso', `${response.data.name} atualizado com sucesso!`, 'success')
-          this.getTvShows()
+          this.getJobs()
         })
         .catch(error => {
           this.$swal('Ops...', error.response.data.message, 'error')
         })
     },
-    deleteTvShow(id, name) {
+    deleteJob(id, name) {
       this.$swal({
         title: 'Você tem certeza?',
         text: `Deseja excluir ${name}? Não é possível reverter essa ação!`,
@@ -159,14 +159,14 @@ export default {
       })
         .then(result => {
           if (result.isConfirmed) {
-            axios.delete(`v1/tv-shows/${id}`)
+            axios.delete(`v1/jobs/${id}`)
               .then(response => {
                 this.$swal(
                   'Excluído!',
                   `${response.data.name} foi excluído.`,
                   'success'
                 )
-                this.getTvShows()
+                this.getJobs()
               })
               .catch(error => {
                 this.$swal('Ops...', error.response.data.message, 'error')
@@ -176,7 +176,7 @@ export default {
     }
   },
   components: {
-    TvShowModal
+    JobModal
   }
 }
 </script>

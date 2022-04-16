@@ -37,7 +37,7 @@
                                  </div>
                               </div>
                               <div class="col-lg-6">
-                                 <a href="auth-recoverpw.html" class="text-primary float-right">Esqueceu a Senha?</a>
+                                 <a href="/esqueceu-senha" class="text-primary float-right">Esqueceu a Senha?</a>
                               </div>
                            </div>
                            <button type="submit" class="btn btn-primary">Entrar</button>

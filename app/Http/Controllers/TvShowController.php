@@ -28,17 +28,18 @@ class TvShowController extends Controller
      */
     public function store(StoreTvShowRequest $request)
     {
-        if ($request->hasFile('file')) {
-            $file = $request->file('file');
-            $fileUrn = $file->store('files', 'public');
-        }
+        //if ($request->hasFile('file')) {
+        //    $file = $request->file('file');
+        //    $fileUrn = $file->store('files', 'public');
+        //}
 
-        $tvShow = TvShow::create([
-            'name' => $request->name,
-            'description' => $request->description,
-            'file' => $fileUrn ?? null
-        ]);
+        //$tvShow = TvShow::create([
+        //    'name' => $request->name,
+        //   'description' => $request->description,
+        //    'file' => $fileUrn ?? null
+        //]);
 
+        $tvShow = TvShow::create($request->validated());
         return response()->json($tvShow, Response::HTTP_CREATED);
     }
 
@@ -62,7 +63,7 @@ class TvShowController extends Controller
      */
     public function update(UpdateTvShowRequest $request, TvShow $tvShow)
     {
-        $fileUrn = $tvShow->file;
+        //$fileUrn = $tvShow->file;
         $tvShow->fill($request->validated());
 
         //if ($request->hasFile('file')) {
@@ -85,7 +86,7 @@ class TvShowController extends Controller
      */
     public function destroy(TvShow $tvShow)
     {
-        Storage::disk('public')->delete($tvShow->file);
+        //Storage::disk('public')->delete($tvShow->file);
 
         $tvShow->delete();
         return response()->json($tvShow);
