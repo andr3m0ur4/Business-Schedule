@@ -8,16 +8,16 @@
               <div class="iq-header-title">
                 <h4 class="card-title mb-0">Switchers</h4>
               </div>
-              <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#addSwitcher">Adiconar</a>
+              <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#addSwitcher">Cadastrar Novo</a>
             </div>
             <div class="card-body">
               <div class="table-responsive data-table">
                 <table class="data-tables table" style="width:100%">
                   <thead>
                     <tr>
-                      <th>ID</th>
+                      <th>#</th>
                       <th>Nome</th>
-                      <th>Action</th>
+                      <th>Ação</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -25,25 +25,20 @@
                       <td>{{ switcher.id }}</td>
                       <td>{{ switcher.name }}</td>
                       <td>
-                          <div class="d-flex align-items-center list-action">
-                            <a class="badge bg-warning-light mr-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="Rating"
-                                href="#"><i class="far fa-star"></i></a>
-                            <a class="badge bg-success-light mr-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="View"
-                                href="#"><i class="lar la-eye"></i></a>
-                            <div class="badge bg-primary-light" data-toggle="tooltip" data-placement="top" title="" data-original-title="Action">
-                                <div class="dropdown">
-                                  <div class="text-primary dropdown-toggle action-item" id="moreOptions1" data-toggle="dropdown" aria-haspopup="true" role="button"
-                                      aria-expanded="false">
-
-                                  </div>
-                                  <div class="dropdown-menu" aria-labelledby="moreOptions1">
-                                      <a class="dropdown-item" href="#">Edit</a>
-                                      <a class="dropdown-item" href="#">Delete</a>
-                                      <a class="dropdown-item" href="#">Hide from Contacts</a>
-                                  </div>
-                                </div>
+                        <div class="d-flex align-items-center list-action justify-content-end">
+                          <a class="badge bg-success-light mr-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="View" href="#">
+                            <i class="lar la-eye"></i>
+                          </a>
+                          <div class="badge bg-primary-light" data-toggle="tooltip" data-placement="top" title="" data-original-title="Action">
+                            <div class="dropdown">
+                              <div class="text-primary dropdown-toggle action-item" id="moreOptions1" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false"></div>
+                              <div class="dropdown-menu" aria-labelledby="moreOptions1">
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#updateSwitcher" @click="loadSwitcher(switcher.id)">Editar</a>
+                                <a class="dropdown-item" href="#" @click="deleteSwitcher(switcher.id, switcher.name)">Excluir</a>
+                              </div>
                             </div>
                           </div>
+                        </div>
                       </td>
                     </tr>
                   </tbody>
@@ -54,44 +49,26 @@
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Modal -->
-  <div class="modal fade" id="addSwitcher" tabindex="-1" role="dialog" aria-labelledby="addSwitcherLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="addSwitcherLabel">Cadastrar Switcher</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <form id="form-wizard" class="text-center" @submit.prevent="saveSwitcher()">
-              <fieldset>
-                <div class="form-card text-left">
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <label for="name">Nome: *</label>
-                        <input type="text" class="form-control" id="name" name="name" v-model="switcher.name" placeholder="Nome" required="required" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </fieldset>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-            <button type="button" class="btn btn-primary" @click="saveSwitcher()">Salvar</button>
-          </div>
-        </div>
-    </div>
+    <SwitcherModal
+      id-modal="addSwitcher"
+      title="Cadastrar Switcher"
+      :event="saveSwitcher"
+      v-model:name="switcher.name"
+    />
+    <SwitcherModal
+      id-modal="updateSwitcher"
+      title="Alterar Switcher"
+      :event="updateSwitcher"
+      v-model:id="switcher.id"
+      v-model:name="switcher.name"
+    />
   </div>
 </template>
 
 <script>
+import SwitcherModal from '@/components/SwitcherModal.vue'
+
 export default {
   name: 'SwitcherView',
   data() {
@@ -110,22 +87,28 @@ export default {
   },
   methods: {
     getSwitchers() {
-      axios.get('v1/switcher')
+      axios.get('v1/switchers')
         .then(response => {
           this.switchers = response.data
           $('.data-tables').DataTable().destroy()
         })
         .catch(error => {
-          console.log(error);
+          if (error.response.status == 401) {
+            this.$store.commit('logout')
+            this.$router.push({
+              name: 'sign-in'
+            })
+          }
         })
     },
     saveSwitcher() {
-      axios.post('v1/switcher', {
+      axios.post('v1/switchers', {
         name: this.switcher.name
       })
-        .then(() => {
+        .then(response => {
           $('#addSwitcher').modal('hide')
-          this.$swal('Sucesso', 'Switcher cadastrado com sucesso!', 'success')
+          this.$swal('Sucesso', `${response.data.name} cadastrado com sucesso!`, 'success')
+          this.getSwitchers()
         })
         .catch(error => {
           if (error.response.status == 401) {
@@ -137,15 +120,61 @@ export default {
             this.$swal('Ops...', error.response.data.message, 'error')
           }
         })
+    },
+    loadSwitcher(id) {
+      axios.get(`v1/switchers/${id}`)
+        .then(response => {
+          this.switcher = response.data
+        })
+        .catch(error => {
+          this.$swal('Ops...', error.response.data.message, 'error')
+        })
+    },
+    updateSwitcher(id) {
+      axios.put(`v1/switchers/${id}`, {
+        name: this.switcher.name
+      })
+        .then(response => {
+          $('#updateSwitcher').modal('hide')
+          this.$swal('Sucesso', `${response.data.name} atualizado com sucesso!`, 'success')
+          this.getSwitchers()
+        })
+        .catch(error => {
+          this.$swal('Ops...', error.response.data.message, 'error')
+        })
+    },
+    deleteSwitcher(id, name) {
+      this.$swal({
+        title: 'Você tem certeza?',
+        text: `Deseja excluir ${name}? Não é possível reverter essa ação!`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sim, excluir!'
+      })
+        .then(result => {
+          if (result.isConfirmed) {
+            axios.delete(`v1/switchers/${id}`)
+              .then(response => {
+                this.$swal(
+                  'Excluído!',
+                  `${response.data.name} foi excluído.`,
+                  'success'
+                )
+                this.getSwitchers()
+              })
+              .catch(error => {
+                this.$swal('Ops...', error.response.data.message, 'error')
+              })
+          }
+        })
     }
+  },
+  components: {
+    SwitcherModal
   }
 }
-
-$(() => {
-  $('#addSwitcher').on('shown.bs.modal', function() {
-    $('#name').focus()
-  })
-})
 </script>
 
 <style scoped>
