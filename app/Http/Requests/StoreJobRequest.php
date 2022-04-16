@@ -13,7 +13,7 @@ class StoreJobRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,21 @@ class StoreJobRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => ['required', 'unique:tv_shows']
+        ];
+    }
+
+    /**
+     * Get custom messages for validator errors.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'required' => 'O campo nome é obrigatório.',
+            'unique' => 'O nome já existe.'
+           //'mimes' => 'O arquivo deve ser do tipo: png, jpeg, pdf, docx.'
         ];
     }
 }

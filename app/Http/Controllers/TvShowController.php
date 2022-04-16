@@ -63,7 +63,7 @@ class TvShowController extends Controller
      */
     public function update(UpdateTvShowRequest $request, TvShow $tvShow)
     {
-        $fileUrn = $tvShow->file;
+        //$fileUrn = $tvShow->file;
         $tvShow->fill($request->validated());
 
         //if ($request->hasFile('file')) {

@@ -25,9 +25,9 @@ class UpdateTvShowRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['sometimes', 'required', Rule::unique('tv_shows')->ignore($this->tv_show->id)],
-            'description' => [],
-            'file' => ['file', 'mimes:png,jpeg,pdf,docx']
+            'name' => ['sometimes', 'required', Rule::unique('tv_shows')->ignore($this->tv_show->id)]
+            //'description' => [],
+            //'file' => ['file', 'mimes:png,jpeg,pdf,docx']
         ];
     }
 
@@ -41,7 +41,7 @@ class UpdateTvShowRequest extends FormRequest
         return [
             'required' => 'O campo nome é obrigatório.',
             'unique' => 'O nome já existe.',
-            'mimes' => 'O arquivo deve ser do tipo: png, jpeg, pdf, docx.'
+            //'mimes' => 'O arquivo deve ser do tipo: png, jpeg, pdf, docx.'
         ];
     }
 }

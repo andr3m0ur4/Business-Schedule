@@ -7,6 +7,7 @@ import AuthSignInView from '@/views/AuthSignInView'
 import StudioView from '@/views/StudioView'
 import SwitcherView from '@/views/SwitcherView'
 import TvShowView from '@/views/TvShowView'
+import JobView from '@/views/JobView'
 // import store from '@/store'
 
 const routes = [
@@ -39,6 +40,11 @@ const routes = [
                 path: '/programas',
                 name: 'tvshow',
                 component: TvShowView
+            },
+            {
+                path: '/cargos',
+                name: 'job',
+                component: JobView
             }
         ]
     },
