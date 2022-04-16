@@ -47,16 +47,26 @@ class AuthController extends Controller
         ]);
     }
 
+    /**
+     * Log the user out (Invalidate the token).
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function logout()
     {
         auth('api')->logout();
         return response()->json(['message' => 'Logout foi realizado com sucesso.']);
     }
 
+    /**
+     * Refresh a token.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function refresh()
     {
         $token = auth('api')->refresh();
-        return response()->json(['token' => $token]);
+        return response()->json(['token' => $this->respondWithToken($token)]);
     }
 
     /**
@@ -74,7 +84,7 @@ class AuthController extends Controller
      *
      * @param  string $token
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return array
      */
     protected function respondWithToken($token)
     {

@@ -375,24 +375,24 @@
 <script>
 import { computed } from 'vue'
 import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
 
 export default {
   name: 'AppHeader',
   setup() {
     const store = useStore()
-    const router = useRouter()
-
-    function logout() {
-      store.commit('logout')
-      router.push({
-        name: 'sign-in'
-      })
-    }
 
     return {
-      user: computed(() => store.state.user.data),
-      logout
+      user: computed(() => store.state.user.data)
+    }
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch('logout')
+        .then(() => {
+          this.$router.push({
+            name: 'sign-in'
+          })
+        })
     }
   }
 }
