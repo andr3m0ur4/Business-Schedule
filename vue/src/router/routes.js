@@ -5,6 +5,8 @@ import DashboardView from '@/views/DashboardView'
 import MyScheduleView from '@/views/MyScheduleView'
 import AuthSignInView from '@/views/AuthSignInView'
 import StudioView from '@/views/StudioView'
+import SwitcherView from '@/views/SwitcherView'
+import TvShowView from '@/views/TvShowView'
 // import store from '@/store'
 
 const routes = [
@@ -27,6 +29,16 @@ const routes = [
                 path: '/estudios',
                 name: 'studio',
                 component: StudioView
+            },
+            {
+                path: '/switcher',
+                name: 'switcher',
+                component: SwitcherView
+
+            {
+                path: '/programas',
+                name: 'tvshow',
+                component: TvShowView
             }
         ]
     },

@@ -65,13 +65,13 @@ class TvShowController extends Controller
         $fileUrn = $tvShow->file;
         $tvShow->fill($request->validated());
 
-        if ($request->hasFile('file')) {
-            $file = $request->file('file');
-            $fileUrn = $file->store('files', 'public');
-            Storage::disk('public')->delete($tvShow->file);
-        }
+        //if ($request->hasFile('file')) {
+        //    $file = $request->file('file');
+        //    $fileUrn = $file->store('files', 'public');
+        //    Storage::disk('public')->delete($tvShow->file);
+        // }
 
-        $tvShow->file = $fileUrn;
+        //$tvShow->file = $fileUrn;
         $tvShow->save();
 
         return response()->json($tvShow);
