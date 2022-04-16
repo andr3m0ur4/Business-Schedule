@@ -34,7 +34,7 @@
                               <div class="text-primary dropdown-toggle action-item" id="moreOptions1" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false"></div>
                               <div class="dropdown-menu" aria-labelledby="moreOptions1">
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#updateStudio" @click="loadStudio(studio.id)">Editar</a>
-                                <a class="dropdown-item" href="#">Delete</a>
+                                <a class="dropdown-item" href="#" @click="deleteStudio(studio.id, studio.name)">Excluir</a>
                               </div>
                             </div>
                           </div>
@@ -127,7 +127,7 @@ export default {
           this.studio = response.data
         })
         .catch(error => {
-          console.log(error);
+          this.$swal('Ops...', error.response.data.message, 'error')
         })
     },
     updateStudio(id) {
@@ -141,6 +141,33 @@ export default {
         })
         .catch(error => {
           this.$swal('Ops...', error.response.data.message, 'error')
+        })
+    },
+    deleteStudio(id, name) {
+      this.$swal({
+        title: 'Você tem certeza?',
+        text: `Deseja excluir ${name}? Não é possível reverter essa ação!`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sim, excluir!'
+      })
+        .then(result => {
+          if (result.isConfirmed) {
+            axios.delete(`v1/studios/${id}`)
+              .then(response => {
+                this.$swal(
+                  'Excluído!',
+                  `${response.data.name} foi excluído.`,
+                  'success'
+                )
+                this.getStudios()
+              })
+              .catch(error => {
+                this.$swal('Ops...', error.response.data.message, 'error')
+              })
+          }
         })
     }
   },

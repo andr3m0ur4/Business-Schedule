@@ -34,7 +34,7 @@ const routes = [
                 path: '/switcher',
                 name: 'switcher',
                 component: SwitcherView
-
+            },
             {
                 path: '/programas',
                 name: 'tvshow',
