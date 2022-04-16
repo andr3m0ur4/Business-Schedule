@@ -15,8 +15,9 @@ class StudioResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'name' => $this->name,
-            'tv_show_times' => TvShowTimeResource::collection($this->tv_show_times),
+            // 'tv_show_times' => TvShowTimeResource::collection($this->tv_show_times),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'deleted_at' => $this->deleted_at

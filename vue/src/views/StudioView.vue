@@ -8,7 +8,7 @@
               <div class="iq-header-title">
                 <h4 class="card-title mb-0">Estúdios</h4>
               </div>
-              <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#addStudio">Add New</a>
+              <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#addStudio">Cadastrar Novo</a>
             </div>
             <div class="card-body">
               <div class="table-responsive data-table">
@@ -25,21 +25,20 @@
                       <td>{{ studio.id }}</td>
                       <td>{{ studio.name }}</td>
                       <td>
-                          <div class="d-flex align-items-center list-action justify-content-end">
-                            <a class="badge bg-success-light mr-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="View"
-                                href="#"><i class="lar la-eye"></i></a>
-                            <div class="badge bg-primary-light" data-toggle="tooltip" data-placement="top" title="" data-original-title="Action">
-                                <div class="dropdown">
-                                  <div class="text-primary dropdown-toggle action-item" id="moreOptions1" data-toggle="dropdown" aria-haspopup="true" role="button"
-                                      aria-expanded="false">
-                                  </div>
-                                  <div class="dropdown-menu" aria-labelledby="moreOptions1">
-                                      <a class="dropdown-item" href="#">Edit</a>
-                                      <a class="dropdown-item" href="#">Delete</a>
-                                  </div>
-                                </div>
+                        <div class="d-flex align-items-center list-action justify-content-end">
+                          <a class="badge bg-success-light mr-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="View" href="#">
+                            <i class="lar la-eye"></i>
+                          </a>
+                          <div class="badge bg-primary-light" data-toggle="tooltip" data-placement="top" title="" data-original-title="Action">
+                            <div class="dropdown">
+                              <div class="text-primary dropdown-toggle action-item" id="moreOptions1" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false"></div>
+                              <div class="dropdown-menu" aria-labelledby="moreOptions1">
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#updateStudio" @click="loadStudio(studio.id)">Editar</a>
+                                <a class="dropdown-item" href="#">Delete</a>
+                              </div>
                             </div>
                           </div>
+                        </div>
                       </td>
                     </tr>
                   </tbody>
@@ -50,9 +49,21 @@
         </div>
       </div>
     </div>
-  </div>
 
-  <StudioModal title="Cadastrar Estúdio" :event="saveStudio" @studio="getName" />
+    <StudioModal
+      id-modal="addStudio"
+      title="Cadastrar Estúdio"
+      :event="saveStudio"
+      v-model:name="studio.name"
+    />
+    <StudioModal
+      id-modal="updateStudio"
+      title="Alterar Estúdio"
+      :event="updateStudio"
+      v-model:id="studio.id"
+      v-model:name="studio.name"
+    />
+  </div>
 </template>
 
 <script>
@@ -94,9 +105,9 @@ export default {
       axios.post('v1/studios', {
         name: this.studio.name
       })
-        .then(() => {
+        .then(response => {
           $('#addStudio').modal('hide')
-          this.$swal('Sucesso', 'Estúdio cadastrado com sucesso!', 'success')
+          this.$swal('Sucesso', `${response.data.name} cadastrado com sucesso!`, 'success')
           this.getStudios()
         })
         .catch(error => {
@@ -110,20 +121,33 @@ export default {
           }
         })
     },
-    getName(name) {
-      this.studio.name = name
+    loadStudio(id) {
+      axios.get(`v1/studios/${id}`)
+        .then(response => {
+          this.studio = response.data
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    },
+    updateStudio(id) {
+      axios.put(`v1/studios/${id}`, {
+        name: this.studio.name
+      })
+        .then(response => {
+          $('#updateStudio').modal('hide')
+          this.$swal('Sucesso', `${response.data.name} atualizado com sucesso!`, 'success')
+          this.getStudios()
+        })
+        .catch(error => {
+          this.$swal('Ops...', error.response.data.message, 'error')
+        })
     }
   },
   components: {
     StudioModal
   }
 }
-
-$(() => {
-  $('#addStudio').on('shown.bs.modal', function() {
-    $('#sname').focus()
-  })
-})
 </script>
 
 <style scoped>
