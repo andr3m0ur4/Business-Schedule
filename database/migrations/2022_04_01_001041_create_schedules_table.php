@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('tv_show_time_id')->constrained();
             $table->foreignId('user_id')->constrained();
+            $table->timestamp('worked_times');
             $table->timestamps();
             $table->softDeletes();
         });

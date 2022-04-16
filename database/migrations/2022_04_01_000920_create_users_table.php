@@ -19,10 +19,10 @@ return new class extends Migration
             $table->string('email', 150)->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password', 100);
-            $table->string('phone', 20);
-            $table->foreignId('job_id')->constrained();
-            $table->string('description', 255)->nullable();
             $table->enum('type', ['Admin', 'Employee']);
+            $table->string('phone', 20)->nullable();
+            $table->foreignId('job_id')->nullable()->constrained();
+            $table->string('description', 255)->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
