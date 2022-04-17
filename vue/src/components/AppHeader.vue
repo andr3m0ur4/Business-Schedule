@@ -47,27 +47,14 @@
                       </router-link>
                     </li>
                     <li class="">
-                      <router-link to="/estudios">
-                        <span>Estúdios</span>
+                      <router-link to="/funcoes">
+                        <span>Funções</span>
                       </router-link>
                     </li>
                     <li class="">
-                      <a href="#contact" class="collapsed" data-toggle="collapse" aria-expanded="false">
-                        <span>Contact</span>
-                        <i class="ri-arrow-right-s-line iq-arrow-right"></i>
-                      </a>
-                      <ul id="contact" class="iq-submenu iq-submenu-data collapse" data-parent="#pages">
-                        <li class="">
-                          <a href="../backend/contact-list.html">
-                            <span>Contact List</span>
-                          </a>
-                        </li>
-                        <li class="">
-                          <a href="../backend/contact-detail.html">
-                            <span>Contact Details</span>
-                          </a>
-                        </li>
-                      </ul>
+                      <router-link to="/estudios">
+                        <span>Estúdios</span>
+                      </router-link>
                     </li>
                     <li class="">
                       <a href="#timeline" class="collapsed" data-toggle="collapse" aria-expanded="false">

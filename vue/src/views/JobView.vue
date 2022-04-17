@@ -112,11 +112,13 @@ export default {
       })
         .then(response => {
           $('#addJob').modal('hide')
+          $('#addJob form').trigger('reset')
           this.$swal('Sucesso', `${response.data.name} cadastrado com sucesso!`, 'success')
           this.getJobs()
         })
         .catch(error => {
           if (error.response.status == 401) {
+            $('#addJob').modal('hide')
             this.$store.commit('logout')
             this.$router.push({
               name: 'sign-in'

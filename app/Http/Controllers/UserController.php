@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -42,7 +43,8 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'type' => $request->type,
-            'phone' => $request->phone
+            'phone' => $request->phone,
+            'job_id' => $request->job_id
         ]);
 
         return response()->json($user, Response::HTTP_CREATED);
@@ -54,9 +56,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(User $user)
     {
-        //
+        return response()->json($user);
     }
 
     /**
@@ -77,9 +79,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        //
+        $user->update($request->validated());
+        return response()->json($user);
     }
 
     /**
@@ -88,8 +91,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        //
+        $user->delete();
+        return response()->json($user);
     }
 }

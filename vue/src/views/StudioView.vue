@@ -110,6 +110,7 @@ export default {
       axios.post('v1/studios', this.studio)
         .then(response => {
           $('#addStudio').modal('hide')
+          $('#form-wizard').trigger('reset')
           this.$swal('Sucesso', `${response.data.name} cadastrado com sucesso!`, 'success')
           this.getStudios()
         })

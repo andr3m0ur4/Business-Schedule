@@ -50,7 +50,7 @@ const routes = [
                 component: TvShowView
             },
             {
-                path: '/cargos',
+                path: '/funcoes',
                 name: 'job',
                 component: JobView
             }

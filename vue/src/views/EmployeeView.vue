@@ -40,8 +40,8 @@
                               <div class="text-primary dropdown-toggle action-item" id="moreOptions1" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
                               </div>
                               <div class="dropdown-menu" aria-labelledby="moreOptions1">
-                                <a class="dropdown-item" href="#">Edit</a>
-                                <a class="dropdown-item" href="#">Delete</a>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#updateEmployee" @click="$refs.employeeModal.loadEmployee(employee.id)">Edit</a>
+                                <a class="dropdown-item" href="#" @click="deleteEmployee(employee.id, employee.name)">Delete</a>
                               </div>
                             </div>
                           </div>
@@ -56,6 +56,7 @@
         </div>
       </div>
     </div>
+    
     <div class="modal fade" id="registerEmployee" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -75,10 +76,8 @@
                       </div>
                       <div class="col-lg-6">
                           <div class="floating-input form-group">
-                            <select class="selectpicker form-control" title="Função" id="job" v-model="employee.job" data-style="py-0">
-                              <option value="">Desenvolvedor</option>
-                              <option value="">Cinegrafista</option>
-                              <option value="">Diretor</option>
+                            <select class="selectpicker form-control" title="Função" id="job" v-model="employee.job_id" data-style="py-0">
+                              <option v-for="job in jobs" :key="job.id" :value="job.id">{{ job.name }}</option>
                             </select>
                           </div>
                       </div>
@@ -127,34 +126,69 @@
         </div>
       </div>
     </div>
+
+    <EmployeeModal
+      id-modal="updateEmployee"
+      title="Alterar Funcionário"
+      :refresh-table="getEmployees"
+      ref="employeeModal"
+    />
   </div>
 </template>
 
 <script>
 import axios from '@/axios'
+import EmployeeModal from '../components/EmployeeModal.vue'
 
 export default {
   name: 'EmployeeView',
   data() {
     return {
       employees: [],
+      jobs: [],
       employee: {}
     }
   },
   created() {
     this.getEmployees()
+    this.getJobs()
   },
   mounted() {
     $('.selectpicker').selectpicker()
   },
   updated() {
     $('.data-tables').DataTable()
+    $('.selectpicker').selectpicker('refresh')
   },
   methods: {
     getEmployees() {
       axios.get('v1/users')
         .then(response => {
           this.employees = response.data
+          $('.data-tables').DataTable().destroy()
+        })
+        .catch(error => {
+          if (error.response.status == 401) {
+            this.$store.commit('logout')
+            this.$router.push({
+              name: 'sign-in'
+            })
+          }
+        })
+    },
+    getJobs() {
+      axios.get('v1/jobs')
+        .then(response => {
+          this.jobs = response.data
+        })
+        .catch(error => {
+          this.$swal('Ops...', error.response.data.message, 'error')
+        })
+    },
+    loadEmployee(id) {
+      axios.get(`v1/users/${id}`)
+        .then(response => {
+          this.employee = response.data
         })
         .catch(error => {
           console.log(error.response);
@@ -182,7 +216,37 @@ export default {
             this.$swal('Ops...', error.response.data.message, 'error')
           }
         })
+    },
+    deleteEmployee(id, name) {
+      this.$swal({
+        title: 'Você tem certeza?',
+        text: `Deseja excluir ${name}? Não é possível reverter essa ação!`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sim, excluir!'
+      })
+        .then(result => {
+          if (result.isConfirmed) {
+            axios.delete(`v1/users/${id}`)
+              .then(response => {
+                this.$swal(
+                  'Excluído!',
+                  `${response.data.name} foi excluído.`,
+                  'success'
+                )
+                this.getEmployees()
+              })
+              .catch(error => {
+                this.$swal('Ops...', error.response.data.message, 'error')
+              })
+          }
+        })
     }
+  },
+  components: {
+    EmployeeModal
   }
 }
 </script>

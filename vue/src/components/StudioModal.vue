@@ -52,10 +52,6 @@ export default {
 }
 
 $(() => {
-  $('#addStudio').on('show.bs.modal', function() {
-    $('#form-wizard').trigger('reset')
-  })
-
   $('#addStudio').on('shown.bs.modal', function() {
     $('#sname').focus()
   })
