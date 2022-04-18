@@ -57,6 +57,16 @@
                       </router-link>
                     </li>
                     <li class="">
+                      <router-link to="/programas">
+                        <span>Programas</span>
+                      </router-link>
+                    </li>
+                    <li class="">
+                      <router-link to="/switcher">
+                        <span>Switchers</span>
+                      </router-link>
+                    </li>
+                    <li class="">
                       <a href="#timeline" class="collapsed" data-toggle="collapse" aria-expanded="false">
                         <span>Timeline</span>
                         <i class="ri-arrow-right-s-line iq-arrow-right"></i>
