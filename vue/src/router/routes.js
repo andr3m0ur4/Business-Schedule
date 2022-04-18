@@ -11,6 +11,7 @@ import TvShowView from '@/views/TvShowView'
 import JobView from '@/views/JobView'
 import ErrorView from '@/views/ErrorView'
 import ForgotPasswordView from '@/views/ForgotPasswordView'
+import ResetPasswordEmail from '@/views/ResetPasswordEmail'
 import store from '@/store'
 
 const routes = [
@@ -66,12 +67,16 @@ const routes = [
         path: '/erro',
         name: 'erro',
         component: ErrorView
-    }
-    ,
+    },
     {
         path: '/esqueceu-senha',
         name: 'esqueceu-senha',
         component: ForgotPasswordView
+    },
+    {
+        path: '/email',
+        name: 'email',
+        component: ResetPasswordEmail
     }
 ]
 
