@@ -14,11 +14,6 @@
 
 <script>
 import Calendar from 'tui-calendar'; /* ES6 */
-import "tui-calendar/dist/tui-calendar.css";
-
-// If you use the default popups, use this.
-import 'tui-date-picker/dist/tui-date-picker.css';
-import 'tui-time-picker/dist/tui-time-picker.css';
 
 export default {
   name: 'BlankPage',
@@ -189,6 +184,11 @@ export default {
 </script>
 
 <style scoped>
+  @import "tui-calendar/dist/tui-calendar.css";
+
+  /* If you use the default popups, use this. */
+  @import 'tui-date-picker/dist/tui-date-picker.css';
+  @import 'tui-time-picker/dist/tui-time-picker.css';
   .fixed-top-navbar.top-nav .content-page {
     padding-top: 103px;
   }

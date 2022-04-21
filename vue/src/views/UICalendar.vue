@@ -109,8 +109,6 @@
 
 <script>
 import app from '@/assets/js/app-calendar'
-import '@/assets/css/ui-calendar.css'
-import '@/assets/css/icons.css'
 
 export default {
   name: 'UICalendar',
@@ -120,6 +118,13 @@ export default {
 }
 </script>
 
-<style>
-  
+<style scoped>
+  @import "tui-calendar/dist/tui-calendar.css";
+
+  /* If you use the default popups, use this. */
+  @import 'tui-date-picker/dist/tui-date-picker.css';
+  @import 'tui-time-picker/dist/tui-time-picker.css';
 </style>
+
+<style scoped lang="css" src="@/assets/css/ui-calendar.css"></style>
+<style scoped lang="css" src="@/assets/css/icons.css"></style>
