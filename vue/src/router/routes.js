@@ -13,6 +13,7 @@ import ErrorView from '@/views/ErrorView'
 import ForgotPasswordView from '@/views/ForgotPasswordView'
 import BlankPage from '@/views/BlankPage'
 import UICalendar from '@/views/UICalendar'
+import ResetPasswordEmail from '@/views/ResetPasswordEmail'
 import store from '@/store'
 
 const routes = [
@@ -83,6 +84,11 @@ const routes = [
         path: '/esqueceu-senha',
         name: 'esqueceu-senha',
         component: ForgotPasswordView
+    },
+    {
+        path: '/email',
+        name: 'email',
+        component: ResetPasswordEmail
     }
 ]
 

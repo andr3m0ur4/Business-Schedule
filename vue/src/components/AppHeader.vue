@@ -31,13 +31,8 @@
                   </router-link>
                 </li>
                 <li class="">
-                  <a href="../backend/main-integration.html" class="">
-                    <span>Integration</span>
-                  </a>
-                </li>
-                <li class="">
                   <a href="#pages" class="collapsed" data-toggle="collapse" aria-expanded="false">
-                    <span>Extra Pages</span>
+                    <span>Formulários</span>
                     <i class="ri-arrow-right-s-line iq-arrow-right"></i>
                   </a>
                   <ul id="pages" class="iq-submenu sub-scrll collapse" data-parent="#iq-sidebar-toggle">
@@ -54,6 +49,16 @@
                     <li class="">
                       <router-link to="/estudios">
                         <span>Estúdios</span>
+                      </router-link>
+                    </li>
+                    <li class="">
+                      <router-link to="/programas">
+                        <span>Programas</span>
+                      </router-link>
+                    </li>
+                    <li class="">
+                      <router-link to="/switcher">
+                        <span>Switchers</span>
                       </router-link>
                     </li>
                     <li class="">
@@ -192,7 +197,7 @@
                     <div class="card shadow-none m-0">
                       <div class="card-body p-0 ">
                         <div class="cust-title p-3">
-                          <h5 class="mb-0">All Messages</h5>
+                          <h5 class="mb-0">Todas as mensagens</h5>
                         </div>
                         <div class="p-2">
                           <a href="#" class="iq-sub-card">
@@ -230,7 +235,7 @@
                           </a>
                         </div>
                         <a class="right-ic btn-block position-relative p-3 border-top text-center" href="#" role="button">
-                            View All
+                            Ver tudo
                         </a>
                       </div>
                     </div>
@@ -247,7 +252,7 @@
                     <div class="card shadow-none m-0">
                       <div class="card-body p-0 ">
                         <div class="cust-title p-3">
-                            <h5 class="mb-0">Notifications</h5>
+                            <h5 class="mb-0">Notificações</h5>
                         </div>
                         <div class="p-2">
                           <a href="#" class="iq-sub-card">
@@ -294,7 +299,7 @@
                           </a>
                         </div>
                         <a class="right-ic btn-block position-relative p-3 border-top text-center" href="#" role="button">
-                          See All Notification
+                          Ver tudo
                         </a>
                       </div>
                     </div>
@@ -315,31 +320,7 @@
                           <a href="../app/user-profile.html" class="iq-sub-card">
                             <div class="media align-items-center">
                               <i class="ri-user-line mr-3"></i>
-                              <h6>Account Settings</h6>
-                            </div>
-                          </a>
-                          <a href="../backend/page-calendar-connections.html" class="iq-sub-card">
-                            <div class="media align-items-center">
-                              <i class="ri-calendar-line mr-3"></i>
-                              <h6>Calender Connections</h6>
-                            </div>
-                          </a>
-                          <a href="../backend/page-users.html" class="iq-sub-card">
-                            <div class="media align-items-center">
-                              <i class="ri-group-line mr-3"></i>
-                              <h6>Users</h6>
-                            </div>
-                          </a>
-                          <a href="../backend/privacy-policy.html" class="iq-sub-card">
-                            <div class="media align-items-center">
-                              <i class="ri-lock-line mr-3"></i>
-                              <h6>Privacy & Security Settings</h6>
-                            </div>
-                          </a>
-                          <a href="#popup1" data-toggle="modal" data-target="#exampleModalCenter" class="iq-sub-card">
-                            <div class="media align-items-center">
-                              <i class="ri-links-line mr-3"></i>
-                              <h6>Share Your Link</h6>
+                              <h6>Configurações da conta</h6>
                             </div>
                           </a>
                         </div>

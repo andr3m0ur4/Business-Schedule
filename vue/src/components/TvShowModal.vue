@@ -1,9 +1,9 @@
 <template>
-  <div class="modal fade" :id="idModal" tabindex="-1" role="dialog" aria-labelledby="addStudioLabel" aria-hidden="true">
+  <div class="modal fade" :id="idModal" tabindex="-1" role="dialog" aria-labelledby="addTvShowLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="addStudioLabel">{{ title }}</h5>
+          <h5 class="modal-title" id="addTvShowLabel">{{ title }}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -52,11 +52,11 @@ export default {
 }
 
 $(() => {
-  $('#addStudio').on('show.bs.modal', function() {
+  $('#addTvShow').on('show.bs.modal', function() {
     $('#form-wizard').trigger('reset')
   })
 
-  $('#addStudio').on('shown.bs.modal', function() {
+  $('#addTvShow').on('shown.bs.modal', function() {
     $('#sname').focus()
   })
 })
