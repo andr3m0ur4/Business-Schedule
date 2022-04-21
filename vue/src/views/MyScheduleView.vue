@@ -35,7 +35,10 @@
               </div>
             </div>  
             <div class="create-workform">
-              <a href="#" data-toggle="modal" data-target="#date-event" class="btn btn-primary pr-5 position-relative">New Schedule<span class="add-btn"><i class="ri-add-line"></i></span></a>
+              <a href="#" id="btn-new-schedule" class="btn btn-primary pr-5 position-relative">
+                New Schedule
+                <span class="add-btn"><i class="ri-add-line"></i></span>
+              </a>
             </div>                 
           </div>
           <h4 class="mb-3">Set Your weekly hours</h4>
@@ -45,16 +48,18 @@
                 <div class="card-body">
                   <div class="fc fc-ltr fc-unthemed">
                     <div class="fc-toolbar fc-header-toolbar">
-                      <div class="fc-left">
+                      <div class="fc-left" id="menu-navi">
                         <div class="fc-button-group">
-                          <button type="button" class="fc-prev-button fc-button fc-button-primary" aria-label="prev">
-                            <span class="fc-icon fc-icon-chevron-left"></span>
+                          <button type="button" class="fc-prev-button fc-button fc-button-primary" aria-label="prev" data-action="move-prev">
+                            <span class="fc-icon fc-icon-chevron-left" data-action="move-prev"></span>
                           </button>
-                          <button type="button" class="fc-next-button fc-button fc-button-primary" aria-label="next">
-                            <span class="fc-icon fc-icon-chevron-right"></span>
+                          <button type="button" class="fc-next-button fc-button fc-button-primary" aria-label="next" data-action="move-next">
+                            <span class="fc-icon fc-icon-chevron-right" data-action="move-next"></span>
                           </button>
                         </div>
-                        <button type="button" class="fc-today-button fc-button fc-button-primary" disabled="">today</button>
+                        <button type="button" class="fc-today-button fc-button fc-button-primary" data-action="move-today">
+                          today
+                        </button>
                       </div>
                       <div class="fc-center">
                         <h2 id="renderRange">April 2022</h2>
@@ -240,34 +245,34 @@ export default {
         clickDayname(date) {
           console.log('clickDayname', date);
         },
-        beforeCreateSchedule(e) {
+        beforeCreateSchedule: e => {
           console.log('beforeCreateSchedule', e);
-          saveNewSchedule(e);
+          this.saveNewSchedule(e);
         },
-        beforeUpdateSchedule(e) {
-          var schedule = e.schedule;
-          var changes = e.changes;
+        beforeUpdateSchedule: e => {
+          const schedule = e.schedule;
+          const changes = e.changes;
 
           console.log('beforeUpdateSchedule', e);
 
           if (changes && !changes.isAllDay && schedule.category === 'allday') {
-              changes.category = 'time';
+            changes.category = 'time';
           }
 
           this.calendar.updateSchedule(schedule.id, schedule.calendarId, changes);
-          refreshScheduleVisibility();
+          this.refreshScheduleVisibility();
         },
-        beforeDeleteSchedule(e) {
+        beforeDeleteSchedule: e => {
           console.log('beforeDeleteSchedule', e);
           this.calendar.deleteSchedule(e.schedule.id, e.schedule.calendarId);
         },
-        afterRenderSchedule(e) {
+        afterRenderSchedule: e => {
           const schedule = e.schedule;
-          schedule
-          // var element = cal.getElement(schedule.id, schedule.calendarId);
+          const element = this.calendar.getElement(schedule.id, schedule.calendarId);
+          element
           // console.log('afterRenderSchedule', element);
         },
-        clickTimezonesCollapseBtn(timezonesCollapsed) {
+        clickTimezonesCollapseBtn: timezonesCollapsed => {
           console.log('timezonesCollapsed', timezonesCollapsed);
 
           if (timezonesCollapsed) {
@@ -453,6 +458,36 @@ export default {
           end
         });
       }
+    },
+    saveNewSchedule(scheduleData) {
+      const calendar = scheduleData.calendar || findCalendar(scheduleData.calendarId);
+      const schedule = {
+          id: String(chance.guid()),
+          title: scheduleData.title,
+          isAllDay: scheduleData.isAllDay,
+          start: scheduleData.start,
+          end: scheduleData.end,
+          category: scheduleData.isAllDay ? 'allday' : 'time',
+          dueDateClass: '',
+          color: calendar.color,
+          bgColor: calendar.bgColor,
+          dragBgColor: calendar.bgColor,
+          borderColor: calendar.borderColor,
+          location: scheduleData.location,
+          isPrivate: scheduleData.isPrivate,
+          state: scheduleData.state
+      };
+
+      if (calendar) {
+          schedule.calendarId = calendar.id;
+          schedule.color = calendar.color;
+          schedule.bgColor = calendar.bgColor;
+          schedule.borderColor = calendar.borderColor;
+      }
+
+      this.calendar.createSchedules([schedule]);
+
+      this.refreshScheduleVisibility();
     },
     onChangeCalendars(e) {
       const calendarId = e.target.value;
