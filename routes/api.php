@@ -33,6 +33,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('login', [AuthController::class, 'login']);
 Route::get('email/sendMail', [MailController::class, 'sendMail']);
+//Route::post('send-mail', [UserController::class, 'sendMail']);
 
 Route::prefix('v1')->middleware('jwt.auth')->group(function() {
     Route::apiResource('users', UserController::class);
