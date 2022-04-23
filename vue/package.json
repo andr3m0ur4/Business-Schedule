@@ -9,10 +9,13 @@
   },
   "dependencies": {
     "axios": "^0.26.1",
+    "chance": "^1.1.8",
     "core-js": "^3.8.3",
     "jquery": "^3.6.0",
     "moment": "^2.29.2",
     "popper.js": "^1.16.1",
+    "tui-calendar": "^1.15.3",
+    "tui-code-snippet": "^2.3.2",
     "vue": "^3.2.13",
     "vue-router": "^4.0.14",
     "vue-sweetalert2": "^5.0.2",
