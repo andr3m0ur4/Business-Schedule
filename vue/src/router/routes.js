@@ -11,6 +11,8 @@ import TvShowView from '@/views/TvShowView'
 import JobView from '@/views/JobView'
 import ErrorView from '@/views/ErrorView'
 import ForgotPasswordView from '@/views/ForgotPasswordView'
+import BlankPage from '@/views/BlankPage'
+import UICalendar from '@/views/UICalendar'
 import ResetPasswordEmail from '@/views/ResetPasswordEmail'
 import store from '@/store'
 
@@ -54,6 +56,16 @@ const routes = [
                 path: '/funcoes',
                 name: 'job',
                 component: JobView
+            },
+            {
+                path: '/blank-page',
+                name: 'blank-page',
+                component: BlankPage
+            },
+            {
+                path: '/ui-calendar',
+                name: 'calendar',
+                component: UICalendar
             }
         ]
     },

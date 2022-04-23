@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Mail\ResetPasswordMail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -95,5 +97,11 @@ class UserController extends Controller
     {
         $user->delete();
         return response()->json($user);
+    }
+
+    public function sendMail()
+    {
+        return new ResetPasswordMail();
+        // Mail::to('vohap72241@hhmel.com')->send(new ResetPasswordMail());
     }
 }
