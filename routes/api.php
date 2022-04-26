@@ -9,8 +9,12 @@ use App\Http\Controllers\SwitcherController;
 use App\Http\Controllers\TvShowController;
 use App\Http\Controllers\TvShowTimeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\MailController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use SebastianBergmann\Environment\Console;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Mail as MailModel;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,7 +32,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('login', [AuthController::class, 'login']);
-Route::post('send-mail', [UserController::class, 'sendMail']);
+Route::get('email/sendMail', [MailController::class, 'sendMail']);
+//Route::post('send-mail', [UserController::class, 'sendMail']);
 
 Route::prefix('v1')->middleware('jwt.auth')->group(function() {
     Route::apiResource('users', UserController::class);
