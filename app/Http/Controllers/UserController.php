@@ -101,7 +101,8 @@ class UserController extends Controller
 
     public function sendMail()
     {
-        return new ResetPasswordMail();
-        // Mail::to('vohap72241@hhmel.com')->send(new ResetPasswordMail());
+        // return new ResetPasswordMail();
+        Mail::to('vohap72241@hhmel.com')->send(new ResetPasswordMail());
+        return 'ok';
     }
 }
