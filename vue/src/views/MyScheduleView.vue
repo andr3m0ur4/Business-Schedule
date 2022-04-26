@@ -33,7 +33,34 @@
                   </ul>
                 </div>
               </div>
-            </div>  
+            </div>
+            <div class="d-flex flex-wrap align-items-center" id="filter-by">
+              <div id="filter-none" class="filter-extra"></div>
+              <div id="filter-button" class="select-dropdown input-prepend input-append filter-dropdown filter-extra active">
+                <div class="btn-group">
+                  <label data-toggle="dropdown" class="mb-0">
+                    <span class="dropdown-toggle search-query selet-caption btn bg-white">Filter By</span><span class="search-replace"></span>
+                    <span class="caret"></span>
+                  </label>
+                  <div id="lnb-calendars" class="lnb-calendars">
+                    <ul class="dropdown-menu p-3 border-none">
+                      <li class="lnb-calendars-item">
+                        <div class="item mb-2">
+                            <div class="checkbox">
+                              <label for="checkbox1" class="mb-0">
+                                <input type="checkbox" class="checkbox-input mr-3 tui-full-calendar-checkbox-square" id="checkbox1" value="all" checked>
+                                <span></span>
+                                <strong>All Teams</strong>
+                              </label>
+                            </div>
+                        </div>
+                      </li>
+                      <li id="calendarList" class="lnb-calendars-d1"></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div class="create-workform">
               <a href="#" id="btn-new-schedule" class="btn btn-primary pr-5 position-relative">
                 New Schedule
@@ -232,6 +259,10 @@ export default {
     this.setRenderRangeText()
     this.setSchedules()
     this.setEventListener()
+
+    window.calendar = this.calendar
+
+    this.setCalendars()
   },
   methods: {
     setEventHandlers() {
@@ -290,6 +321,23 @@ export default {
           return true;
         }
       });
+    },
+    setCalendars() {
+      const calendarList = document.getElementById('calendarList');
+      const html = [];
+
+      CalendarList.forEach(calendar => {
+          html.push(
+            `<div class="lnb-calendars-item">
+              <label>
+                <input type="checkbox" class="tui-full-calendar-checkbox-round" value="${calendar.id}" checked>
+                <span style="border-color: ${calendar.borderColor}; background-color: ${calendar.borderColor};"></span>
+                <span>${calendar.name}</span>
+              </label>
+            </div>`
+          );
+      });
+      calendarList.innerHTML = html.join('\n');
     },
     getTimeTemplate(schedule, isAllDay) {
       const html = [];
@@ -462,28 +510,29 @@ export default {
     saveNewSchedule(scheduleData) {
       const calendar = scheduleData.calendar || findCalendar(scheduleData.calendarId);
       const schedule = {
-          id: String(chance.guid()),
-          title: scheduleData.title,
-          isAllDay: scheduleData.isAllDay,
-          start: scheduleData.start,
-          end: scheduleData.end,
-          category: scheduleData.isAllDay ? 'allday' : 'time',
-          dueDateClass: '',
-          color: calendar.color,
-          bgColor: calendar.bgColor,
-          dragBgColor: calendar.bgColor,
-          borderColor: calendar.borderColor,
-          location: scheduleData.location,
-          isPrivate: scheduleData.isPrivate,
-          state: scheduleData.state
+        id: String(chance.guid()),
+        title: scheduleData.title,
+        isAllDay: scheduleData.isAllDay,
+        start: scheduleData.start,
+        end: scheduleData.end,
+        category: scheduleData.isAllDay ? 'allday' : 'time',
+        dueDateClass: '',
+        color: calendar.color,
+        bgColor: calendar.bgColor,
+        dragBgColor: calendar.bgColor,
+        borderColor: calendar.borderColor,
+        location: scheduleData.location,
+        isPrivate: scheduleData.isPrivate,
+        state: scheduleData.state
       };
 
       if (calendar) {
-          schedule.calendarId = calendar.id;
-          schedule.color = calendar.color;
-          schedule.bgColor = calendar.bgColor;
-          schedule.borderColor = calendar.borderColor;
+        schedule.calendarId = calendar.id;
+        schedule.color = calendar.color;
+        schedule.bgColor = calendar.bgColor;
+        schedule.borderColor = calendar.borderColor;
       }
+      console.log(schedule);
 
       this.calendar.createSchedules([schedule]);
 
@@ -641,6 +690,24 @@ export default {
   @import 'tui-date-picker/dist/tui-date-picker.css';
   @import 'tui-time-picker/dist/tui-time-picker.css';
 
+  #filter-by .filter-dropdown .selet-caption.dropdown-toggle:after {
+    margin-left: 12px;
+    vertical-align: middle;
+    border-top: 0.3em solid;
+    border-right: 0.3em solid transparent;
+    border-bottom: 0;
+    border-left: 0.3em solid transparent;
+  }
+  #filter-by .filter-dropdown ul.dropdown-menu {
+    width: 220px;
+  }
+  .lnb-calendars div.checkbox {
+    padding-right: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e5e5e5;
+    font-weight: normal;
+  }
+
   .fc-right .bootstrap-select > .dropdown-toggle {
     height: 38px;
     line-height: 37px;
@@ -676,6 +743,9 @@ export default {
   .dropdown-menu > li > a:hover {
     background-color: rgba(81, 92, 230, 0.05);
     color: #333;
+  }
+  .tui-full-calendar-button.tui-full-calendar-section-private {
+    padding-top: 4px;
   }
 </style>
 
