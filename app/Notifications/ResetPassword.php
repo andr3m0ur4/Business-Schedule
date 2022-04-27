@@ -11,14 +11,16 @@ class ResetPassword extends Notification
 {
     use Queueable;
 
+    public $token;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($token)
     {
-        //
+        $this->token = $token;
     }
 
     /**
@@ -40,7 +42,7 @@ class ResetPassword extends Notification
      */
     public function toMail($notifiable)
     {
-        $url = 'http://localhost:8081/email'.$this->token;
+        $url = 'http://localhost:8080/email'.$this->token;
         $minutos = config('auth.passwords.'.config('auth.defaults.passwords').'.expire');
         return (new MailMessage)
             ->subject('Atualização de Senha')

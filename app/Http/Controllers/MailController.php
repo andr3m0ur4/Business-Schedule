@@ -14,7 +14,6 @@ class MailController extends Controller
 
     public function sendMail(Request $request)
     {
-    
         Mail::to($request->mail)->send(new MailModel());
         return 'Email enviado com sucesso';
 

@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -11,14 +12,16 @@ class ResetPasswordMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $user;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(User $user)
     {
-        //
+        $this->user = $user;
     }
 
     /**
@@ -28,6 +31,14 @@ class ResetPasswordMail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('email.reset-password');
+        return $this->markdown('email.reset-password')
+            ->with([
+                'user' => $this->user
+            ]);
+
+        return $this->view('email.reset-password')
+          ->with([
+              'user' => $this->user
+          ]);
     }
 }

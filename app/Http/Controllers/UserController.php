@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -99,10 +100,22 @@ class UserController extends Controller
         return response()->json($user);
     }
 
-    public function sendMail()
+    public function sendMail(User $user)
     {
+        $token = Str::random(64);
         // return new ResetPasswordMail();
-        Mail::to('vohap72241@hhmel.com')->send(new ResetPasswordMail());
-        return 'ok';
+        // Mail::to('fohoci5438@ovout.com')->send(new ResetPasswordMail($user), ['token' => $token]);
+        
+        // Mail::send(new ResetPasswordMail(), ['token' => $token], function($message) use($request){
+        //     $message->to('fohoci5438@ovout.com');
+        //     $message->subject('Reset Password');
+        // });
+
+        Mail::send('email.verify', ['token' => $token], function($message) use($user){
+            $message->to('fohoci5438@ovout.com');
+            $message->subject('Reset Password Notification');
+        });
+
+        return back()->with('message', 'We have e-mailed your password reset link!');
     }
 }
