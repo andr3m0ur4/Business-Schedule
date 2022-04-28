@@ -24,7 +24,7 @@ class StoreJobRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'unique:tv_shows']
+            'name' => ['required', 'unique:jobs']
         ];
     }
 

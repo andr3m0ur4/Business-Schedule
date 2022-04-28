@@ -12,7 +12,7 @@
         <div class="col-lg-12">
           <h4 class="mb-3">Choose A Schedule Below</h4>
           <div class="d-flex flex-wrap align-items-center justify-content-between my-schedule mb-3">
-            <div class="d-flex align-items-center justify-content-between"> 
+            <div class="d-flex align-items-center justify-content-between">
               <div class="form-group mb-0">
                 <select name="type" class="selectpicker form-control" data-style="py-0">
                   <option>Working Hours</option>
@@ -39,7 +39,7 @@
               <div id="filter-button" class="select-dropdown input-prepend input-append filter-dropdown filter-extra active">
                 <div class="btn-group">
                   <label data-toggle="dropdown" class="mb-0">
-                    <span class="dropdown-toggle search-query selet-caption btn bg-white">Filter By</span><span class="search-replace"></span>
+                    <span class="dropdown-toggle search-query selet-caption btn bg-white">Filtrar Por</span><span class="search-replace"></span>
                     <span class="caret"></span>
                   </label>
                   <div id="lnb-calendars" class="lnb-calendars">
@@ -50,7 +50,7 @@
                               <label for="checkbox1" class="mb-0">
                                 <input type="checkbox" class="checkbox-input mr-3 tui-full-calendar-checkbox-square" id="checkbox1" value="all" checked>
                                 <span></span>
-                                <strong>All Teams</strong>
+                                <strong>Todas as Equipes</strong>
                               </label>
                             </div>
                         </div>
@@ -66,7 +66,7 @@
                 New Schedule
                 <span class="add-btn"><i class="ri-add-line"></i></span>
               </a>
-            </div>                 
+            </div>
           </div>
           <h4 class="mb-3">Set Your weekly hours</h4>
           <div class="row">
@@ -194,22 +194,23 @@
                                         <button class="btn btn-primary mr-4" data-dismiss="modal">Cancel</button>
                                         <button class="btn btn-outline-primary" type="submit">Save</button>
                                     </div>
-                                </div>  
+                                </div>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-    </div>    
+    </div>
   </div>
 </template>
 
 <script>
 import Calendar from 'tui-calendar';
 import throttle from 'tui-code-snippet/tricks/throttle';
+import axios from '@/axios'
 
-import { CalendarList, findCalendar } from '@/assets/js/data/calendars';
+import { CalendarList, CalendarInfo } from '@/assets/js/data/calendars';
 import { generateSchedule, ScheduleList } from '@/assets/js/data/schedules';
 
 export default {
@@ -233,9 +234,10 @@ export default {
 
     this.calendar = new Calendar('#calendar', {
       defaultView: 'week',
+      taskView: false,
+      scheduleView: ['time'],
       useCreationPopup: this.useCreationPopup,
       useDetailPopup: this.useDetailPopup,
-      calendars: CalendarList,
       template: {
         milestone(model) {
           return `<span class="calendar-font-icon ic-milestone-b"></span>
@@ -257,12 +259,10 @@ export default {
     this.setEventHandlers()
     this.setDropdownCalendarType()
     this.setRenderRangeText()
-    this.setSchedules()
     this.setEventListener()
+    this.getJobs()
 
     window.calendar = this.calendar
-
-    this.setCalendars()
   },
   methods: {
     setEventHandlers() {
@@ -481,7 +481,7 @@ export default {
     },
     changeNewScheduleCalendar(calendarId) {
       const calendarNameElement = document.getElementById('calendarName');
-      const calendar = findCalendar(calendarId);
+      const calendar = CalendarInfo.findCalendar(calendarId);
       const html = [];
 
       html.push(
@@ -508,7 +508,7 @@ export default {
       }
     },
     saveNewSchedule(scheduleData) {
-      const calendar = scheduleData.calendar || findCalendar(scheduleData.calendarId);
+      const calendar = scheduleData.calendar || CalendarInfo.findCalendar(scheduleData.calendarId);
       const schedule = {
         id: String(chance.guid()),
         title: scheduleData.title,
@@ -560,7 +560,7 @@ export default {
           calendar.checked = checked;
         });
       } else {
-        findCalendar(calendarId).checked = checked;
+        CalendarInfo.findCalendar(calendarId).checked = checked;
 
         allCheckedCalendars = calendarElements.every(input => {
           return input.checked;
@@ -673,6 +673,19 @@ export default {
     },
     getDataAction(target) {
       return target.dataset ? target.dataset.action : target.getAttribute('data-action');
+    },
+    getJobs() {
+      axios.get('v1/jobs')
+        .then(response => {
+          this.jobs = response.data
+          CalendarInfo.createCalendar(this.jobs)
+          this.setCalendars()
+          this.calendar.setCalendars(CalendarList)
+          this.setSchedules();
+        })
+        .catch(error => {
+          console.log(error.response);
+        })
     }
   }
 }
