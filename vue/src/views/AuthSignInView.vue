@@ -14,6 +14,7 @@
                <div class="col-md-5 col-sm-12 col-12 align-self-center">
                   <div class="card">
                      <div class="card-body text-center">
+                        <img src="../assets/images/bs-icon-high.png" height="130" width="130">
                         <h2>Entrar</h2>
                         <p>Faça Login para acessar o sistema.</p>
                         <form @submit.prevent="login($event)">

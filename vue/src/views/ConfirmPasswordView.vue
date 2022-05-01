@@ -6,6 +6,7 @@
                <div class="col-md-5 col-sm-12 col-12 align-self-center">
                   <div class="card">
                      <div class="card-body text-center">
+                        <img src="../assets/images/bs-icon-high.png" height="130" width="130">
                         <h2>Redefina sua senha</h2>
                         <p>Digite sua nova senha de login.</p>
                         <form>
