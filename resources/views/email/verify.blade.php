@@ -11,7 +11,7 @@
                             <h2>Redefinir senha</h2>
                          </div>
                            <p>Ao clicar no botão abaixo você será redirecionado para a tela de redefinição de senha.</p>
-                           <a href="http://localhost:8080/{{$token}}/reset-password" type="submit" class="btn btn-primary">Redefinir</a>
+                           <a href="http://{{$url}}reset-password/{{$token}}" type="submit" class="btn btn-primary">Redefinir</a>
                      </div>
                   </div>
                </div>

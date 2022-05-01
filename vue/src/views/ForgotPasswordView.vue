@@ -12,14 +12,14 @@
                            <div class="row">
                               <div class="col-lg-12">
                                  <div class="floating-input form-group">
-                                    <input class="form-control" type="mail" name="mail" id="mail" v-model="mail" required />
-                                    <label class="form-label" for="mail">E-mail</label>
+                                    <input class="form-control" type="email" name="email" id="email" v-model="email" required />
+                                    <label class="form-label" for="email">E-mail</label>
                                  </div>
                               </div>
                            </div>
                            <button type="button" @click="sendMail()" class="btn btn-primary">Redefinir</button>
                         </form>
-                        {{mail}}
+                        {{email}}
                      </div>
                   </div>
                </div>
@@ -36,15 +36,14 @@ export default {
   name: 'ForgotPasswordView',
   data() {
     return {
-      mail:null
+        email: null
     }
   },
   methods: {
    sendMail() {
-      console.log(this.mail)
-         axios.get('email/sendMail', {
-         params: {mail: this.mail}
-      })
+         axios.post('send-mail', {
+            email: this.email
+         })
          .then(response => {
             this.$swal('Sucesso', `E-mail enviado para ${response.data.email}`, 'success')
          })
