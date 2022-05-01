@@ -14,6 +14,7 @@ import ForgotPasswordView from '@/views/ForgotPasswordView'
 import BlankPage from '@/views/BlankPage'
 import UICalendar from '@/views/UICalendar'
 import ResetPasswordEmail from '@/views/ResetPasswordEmail'
+import ConfirmPasswordView from '@/views/ConfirmPasswordView'
 import store from '@/store'
 
 const routes = [
@@ -89,6 +90,11 @@ const routes = [
         path: '/email',
         name: 'email',
         component: ResetPasswordEmail
+    },
+    {
+        path: '/confirma-senha',
+        name: 'confirma-senha',
+        component: ConfirmPasswordView
     }
 ]
 
