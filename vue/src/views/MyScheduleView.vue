@@ -62,7 +62,7 @@
               </div>
             </div>
             <div class="create-workform">
-              <a href="#" id="btn-new-schedule" class="btn btn-primary pr-5 position-relative">
+              <a href="#" data-toggle="modal" data-target="#modal-new-schedule" id="btn-new-schedule" class="btn btn-primary pr-5 position-relative">
                 New Schedule
                 <span class="add-btn"><i class="ri-add-line"></i></span>
               </a>
@@ -158,55 +158,70 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="date-event" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="popup text-left">
-                        <h4 class="mb-3">Add Schedule</h4>
-                        <form action="/" id="submit-schedule">
-                            <div class="content create-workform row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label class="form-label" for="schedule-title">Schedule For</label>
-                                        <input class="form-control" placeholder="Enter Title" type="text" name="title" id="schedule-title" required />
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="schedule-start-date">Start Date</label>
-                                        <input class="form-control basicFlatpickr date-input" placeholder="2020-06-20" type="text" name="title" id="schedule-start-date" required />
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="schedule-end-date">End Date</label>
-                                        <input class="form-control basicFlatpickr date-input" placeholder="2020-06-20" type="text" name="title" id="schedule-end-date" required />
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <input class="form-control" type="color" name="title" id="schedule-color" required />
-                                    </div>
-                                </div>
-                                <div class="col-md-12 mt-4">
-                                    <div class="d-flex flex-wrap align-items-ceter justify-content-center">
-                                        <button class="btn btn-primary mr-4" data-dismiss="modal">Cancel</button>
-                                        <button class="btn btn-outline-primary" type="submit">Save</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
+    <div class="modal fade" id="modal-new-schedule" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="popup text-left">
+              <h4 class="mb-3">Adicionar Horário</h4>
+              <form action="/" id="submit-schedule">
+                <div class="content create-workform row">
+                  <div class="col-md-6 mb-2">
+                    <select id="selectpicker-job" class="selectpicker">
+                      <option v-for="job in calendarList" :key="job.id"
+                        class="tui-full-calendar-popup-section-item tui-full-calendar-dropdown-menu-item"
+                        :data-calendar-id="job.id" :data-content="`
+                          <span class='tui-full-calendar-icon tui-full-calendar-calendar-dot' style='background-color: ${job.bgColor}'></span>
+                          <span class='tui-full-calendar-content'>${job.name}</span>
+                        `">
+                      </option>
+                    </select>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label class="form-label" for="schedule-title">Funcionário</label>
+                      <input class="form-control" placeholder="Enter Title" type="text" name="title" id="schedule-title" required />
                     </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="form-label" for="schedule-start-date">Start Date</label>
+                      <div class="tui-datepicker-input tui-datetime-input tui-has-focus">
+                        <input type="text" class="form-control date-input" id="schedule-start-date" aria-label="Date-Time" required>
+                        <span class="tui-ico-date"></span>
+                      </div>
+                    <div id="tui-datepicker-start" style="margin-top: -1px;"></div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="form-label" for="schedule-end-date">End Date</label>
+                      <div class="tui-datepicker-input tui-datetime-input tui-has-focus">
+                        <input type="text" class="form-control date-input" id="schedule-end-date" aria-label="Date-Time" required>
+                        <span class="tui-ico-date"></span>
+                      </div>
+                      <div id="tui-datepicker-end" style="margin-top: -1px;"></div>
+                    </div>
+                  </div>
+                  <div class="col-md-12 mt-4">
+                    <div class="d-flex flex-wrap align-items-ceter justify-content-center">
+                      <button class="btn btn-primary mr-4" data-dismiss="modal">Cancelar</button>
+                      <button class="btn btn-outline-primary" type="submit">Salvar</button>
+                    </div>
+                  </div>
                 </div>
+              </form>
             </div>
+          </div>
         </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import Calendar from 'tui-calendar';
+import DatePicker from 'tui-date-picker';
 import throttle from 'tui-code-snippet/tricks/throttle';
 import axios from '@/axios'
 
@@ -220,6 +235,8 @@ export default {
       calendar: null,
       useCreationPopup: true,
       useDetailPopup: true,
+      jobs: [],
+      calendarList: [],
       resizeThrottled: null
     }
   },
@@ -659,6 +676,34 @@ export default {
 
       this.refreshScheduleVisibility();
     },
+    setDateTimePicker() {
+      $('#selectpicker-job').selectpicker('refresh')
+
+      const datepickerStart = new DatePicker('#tui-datepicker-start', {
+          date: new Date(),
+          input: {
+            element: '#schedule-start-date',
+            format: 'yyyy-MM-dd HH:mm'
+          },
+          timePicker: {
+            showMeridiem: false
+          },
+          showMeridiem: false,
+        })
+
+        const datepickerEnd = new DatePicker('#tui-datepicker-end', {
+          date: new Date(),
+          input: {
+            element: '#schedule-end-date',
+            format: 'yyyy-MM-dd HH:mm A'
+          },
+          timePicker: {
+            showMeridiem: false
+          }
+        })
+        datepickerStart
+        datepickerEnd
+    },
     setEventListener() {
       $('#menu-navi').on('click', this.onClickNavi);
       $('.dropdown-menu a[role="menuitem"]').on('click', this.onClickMenu);
@@ -668,6 +713,8 @@ export default {
       $('#btn-new-schedule').on('click', this.createNewSchedule);
 
       $('#dropdownMenu-calendars-list').on('click', this.onChangeNewScheduleCalendar);
+
+      $('#modal-new-schedule').on('shown.bs.modal', this.setDateTimePicker);
 
       window.addEventListener('resize', this.resizeThrottled);
     },
@@ -682,6 +729,7 @@ export default {
           this.setCalendars()
           this.calendar.setCalendars(CalendarList)
           this.setSchedules();
+          this.calendarList = CalendarList
         })
         .catch(error => {
           console.log(error.response);
@@ -759,6 +807,25 @@ export default {
   }
   .tui-full-calendar-button.tui-full-calendar-section-private {
     padding-top: 4px;
+  }
+  .tui-full-calendar-popup-section-item {
+    font-size: inherit;
+  }
+
+  .tui-datepicker-input {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+  }
+  .tui-datepicker-input > input.date-input {
+    height: 45px;
+    padding: 0.313rem 1.25rem;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  .tui-timepicker-select {
+    padding-top: 2px;
   }
 </style>
 

@@ -58,11 +58,6 @@ const routes = [
                 component: JobView
             },
             {
-                path: '/blank-page',
-                name: 'blank-page',
-                component: BlankPage
-            },
-            {
                 path: '/ui-calendar',
                 name: 'calendar',
                 component: UICalendar
@@ -89,7 +84,12 @@ const routes = [
         path: '/email',
         name: 'email',
         component: ResetPasswordEmail
-    }
+    },
+    {
+        path: '/blank-page',
+        name: 'blank-page',
+        component: BlankPage
+    },
 ]
 
 const router = createRouter({
