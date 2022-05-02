@@ -164,13 +164,13 @@
           <div class="modal-body">
             <div class="popup text-left">
               <h4 class="mb-3">Adicionar Horário</h4>
-              <form action="/" id="submit-schedule">
+              <form action="/" id="submit-schedule" @submit.prevent="">
                 <div class="content create-workform row">
                   <div class="col-md-6 mb-2">
-                    <select id="selectpicker-job" class="selectpicker">
+                    <select id="dropdownMenu-calendars-list" class="selectpicker">
                       <option v-for="job in calendarList" :key="job.id"
                         class="tui-full-calendar-popup-section-item tui-full-calendar-dropdown-menu-item"
-                        :data-calendar-id="job.id" :data-content="`
+                        :data-action="job.id" :data-content="`
                           <span class='tui-full-calendar-icon tui-full-calendar-calendar-dot' style='background-color: ${job.bgColor}'></span>
                           <span class='tui-full-calendar-content'>${job.name}</span>
                         `">
@@ -180,7 +180,7 @@
                   <div class="col-md-12">
                     <div class="form-group">
                       <label class="form-label" for="schedule-title">Funcionário</label>
-                      <input class="form-control" placeholder="Enter Title" type="text" name="title" id="schedule-title" required />
+                      <input class="form-control" placeholder="Digite o Nome" type="text" id="schedule-title" required>
                     </div>
                   </div>
                   <div class="col-md-6">
@@ -190,7 +190,7 @@
                         <input type="text" class="form-control date-input" id="schedule-start-date" aria-label="Date-Time" required>
                         <span class="tui-ico-date"></span>
                       </div>
-                    <div id="tui-datepicker-start" style="margin-top: -1px;"></div>
+                      <div id="startpicker-container" style="margin-top: -1px;"></div>
                     </div>
                   </div>
                   <div class="col-md-6">
@@ -200,13 +200,13 @@
                         <input type="text" class="form-control date-input" id="schedule-end-date" aria-label="Date-Time" required>
                         <span class="tui-ico-date"></span>
                       </div>
-                      <div id="tui-datepicker-end" style="margin-top: -1px;"></div>
+                      <div id="endpicker-container" style="margin-top: -1px;"></div>
                     </div>
                   </div>
                   <div class="col-md-12 mt-4">
                     <div class="d-flex flex-wrap align-items-ceter justify-content-center">
                       <button class="btn btn-primary mr-4" data-dismiss="modal">Cancelar</button>
-                      <button class="btn btn-outline-primary" type="submit">Salvar</button>
+                      <button class="btn btn-outline-primary" type="submit" id="btn-save-schedule">Salvar</button>
                     </div>
                   </div>
                 </div>
@@ -235,6 +235,8 @@ export default {
       calendar: null,
       useCreationPopup: true,
       useDetailPopup: true,
+      datePicker: null,
+      selectedCalendar: null,
       jobs: [],
       calendarList: [],
       resizeThrottled: null
@@ -461,12 +463,14 @@ export default {
       this.setSchedules();
     },
     onNewSchedule() {
-      const title = $('#new-schedule-title').val();
-      const location = $('#new-schedule-location').val();
-      const isAllDay = document.getElementById('new-schedule-allday').checked;
-      const start = datePicker.getStartDate();
-      const end = datePicker.getEndDate();
-      const calendar = selectedCalendar ? selectedCalendar : Calendar[0];
+      const title = $('#schedule-title').val();
+      // const location = $('#new-schedule-location').val();
+      const location = ''
+      // const isAllDay = document.getElementById('new-schedule-allday').checked;
+      const isAllDay = false
+      const start = this.datePicker.getStartDate();
+      const end = this.datePicker.getEndDate();
+      const calendar = this.selectedCalendar ? this.selectedCalendar : Calendar[0];
 
       if (!title) {
         return;
@@ -492,9 +496,9 @@ export default {
       $('#modal-new-schedule').modal('hide');
     },
     onChangeNewScheduleCalendar(e) {
-      const target = $(e.target).closest('a[role="menuitem"]')[0];
-      const calendarId = this.getDataAction(target);
-      this.changeNewScheduleCalendar(calendarId);
+      const target = e.target.options[e.target.selectedIndex]
+      const calendarId = this.getDataAction(target)
+      this.changeNewScheduleCalendar(calendarId)
     },
     changeNewScheduleCalendar(calendarId) {
       const calendarNameElement = document.getElementById('calendarName');
@@ -509,9 +513,10 @@ export default {
       );
       html.push(`<span class="calendar-name">${calendar.name}</span>`);
 
-      calendarNameElement.innerHTML = html.join('');
+      // calendarNameElement.innerHTML = html.join('');
+      calendarNameElement
 
-      this.selectedCalendar = calendar;
+      this.selectedCalendar = calendar
     },
     createNewSchedule(event) {
       const start = event.start ? new Date(event.start.getTime()) : new Date();
@@ -667,42 +672,37 @@ export default {
     },
     setSchedules() {
       this.calendar.clear();
-      generateSchedule(
-        this.calendar.getViewName(),
-        this.calendar.getDateRangeStart(),
-        this.calendar.getDateRangeEnd()
-      );
+      generateSchedule
+      // função para gerar horários aleatórios
+      // generateSchedule(
+      //   this.calendar.getViewName(),
+      //   this.calendar.getDateRangeStart(),
+      //   this.calendar.getDateRangeEnd()
+      // );
       this.calendar.createSchedules(ScheduleList);
 
       this.refreshScheduleVisibility();
     },
     setDateTimePicker() {
-      $('#selectpicker-job').selectpicker('refresh')
+      $('#dropdownMenu-calendars-list').selectpicker('refresh')
+      $('#dropdownMenu-calendars-list').change()
 
-      const datepickerStart = new DatePicker('#tui-datepicker-start', {
+      this.datePicker = new DatePicker.createRangePicker({
+        startpicker: {
           date: new Date(),
-          input: {
-            element: '#schedule-start-date',
-            format: 'yyyy-MM-dd HH:mm'
-          },
-          timePicker: {
-            showMeridiem: false
-          },
-          showMeridiem: false,
-        })
-
-        const datepickerEnd = new DatePicker('#tui-datepicker-end', {
+          input: '#schedule-start-date',
+          container: '#startpicker-container'
+        },
+        endpicker: {
           date: new Date(),
-          input: {
-            element: '#schedule-end-date',
-            format: 'yyyy-MM-dd HH:mm A'
-          },
-          timePicker: {
-            showMeridiem: false
-          }
-        })
-        datepickerStart
-        datepickerEnd
+          input: '#schedule-end-date',
+          container: '#endpicker-container'
+        },
+        format: 'dd/MM/yyyy HH:mm',
+        timePicker: {
+          showMeridiem: false
+        }
+      })
     },
     setEventListener() {
       $('#menu-navi').on('click', this.onClickNavi);
@@ -712,7 +712,7 @@ export default {
       $('#btn-save-schedule').on('click', this.onNewSchedule);
       $('#btn-new-schedule').on('click', this.createNewSchedule);
 
-      $('#dropdownMenu-calendars-list').on('click', this.onChangeNewScheduleCalendar);
+      $('#dropdownMenu-calendars-list').on('change', this.onChangeNewScheduleCalendar);
 
       $('#modal-new-schedule').on('shown.bs.modal', this.setDateTimePicker);
 
@@ -739,7 +739,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
   @import '@/assets/vendor/fullcalendar/core/main.css';
   @import '@/assets/vendor/fullcalendar/daygrid/main.css';
   @import '@/assets/vendor/fullcalendar/timegrid/main.css';
