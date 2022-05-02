@@ -100,8 +100,11 @@ class UserController extends Controller
         return response()->json($user);
     }
 
-    public function sendMail(User $user)
+    
+    public function sendMail(Request $request)
     {
+
+        $user = User::where('email', $request->email)->first();
         $token = Str::random(64);
         // return new ResetPasswordMail();
         // Mail::to('fohoci5438@ovout.com')->send(new ResetPasswordMail($user), ['token' => $token]);
@@ -110,12 +113,11 @@ class UserController extends Controller
         //     $message->to('fohoci5438@ovout.com');
         //     $message->subject('Reset Password');
         // });
-
-        Mail::send('email.verify', ['token' => $token], function($message) use($user){
-            $message->to('fohoci5438@ovout.com');
-            $message->subject('Reset Password Notification');
+        Mail::send('email.verify', ['token' => $token, 'url' => env('APP_DNS_URL')], function($message) use($user){
+            $message->to($user->email);
+            $message->subject('Atualização de Senha');
         });
 
-        return back()->with('message', 'We have e-mailed your password reset link!');
+        return response()->json($user);
     }
 }
