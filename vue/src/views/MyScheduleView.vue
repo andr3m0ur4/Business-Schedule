@@ -163,14 +163,16 @@
         <div class="modal-content">
           <div class="modal-body">
             <div class="popup text-left">
-              <h4 class="mb-3">Adicionar Horário</h4>
+              <h4 class="mb-3"><span id="label-schedule">Adicionar</span> Horário</h4>
               <form action="/" id="submit-schedule" @submit.prevent="">
                 <div class="content create-workform row">
+                  <input type="hidden" id="schedule-id">
+                  <input type="hidden" id="schedule-calendar-id">
                   <div class="col-md-6 mb-2">
                     <select id="dropdownMenu-calendars-list" class="selectpicker">
                       <option v-for="job in calendarList" :key="job.id"
                         class="tui-full-calendar-popup-section-item tui-full-calendar-dropdown-menu-item"
-                        :data-action="job.id" :data-content="`
+                        :data-action="job.id" :value="job.id" :data-content="`
                           <span class='tui-full-calendar-icon tui-full-calendar-calendar-dot' style='background-color: ${job.bgColor}'></span>
                           <span class='tui-full-calendar-content'>${job.name}</span>
                         `">
@@ -207,6 +209,7 @@
                     <div class="d-flex flex-wrap align-items-ceter justify-content-center">
                       <button class="btn btn-primary mr-4" data-dismiss="modal">Cancelar</button>
                       <button class="btn btn-outline-primary" type="submit" id="btn-save-schedule">Salvar</button>
+                      <button class="btn btn-outline-primary" type="submit" id="btn-update-schedule">Salvar</button>
                     </div>
                   </div>
                 </div>
@@ -233,7 +236,7 @@ export default {
   data() {
     return {
       calendar: null,
-      useCreationPopup: true,
+      useCreationPopup: false,
       useDetailPopup: true,
       datePicker: null,
       selectedCalendar: null,
@@ -280,6 +283,7 @@ export default {
     this.setRenderRangeText()
     this.setEventListener()
     this.getJobs()
+    this.setDateTimePicker()
 
     window.calendar = this.calendar
   },
@@ -309,6 +313,18 @@ export default {
             changes.category = 'time';
           }
 
+          $('#lable-schedule').text('Alterar')
+          $('#schedule-id').val(schedule.id)
+          $('#schedule-calendar-id').val(schedule.calendarId)
+          $('#schedule-title').val(schedule.title)
+          $('#btn-save-schedule').hide()
+          $('#btn-update-schedule').show()
+          this.datePicker.setStartDate(schedule.start.toDate())
+          this.datePicker.setEndDate(schedule.end.toDate())
+          CalendarInfo.findCalendar(schedule.calendarId)
+          $('#dropdownMenu-calendars-list').selectpicker('val', schedule.calendarId)
+
+          $('#modal-new-schedule').modal()
           this.calendar.updateSchedule(schedule.id, schedule.calendarId, changes);
           this.refreshScheduleVisibility();
         },
@@ -320,7 +336,7 @@ export default {
           const schedule = e.schedule;
           const element = this.calendar.getElement(schedule.id, schedule.calendarId);
           element
-          // console.log('afterRenderSchedule', element);
+          console.log('afterRenderSchedule', element);
         },
         clickTimezonesCollapseBtn: timezonesCollapsed => {
           console.log('timezonesCollapsed', timezonesCollapsed);
@@ -463,7 +479,7 @@ export default {
       this.setSchedules();
     },
     onNewSchedule() {
-      const title = $('#schedule-title').val();
+      const title = $('#schedule-title').val()
       // const location = $('#new-schedule-location').val();
       const location = ''
       // const isAllDay = document.getElementById('new-schedule-allday').checked;
@@ -495,6 +511,28 @@ export default {
 
       $('#modal-new-schedule').modal('hide');
     },
+    onUpdateSchedule() {
+      const title = $('#schedule-title').val()
+      const id = $('#schedule-id').val()
+      const calendarId = $('#schedule-calendar-id').val()
+      const start = this.datePicker.getStartDate();
+      const end = this.datePicker.getEndDate();
+      const calendar = this.selectedCalendar ? this.selectedCalendar : Calendar[0];
+
+      if (!title || !id) {
+        return
+      }
+
+      this.calendar.updateSchedule(id, calendarId, {
+        title,
+        calendarId: calendar.id,
+        start,
+        end,
+        category: 'time'
+      });
+
+      $('#modal-new-schedule').modal('hide')
+    },
     onChangeNewScheduleCalendar(e) {
       const target = e.target.options[e.target.selectedIndex]
       const calendarId = this.getDataAction(target)
@@ -519,8 +557,15 @@ export default {
       this.selectedCalendar = calendar
     },
     createNewSchedule(event) {
+      $('#submit-schedule').prop('reset')
+      $('#label-schedule').text('Adicionar')
+      $('#btn-save-schedule').show()
+      $('#btn-update-schedule').hide()
+
       const start = event.start ? new Date(event.start.getTime()) : new Date();
       const end = event.end ? new Date(event.end.getTime()) : moment().add(1, 'hours').toDate();
+      this.datePicker.setStartDate(start)
+      this.datePicker.setEndDate(end)
 
       if (this.useCreationPopup) {
         this.calendar.openCreationPopup({
@@ -684,9 +729,6 @@ export default {
       this.refreshScheduleVisibility();
     },
     setDateTimePicker() {
-      $('#dropdownMenu-calendars-list').selectpicker('refresh')
-      $('#dropdownMenu-calendars-list').change()
-
       this.datePicker = new DatePicker.createRangePicker({
         startpicker: {
           date: new Date(),
@@ -710,11 +752,15 @@ export default {
       $('#lnb-calendars').on('change', this.onChangeCalendars);
 
       $('#btn-save-schedule').on('click', this.onNewSchedule);
+      $('#btn-update-schedule').on('click', this.onUpdateSchedule);
       $('#btn-new-schedule').on('click', this.createNewSchedule);
 
       $('#dropdownMenu-calendars-list').on('change', this.onChangeNewScheduleCalendar);
 
-      $('#modal-new-schedule').on('shown.bs.modal', this.setDateTimePicker);
+      $('#modal-new-schedule').on('show.bs.modal', () => {
+        $('#dropdownMenu-calendars-list').selectpicker('refresh')
+        $('#dropdownMenu-calendars-list').change()
+      });
 
       window.addEventListener('resize', this.resizeThrottled);
     },
