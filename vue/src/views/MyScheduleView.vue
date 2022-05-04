@@ -63,7 +63,7 @@
             </div>
             <div class="create-workform">
               <a href="#" data-toggle="modal" data-target="#modal-new-schedule" id="btn-new-schedule" class="btn btn-primary pr-5 position-relative">
-                New Schedule
+                Novo Horário
                 <span class="add-btn"><i class="ri-add-line"></i></span>
               </a>
             </div>
@@ -85,11 +85,11 @@
                           </button>
                         </div>
                         <button type="button" class="fc-today-button fc-button fc-button-primary" data-action="move-today">
-                          today
+                          hoje
                         </button>
                       </div>
                       <div class="fc-center">
-                        <h2 id="renderRange">April 2022</h2>
+                        <h2 id="renderRange"></h2>
                       </div>
                       <div class="fc-right">
                         <span class="dropdown bootstrap-select">
@@ -101,46 +101,46 @@
                           <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu-calendarType">
                             <li role="presentation">
                               <a class="dropdown-menu-title" role="menuitem" data-action="toggle-daily">
-                                <i class="calendar-icon ic_view_day"></i>Daily
+                                <i class="calendar-icon ic_view_day"></i>Diário
                               </a>
                             </li>
                             <li role="presentation">
                               <a class="dropdown-menu-title" role="menuitem" data-action="toggle-weekly">
-                                <i class="calendar-icon ic_view_week"></i>Weekly
+                                <i class="calendar-icon ic_view_week"></i>Semanal
                               </a>
                             </li>
                             <li role="presentation">
                               <a class="dropdown-menu-title" role="menuitem" data-action="toggle-monthly">
-                                <i class="calendar-icon ic_view_month"></i>Month
+                                <i class="calendar-icon ic_view_month"></i>Mensal
                               </a>
                             </li>
                             <li role="presentation">
                               <a class="dropdown-menu-title" role="menuitem" data-action="toggle-weeks2">
-                                <i class="calendar-icon ic_view_week"></i>2 weeks
+                                <i class="calendar-icon ic_view_week"></i>2 semanas
                               </a>
                             </li>
                             <li role="presentation">
                               <a class="dropdown-menu-title" role="menuitem" data-action="toggle-weeks3">
-                                <i class="calendar-icon ic_view_week"></i>3 weeks
+                                <i class="calendar-icon ic_view_week"></i>3 semanas
                               </a>
                             </li>
                             <li role="presentation" class="dropdown-divider"></li>
                             <li role="presentation">
                               <a role="menuitem" data-action="toggle-workweek">
                                 <input type="checkbox" class="tui-full-calendar-checkbox-square" value="toggle-workweek" checked>
-                                <span class="checkbox-title"></span>Show weekends
+                                <span class="checkbox-title"></span>Exibir Finais de Semana
                               </a>
                             </li>
                             <li role="presentation">
                               <a role="menuitem" data-action="toggle-start-day-1">
                                 <input type="checkbox" class="tui-full-calendar-checkbox-square" value="toggle-start-day-1">
-                                <span class="checkbox-title"></span>Start Week on Monday
+                                <span class="checkbox-title"></span>Iniciar Semana na Segunda
                               </a>
                             </li>
                             <li role="presentation">
                               <a role="menuitem" data-action="toggle-narrow-weekend">
                                 <input type="checkbox" class="tui-full-calendar-checkbox-square" value="toggle-narrow-weekend">
-                                <span class="checkbox-title"></span>Narrower than weekdays
+                                <span class="checkbox-title"></span>Priorizar Dias da Semana
                               </a>
                             </li>
                           </ul>
@@ -666,19 +666,19 @@ export default {
       let iconClassName;
 
       if (type === 'day') {
-        type = 'Daily';
+        type = 'Diário';
         iconClassName = 'calendar-icon ic_view_day';
       } else if (type === 'week') {
-        type = 'Weekly';
+        type = 'Semanal';
         iconClassName = 'calendar-icon ic_view_week';
       } else if (options.month.visibleWeeksCount === 2) {
-        type = '2 weeks';
+        type = '2 semanas';
         iconClassName = 'calendar-icon ic_view_week';
       } else if (options.month.visibleWeeksCount === 3) {
-        type = '3 weeks';
+        type = '3 semanas';
         iconClassName = 'calendar-icon ic_view_week';
       } else {
-        type = 'Monthly';
+        type = 'Mensal';
         iconClassName = 'calendar-icon ic_view_month';
       }
 
@@ -701,16 +701,16 @@ export default {
 
       const html = [];
       if (viewName === 'day') {
-        html.push(this.currentCalendarDate('YYYY.MM.DD'));
+        html.push(this.currentCalendarDate('DD/MM/YYYY'));
       } else if (
         viewName === 'month' &&
         (!options.month.visibleWeeksCount || options.month.visibleWeeksCount > 4)
       ) {
-        html.push(this.currentCalendarDate('YYYY.MM'));
+        html.push(this.currentCalendarDate('MM/YYYY'));
       } else {
-        html.push(moment(this.calendar.getDateRangeStart().getTime()).format('YYYY.MM.DD'));
+        html.push(moment(this.calendar.getDateRangeStart().getTime()).format('DD/MM/YYYY'));
         html.push(' ~ ');
-        html.push(moment(this.calendar.getDateRangeEnd().getTime()).format(' MM.DD'));
+        html.push(moment(this.calendar.getDateRangeEnd().getTime()).format(' DD/MM'));
       }
 
       renderRange.innerHTML = html.join('');
