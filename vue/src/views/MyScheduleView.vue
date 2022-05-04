@@ -319,8 +319,8 @@ export default {
           $('#schedule-title').val(schedule.title)
           $('#btn-save-schedule').hide()
           $('#btn-update-schedule').show()
-          this.datePicker.setStartDate(schedule.start.toDate())
-          this.datePicker.setEndDate(schedule.end.toDate())
+          this.datePicker.setStartDate(changes ? changes.start.toDate() : schedule.start.toDate())
+          this.datePicker.setEndDate(changes ? changes.end.toDate() : schedule.end.toDate())
           CalendarInfo.findCalendar(schedule.calendarId)
           $('#dropdownMenu-calendars-list').selectpicker('val', schedule.calendarId)
 
@@ -336,7 +336,7 @@ export default {
           const schedule = e.schedule;
           const element = this.calendar.getElement(schedule.id, schedule.calendarId);
           element
-          console.log('afterRenderSchedule', element);
+          // console.log('afterRenderSchedule', element);
         },
         clickTimezonesCollapseBtn: timezonesCollapsed => {
           console.log('timezonesCollapsed', timezonesCollapsed);
@@ -557,7 +557,7 @@ export default {
       this.selectedCalendar = calendar
     },
     createNewSchedule(event) {
-      $('#submit-schedule').prop('reset')
+      $('#submit-schedule').trigger('reset')
       $('#label-schedule').text('Adicionar')
       $('#btn-save-schedule').show()
       $('#btn-update-schedule').hide()
