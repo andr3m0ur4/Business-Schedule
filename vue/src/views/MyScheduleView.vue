@@ -229,7 +229,7 @@ import throttle from 'tui-code-snippet/tricks/throttle';
 import axios from '@/axios'
 
 import { CalendarList, CalendarInfo } from '@/assets/js/data/calendars';
-import { generateSchedule, ScheduleList } from '@/assets/js/data/schedules';
+import { ScheduleList, ScheduleInfo } from '@/assets/js/data/schedules';
 
 export default {
   name: 'MyScheduleView',
@@ -246,8 +246,6 @@ export default {
     }
   },
   mounted() {
-    // makeCalendar()
-    // submitCalendar()
     $('.selectpicker').selectpicker()
 
     const getTimeTemplate = (schedule, isAllDay) => {
@@ -313,24 +311,25 @@ export default {
             changes.category = 'time';
           }
 
-          $('#lable-schedule').text('Alterar')
-          $('#schedule-id').val(schedule.id)
-          $('#schedule-calendar-id').val(schedule.calendarId)
-          $('#schedule-title').val(schedule.title)
-          $('#btn-save-schedule').hide()
-          $('#btn-update-schedule').show()
-          this.datePicker.setStartDate(changes ? changes.start.toDate() : schedule.start.toDate())
-          this.datePicker.setEndDate(changes ? changes.end.toDate() : schedule.end.toDate())
-          CalendarInfo.findCalendar(schedule.calendarId)
-          $('#dropdownMenu-calendars-list').selectpicker('val', schedule.calendarId)
+          $('#lable-schedule').text('Alterar');
+          $('#schedule-id').val(schedule.id);
+          $('#schedule-calendar-id').val(schedule.calendarId);
+          $('#schedule-title').val(schedule.title);
+          $('#btn-save-schedule').hide();
+          $('#btn-update-schedule').show();
+          this.datePicker.setStartDate(changes.start ? changes.start.toDate() : schedule.start.toDate());
+          this.datePicker.setEndDate(changes.end ? changes.end.toDate() : schedule.end.toDate());
+          CalendarInfo.findCalendar(schedule.calendarId);
+          $('#dropdownMenu-calendars-list').selectpicker('val', schedule.calendarId);
 
-          $('#modal-new-schedule').modal()
+          $('#modal-new-schedule').modal();
           this.calendar.updateSchedule(schedule.id, schedule.calendarId, changes);
           this.refreshScheduleVisibility();
         },
         beforeDeleteSchedule: e => {
           console.log('beforeDeleteSchedule', e);
           this.calendar.deleteSchedule(e.schedule.id, e.schedule.calendarId);
+          this.deleteStorage(e.schedule.id, e.schedule.calendarId);
         },
         afterRenderSchedule: e => {
           const schedule = e.schedule;
@@ -487,13 +486,14 @@ export default {
       const start = this.datePicker.getStartDate();
       const end = this.datePicker.getEndDate();
       const calendar = this.selectedCalendar ? this.selectedCalendar : Calendar[0];
+      const id = String(chance.guid())
 
       if (!title) {
         return;
       }
 
       this.calendar.createSchedules([{
-        id: String(chance.guid()),
+        id,
         calendarId: calendar.id,
         title,
         isAllDay,
@@ -508,6 +508,8 @@ export default {
         borderColor: calendar.borderColor,
         state: 'Busy'
       }]);
+
+      this.saveStorage(id, calendar.id);
 
       $('#modal-new-schedule').modal('hide');
     },
@@ -530,6 +532,8 @@ export default {
         end,
         category: 'time'
       });
+
+      this.updateStore(id, calendar.id, calendarId);
 
       $('#modal-new-schedule').modal('hide')
     },
@@ -599,9 +603,9 @@ export default {
         schedule.bgColor = calendar.bgColor;
         schedule.borderColor = calendar.borderColor;
       }
-      console.log(schedule);
 
       this.calendar.createSchedules([schedule]);
+      this.saveStorage(schedule.id, calendar.id);
 
       this.refreshScheduleVisibility();
     },
@@ -717,13 +721,14 @@ export default {
     },
     setSchedules() {
       this.calendar.clear();
-      generateSchedule
+      ScheduleList.length = 0;
       // função para gerar horários aleatórios
-      // generateSchedule(
+      // ScheduleInfo.generateSchedule(
       //   this.calendar.getViewName(),
       //   this.calendar.getDateRangeStart(),
       //   this.calendar.getDateRangeEnd()
       // );
+      ScheduleInfo.createSchedules(JSON.parse(this.$ls.get('schedules', '[]')));
       this.calendar.createSchedules(ScheduleList);
 
       this.refreshScheduleVisibility();
@@ -767,6 +772,34 @@ export default {
     getDataAction(target) {
       return target.dataset ? target.dataset.action : target.getAttribute('data-action');
     },
+    saveStorage(id, calendarId) {
+      const schedule = this.calendar.getSchedule(id, calendarId);
+      const schedules = JSON.parse(this.$ls.get('schedules', '[]'));
+      schedules.push(schedule);
+      this.$ls.set('schedules', JSON.stringify(schedules));
+    },
+    updateStore(id, calendarId, oldCalendarId) {
+      const schedule = this.calendar.getSchedule(id, calendarId);
+      let schedules = JSON.parse(this.$ls.get('schedules', '[]'));
+
+      schedules = schedules.map(item => {
+        if (item.id == id && item.calendarId == oldCalendarId) {
+          item = schedule;
+        }
+        return item;
+      });
+
+      this.$ls.set('schedules', JSON.stringify(schedules));
+    },
+    deleteStorage(id, calendarId) {
+      let schedules = JSON.parse(this.$ls.get('schedules', '[]'));
+
+      schedules = schedules.filter(item => {
+        return !(item.id == id && item.calendarId == calendarId);
+      });
+
+      this.$ls.set('schedules', JSON.stringify(schedules));
+    },
     getJobs() {
       axios.get('v1/jobs')
         .then(response => {
@@ -778,7 +811,7 @@ export default {
           this.calendarList = CalendarList
         })
         .catch(error => {
-          console.log(error.response);
+          console.log(error);
         })
     }
   }
