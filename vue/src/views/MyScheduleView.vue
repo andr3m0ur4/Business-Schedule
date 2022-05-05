@@ -721,7 +721,7 @@ export default {
     },
     setSchedules() {
       this.calendar.clear();
-      ScheduleList.length = 0;
+      ScheduleList.splice(0, ScheduleList.length);
       // função para gerar horários aleatórios
       // ScheduleInfo.generateSchedule(
       //   this.calendar.getViewName(),
@@ -804,6 +804,7 @@ export default {
       axios.get('v1/jobs')
         .then(response => {
           this.jobs = response.data
+          CalendarList.splice(0, CalendarList.length);
           CalendarInfo.createCalendar(this.jobs)
           this.setCalendars()
           this.calendar.setCalendars(CalendarList)
