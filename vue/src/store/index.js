@@ -20,8 +20,8 @@ const store = createStore({
         logout(state) {
             return axios.post('v1/logout')
                 .then(response => {
-                    state.commit('logout')
-                    return response
+                    state.commit('logout');
+                    return response;
                 })
         }
     },
