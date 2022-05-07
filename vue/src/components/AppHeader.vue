@@ -317,7 +317,7 @@
                     <div class="card m-0">
                       <div class="card-body p-0">
                         <div class="py-3">
-                          <a href="../app/user-profile.html" class="iq-sub-card">
+                          <a href="/conta" class="iq-sub-card">
                             <div class="media align-items-center">
                               <i class="ri-user-line mr-3"></i>
                               <h6>Configurações da conta</h6>
