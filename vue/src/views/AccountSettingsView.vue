@@ -25,8 +25,6 @@
                     </div>
                     <p class="mb-0">(12) 99999-9999</p>
                   </div>
-                  <div class="d-flex justify-content-center">
-                  </div>
                 </div>
               </div>
             </div>
@@ -35,7 +33,7 @@
             <div class="card card-block mb-3">
               <div class="card-header d-flex justify-content-between">
                 <div class="iq-header-title">
-                  <h4 class="card-title mb-0">About Me</h4>
+                  <h4 class="card-title mb-0">Histórico na empresa</h4>
                 </div>
               </div>
               <div class="card-body">
@@ -49,7 +47,7 @@
                   passages, and more
                   recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
                 </p>
-                <h5 class="mb-2">Personal Skills</h5>
+                <h5 class="mb-2">Programas trabalhados</h5>
                 <ul class="list-unstyled mb-0">
                   <li class="mb-3"><i class="fa fa-check-circle text-primary fa-lg mr-2"></i>Lorem ipsum dolor sit amet,
                     consectetur adipiscing elit.</li>
@@ -62,30 +60,30 @@
                   <li><i class="fa fa-check-circle text-primary fa-lg mr-2"></i>Fusce et arcu in dui feugiat finibus.
                   </li>
                 </ul>
-                <h5 class="mb-2 mt-4">Professional Skills</h5>
+                <h5 class="mb-2 mt-4">Horas extra</h5>
                 <div class="iq-progress-bar-linear d-inline-block w-100 mb-3">
-                  <span>PHP</span>
+                  <span>Janeiro</span>
                   <span class="float-right">90%</span>
                   <div class="iq-progress-bar pro-skill">
                     <span data-percent="90"></span>
                   </div>
                 </div>
                 <div class="iq-progress-bar-linear d-inline-block w-100 mb-3">
-                  <span>MySQl</span>
+                  <span>Fevereiro</span>
                   <span class="float-right">85%</span>
                   <div class="iq-progress-bar pro-skill">
                     <span data-percent="85" class="bg1"></span>
                   </div>
                 </div>
                 <div class="iq-progress-bar-linear d-inline-block w-100 mb-3">
-                  <span>Node Js</span>
+                  <span>Março</span>
                   <span class="float-right">70%</span>
                   <div class="iq-progress-bar pro-skill">
                     <span data-percent="70" class="bg2"></span>
                   </div>
                 </div>
                 <div class="iq-progress-bar-linear d-inline-block w-100">
-                  <span>Angular Js</span>
+                  <span>Abril</span>
                   <span class="float-right">55%</span>
                   <div class="iq-progress-bar pro-skill">
                     <span data-percent="55" class="bg3"></span>
