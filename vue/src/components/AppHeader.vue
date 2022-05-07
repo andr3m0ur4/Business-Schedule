@@ -23,12 +23,12 @@
               <ul id="iq-sidebar-toggle" class="iq-menu d-flex">
                 <li class="">
                   <router-link to="/" class="">
-                    <span>Dashboard</span>
+                    <span>Home</span>
                   </router-link>
                 </li>
                 <li class="">
                   <router-link to="/my-schedule" class="">
-                    <span>My Schedule</span>
+                    <span>Minha escala</span>
                   </router-link>
                 </li>
                 <li class="">
