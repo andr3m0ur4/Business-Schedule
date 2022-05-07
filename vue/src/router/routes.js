@@ -9,7 +9,7 @@ import StudioView from '@/views/StudioView'
 import SwitcherView from '@/views/SwitcherView'
 import TvShowView from '@/views/TvShowView'
 import JobView from '@/views/JobView'
-import ErrorView from '@/views/ErrorView'
+import NotFound from '@/views/NotFound'
 import ForgotPasswordView from '@/views/ForgotPasswordView'
 import BlankPage from '@/views/BlankPage'
 import ResetPasswordEmail from '@/views/ResetPasswordEmail'
@@ -72,11 +72,6 @@ const routes = [
         component: AuthSignInView
     },
     {
-        path: '/erro',
-        name: 'erro',
-        component: ErrorView
-    },
-    {
         path: '/esqueceu-senha',
         name: 'esqueceu-senha',
         component: ForgotPasswordView
@@ -95,6 +90,11 @@ const routes = [
         path: '/confirma-senha',
         name: 'confirma-senha',
         component: ConfirmPasswordView
+    },
+    {
+        path: '/:pathMatch(.*)*',
+        name: 'not-found',
+        component: NotFound
     }
 ]
 

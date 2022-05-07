@@ -6,7 +6,8 @@
           <div class="iq-navbar-logo d-flex align-items-center justify-content-between">
             <i class="ri-menu-line wrapper-menu"></i>
             <router-link to="/" class="header-logo">
-              <img src="../assets/images/logo_header.png" class="img-fluid rounded-normal light-logo" alt="logo">
+              <img src="../assets/images/bs-icon-high.png" class="img-fluid rounded-normal light-logo" alt="logo">
+              <span class="title">Business Schedule</span>
             </router-link>
           </div>
           <div class="iq-menu-horizontal">
@@ -61,7 +62,7 @@
                         <span>Switchers</span>
                       </router-link>
                     </li>
-                    <li class="">
+                    <!-- <li class="">
                       <a href="#timeline" class="collapsed" data-toggle="collapse" aria-expanded="false">
                         <span>Timeline</span>
                         <i class="ri-arrow-right-s-line iq-arrow-right"></i>
@@ -172,7 +173,7 @@
                           </a>
                         </li>
                       </ul>
-                    </li>
+                    </li> -->
                   </ul>
                 </li>
               </ul>
@@ -373,6 +374,10 @@ export default {
 </script>
 
 <style scoped>
+.iq-navbar-logo a .title {
+  font-size: 16px;
+  color: #1B2734;
+}
 .fixed-top-navbar .iq-sidebar-menu .iq-menu li > a.active {
     color: #465af7;
 }
