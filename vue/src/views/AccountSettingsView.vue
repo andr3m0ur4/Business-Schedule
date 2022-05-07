@@ -22,21 +22,9 @@
 <div class="p-icon mr-3">
 <i class="las la-phone"></i>
 </div>
-<p class="mb-0">(123) 123 1234</p>
-</div>
-<div class="d-flex align-items-center mb-3">
-<div class="p-icon mr-3">
-<i class="las la-map-marked"></i>
-</div>
-<p class="mb-0">USA</p>
+<p class="mb-0">(12) 99999-9999</p>
 </div>
 <div class="d-flex justify-content-center">
-<div class="social-ic d-inline-flex rounded">
-<a href="#"><i class="fab fa-facebook-f"></i></a>
-<a href="#"><i class="fab fa-twitter"></i></a>
-<a href="#"><i class="fab fa-youtube"></i></a>
-<a href="#"><i class="fab fa-pinterest-p"></i></a>
-</div>
 </div>
 </div>
 </div>
