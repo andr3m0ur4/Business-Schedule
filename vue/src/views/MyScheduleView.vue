@@ -182,7 +182,10 @@
                   <div class="col-md-12">
                     <div class="form-group">
                       <label class="form-label" for="schedule-title">Funcionário</label>
-                      <input class="form-control" placeholder="Digite o Nome" type="text" id="schedule-title" required>
+                      <!-- <input class="form-control" placeholder="Digite o Nome" type="text" id="schedule-title" required> -->
+                      <select class="selectpicker form-control" id="schedule-title" title="Digite o Nome" data-live-search="true" required>
+                        <option v-for="employee in employeesByJobs" :key="employee.id">{{ employee.name }}</option>
+                      </select>
                     </div>
                   </div>
                   <div class="col-md-6">
@@ -226,7 +229,7 @@
 import Calendar from 'tui-calendar';
 import DatePicker from 'tui-date-picker';
 import throttle from 'tui-code-snippet/tricks/throttle';
-import axios from '@/axios'
+import axios from '@/axios';
 
 import { CalendarList, CalendarInfo } from '@/assets/js/data/calendars';
 import { ScheduleList, ScheduleInfo } from '@/assets/js/data/schedules';
@@ -241,12 +244,14 @@ export default {
       datePicker: null,
       selectedCalendar: null,
       jobs: [],
+      employees: [],
+      employeesByJobs: [],
       calendarList: [],
       resizeThrottled: null
     }
   },
   mounted() {
-    $('.selectpicker').selectpicker()
+    $('.selectpicker').selectpicker();
 
     const getTimeTemplate = (schedule, isAllDay) => {
       return this.getTimeTemplate(schedule, isAllDay);
@@ -270,18 +275,19 @@ export default {
           return getTimeTemplate(schedule, false);
         }
       }
-    })
+    });
 
     this.resizeThrottled = throttle(() => {
       this.calendar.render();
     }, 50);
 
-    this.setEventHandlers()
-    this.setDropdownCalendarType()
-    this.setRenderRangeText()
-    this.setEventListener()
-    this.getJobs()
-    this.setDateTimePicker()
+    this.setEventHandlers();
+    this.setDropdownCalendarType();
+    this.setRenderRangeText();
+    this.setEventListener();
+    this.getJobs();
+    this.getUsers();
+    this.setDateTimePicker();
 
     window.calendar = this.calendar
   },
@@ -303,7 +309,7 @@ export default {
         },
         beforeUpdateSchedule: e => {
           const schedule = e.schedule;
-          const changes = e.changes;
+          const changes = e.changes ?? e.schedule;
 
           console.log('beforeUpdateSchedule', e);
 
@@ -538,9 +544,13 @@ export default {
       $('#modal-new-schedule').modal('hide')
     },
     onChangeNewScheduleCalendar(e) {
-      const target = e.target.options[e.target.selectedIndex]
-      const calendarId = this.getDataAction(target)
-      this.changeNewScheduleCalendar(calendarId)
+      const target = e.target.options[e.target.selectedIndex];
+      const calendarId = this.getDataAction(target);
+      this.changeNewScheduleCalendar(calendarId);
+
+      this.employeesByJobs = this.employees.filter(employee => {
+        return employee.job_id == calendarId;
+      });
     },
     changeNewScheduleCalendar(calendarId) {
       const calendarNameElement = document.getElementById('calendarName');
@@ -721,7 +731,7 @@ export default {
     },
     setSchedules() {
       this.calendar.clear();
-      ScheduleList.length = 0;
+      ScheduleList.splice(0, ScheduleList.length);
       // função para gerar horários aleatórios
       // ScheduleInfo.generateSchedule(
       //   this.calendar.getViewName(),
@@ -803,16 +813,33 @@ export default {
     getJobs() {
       axios.get('v1/jobs')
         .then(response => {
-          this.jobs = response.data
-          CalendarInfo.createCalendar(this.jobs)
-          this.setCalendars()
-          this.calendar.setCalendars(CalendarList)
+          this.jobs = response.data;
+          CalendarList.splice(0, CalendarList.length);
+          CalendarInfo.createCalendar(this.jobs);
+          this.setCalendars();
+          this.calendar.setCalendars(CalendarList);
           this.setSchedules();
-          this.calendarList = CalendarList
+          this.calendarList = CalendarList;
         })
         .catch(error => {
           console.log(error);
+        });
+    },
+    getUsers() {
+      axios.get('v1/users')
+        .then(response => {
+          this.employees = response.data;
         })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+  },
+  watch: {
+    employeesByJobs() {
+      this.$nextTick(() => {
+        $('#schedule-title').selectpicker('refresh');
+      });
     }
   }
 }

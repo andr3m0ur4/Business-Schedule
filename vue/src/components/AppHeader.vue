@@ -6,7 +6,7 @@
           <div class="iq-navbar-logo d-flex align-items-center justify-content-between">
             <i class="ri-menu-line wrapper-menu"></i>
             <router-link to="/" class="header-logo">
-              <img src="../assets/images/logo_header.png" class="img-fluid rounded-normal light-logo" alt="logo" height="200" width="500">
+              <img src="../assets/images/logo_header.png" class="img-fluid rounded-normal light-logo" alt="logo">
             </router-link>
           </div>
           <div class="iq-menu-horizontal">
@@ -359,8 +359,14 @@ export default {
         .then(() => {
           this.$router.push({
             name: 'sign-in'
-          })
+          });
         })
+        .catch(error => {
+          this.$store.commit('logout');
+          this.$router.push({
+            name: 'sign-in'
+          });
+        });
     }
   }
 }

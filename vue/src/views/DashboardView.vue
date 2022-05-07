@@ -6,7 +6,7 @@
               <div class="col-lg-12 mb-3">
                 <div class="d-flex align-items-center justify-content-between">
                   <div class="navbar-breadcrumb">
-                    <h1 class="mb-1">My Calender</h1>
+                    <h1 class="mb-1">Minha Escala de Trabalho</h1>
                   </div>
                 </div>
               </div>
@@ -25,27 +25,27 @@
               </div>
               <div class="col-lg-2 col-md-4 tab-extra" id="view-event">
                 <div class="float-md-right mb-4"><a href="#event1" class="btn view-btn">View Event</a></div>
-              </div> 
-            </div>        
+              </div>
+            </div>
             <div class="tab-extra active" id="search-with-button">
               <div class="iq-search-bar d-flex flex-wrap align-items-center search-device mb-4 pr-3">
                 <input class="form-control bg-white border text search-input" type="text" placeholder="Search...">
               </div>
-            </div>    
+            </div>
           </div>
         </div>
         <div class="container">
             <div class="row">
-                <div class="col-lg-12">                
+                <div class="col-lg-12">
                     <div class="event-content">
                         <div id="event1" class="tab-pane fade active show">
-                            <div class="row">                                
+                            <div class="row">
                                 <div class="col-lg-4 col-md-6">
                                     <div class="card card-block card-stretch card-height">
                                         <div class="card-body rounded event-detail event-detail-danger disabled">
                                             <div class="d-flex align-items-top justify-content-between">
                                                 <div>
-                                                    <h4 class="mb-2 mr-4">Reminder of App Project And Design</h4>                                        
+                                                    <h4 class="mb-2 mr-4">Reminder of App Project And Design</h4>
                                                     <p class="mb-2 text-danger font-weight-500 text-uppercase"><i class="las la-user pr-2"></i>One On One</p>
                                                     <p class="mb-3 card-description">Calendify always allows you to set the reminder to optimize task management roles and jobs.</p>
                                                     <div class="d-flex align-items-center pt-3">
@@ -64,7 +64,7 @@
                                                             <a class="dropdown-item" href="#"><i class="ri-sticky-note-line mr-3"></i>Add Internal Note</a>
                                                             <a class="dropdown-item" href="#"><i class="ri-save-line mr-3"></i>Save to Template</a>
                                                             <a class="dropdown-item" href="#"><i class="ri-code-s-slash-line mr-3"></i>Save to Website</a>
-                                                            <a class="dropdown-item" href="#"><i class="ri-delete-bin-6-line mr-3"></i>Delete</a>  
+                                                            <a class="dropdown-item" href="#"><i class="ri-delete-bin-6-line mr-3"></i>Delete</a>
                                                             <div class="dropdown-item border-top mt-2">
                                                                 <div class="d-flex align-items-center justify-content-between">
                                                                     <div>On/Off</div>
@@ -86,7 +86,7 @@
                                         <div class="card-body rounded event-detail event-detail-info">
                                             <div class="d-flex align-items-top justify-content-between">
                                                 <div>
-                                                    <h4 class="mb-2 mr-4">Email Signature for Support Team</h4>                                        
+                                                    <h4 class="mb-2 mr-4">Email Signature for Support Team</h4>
                                                     <p class="mb-2 text-info font-weight-500 text-uppercase"><i class="las la-user pr-2"></i>One On One</p>
                                                     <p class="mb-3 card-description">Outsmart back-and-forth in communication by staying alert with your support team follow-ups.</p>
                                                     <div class="d-flex align-items-center pt-3">
@@ -105,7 +105,7 @@
                                                             <a class="dropdown-item" href="#"><i class="ri-sticky-note-line mr-3"></i>Add Internal Note</a>
                                                             <a class="dropdown-item" href="#"><i class="ri-save-line mr-3"></i>Save to Template</a>
                                                             <a class="dropdown-item" href="#"><i class="ri-code-s-slash-line mr-3"></i>Save to Website</a>
-                                                            <a class="dropdown-item" href="#"><i class="ri-delete-bin-6-line mr-3"></i>Delete</a>  
+                                                            <a class="dropdown-item" href="#"><i class="ri-delete-bin-6-line mr-3"></i>Delete</a>
                                                             <div class="dropdown-item border-top mt-2">
                                                                 <div class="d-flex align-items-center justify-content-between">
                                                                     <div>On/Off</div>
@@ -127,7 +127,7 @@
                                         <div class="card-body rounded event-detail event-detail-success">
                                             <div class="d-flex align-items-top justify-content-between">
                                                 <div>
-                                                    <h4 class="mb-2 mr-4">Plugins & Team Review Meeting</h4>                                        
+                                                    <h4 class="mb-2 mr-4">Plugins & Team Review Meeting</h4>
                                                     <p class="mb-2 text-success font-weight-500 text-uppercase"><i class="las la-user-friends pr-2"></i>Group</p>
                                                     <p class="mb-3 card-description">Calendify lets you to simplify and prioritize your calendar and your team’s calendar with review. </p>
                                                     <div class="d-flex align-items-center pt-3">
@@ -146,7 +146,7 @@
                                                             <a class="dropdown-item" href="#"><i class="ri-sticky-note-line mr-3"></i>Add Internal Note</a>
                                                             <a class="dropdown-item" href="#"><i class="ri-save-line mr-3"></i>Save to Template</a>
                                                             <a class="dropdown-item" href="#"><i class="ri-code-s-slash-line mr-3"></i>Save to Website</a>
-                                                            <a class="dropdown-item" href="#"><i class="ri-delete-bin-6-line mr-3"></i>Delete</a> 
+                                                            <a class="dropdown-item" href="#"><i class="ri-delete-bin-6-line mr-3"></i>Delete</a>
                                                             <div class="dropdown-item border-top mt-2">
                                                                 <div class="d-flex align-items-center justify-content-between">
                                                                     <div>On/Off</div>
@@ -162,13 +162,13 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>                                
+                                </div>
                                 <div class="col-lg-4 col-md-6">
                                     <div class="card card-block card-stretch card-height">
                                         <div class="card-body rounded event-detail event-detail-primary">
                                             <div class="d-flex align-items-top justify-content-between">
                                                 <div>
-                                                    <h4 class="mb-2 mr-4">New Year Iqonic Design Campaigns</h4>                                        
+                                                    <h4 class="mb-2 mr-4">New Year Iqonic Design Campaigns</h4>
                                                     <p class="mb-2 text-primary font-weight-500 text-uppercase"><i class="las la-user-friends pr-2"></i>Group</p>
                                                     <p class="mb-3 card-description">Quickly schedule and set the event type to manage all your marketing and management campaigns. </p>
                                                     <div class="d-flex align-items-center pt-3">
@@ -187,7 +187,7 @@
                                                             <a class="dropdown-item" href="#"><i class="ri-sticky-note-line mr-3"></i>Add Internal Note</a>
                                                             <a class="dropdown-item" href="#"><i class="ri-save-line mr-3"></i>Save to Template</a>
                                                             <a class="dropdown-item" href="#"><i class="ri-code-s-slash-line mr-3"></i>Save to Website</a>
-                                                            <a class="dropdown-item" href="#"><i class="ri-delete-bin-6-line mr-3"></i>Delete</a> 
+                                                            <a class="dropdown-item" href="#"><i class="ri-delete-bin-6-line mr-3"></i>Delete</a>
                                                             <div class="dropdown-item border-top mt-2">
                                                                 <div class="d-flex align-items-center justify-content-between">
                                                                     <div>On/Off</div>
@@ -209,7 +209,7 @@
                                         <div class="card-body rounded event-detail event-detail-warning">
                                             <div class="d-flex align-items-top justify-content-between">
                                                 <div>
-                                                    <h4 class="mb-2 mr-4">Project And Task Management Roles</h4>                                        
+                                                    <h4 class="mb-2 mr-4">Project And Task Management Roles</h4>
                                                     <p class="mb-2 text-warning font-weight-500 text-uppercase"><i class="las la-user-friends pr-2"></i>Group</p>
                                                     <p class="mb-3 card-description">Set reminders for your team regarding their project and task completion so that they are not overlooked. </p>
                                                     <div class="d-flex align-items-center pt-3">
@@ -228,7 +228,7 @@
                                                             <a class="dropdown-item" href="#"><i class="ri-sticky-note-line mr-3"></i>Add Internal Note</a>
                                                             <a class="dropdown-item" href="#"><i class="ri-save-line mr-3"></i>Save to Template</a>
                                                             <a class="dropdown-item" href="#"><i class="ri-code-s-slash-line mr-3"></i>Save to Website</a>
-                                                            <a class="dropdown-item" href="#"><i class="ri-delete-bin-6-line mr-3"></i>Delete</a>  
+                                                            <a class="dropdown-item" href="#"><i class="ri-delete-bin-6-line mr-3"></i>Delete</a>
                                                             <div class="dropdown-item border-top mt-2">
                                                                 <div class="d-flex align-items-center justify-content-between">
                                                                     <div>On/Off</div>
@@ -249,7 +249,7 @@
                         </div>
                         <div id="event2" class="tab-pane fade">
                             <div class="d-flex flex-wrap align-items-center justify-content-between mb-4">
-                                <ul class="d-flex nav nav-pills text-center schedule-tab" id="schedule-pills-tab" role="tablist">                                
+                                <ul class="d-flex nav nav-pills text-center schedule-tab" id="schedule-pills-tab" role="tablist">
                                     <li class="nav-item">
                                         <a class="nav-link" data-toggle="pill" href="#schedule01" data-extras="#filter-none" role="tab" aria-selected="false">All</a>
                                     </li>
@@ -332,7 +332,7 @@
                                                     <div class="d-flex flex-wrap align-items-center justify-content-between">
                                                         <div class="d-flex flex-wrap align-items-center">
                                                             <div class="date mr-3"><h4 class="text-info">15 Dec</h4></div>
-                                                            <div class="border-left-event pl-3"> 
+                                                            <div class="border-left-event pl-3">
                                                                 <div class="media align-items-top">
                                                                     <h5 class="mb-3">Calendify Inner Pages</h5>
                                                                     <div class="badge badge-color ml-3">Upcoming</div>
@@ -350,24 +350,24 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>  
+                                        </div>
                                         <div class="col-lg-12">
                                             <div class="card card-block card-stretch">
                                                 <div class="card-body">
                                                     <div class="d-flex flex-wrap align-items-center justify-content-between">
                                                         <div class="d-flex flex-wrap align-items-center">
                                                             <div class="date mr-3"><h4 class="text-danger">25 Dec</h4></div>
-                                                            <div class="border-left-event pl-3"> 
+                                                            <div class="border-left-event pl-3">
                                                                 <div class="media align-items-top">
                                                                     <h5 class="mb-3">Admin Dashboard Team Meet</h5>
                                                                     <div class="badge badge-color ml-3">Upcoming</div>
-                                                                </div>                                                            
+                                                                </div>
                                                                 <div class="media align-items-center">
                                                                     <p class="mb-0 pr-3"><i class="las la-clock mr-2 text-danger"></i>09:45 Pm - 10 Pm</p>
                                                                     <p class="mb-0"><i class="las la-map-marker mr-2 text-danger"></i>1 Circle Street Leominster, Ma 01453</p>
                                                                 </div>
                                                             </div>
-                                                        </div>                                                    
+                                                        </div>
                                                         <div class="d-flex align-items-center list-action mt-lg-0 mt-2">
                                                             <a class="badge mr-3" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit" href="#"><i class="ri-edit-box-line"></i></a>
                                                             <a class="badge" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete" href="#"><i class="ri-delete-bin-line"></i></a>
@@ -375,14 +375,14 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>   
+                                        </div>
                                         <div class="col-lg-12">
                                             <div class="card card-block card-stretch">
                                                 <div class="card-body">
                                                     <div class="d-flex flex-wrap align-items-center justify-content-between">
                                                         <div class="d-flex flex-wrap align-items-center">
                                                             <div class="date mr-3"><h4 class="text-success">29 Dec</h4></div>
-                                                            <div class="border-left-event pl-3">  
+                                                            <div class="border-left-event pl-3">
                                                                 <div class="media align-items-top">
                                                                     <h5 class="mb-3">Calendify Pre-Launch Campaign</h5>
                                                                     <div class="badge badge-color ml-3">Pending</div>
@@ -390,9 +390,9 @@
                                                                 <div class="media align-items-center">
                                                                     <p class="mb-0 pr-3"><i class="las la-clock mr-2 text-success"></i>10 Pm - 10:30 Pm</p>
                                                                     <p class="mb-0"><i class="las la-map-marker mr-2 text-success"></i>1 Circle Street Leominster, Ma 01453</p>
-                                                                </div> 
+                                                                </div>
                                                             </div>
-                                                        </div>                                                   
+                                                        </div>
                                                         <div class="d-flex align-items-center list-action mt-lg-0 mt-2">
                                                             <a class="badge mr-3" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit" href="#"><i class="ri-edit-box-line"></i></a>
                                                             <a class="badge" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete" href="#"><i class="ri-delete-bin-line"></i></a>
@@ -400,7 +400,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>                                                
+                                        </div>
                                     </div>
                                 </div>
                                 <div id="schedule1" class="tab-pane fade active show">
@@ -418,7 +418,7 @@
                                                             <a class="badge" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete" href="#"><i class="ri-delete-bin-line"></i></a>
                                                         </div>
                                                     </div>
-                                                    <h4 class="my-2">Xamin WordPress Theme Update</h4>   
+                                                    <h4 class="my-2">Xamin WordPress Theme Update</h4>
                                                     <p class="mb-3 card-description">Major update v2.5 version of Xamin theme. Make Xamin in Elementor version and document the steps.</p>
                                                     <p class="mb-2 text-info"><i class="las la-clock mr-3"></i>08 Pm - 09 Pm</p>
                                                     <p class="mb-0 text-info"><i class="las la-map-marker mr-3"></i>1 Circle Street Leominster, Ma 01453</p>
@@ -438,7 +438,7 @@
                                                             <a class="badge" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete" href="#"><i class="ri-delete-bin-line"></i></a>
                                                         </div>
                                                     </div>
-                                                    <h4 class="my-2">Iqonic Design Christmas Campaign</h4>   
+                                                    <h4 class="my-2">Iqonic Design Christmas Campaign</h4>
                                                     <p class="mb-3 card-description">Draft an conversional and Sales-driven Christmas campaign by offering Christmas deals to customers. </p>
                                                     <p class="mb-2 text-danger"><i class="las la-clock mr-3"></i>09:45 Pm - 10 Pm</p>
                                                     <p class="mb-0 text-danger"><i class="las la-map-marker mr-3"></i>1 Circle Street Leominster, Ma 01453</p>
@@ -458,7 +458,7 @@
                                                             <a class="badge" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete" href="#"><i class="ri-delete-bin-line"></i></a>
                                                         </div>
                                                     </div>
-                                                    <h4 class="my-2">Best Iqonic Design Item Collections</h4>   
+                                                    <h4 class="my-2">Best Iqonic Design Item Collections</h4>
                                                     <p class="mb-3 card-description">Build the best Iqonic collectable list of WordPress themes, HTML, Vuejs Admin Dashboards and Mobile Applications. </p>
                                                     <p class="mb-2 text-success"><i class="las la-clock mr-3"></i>10 Pm - 10:30 Pm</p>
                                                     <p class="mb-0 text-success"><i class="las la-map-marker mr-3"></i>1 Circle Street Leominster, Ma 01453</p>
@@ -482,7 +482,7 @@
                                                             <a class="badge" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete" href="#"><i class="ri-delete-bin-line"></i></a>
                                                         </div>
                                                     </div>
-                                                    <h4 class="my-2">Calendify Homepage Final Edits</h4>   
+                                                    <h4 class="my-2">Calendify Homepage Final Edits</h4>
                                                     <p class="mb-3 card-description">Enhance Calendify with beautiful user interface and UI changes to ensure high conversion rate.</p>
                                                     <p class="mb-2 text-info"><i class="las la-clock mr-3"></i>08 Pm - 09 Pm</p>
                                                     <p class="mb-0 text-info"><i class="las la-map-marker mr-3"></i>1 Circle Street Leominster, Ma 01453</p>
@@ -502,7 +502,7 @@
                                                             <a class="badge" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete" href="#"><i class="ri-delete-bin-line"></i></a>
                                                         </div>
                                                     </div>
-                                                    <h4 class="my-2">Calendify Promotional Campaign</h4>   
+                                                    <h4 class="my-2">Calendify Promotional Campaign</h4>
                                                     <p class="mb-3 card-description">Schedule meetings and promotional campaigns for your internal team by assigning task and roles.</p>
                                                     <p class="mb-2 text-danger"><i class="las la-clock mr-3"></i>09:45 Pm - 10 Pm</p>
                                                     <p class="mb-0 text-danger"><i class="las la-map-marker mr-3"></i>1 Circle Street Leominster, Ma 01453</p>
@@ -522,7 +522,7 @@
                                                             <a class="badge" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete" href="#"><i class="ri-delete-bin-line"></i></a>
                                                         </div>
                                                     </div>
-                                                    <h4 class="my-2">Exploring Timezone Detection</h4>   
+                                                    <h4 class="my-2">Exploring Timezone Detection</h4>
                                                     <p class="mb-3 card-description">An internal team meeting to brief on a feature where the meeting will be seen in viewer’s time zone with automatic timezone detection in Calendify. </p>
                                                     <p class="mb-2 text-success"><i class="las la-clock mr-3"></i>10 Pm - 10:30 Pm</p>
                                                     <p class="mb-0 text-success"><i class="las la-map-marker mr-3"></i>1 Circle Street Leominster, Ma 01453</p>
@@ -546,7 +546,7 @@
                                                             <a class="badge" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete" href="#"><i class="ri-delete-bin-line"></i></a>
                                                         </div>
                                                     </div>
-                                                    <h4 class="my-2">Webtech-Developer Horror Stories</h4>   
+                                                    <h4 class="my-2">Webtech-Developer Horror Stories</h4>
                                                     <p class="mb-3 card-description">Lorem Ipsum Dolor Sit Amet, Consecetetur Adip Iscing Elit. Pharetra Luctus Ultricies Velit Ut. Id Tincidunt Mattis Sed Duis.</p>
                                                     <p class="mb-2 text-info"><i class="las la-clock mr-3"></i>08 Pm - 09 Pm</p>
                                                     <p class="mb-0 text-info"><i class="las la-map-marker mr-3"></i>1 Circle Street Leominster, Ma 01453</p>
@@ -566,7 +566,7 @@
                                                             <a class="badge" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete" href="#"><i class="ri-delete-bin-line"></i></a>
                                                         </div>
                                                     </div>
-                                                    <h4 class="my-2">Meetup-Meeing With Team of Designer</h4>   
+                                                    <h4 class="my-2">Meetup-Meeing With Team of Designer</h4>
                                                     <p class="mb-3 card-description">Lorem Ipsum Dolor Sit Amet, Consecetetur Adip Iscing Elit. Pharetra Luctus Ultricies Velit Ut. Id Tincidunt Mattis Sed Duis.</p>
                                                     <p class="mb-2 text-danger"><i class="las la-clock mr-3"></i>09:45 Pm - 10 Pm</p>
                                                     <p class="mb-0 text-danger"><i class="las la-map-marker mr-3"></i>1 Circle Street Leominster, Ma 01453</p>
@@ -586,7 +586,7 @@
                                                             <a class="badge" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete" href="#"><i class="ri-delete-bin-line"></i></a>
                                                         </div>
                                                     </div>
-                                                    <h4 class="my-2">Project Plan-Do Anaylsis Of Project</h4>   
+                                                    <h4 class="my-2">Project Plan-Do Anaylsis Of Project</h4>
                                                     <p class="mb-3 card-description">Lorem Ipsum Dolor Sit Amet, Consecetetur Adip Iscing Elit. Pharetra Luctus Ultricies Velit Ut. Id Tincidunt Mattis Sed Duis.</p>
                                                     <p class="mb-2 text-success"><i class="las la-clock mr-3"></i>10 Pm - 10:30 Pm</p>
                                                     <p class="mb-0 text-success"><i class="las la-map-marker mr-3"></i>1 Circle Street Leominster, Ma 01453</p>
@@ -595,11 +595,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div id="schedule4" data-toggle="daterange" class="tab-pane fade">                                
+                                <div id="schedule4" data-toggle="daterange" class="tab-pane fade">
                                     <div class="card card-block card-stretch mb-4">
                                         <div class="card-body mb-5 border-bottom">
                                             <p class="mb-0">18 Dec – 24 Dec 2020</p>
-                                        </div> 
+                                        </div>
                                         <div class="card-body text-center">
                                             <div class="d-inline-block m-auto date-event">
                                                 <div class="icon iq-icon-box-2 m-auto rounded border">
@@ -614,13 +614,13 @@
                         </div>
                         <div id="event3" class="tab-pane fade">
                             <div class="d-flex flex-wrap align-items-center justify-content-between mb-4">
-                                <div>                                
+                                <div>
                                     <h3 class="mb-3">Save Your Time Using Workflow</h3>
                                     <p class="mb-md-0">Choose Your Own Workflow From Given Below.<br>Or Create Your Own Workflow</p>
                                 </div>
                                 <div class="create-workform">
                                     <a href="#create-event" data-toggle="modal" data-target="#create-event" class="btn btn-primary pr-5 position-relative">Create Workflow<span class="event-add-btn"><i class="ri-add-line"></i></span></a>
-                                </div>                            
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-xl-3 col-lg-4 col-md-6">
@@ -629,7 +629,7 @@
                                             <div class="icon iq-icon-box-2 mb-3 rounded">
                                                 <i class="las la-boxes"></i>
                                             </div>
-                                            <h4 class="mb-2">Email Reminder to Invitee</h4>                             
+                                            <h4 class="mb-2">Email Reminder to Invitee</h4>
                                             <p class="mb-3 card-description">Send automated email reminder to invitees for task.</p>
                                             <div class="pt-2">
                                                 <a href="#" class="btn btn-info mr-3 px-4">Use workflow</a>
@@ -643,7 +643,7 @@
                                             <div class="icon iq-icon-box-2 mb-3 rounded">
                                                 <i class="lab la-ioxhost"></i>
                                             </div>
-                                            <h4 class="mb-2">Email Reminder to Host</h4>                             
+                                            <h4 class="mb-2">Email Reminder to Host</h4>
                                             <p class="mb-3 card-description">Send automated email reminder to the meeting host.</p>
                                             <div class="pt-2">
                                                 <a href="#" class="btn btn-danger mr-3 px-4">Use workflow</a>
@@ -657,7 +657,7 @@
                                             <div class="icon iq-icon-box-2 mb-3 rounded">
                                                 <i class="las la-envelope-open"></i>
                                             </div>
-                                            <h4 class="mb-2">Create Process Template</h4>                             
+                                            <h4 class="mb-2">Create Process Template</h4>
                                             <p class="mb-3 card-description">Create structured step-by-step process template for team.</p>
                                             <div class="pt-2">
                                                 <a href="#" class="btn btn-success mr-3 px-4">Use workflow</a>
@@ -671,7 +671,7 @@
                                             <div class="icon iq-icon-box-2 mb-3 rounded">
                                                 <i class="las la-stopwatch"></i>
                                             </div>
-                                            <h4 class="mb-2">Running Multiple Instances</h4>                             
+                                            <h4 class="mb-2">Running Multiple Instances</h4>
                                             <p class="mb-3 card-description">Quickly run multiple instances and checklist for team.</p>
                                             <div class="pt-2">
                                                 <a href="#" class="btn btn-warning mr-3 px-4">Use workflow</a>
@@ -685,7 +685,7 @@
                                             <div class="icon iq-icon-box-2 mb-3 rounded">
                                                 <i class="las la-handshake"></i>
                                             </div>
-                                            <h4 class="mb-2">Track Process and collaborate</h4>                             
+                                            <h4 class="mb-2">Track Process and collaborate</h4>
                                             <p class="mb-3 card-description">Track activity and prepare checklist to collaborate.</p>
                                             <div class="pt-2">
                                                 <a href="#" class="btn btn-primary mr-3 px-4">Use workflow</a>
@@ -699,7 +699,7 @@
                                             <div class="icon iq-icon-box-2 mb-3 rounded">
                                                 <i class="las la-envelope"></i>
                                             </div>
-                                            <h4 class="mb-2">Text Booking confirmation</h4>                             
+                                            <h4 class="mb-2">Text Booking confirmation</h4>
                                             <p class="mb-3 card-description">Send text message for booking confirmation.</p>
                                             <div class="pt-2">
                                                 <a href="#" class="btn btn-info mr-3 px-4">Use workflow</a>
@@ -713,7 +713,7 @@
                                             <div class="icon iq-icon-box-2 mb-3 rounded">
                                                 <i class="las la-hourglass"></i>
                                             </div>
-                                            <h4 class="mb-2">Email Feedback Survey Form</h4>                             
+                                            <h4 class="mb-2">Email Feedback Survey Form</h4>
                                             <p class="mb-3 card-description">Use forms to collect feedback of the launch campaigns.</p>
                                             <div class="pt-2">
                                                 <a href="#" class="btn btn-danger mr-3 px-4">Use workflow</a>
@@ -727,7 +727,7 @@
                                             <div class="icon iq-icon-box-2 mb-3 rounded">
                                                 <i class="las la-bookmark"></i>
                                             </div>
-                                            <h4 class="mb-2">Take follow-up meeting</h4>                             
+                                            <h4 class="mb-2">Take follow-up meeting</h4>
                                             <p class="mb-3 card-description">Streamline a follow-up process for the internal team.</p>
                                             <div class="pt-2">
                                                 <a href="#" class="btn btn-success mr-3 px-4">Use workflow</a>
@@ -741,7 +741,7 @@
                                             <div class="icon iq-icon-box-2 mb-3 rounded">
                                                 <i class="las la-bell"></i>
                                             </div>
-                                            <h4 class="mb-2">Integrate and automate task</h4>                             
+                                            <h4 class="mb-2">Integrate and automate task</h4>
                                             <p class="mb-3 card-description">Integrate and automate daily and weekly tasks and sales.</p>
                                             <div class="pt-2">
                                                 <a href="#" class="btn btn-warning mr-3 px-4">Use workflow</a>
@@ -777,9 +777,9 @@
                                     </select>
                                 </div>
                             </div>
-                        </div> 
+                        </div>
                         <div class="mb-3">
-                            <h5 class="mb-3">Do this</h5>                             
+                            <h5 class="mb-3">Do this</h5>
                             <div class="form-group  mb-0">
                                 <select name="type" class="selectpicker form-control" data-style="py-0">
                                     <option>Select..</option>

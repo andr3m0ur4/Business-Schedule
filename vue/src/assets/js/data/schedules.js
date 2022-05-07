@@ -59,7 +59,7 @@ class ScheduleInfo {
     }
 
     static generateTime(schedule, renderStart, renderEnd) {
-        var startDate = moment(renderStart.getTime())
+        var startDate = moment(renderStart.getTime());
         var endDate = moment(renderEnd.getTime());
         var diffDate = endDate.diff(startDate, 'days');
 
@@ -76,7 +76,7 @@ class ScheduleInfo {
         }
 
         startDate.add(chance.integer({min: 0, max: diffDate}), 'days');
-        startDate.hours(chance.integer({min: 0, max: 23}))
+        startDate.hours(chance.integer({min: 0, max: 23}));
         startDate.minutes(chance.bool() ? 0 : 30);
         schedule.start = startDate.toDate();
 
@@ -156,7 +156,7 @@ class ScheduleInfo {
     }
 
     static generateSchedule(viewName, renderStart, renderEnd) {
-        ScheduleList.length = 0;
+        ScheduleList.splice(0, ScheduleList.length);
         CalendarList.forEach(function(calendar) {
             var i = 0, length = 10;
             if (viewName === 'month') {
