@@ -92,7 +92,7 @@ const routes = [
         component: ResetPasswordEmail
     },
     {
-        path: '/confirma-senha',
+        path: '/confirma-senha/:token',
         name: 'confirma-senha',
         component: ConfirmPasswordView
     }

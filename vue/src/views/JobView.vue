@@ -6,7 +6,7 @@
           <div class="card card-block card-stretch card-height">
             <div class="card-header d-flex justify-content-between">
               <div class="iq-header-title">
-                <h4 class="card-title mb-0">Cargos</h4>
+                <h4 class="card-title mb-0">Funções</h4>
               </div>
               <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#addJob">Adicionar Novo</a>
             </div>
@@ -52,13 +52,13 @@
 
     <JobModal
       id-modal="addJob"
-      title="Cadastrar Cargo"
+      title="Cadastrar Função"
       :event="saveJob"
       v-model:name="job.name"
     />
     <JobModal
       id-modal="updateJob"
-      title="Alterar Cargo"
+      title="Alterar Função"
       :event="updateJob"
       v-model:id="job.id"
       v-model:name="job.name"
