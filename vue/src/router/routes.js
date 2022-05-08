@@ -15,6 +15,7 @@ import ForgotPasswordView from '@/views/ForgotPasswordView'
 import BlankPage from '@/views/BlankPage'
 import ResetPasswordEmail from '@/views/ResetPasswordEmail'
 import ConfirmPasswordView from '@/views/ConfirmPasswordView'
+import AccountSettingsView from '@/views/AccountSettingsView'
 import store from '@/store'
 
 const routes = [
@@ -62,6 +63,11 @@ const routes = [
                 path: '/funcoes',
                 name: 'job',
                 component: JobView
+            },
+            {
+                path: '/conta',
+                name: 'conta',
+                component: AccountSettingsView
             }
         ]
     },

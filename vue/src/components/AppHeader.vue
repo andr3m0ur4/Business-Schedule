@@ -24,7 +24,7 @@
               <ul id="iq-sidebar-toggle" class="iq-menu d-flex">
                 <li class="">
                   <router-link to="/" class="">
-                    <span>Dashboard</span>
+                    <span>Home</span>
                   </router-link>
                 </li>
                 <li class="">
@@ -208,8 +208,8 @@
                                 <img class="avatar-40 rounded-small" src="../assets/images/user/u-1.jpg" alt="01">
                               </div>
                               <div class="media-body ml-3">
-                                <h6 class="mb-0">Barry Emma Watson</h6>
-                                <small class="mb-0">We Want to see you On..</small>
+                                <h6 class="mb-0">Rodrigo Ramos</h6>
+                                <small class="mb-0">Preciso trocar meu horário</small>
                               </div>
                             </div>
                           </a>
@@ -219,8 +219,8 @@
                                 <img class="avatar-40 rounded-small" src="../assets/images/user/u-2.jpg" alt="02">
                               </div>
                               <div class="media-body ml-3">
-                                <h6 class="mb-0">Lorem Ipsum Watson</h6>
-                                <small class="mb-0">Can we have a Call?</small>
+                                <h6 class="mb-0">Igor Santos</h6>
+                                <small class="mb-0">Obrigado por me atender</small>
                               </div>
                             </div>
                           </a>
@@ -230,8 +230,8 @@
                                 <img class="avatar-40 rounded-small" src="../assets/images/user/u-3.jpg" alt="03">
                               </div>
                               <div class="media-body ml-3">
-                                <h6 class="mb-0">Why do we use it?</h6>
-                                <small class="mb-0">Thank You but now we Don't...</small>
+                                <h6 class="mb-0">André Moura</h6>
+                                <small class="mb-0">Bom dia, Referente a troca...</small>
                               </div>
                             </div>
                           </a>
@@ -264,10 +264,10 @@
                               </div>
                               <div class="media-body ml-3">
                                 <div class="d-flex align-items-center justify-content-between">
-                                  <h6 class="mb-0">Anne Effit</h6>
-                                  <small class="mb-0">02 Min Ago</small>
+                                  <h6 class="mb-0">Igor Santos</h6>
+                                  <small class="mb-0">12 min atrás</small>
                                 </div>
-                                <small class="mb-0">Manager</small>
+                                <small class="mb-0">Cinegráfista</small>
                               </div>
                             </div>
                           </a>
@@ -278,10 +278,10 @@
                               </div>
                               <div class="media-body ml-3">
                                 <div class="d-flex align-items-center justify-content-between">
-                                  <h6 class="mb-0">Eric Shun</h6>
-                                  <small class="mb-0">05 Min Ago</small>
+                                  <h6 class="mb-0">Rodrigo Ramos</h6>
+                                  <small class="mb-0">25 min atrás</small>
                                 </div>
-                                <small class="mb-0">Manager</small>
+                                <small class="mb-0">Animador 2D/3D</small>
                               </div>
                             </div>
                           </a>
@@ -292,10 +292,10 @@
                               </div>
                               <div class="media-body ml-3">
                                 <div class="d-flex align-items-center justify-content-between">
-                                  <h6 class="mb-0">Ken Tucky</h6>
-                                  <small class="mb-0">10 Min Ago</small>
+                                  <h6 class="mb-0">André Moura</h6>
+                                  <small class="mb-0">30 min atrás</small>
                                 </div>
-                                <small class="mb-0">Employee</small>
+                                <small class="mb-0">Operador de Audio</small>
                               </div>
                             </div>
                           </a>
@@ -319,7 +319,7 @@
                     <div class="card m-0">
                       <div class="card-body p-0">
                         <div class="py-3">
-                          <a href="../app/user-profile.html" class="iq-sub-card">
+                          <a href="/conta" class="iq-sub-card">
                             <div class="media align-items-center">
                               <i class="ri-user-line mr-3"></i>
                               <h6>Configurações da conta</h6>
