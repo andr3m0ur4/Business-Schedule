@@ -5,7 +5,7 @@
         <div class="col-lg-12 mb-4">
           <div class="py-4 border-bottom">
             <div class="form-title text-center">
-              <h3>My Schedule</h3>
+              <h3>Minha Escala</h3>
             </div>
           </div>
         </div>
@@ -46,13 +46,13 @@
                     <ul class="dropdown-menu p-3 border-none">
                       <li class="lnb-calendars-item">
                         <div class="item mb-2">
-                            <div class="checkbox">
-                              <label for="checkbox1" class="mb-0">
-                                <input type="checkbox" class="checkbox-input mr-3 tui-full-calendar-checkbox-square" id="checkbox1" value="all" checked>
-                                <span></span>
-                                <strong>Todas as Equipes</strong>
-                              </label>
-                            </div>
+                          <div class="checkbox">
+                            <label for="checkbox1" class="mb-0">
+                              <input type="checkbox" class="checkbox-input mr-3 tui-full-calendar-checkbox-square" id="checkbox1" value="all" checked>
+                              <span></span>
+                              <strong>Todas as Equipes</strong>
+                            </label>
+                          </div>
                         </div>
                       </li>
                       <li id="calendarList" class="lnb-calendars-d1"></li>
@@ -62,13 +62,13 @@
               </div>
             </div>
             <div class="create-workform">
-              <a href="#" id="btn-new-schedule" class="btn btn-primary pr-5 position-relative">
-                New Schedule
+              <a href="#" data-toggle="modal" data-target="#modal-new-schedule" id="btn-new-schedule" class="btn btn-primary pr-5 position-relative">
+                Novo Horário
                 <span class="add-btn"><i class="ri-add-line"></i></span>
               </a>
             </div>
           </div>
-          <h4 class="mb-3">Set Your weekly hours</h4>
+          <h4 class="mb-3">Defina os Horários de Trabalho</h4>
           <div class="row">
             <div class="col-lg-12">
               <div class="card card-block card-stretch">
@@ -85,11 +85,11 @@
                           </button>
                         </div>
                         <button type="button" class="fc-today-button fc-button fc-button-primary" data-action="move-today">
-                          today
+                          hoje
                         </button>
                       </div>
                       <div class="fc-center">
-                        <h2 id="renderRange">April 2022</h2>
+                        <h2 id="renderRange"></h2>
                       </div>
                       <div class="fc-right">
                         <span class="dropdown bootstrap-select">
@@ -101,46 +101,46 @@
                           <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu-calendarType">
                             <li role="presentation">
                               <a class="dropdown-menu-title" role="menuitem" data-action="toggle-daily">
-                                <i class="calendar-icon ic_view_day"></i>Daily
+                                <i class="calendar-icon ic_view_day"></i>Diário
                               </a>
                             </li>
                             <li role="presentation">
                               <a class="dropdown-menu-title" role="menuitem" data-action="toggle-weekly">
-                                <i class="calendar-icon ic_view_week"></i>Weekly
+                                <i class="calendar-icon ic_view_week"></i>Semanal
                               </a>
                             </li>
                             <li role="presentation">
                               <a class="dropdown-menu-title" role="menuitem" data-action="toggle-monthly">
-                                <i class="calendar-icon ic_view_month"></i>Month
+                                <i class="calendar-icon ic_view_month"></i>Mensal
                               </a>
                             </li>
                             <li role="presentation">
                               <a class="dropdown-menu-title" role="menuitem" data-action="toggle-weeks2">
-                                <i class="calendar-icon ic_view_week"></i>2 weeks
+                                <i class="calendar-icon ic_view_week"></i>2 semanas
                               </a>
                             </li>
                             <li role="presentation">
                               <a class="dropdown-menu-title" role="menuitem" data-action="toggle-weeks3">
-                                <i class="calendar-icon ic_view_week"></i>3 weeks
+                                <i class="calendar-icon ic_view_week"></i>3 semanas
                               </a>
                             </li>
                             <li role="presentation" class="dropdown-divider"></li>
                             <li role="presentation">
                               <a role="menuitem" data-action="toggle-workweek">
                                 <input type="checkbox" class="tui-full-calendar-checkbox-square" value="toggle-workweek" checked>
-                                <span class="checkbox-title"></span>Show weekends
+                                <span class="checkbox-title"></span>Exibir Finais de Semana
                               </a>
                             </li>
                             <li role="presentation">
                               <a role="menuitem" data-action="toggle-start-day-1">
                                 <input type="checkbox" class="tui-full-calendar-checkbox-square" value="toggle-start-day-1">
-                                <span class="checkbox-title"></span>Start Week on Monday
+                                <span class="checkbox-title"></span>Iniciar Semana na Segunda
                               </a>
                             </li>
                             <li role="presentation">
                               <a role="menuitem" data-action="toggle-narrow-weekend">
                                 <input type="checkbox" class="tui-full-calendar-checkbox-square" value="toggle-narrow-weekend">
-                                <span class="checkbox-title"></span>Narrower than weekdays
+                                <span class="checkbox-title"></span>Priorizar Dias da Semana
                               </a>
                             </li>
                           </ul>
@@ -158,75 +158,102 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="date-event" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="popup text-left">
-                        <h4 class="mb-3">Add Schedule</h4>
-                        <form action="/" id="submit-schedule">
-                            <div class="content create-workform row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label class="form-label" for="schedule-title">Schedule For</label>
-                                        <input class="form-control" placeholder="Enter Title" type="text" name="title" id="schedule-title" required />
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="schedule-start-date">Start Date</label>
-                                        <input class="form-control basicFlatpickr date-input" placeholder="2020-06-20" type="text" name="title" id="schedule-start-date" required />
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="schedule-end-date">End Date</label>
-                                        <input class="form-control basicFlatpickr date-input" placeholder="2020-06-20" type="text" name="title" id="schedule-end-date" required />
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <input class="form-control" type="color" name="title" id="schedule-color" required />
-                                    </div>
-                                </div>
-                                <div class="col-md-12 mt-4">
-                                    <div class="d-flex flex-wrap align-items-ceter justify-content-center">
-                                        <button class="btn btn-primary mr-4" data-dismiss="modal">Cancel</button>
-                                        <button class="btn btn-outline-primary" type="submit">Save</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
+    <div class="modal fade" id="modal-new-schedule" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="popup text-left">
+              <h4 class="mb-3"><span id="label-schedule">Adicionar</span> Horário</h4>
+              <form action="/" id="submit-schedule" @submit.prevent="">
+                <div class="content create-workform row">
+                  <div class="col-md-6 mb-2">
+                    <select id="dropdownMenu-calendars-list" class="selectpicker">
+                      <option v-for="calendar in calendarList" :key="calendar.id"
+                        class="tui-full-calendar-popup-section-item tui-full-calendar-dropdown-menu-item"
+                        :data-action="calendar.id" :value="calendar.id" :data-content="`
+                          <span class='tui-full-calendar-icon tui-full-calendar-calendar-dot' style='background-color: ${calendar.bgColor}'></span>
+                          <span class='tui-full-calendar-content'>${calendar.name}</span>
+                        `">
+                      </option>
+                    </select>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label class="form-label" for="schedule-title">Funcionário</label>
+                      <select class="selectpicker form-control" id="schedule-title" v-model="selectedEmployee" title="Digite o Nome" data-live-search="true" required>
+                        <option v-for="employee in employeesByJobs" :key="employee.id" :data-action="employee.id">
+                          {{ employee.name }}
+                        </option>
+                      </select>
                     </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="form-label" for="schedule-start-date">Start Date</label>
+                      <div class="tui-datepicker-input tui-datetime-input tui-has-focus">
+                        <input type="text" class="form-control date-input" id="schedule-start-date" aria-label="Date-Time" required>
+                        <span class="tui-ico-date"></span>
+                      </div>
+                      <div id="startpicker-container" style="margin-top: -1px;"></div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="form-label" for="schedule-end-date">End Date</label>
+                      <div class="tui-datepicker-input tui-datetime-input tui-has-focus">
+                        <input type="text" class="form-control date-input" id="schedule-end-date" aria-label="Date-Time" required>
+                        <span class="tui-ico-date"></span>
+                      </div>
+                      <div id="endpicker-container" style="margin-top: -1px;"></div>
+                    </div>
+                  </div>
+                  <div class="col-md-12 mt-4">
+                    <div class="d-flex flex-wrap align-items-ceter justify-content-center">
+                      <button class="btn btn-primary mr-4" data-dismiss="modal">Cancelar</button>
+                      <button v-if="newSchedule" class="btn btn-outline-primary" type="submit" @click="onNewSchedule">Salvar</button>
+                      <button v-else class="btn btn-outline-primary" type="submit" @click="onUpdateSchedule">Salvar</button>
+                    </div>
+                  </div>
                 </div>
+              </form>
             </div>
+          </div>
         </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import Calendar from 'tui-calendar';
+import DatePicker from 'tui-date-picker';
 import throttle from 'tui-code-snippet/tricks/throttle';
-import axios from '@/axios'
+import axios from '@/axios';
 
 import { CalendarList, CalendarInfo } from '@/assets/js/data/calendars';
-import { generateSchedule, ScheduleList } from '@/assets/js/data/schedules';
+import { ScheduleList, ScheduleInfo } from '@/assets/js/data/schedules';
 
 export default {
   name: 'MyScheduleView',
   data() {
     return {
       calendar: null,
-      useCreationPopup: true,
+      useCreationPopup: false,
       useDetailPopup: true,
-      resizeThrottled: null
+      datePicker: null,
+      selectedSchedule: {},
+      selectedCalendar: {},
+      selectedEmployee: {},
+      jobs: [],
+      employees: [],
+      employeesByJobs: [],
+      calendarList: [],
+      resizeThrottled: null,
+      newSchedule: true
     }
   },
   mounted() {
-    // makeCalendar()
-    // submitCalendar()
-    $('.selectpicker').selectpicker()
+    $('.selectpicker').selectpicker();
 
     const getTimeTemplate = (schedule, isAllDay) => {
       return this.getTimeTemplate(schedule, isAllDay);
@@ -250,17 +277,19 @@ export default {
           return getTimeTemplate(schedule, false);
         }
       }
-    })
+    });
 
     this.resizeThrottled = throttle(() => {
       this.calendar.render();
     }, 50);
 
-    this.setEventHandlers()
-    this.setDropdownCalendarType()
-    this.setRenderRangeText()
-    this.setEventListener()
-    this.getJobs()
+    this.setEventHandlers();
+    this.setDropdownCalendarType();
+    this.setRenderRangeText();
+    this.setEventListener();
+    this.getJobs();
+    this.getUsers();
+    this.setDateTimePicker();
 
     window.calendar = this.calendar
   },
@@ -282,7 +311,7 @@ export default {
         },
         beforeUpdateSchedule: e => {
           const schedule = e.schedule;
-          const changes = e.changes;
+          const changes = e.changes ?? e.schedule;
 
           console.log('beforeUpdateSchedule', e);
 
@@ -290,12 +319,24 @@ export default {
             changes.category = 'time';
           }
 
+          $('#label-schedule').text('Alterar');
+          this.selectedSchedule.id = schedule.id;
+          this.selectedSchedule.calendarId = schedule.calendarId;
+          this.selectedEmployee = schedule.title;
+          this.newSchedule = false;
+          this.datePicker.setStartDate(changes.start ? changes.start.toDate() : schedule.start.toDate());
+          this.datePicker.setEndDate(changes.end ? changes.end.toDate() : schedule.end.toDate());
+          CalendarInfo.findCalendar(schedule.calendarId);
+          $('#dropdownMenu-calendars-list').selectpicker('val', schedule.calendarId);
+
+          $('#modal-new-schedule').modal();
           this.calendar.updateSchedule(schedule.id, schedule.calendarId, changes);
           this.refreshScheduleVisibility();
         },
         beforeDeleteSchedule: e => {
           console.log('beforeDeleteSchedule', e);
           this.calendar.deleteSchedule(e.schedule.id, e.schedule.calendarId);
+          this.deleteStorage(e.schedule.id, e.schedule.calendarId);
         },
         afterRenderSchedule: e => {
           const schedule = e.schedule;
@@ -444,21 +485,27 @@ export default {
       this.setSchedules();
     },
     onNewSchedule() {
-      const title = $('#new-schedule-title').val();
-      const location = $('#new-schedule-location').val();
-      const isAllDay = document.getElementById('new-schedule-allday').checked;
-      const start = datePicker.getStartDate();
-      const end = datePicker.getEndDate();
-      const calendar = selectedCalendar ? selectedCalendar : Calendar[0];
+      const title = this.selectedEmployee;
+
+      const employeeId = this.getDataAction($('#schedule-title').find(':selected').get(0));
+      // const location = $('#new-schedule-location').val();
+      const location = ''
+      // const isAllDay = document.getElementById('new-schedule-allday').checked;
+      const isAllDay = false
+      const start = this.datePicker.getStartDate();
+      const end = this.datePicker.getEndDate();
+      const calendar = this.selectedCalendar ? this.selectedCalendar : Calendar[0];
+      const id = String(chance.guid())
 
       if (!title) {
         return;
       }
 
       this.calendar.createSchedules([{
-        id: String(chance.guid()),
+        id,
         calendarId: calendar.id,
         title,
+        raw: { employeeId },
         isAllDay,
         location,
         start,
@@ -472,12 +519,44 @@ export default {
         state: 'Busy'
       }]);
 
+      this.saveStorage(id, calendar.id);
+
       $('#modal-new-schedule').modal('hide');
     },
+    onUpdateSchedule() {
+      const title = this.selectedEmployee;
+      const employeeId = this.getDataAction($('#schedule-title').find(':selected').get(0));
+      const id = this.selectedSchedule.id;
+      const calendarId = this.selectedSchedule.calendarId;
+      const start = this.datePicker.getStartDate();
+      const end = this.datePicker.getEndDate();
+      const calendar = this.selectedCalendar ? this.selectedCalendar : Calendar[0];
+
+      if (!title || !id) {
+        return;
+      }
+
+      this.calendar.updateSchedule(id, calendarId, {
+        title,
+        raw: { employeeId },
+        calendarId: calendar.id,
+        start,
+        end,
+        category: 'time'
+      });
+
+      this.updateStore(id, calendar.id, calendarId);
+
+      $('#modal-new-schedule').modal('hide')
+    },
     onChangeNewScheduleCalendar(e) {
-      const target = $(e.target).closest('a[role="menuitem"]')[0];
+      const target = e.target.options[e.target.selectedIndex];
       const calendarId = this.getDataAction(target);
       this.changeNewScheduleCalendar(calendarId);
+
+      this.employeesByJobs = this.employees.filter(employee => {
+        return employee.job_id == calendarId;
+      });
     },
     changeNewScheduleCalendar(calendarId) {
       const calendarNameElement = document.getElementById('calendarName');
@@ -492,13 +571,20 @@ export default {
       );
       html.push(`<span class="calendar-name">${calendar.name}</span>`);
 
-      calendarNameElement.innerHTML = html.join('');
+      // calendarNameElement.innerHTML = html.join('');
+      calendarNameElement
 
-      this.selectedCalendar = calendar;
+      this.selectedCalendar = calendar
     },
     createNewSchedule(event) {
+      $('#submit-schedule').trigger('reset');
+      $('#label-schedule').text('Adicionar');
+      this.newSchedule = true;
+
       const start = event.start ? new Date(event.start.getTime()) : new Date();
       const end = event.end ? new Date(event.end.getTime()) : moment().add(1, 'hours').toDate();
+      this.datePicker.setStartDate(start);
+      this.datePicker.setEndDate(end);
 
       if (this.useCreationPopup) {
         this.calendar.openCreationPopup({
@@ -532,9 +618,9 @@ export default {
         schedule.bgColor = calendar.bgColor;
         schedule.borderColor = calendar.borderColor;
       }
-      console.log(schedule);
 
       this.calendar.createSchedules([schedule]);
+      this.saveStorage(schedule.id, calendar.id);
 
       this.refreshScheduleVisibility();
     },
@@ -599,19 +685,19 @@ export default {
       let iconClassName;
 
       if (type === 'day') {
-        type = 'Daily';
+        type = 'Diário';
         iconClassName = 'calendar-icon ic_view_day';
       } else if (type === 'week') {
-        type = 'Weekly';
+        type = 'Semanal';
         iconClassName = 'calendar-icon ic_view_week';
       } else if (options.month.visibleWeeksCount === 2) {
-        type = '2 weeks';
+        type = '2 semanas';
         iconClassName = 'calendar-icon ic_view_week';
       } else if (options.month.visibleWeeksCount === 3) {
-        type = '3 weeks';
+        type = '3 semanas';
         iconClassName = 'calendar-icon ic_view_week';
       } else {
-        type = 'Monthly';
+        type = 'Mensal';
         iconClassName = 'calendar-icon ic_view_month';
       }
 
@@ -634,64 +720,139 @@ export default {
 
       const html = [];
       if (viewName === 'day') {
-        html.push(this.currentCalendarDate('YYYY.MM.DD'));
+        html.push(this.currentCalendarDate('DD/MM/YYYY'));
       } else if (
         viewName === 'month' &&
         (!options.month.visibleWeeksCount || options.month.visibleWeeksCount > 4)
       ) {
-        html.push(this.currentCalendarDate('YYYY.MM'));
+        html.push(this.currentCalendarDate('MM/YYYY'));
       } else {
-        html.push(moment(this.calendar.getDateRangeStart().getTime()).format('YYYY.MM.DD'));
+        html.push(moment(this.calendar.getDateRangeStart().getTime()).format('DD/MM/YYYY'));
         html.push(' ~ ');
-        html.push(moment(this.calendar.getDateRangeEnd().getTime()).format(' MM.DD'));
+        html.push(moment(this.calendar.getDateRangeEnd().getTime()).format(' DD/MM'));
       }
 
       renderRange.innerHTML = html.join('');
     },
     setSchedules() {
       this.calendar.clear();
-      generateSchedule(
-        this.calendar.getViewName(),
-        this.calendar.getDateRangeStart(),
-        this.calendar.getDateRangeEnd()
-      );
+      ScheduleList.splice(0, ScheduleList.length);
+      // função para gerar horários aleatórios
+      // ScheduleInfo.generateSchedule(
+      //   this.calendar.getViewName(),
+      //   this.calendar.getDateRangeStart(),
+      //   this.calendar.getDateRangeEnd()
+      // );
+      ScheduleInfo.createSchedules(JSON.parse(this.$ls.get('schedules', '[]')));
       this.calendar.createSchedules(ScheduleList);
 
       this.refreshScheduleVisibility();
+    },
+    setDateTimePicker() {
+      this.datePicker = new DatePicker.createRangePicker({
+        startpicker: {
+          date: new Date(),
+          input: '#schedule-start-date',
+          container: '#startpicker-container'
+        },
+        endpicker: {
+          date: new Date(),
+          input: '#schedule-end-date',
+          container: '#endpicker-container'
+        },
+        format: 'dd/MM/yyyy HH:mm',
+        timePicker: {
+          showMeridiem: false
+        }
+      })
     },
     setEventListener() {
       $('#menu-navi').on('click', this.onClickNavi);
       $('.dropdown-menu a[role="menuitem"]').on('click', this.onClickMenu);
       $('#lnb-calendars').on('change', this.onChangeCalendars);
 
-      $('#btn-save-schedule').on('click', this.onNewSchedule);
       $('#btn-new-schedule').on('click', this.createNewSchedule);
 
-      $('#dropdownMenu-calendars-list').on('click', this.onChangeNewScheduleCalendar);
+      $('#dropdownMenu-calendars-list').on('change', this.onChangeNewScheduleCalendar);
+
+      $('#modal-new-schedule').on('show.bs.modal', () => {
+        $('#dropdownMenu-calendars-list').change();
+      });
 
       window.addEventListener('resize', this.resizeThrottled);
     },
     getDataAction(target) {
       return target.dataset ? target.dataset.action : target.getAttribute('data-action');
     },
+    saveStorage(id, calendarId) {
+      const schedule = this.calendar.getSchedule(id, calendarId);
+      const schedules = JSON.parse(this.$ls.get('schedules', '[]'));
+      schedules.push(schedule);
+      this.$ls.set('schedules', JSON.stringify(schedules));
+    },
+    updateStore(id, calendarId, oldCalendarId) {
+      const schedule = this.calendar.getSchedule(id, calendarId);
+      let schedules = JSON.parse(this.$ls.get('schedules', '[]'));
+
+      schedules = schedules.map(item => {
+        if (item.id == id && item.calendarId == oldCalendarId) {
+          item = schedule;
+        }
+        return item;
+      });
+
+      this.$ls.set('schedules', JSON.stringify(schedules));
+    },
+    deleteStorage(id, calendarId) {
+      let schedules = JSON.parse(this.$ls.get('schedules', '[]'));
+
+      schedules = schedules.filter(item => {
+        return !(item.id == id && item.calendarId == calendarId);
+      });
+
+      this.$ls.set('schedules', JSON.stringify(schedules));
+    },
     getJobs() {
       axios.get('v1/jobs')
         .then(response => {
-          this.jobs = response.data
-          CalendarInfo.createCalendar(this.jobs)
-          this.setCalendars()
-          this.calendar.setCalendars(CalendarList)
+          this.jobs = response.data;
+          CalendarList.splice(0, CalendarList.length);
+          CalendarInfo.createCalendar(this.jobs);
+          this.setCalendars();
+          this.calendar.setCalendars(CalendarList);
           this.setSchedules();
+          this.calendarList = CalendarList;
         })
         .catch(error => {
-          console.log(error.response);
+          console.log(error);
+        });
+    },
+    getUsers() {
+      axios.get('v1/users')
+        .then(response => {
+          this.employees = response.data;
         })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+  },
+  watch: {
+    employeesByJobs() {
+      this.$nextTick(() => {
+        $('#schedule-title').selectpicker('refresh');
+      });
+    },
+    calendarList() {
+      this.$nextTick(() => {
+        $('#dropdownMenu-calendars-list').selectpicker('refresh');
+      })
     }
   }
 }
 </script>
 
-<style>
+<style scoped>
   @import '@/assets/vendor/fullcalendar/core/main.css';
   @import '@/assets/vendor/fullcalendar/daygrid/main.css';
   @import '@/assets/vendor/fullcalendar/timegrid/main.css';
@@ -759,6 +920,25 @@ export default {
   }
   .tui-full-calendar-button.tui-full-calendar-section-private {
     padding-top: 4px;
+  }
+  .tui-full-calendar-popup-section-item {
+    font-size: inherit;
+  }
+
+  .tui-datepicker-input {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+  }
+  .tui-datepicker-input > input.date-input {
+    height: 45px;
+    padding: 0.313rem 1.25rem;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  .tui-timepicker-select {
+    padding-top: 2px;
   }
 </style>
 

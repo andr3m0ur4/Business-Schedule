@@ -10,10 +10,19 @@ import router from './router/routes'
 import App from './App.vue'
 
 import VueSweetalert2 from 'vue-sweetalert2'
-import 'sweetalert2/dist/sweetalert2.min.css';
+import 'sweetalert2/dist/sweetalert2.min.css'
+
+import Storage from 'vue-ls'
+
+const options = {
+    namespace: 'vuejs__',
+    name: 'ls',
+    storage: 'local'
+}
 
 createApp(App)
     .use(router)
     .use(store)
     .use(VueSweetalert2)
+    .use(Storage, options)
     .mount('#app')

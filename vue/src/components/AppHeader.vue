@@ -6,14 +6,16 @@
           <div class="iq-navbar-logo d-flex align-items-center justify-content-between">
             <i class="ri-menu-line wrapper-menu"></i>
             <router-link to="/" class="header-logo">
-              <img src="../assets/images/logo_header.png" class="img-fluid rounded-normal light-logo" alt="logo" height="200" width="500">
+              <img src="../assets/images/bs-icon-high.png" class="img-fluid rounded-normal light-logo" alt="logo">
+              <span class="title">Business Schedule</span>
             </router-link>
           </div>
           <div class="iq-menu-horizontal">
             <nav class="iq-sidebar-menu">
               <div class="iq-sidebar-logo d-flex align-items-center justify-content-between">
                 <router-link to="/" class="header-logo">
-                  <img src="../assets/images/logo_header.png" class="img-fluid rounded-normal" alt="logo">
+                  <img src="../assets/images/bs-icon-high.png" class="img-fluid rounded-normal" alt="logo">
+                  <span class="title">Business Schedule</span>
                 </router-link>
                 <div class="iq-menu-bt-sidebar">
                   <i class="las la-bars wrapper-menu"></i>
@@ -22,12 +24,12 @@
               <ul id="iq-sidebar-toggle" class="iq-menu d-flex">
                 <li class="">
                   <router-link to="/" class="">
-                    <span>Dashboard</span>
+                    <span>Home</span>
                   </router-link>
                 </li>
                 <li class="">
                   <router-link to="/my-schedule" class="">
-                    <span>My Schedule</span>
+                    <span>Minha Escala</span>
                   </router-link>
                 </li>
                 <li class="">
@@ -61,7 +63,7 @@
                         <span>Switchers</span>
                       </router-link>
                     </li>
-                    <li class="">
+                    <!-- <li class="">
                       <a href="#timeline" class="collapsed" data-toggle="collapse" aria-expanded="false">
                         <span>Timeline</span>
                         <i class="ri-arrow-right-s-line iq-arrow-right"></i>
@@ -172,7 +174,7 @@
                           </a>
                         </li>
                       </ul>
-                    </li>
+                    </li> -->
                   </ul>
                 </li>
               </ul>
@@ -206,8 +208,8 @@
                                 <img class="avatar-40 rounded-small" src="../assets/images/user/u-1.jpg" alt="01">
                               </div>
                               <div class="media-body ml-3">
-                                <h6 class="mb-0">Barry Emma Watson</h6>
-                                <small class="mb-0">We Want to see you On..</small>
+                                <h6 class="mb-0">Rodrigo Ramos</h6>
+                                <small class="mb-0">Preciso trocar meu horário</small>
                               </div>
                             </div>
                           </a>
@@ -217,8 +219,8 @@
                                 <img class="avatar-40 rounded-small" src="../assets/images/user/u-2.jpg" alt="02">
                               </div>
                               <div class="media-body ml-3">
-                                <h6 class="mb-0">Lorem Ipsum Watson</h6>
-                                <small class="mb-0">Can we have a Call?</small>
+                                <h6 class="mb-0">Igor Santos</h6>
+                                <small class="mb-0">Obrigado por me atender</small>
                               </div>
                             </div>
                           </a>
@@ -228,8 +230,8 @@
                                 <img class="avatar-40 rounded-small" src="../assets/images/user/u-3.jpg" alt="03">
                               </div>
                               <div class="media-body ml-3">
-                                <h6 class="mb-0">Why do we use it?</h6>
-                                <small class="mb-0">Thank You but now we Don't...</small>
+                                <h6 class="mb-0">André Moura</h6>
+                                <small class="mb-0">Bom dia, Referente a troca...</small>
                               </div>
                             </div>
                           </a>
@@ -262,10 +264,10 @@
                               </div>
                               <div class="media-body ml-3">
                                 <div class="d-flex align-items-center justify-content-between">
-                                  <h6 class="mb-0">Anne Effit</h6>
-                                  <small class="mb-0">02 Min Ago</small>
+                                  <h6 class="mb-0">Igor Santos</h6>
+                                  <small class="mb-0">12 min atrás</small>
                                 </div>
-                                <small class="mb-0">Manager</small>
+                                <small class="mb-0">Cinegráfista</small>
                               </div>
                             </div>
                           </a>
@@ -276,10 +278,10 @@
                               </div>
                               <div class="media-body ml-3">
                                 <div class="d-flex align-items-center justify-content-between">
-                                  <h6 class="mb-0">Eric Shun</h6>
-                                  <small class="mb-0">05 Min Ago</small>
+                                  <h6 class="mb-0">Rodrigo Ramos</h6>
+                                  <small class="mb-0">25 min atrás</small>
                                 </div>
-                                <small class="mb-0">Manager</small>
+                                <small class="mb-0">Animador 2D/3D</small>
                               </div>
                             </div>
                           </a>
@@ -290,10 +292,10 @@
                               </div>
                               <div class="media-body ml-3">
                                 <div class="d-flex align-items-center justify-content-between">
-                                  <h6 class="mb-0">Ken Tucky</h6>
-                                  <small class="mb-0">10 Min Ago</small>
+                                  <h6 class="mb-0">André Moura</h6>
+                                  <small class="mb-0">30 min atrás</small>
                                 </div>
-                                <small class="mb-0">Employee</small>
+                                <small class="mb-0">Operador de Audio</small>
                               </div>
                             </div>
                           </a>
@@ -317,7 +319,7 @@
                     <div class="card m-0">
                       <div class="card-body p-0">
                         <div class="py-3">
-                          <a href="../app/user-profile.html" class="iq-sub-card">
+                          <a href="/conta" class="iq-sub-card">
                             <div class="media align-items-center">
                               <i class="ri-user-line mr-3"></i>
                               <h6>Configurações da conta</h6>
@@ -359,15 +361,41 @@ export default {
         .then(() => {
           this.$router.push({
             name: 'sign-in'
-          })
+          });
         })
+        .catch(error => {
+          this.$store.commit('logout');
+          this.$router.push({
+            name: 'sign-in'
+          });
+        });
     }
   }
 }
 </script>
 
 <style scoped>
+.iq-navbar-logo a .title {
+  font-size: 16px;
+  color: #1B2734;
+}
+.iq-sidebar-logo a .title {
+  font-size: 16px;
+  line-height: 24px;
+  color: #1B2734;
+}
 .fixed-top-navbar .iq-sidebar-menu .iq-menu li > a.active {
     color: #465af7;
+}
+@media (max-width: 1299px) {
+  .sidebar-main .fixed-top-navbar .iq-sidebar-menu {
+    margin: 0;
+  }
+  .sidebar-main .fixed-top-navbar .iq-menu-bt-sidebar .wrapper-menu {
+    margin: 0;
+  }
+  .sidebar-main .fixed-top-navbar .iq-menu-horizontal .iq-sidebar-menu .iq-menu li a {
+    padding: 15px 19px 15px 15px;
+  }
 }
 </style>
