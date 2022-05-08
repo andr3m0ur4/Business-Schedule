@@ -97,7 +97,7 @@ class CalendarInfo {
             calendar.dragBgColor = colors[id].dragBgColor;
             calendar.borderColor = colors[id].borderColor;
             calendar.addCalendar(calendar);
-        })
+        });
     }
 
     static findCalendar(id) {

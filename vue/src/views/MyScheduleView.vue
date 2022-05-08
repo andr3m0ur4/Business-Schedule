@@ -5,7 +5,7 @@
         <div class="col-lg-12 mb-4">
           <div class="py-4 border-bottom">
             <div class="form-title text-center">
-              <h3>My Schedule</h3>
+              <h3>Minha Escala</h3>
             </div>
           </div>
         </div>
@@ -46,13 +46,13 @@
                     <ul class="dropdown-menu p-3 border-none">
                       <li class="lnb-calendars-item">
                         <div class="item mb-2">
-                            <div class="checkbox">
-                              <label for="checkbox1" class="mb-0">
-                                <input type="checkbox" class="checkbox-input mr-3 tui-full-calendar-checkbox-square" id="checkbox1" value="all" checked>
-                                <span></span>
-                                <strong>Todas as Equipes</strong>
-                              </label>
-                            </div>
+                          <div class="checkbox">
+                            <label for="checkbox1" class="mb-0">
+                              <input type="checkbox" class="checkbox-input mr-3 tui-full-calendar-checkbox-square" id="checkbox1" value="all" checked>
+                              <span></span>
+                              <strong>Todas as Equipes</strong>
+                            </label>
+                          </div>
                         </div>
                       </li>
                       <li id="calendarList" class="lnb-calendars-d1"></li>
@@ -68,7 +68,7 @@
               </a>
             </div>
           </div>
-          <h4 class="mb-3">Set Your weekly hours</h4>
+          <h4 class="mb-3">Defina os Horários de Trabalho</h4>
           <div class="row">
             <div class="col-lg-12">
               <div class="card card-block card-stretch">
@@ -166,15 +166,13 @@
               <h4 class="mb-3"><span id="label-schedule">Adicionar</span> Horário</h4>
               <form action="/" id="submit-schedule" @submit.prevent="">
                 <div class="content create-workform row">
-                  <input type="hidden" id="schedule-id">
-                  <input type="hidden" id="schedule-calendar-id">
                   <div class="col-md-6 mb-2">
                     <select id="dropdownMenu-calendars-list" class="selectpicker">
-                      <option v-for="job in calendarList" :key="job.id"
+                      <option v-for="calendar in calendarList" :key="calendar.id"
                         class="tui-full-calendar-popup-section-item tui-full-calendar-dropdown-menu-item"
-                        :data-action="job.id" :value="job.id" :data-content="`
-                          <span class='tui-full-calendar-icon tui-full-calendar-calendar-dot' style='background-color: ${job.bgColor}'></span>
-                          <span class='tui-full-calendar-content'>${job.name}</span>
+                        :data-action="calendar.id" :value="calendar.id" :data-content="`
+                          <span class='tui-full-calendar-icon tui-full-calendar-calendar-dot' style='background-color: ${calendar.bgColor}'></span>
+                          <span class='tui-full-calendar-content'>${calendar.name}</span>
                         `">
                       </option>
                     </select>
@@ -182,9 +180,10 @@
                   <div class="col-md-12">
                     <div class="form-group">
                       <label class="form-label" for="schedule-title">Funcionário</label>
-                      <!-- <input class="form-control" placeholder="Digite o Nome" type="text" id="schedule-title" required> -->
-                      <select class="selectpicker form-control" id="schedule-title" title="Digite o Nome" data-live-search="true" required>
-                        <option v-for="employee in employeesByJobs" :key="employee.id">{{ employee.name }}</option>
+                      <select class="selectpicker form-control" id="schedule-title" v-model="selectedEmployee" title="Digite o Nome" data-live-search="true" required>
+                        <option v-for="employee in employeesByJobs" :key="employee.id" :data-action="employee.id">
+                          {{ employee.name }}
+                        </option>
                       </select>
                     </div>
                   </div>
@@ -211,8 +210,8 @@
                   <div class="col-md-12 mt-4">
                     <div class="d-flex flex-wrap align-items-ceter justify-content-center">
                       <button class="btn btn-primary mr-4" data-dismiss="modal">Cancelar</button>
-                      <button class="btn btn-outline-primary" type="submit" id="btn-save-schedule">Salvar</button>
-                      <button class="btn btn-outline-primary" type="submit" id="btn-update-schedule">Salvar</button>
+                      <button v-if="newSchedule" class="btn btn-outline-primary" type="submit" @click="onNewSchedule">Salvar</button>
+                      <button v-else class="btn btn-outline-primary" type="submit" @click="onUpdateSchedule">Salvar</button>
                     </div>
                   </div>
                 </div>
@@ -242,12 +241,15 @@ export default {
       useCreationPopup: false,
       useDetailPopup: true,
       datePicker: null,
-      selectedCalendar: null,
+      selectedSchedule: {},
+      selectedCalendar: {},
+      selectedEmployee: {},
       jobs: [],
       employees: [],
       employeesByJobs: [],
       calendarList: [],
-      resizeThrottled: null
+      resizeThrottled: null,
+      newSchedule: true
     }
   },
   mounted() {
@@ -317,12 +319,11 @@ export default {
             changes.category = 'time';
           }
 
-          $('#lable-schedule').text('Alterar');
-          $('#schedule-id').val(schedule.id);
-          $('#schedule-calendar-id').val(schedule.calendarId);
-          $('#schedule-title').val(schedule.title);
-          $('#btn-save-schedule').hide();
-          $('#btn-update-schedule').show();
+          $('#label-schedule').text('Alterar');
+          this.selectedSchedule.id = schedule.id;
+          this.selectedSchedule.calendarId = schedule.calendarId;
+          this.selectedEmployee = schedule.title;
+          this.newSchedule = false;
           this.datePicker.setStartDate(changes.start ? changes.start.toDate() : schedule.start.toDate());
           this.datePicker.setEndDate(changes.end ? changes.end.toDate() : schedule.end.toDate());
           CalendarInfo.findCalendar(schedule.calendarId);
@@ -484,7 +485,9 @@ export default {
       this.setSchedules();
     },
     onNewSchedule() {
-      const title = $('#schedule-title').val()
+      const title = this.selectedEmployee;
+
+      const employeeId = this.getDataAction($('#schedule-title').find(':selected').get(0));
       // const location = $('#new-schedule-location').val();
       const location = ''
       // const isAllDay = document.getElementById('new-schedule-allday').checked;
@@ -502,6 +505,7 @@ export default {
         id,
         calendarId: calendar.id,
         title,
+        raw: { employeeId },
         isAllDay,
         location,
         start,
@@ -520,19 +524,21 @@ export default {
       $('#modal-new-schedule').modal('hide');
     },
     onUpdateSchedule() {
-      const title = $('#schedule-title').val()
-      const id = $('#schedule-id').val()
-      const calendarId = $('#schedule-calendar-id').val()
+      const title = this.selectedEmployee;
+      const employeeId = this.getDataAction($('#schedule-title').find(':selected').get(0));
+      const id = this.selectedSchedule.id;
+      const calendarId = this.selectedSchedule.calendarId;
       const start = this.datePicker.getStartDate();
       const end = this.datePicker.getEndDate();
       const calendar = this.selectedCalendar ? this.selectedCalendar : Calendar[0];
 
       if (!title || !id) {
-        return
+        return;
       }
 
       this.calendar.updateSchedule(id, calendarId, {
         title,
+        raw: { employeeId },
         calendarId: calendar.id,
         start,
         end,
@@ -571,15 +577,14 @@ export default {
       this.selectedCalendar = calendar
     },
     createNewSchedule(event) {
-      $('#submit-schedule').trigger('reset')
-      $('#label-schedule').text('Adicionar')
-      $('#btn-save-schedule').show()
-      $('#btn-update-schedule').hide()
+      $('#submit-schedule').trigger('reset');
+      $('#label-schedule').text('Adicionar');
+      this.newSchedule = true;
 
       const start = event.start ? new Date(event.start.getTime()) : new Date();
       const end = event.end ? new Date(event.end.getTime()) : moment().add(1, 'hours').toDate();
-      this.datePicker.setStartDate(start)
-      this.datePicker.setEndDate(end)
+      this.datePicker.setStartDate(start);
+      this.datePicker.setEndDate(end);
 
       if (this.useCreationPopup) {
         this.calendar.openCreationPopup({
@@ -766,15 +771,12 @@ export default {
       $('.dropdown-menu a[role="menuitem"]').on('click', this.onClickMenu);
       $('#lnb-calendars').on('change', this.onChangeCalendars);
 
-      $('#btn-save-schedule').on('click', this.onNewSchedule);
-      $('#btn-update-schedule').on('click', this.onUpdateSchedule);
       $('#btn-new-schedule').on('click', this.createNewSchedule);
 
       $('#dropdownMenu-calendars-list').on('change', this.onChangeNewScheduleCalendar);
 
       $('#modal-new-schedule').on('show.bs.modal', () => {
-        $('#dropdownMenu-calendars-list').selectpicker('refresh')
-        $('#dropdownMenu-calendars-list').change()
+        $('#dropdownMenu-calendars-list').change();
       });
 
       window.addEventListener('resize', this.resizeThrottled);
@@ -840,6 +842,11 @@ export default {
       this.$nextTick(() => {
         $('#schedule-title').selectpicker('refresh');
       });
+    },
+    calendarList() {
+      this.$nextTick(() => {
+        $('#dropdownMenu-calendars-list').selectpicker('refresh');
+      })
     }
   }
 }

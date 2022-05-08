@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import DefaultLayout from '@/components/DefaultLayout'
 import DashboardView from '@/views/DashboardView'
 import MyScheduleView from '@/views/MyScheduleView'
+import MyScheduleVue from '@/views/MyScheduleVue'
 import AuthSignInView from '@/views/AuthSignInView'
 import EmployeeView from '@/views/EmployeeView'
 import StudioView from '@/views/StudioView'
@@ -32,6 +33,11 @@ const routes = [
             {
                 path: '/my-schedule',
                 component: MyScheduleView
+            },
+            {
+                path: '/my-schedule-vue',
+                name: 'my-schedule',
+                component: MyScheduleVue
             },
             {
                 path: '/funcionarios',
@@ -87,7 +93,7 @@ const routes = [
         component: BlankPage
     },
     {
-        path: '/confirma-senha',
+        path: '/confirma-senha/:token',
         name: 'confirma-senha',
         component: ConfirmPasswordView
     },

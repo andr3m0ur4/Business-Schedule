@@ -14,7 +14,8 @@
             <nav class="iq-sidebar-menu">
               <div class="iq-sidebar-logo d-flex align-items-center justify-content-between">
                 <router-link to="/" class="header-logo">
-                  <img src="../assets/images/logo_header.png" class="img-fluid rounded-normal" alt="logo">
+                  <img src="../assets/images/bs-icon-high.png" class="img-fluid rounded-normal" alt="logo">
+                  <span class="title">Business Schedule</span>
                 </router-link>
                 <div class="iq-menu-bt-sidebar">
                   <i class="las la-bars wrapper-menu"></i>
@@ -28,7 +29,7 @@
                 </li>
                 <li class="">
                   <router-link to="/my-schedule" class="">
-                    <span>Minha escala</span>
+                    <span>Minha Escala</span>
                   </router-link>
                 </li>
                 <li class="">
@@ -378,7 +379,23 @@ export default {
   font-size: 16px;
   color: #1B2734;
 }
+.iq-sidebar-logo a .title {
+  font-size: 16px;
+  line-height: 24px;
+  color: #1B2734;
+}
 .fixed-top-navbar .iq-sidebar-menu .iq-menu li > a.active {
     color: #465af7;
+}
+@media (max-width: 1299px) {
+  .sidebar-main .fixed-top-navbar .iq-sidebar-menu {
+    margin: 0;
+  }
+  .sidebar-main .fixed-top-navbar .iq-menu-bt-sidebar .wrapper-menu {
+    margin: 0;
+  }
+  .sidebar-main .fixed-top-navbar .iq-menu-horizontal .iq-sidebar-menu .iq-menu li a {
+    padding: 15px 19px 15px 15px;
+  }
 }
 </style>
