@@ -97,3 +97,9 @@
     </div>
   </div>
 </template>
+
+<style scoped>
+  .profile-box {
+    padding-bottom: 150px;
+  }
+</style>

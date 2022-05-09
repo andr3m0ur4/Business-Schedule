@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -31,7 +32,7 @@ class UpdateUserRequest extends FormRequest
                 'sometimes',
                 'required',
                 'confirmed',
-                // Password::min(8)->mixedCase()->numbers()->symbols()
+                Password::min(8)->mixedCase()->numbers()->symbols()
             ],
             'type' => ['sometimes', 'required', Rule::in(['Admin', 'Employee'])],
             'phone' => ['min:8'],
