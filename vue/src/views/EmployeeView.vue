@@ -56,7 +56,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="modal fade" id="registerEmployee" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -203,7 +203,9 @@ export default {
         .then(response => {
           this.$swal('Sucesso', `${response.data.name} cadastrado com sucesso!`, 'success')
           $('#registerEmployee').modal('hide')
-          $('#registerEmployee form').trigger('reset')
+          setTimeout(() => {
+            $('#registerEmployee form').trigger('reset');
+          }, 1000);
           this.getEmployees()
         })
         .catch(error => {

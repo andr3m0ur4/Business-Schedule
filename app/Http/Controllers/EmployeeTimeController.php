@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EmployeeTimeRequest;
 use App\Http\Requests\StoreEmployeeTimeRequest;
 use App\Http\Requests\UpdateEmployeeTimeRequest;
 use App\Models\EmployeeTime;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class EmployeeTimeController extends Controller
 {
@@ -36,7 +39,8 @@ class EmployeeTimeController extends Controller
      */
     public function store(StoreEmployeeTimeRequest $request)
     {
-        //
+        $employeeTime = EmployeeTime::create($request->all());
+        return response()->json($employeeTime, Response::HTTP_CREATED);
     }
 
     /**
@@ -70,7 +74,8 @@ class EmployeeTimeController extends Controller
      */
     public function update(UpdateEmployeeTimeRequest $request, EmployeeTime $employeeTime)
     {
-        //
+        $employeeTime->update($request->all());
+        return response()->json($employeeTime, Response::HTTP_OK);
     }
 
     /**
@@ -82,5 +87,41 @@ class EmployeeTimeController extends Controller
     public function destroy(EmployeeTime $employeeTime)
     {
         //
+    }
+
+    public function save(Request $request)
+    {
+        $insertRows = 0;
+        $affectedRows = 0;
+
+        foreach ($request->all() as $item) {
+            $time = [];
+            $time['id'] = $item['id'];
+            $time['start_time'] = $item['start'];
+            $time['end_time'] = $item['end'];
+            $time['user_id'] = $item['raw']['employeeId'];
+
+            $employeeTime = EmployeeTime::where('id', $item['id'])->first();
+            if ($employeeTime) {
+                $myRequest = new UpdateEmployeeTimeRequest();
+                $myRequest->setMethod('PUT');
+                $myRequest->request->add($time);
+                $this->update($myRequest, $employeeTime);
+                $affectedRows++;
+                continue;
+            }
+
+            $myRequest = new StoreEmployeeTimeRequest();
+            $myRequest->setMethod('POST');
+            $myRequest->request->add($time);
+            $this->store($myRequest);
+            $insertRows++;
+        }
+
+        return response()->json([
+            'success' => 1,
+            'insert_rows' => $insertRows,
+            'affected_rows' => $affectedRows
+        ], Response::HTTP_OK);
     }
 }

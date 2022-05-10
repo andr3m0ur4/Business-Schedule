@@ -31,7 +31,7 @@ class StoreUserRequest extends FormRequest
             'password' => [
                 'required',
                 'confirmed',
-                // Password::min(8)->mixedCase()->numbers()->symbols()
+                Password::min(8)->mixedCase()->numbers()->symbols()
             ],
             'type' => ['required', Rule::in(['Admin', 'Employee'])],
             'phone' => ['min:8'],

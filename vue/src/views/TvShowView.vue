@@ -111,9 +111,10 @@ export default {
         //file : this.tvShow.file
       })
         .then(response => {
-          $('#addTvShow').modal('hide')
-          this.$swal('Sucesso', `${response.data.name} cadastrado com sucesso!`, 'success')
-          this.getTvShows()
+          $('#addTvShow').modal('hide');
+          $('#form-wizard').trigger('reset');
+          this.$swal('Sucesso', `${response.data.name} cadastrado com sucesso!`, 'success');
+          this.getTvShows();
         })
         .catch(error => {
           if (error.response.status == 401) {

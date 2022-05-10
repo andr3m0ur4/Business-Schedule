@@ -14,11 +14,11 @@ return new class extends Migration
     public function up()
     {
         Schema::create('employee_times', function (Blueprint $table) {
-            $table->id();
-            $table->time('start_time');
-            $table->time('final_time');
-            $table->date('date');
-            $table->tinyInteger('week_day');
+            $table->string('id', 100)->primary();
+            $table->dateTime('start_time');
+            $table->dateTime('end_time');
+            $table->date('date')->nullable();
+            $table->tinyInteger('week_day')->nullable();
             $table->foreignId('user_id')->constrained();
             $table->timestamps();
             $table->softDeletes();
