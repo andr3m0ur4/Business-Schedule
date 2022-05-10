@@ -49,8 +49,8 @@ export default {
             this.$swal('Sucesso', `E-mail enviado para ${response.data.email}`, 'success')
          })
          .catch(error => {
-
-           console.log(error.response)
+            console.log(error.response.data.message);
+           this.$swal('Erro', error.response.data.message, 'error')
          })
       }
    }

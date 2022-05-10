@@ -105,19 +105,13 @@ class UserController extends Controller
     }
 
     
-    public function sendMail(Request $request)
+    public function sendMail(ChangePasswordRequest $request)
     {
 
         $user = User::where('email', $request->email)->first();
         $token = Str::random(64);
         User::where('id', $user->id)->update(['remember_token' => $token]);
-        // return new ResetPasswordMail();
-        // Mail::to('fohoci5438@ovout.com')->send(new ResetPasswordMail($user), ['token' => $token]);
-        
-        // Mail::send(new ResetPasswordMail(), ['token' => $token], function($message) use($request){
-        //     $message->to('fohoci5438@ovout.com');
-        //     $message->subject('Reset Password');
-        // });
+
         Mail::send('email.verify', ['token' => $token, 'url' => env('APP_DNS_URL')], function($message) use($user){
             $message->to($user->email);
             $message->subject('Atualização de Senha');

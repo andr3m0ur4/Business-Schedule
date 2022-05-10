@@ -28,8 +28,10 @@ class ChangePasswordRequest extends FormRequest
             'password' => [
                 'required',
                 'confirmed',
+                'sometimes'
                 // Password::min(8)->mixedCase()->numbers()->symbols()
-            ]
+            ],
+            'email' => ['sometimes', 'required', 'email', 'string'],
         ];
     }
 
@@ -41,7 +43,10 @@ class ChangePasswordRequest extends FormRequest
     public function messages()
     {
         return [
-            //
+            'required' => 'O campo :attribute é obrigatório.',
+            //'on_null' => ':attribute não encontrado',
+            'email' => ':attribute tem que ser valído'
+           //'mimes' => 'O arquivo deve ser do tipo: png, jpeg, pdf, docx.'
         ];
     }
 
