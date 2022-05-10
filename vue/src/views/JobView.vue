@@ -8,7 +8,7 @@
               <div class="iq-header-title">
                 <h4 class="card-title mb-0">Funções</h4>
               </div>
-              <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#addJob">Adicionar Novo</a>
+              <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#addJob">Adicionar Função</a>
             </div>
             <div class="card-body">
               <div class="table-responsive data-table">
@@ -143,6 +143,7 @@ export default {
       })
         .then(response => {
           $('#updateJob').modal('hide')
+          $('#form-wizard').trigger('reset')
           this.$swal('Sucesso', `${response.data.name} atualizado com sucesso!`, 'success')
           this.getJobs()
         })

@@ -15,8 +15,8 @@
                 <div class="row">
                   <div class="col-md-12">
                     <div class="form-group">
-                      <label for="sname">Nome: *</label>
-                      <input type="text" class="form-control" id="sname" name="name" :value="name" @input="updateValue" placeholder="Nome" required="required" />
+                      <label for="name">Nome: *</label>
+                      <input type="text" class="form-control" id="name" name="name" :value="name" @input="updateValue" placeholder="Nome" required="required" />
                     </div>
                   </div>
                 </div>
@@ -52,12 +52,14 @@ export default {
 }
 
 $(() => {
-  $('#addTvShow').on('show.bs.modal', function() {
-    $('#form-wizard').trigger('reset')
-  })
-
   $('#addTvShow').on('shown.bs.modal', function() {
-    $('#sname').focus()
+    $('#name').focus()
+  })
+})
+
+$(() => {
+  $('#addTvShow,#updateTvShow').on('hide.bs.modal', function() {
+    $('#form-wizard').trigger('reset')
   })
 })
 </script>

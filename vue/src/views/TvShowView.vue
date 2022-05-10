@@ -8,7 +8,7 @@
               <div class="iq-header-title">
                 <h4 class="card-title mb-0">Programas</h4>
               </div>
-              <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#addTvShow">Add New</a>
+              <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#addTvShow">Adicionar Programa</a>
             </div>
             <div class="card-body">
               <div class="table-responsive data-table">
@@ -142,6 +142,7 @@ export default {
       })
         .then(response => {
           $('#updateTvShow').modal('hide')
+          $('#form-wizard').trigger('reset');
           this.$swal('Sucesso', `${response.data.name} atualizado com sucesso!`, 'success')
           this.getTvShows()
         })
