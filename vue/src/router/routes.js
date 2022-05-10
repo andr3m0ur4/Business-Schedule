@@ -93,7 +93,7 @@ const routes = [
         component: BlankPage
     },
     {
-        path: '/confirma-senha',
+        path: '/confirma-senha/:token',
         name: 'confirma-senha',
         component: ConfirmPasswordView
     },

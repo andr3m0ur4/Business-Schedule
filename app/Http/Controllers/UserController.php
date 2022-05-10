@@ -4,12 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\ChangePasswordRequest;
 use App\Mail\ResetPasswordMail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+
+use function PHPUnit\Framework\isEmpty;
+use function PHPUnit\Framework\isNull;
 
 class UserController extends Controller
 {
@@ -106,6 +110,7 @@ class UserController extends Controller
 
         $user = User::where('email', $request->email)->first();
         $token = Str::random(64);
+        User::where('id', $user->id)->update(['remember_token' => $token]);
         // return new ResetPasswordMail();
         // Mail::to('fohoci5438@ovout.com')->send(new ResetPasswordMail($user), ['token' => $token]);
         
@@ -119,5 +124,35 @@ class UserController extends Controller
         });
 
         return response()->json($user);
+    }
+
+    public function verifyResetPassword(Request $request){
+
+        $user = User::where('remember_token', $request->token)->first();
+
+        if (!$user) {
+            
+            return response()->json(['error' => true]);
+        }
+        
+        return response()->json(['error' => false]);
+    }
+
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function changePassword(ChangePasswordRequest $request){
+
+        $user = User::where('remember_token', $request->token)->first();
+        //$user->remember_token = null;
+        $user->password = bcrypt($request->password);
+        $user->save();
+
+        return response()->json(['usuario' => $user->email]);
+
     }
 }
