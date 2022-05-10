@@ -44,9 +44,7 @@ class ChangePasswordRequest extends FormRequest
     {
         return [
             'required' => 'O campo :attribute é obrigatório.',
-            //'on_null' => ':attribute não encontrado',
             'email' => ':attribute tem que ser valído'
-           //'mimes' => 'O arquivo deve ser do tipo: png, jpeg, pdf, docx.'
         ];
     }
 

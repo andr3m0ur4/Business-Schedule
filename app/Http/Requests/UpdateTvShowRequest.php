@@ -41,7 +41,6 @@ class UpdateTvShowRequest extends FormRequest
         return [
             'required' => 'O campo nome é obrigatório.',
             'unique' => 'O nome já existe.',
-            //'mimes' => 'O arquivo deve ser do tipo: png, jpeg, pdf, docx.'
         ];
     }
 }

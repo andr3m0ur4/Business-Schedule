@@ -49,7 +49,14 @@ class UpdateUserRequest extends FormRequest
     public function messages()
     {
         return [
-            //
+            'name.required' => 'O campo nome é obrigatório.',
+            'email.required' => 'O campo email é obrigatório.',
+            'password.required' => 'O campo senha é obrigatório.',
+            'type.required' => 'O campo privilégio é obrigatório.',
+            'email.unique' => 'O email já existe.',
+            'confirmed' => 'As senhas são diferentes',
+            'password.min' => 'O campo senha deve ter no minimo 8 caracteres',
+            'phone.min' => 'O campo celular deve ter no minimo 8 caracteres'
         ];
     }
 }
