@@ -104,7 +104,6 @@ class UserController extends Controller
         return response()->json($user);
     }
 
-    
     public function sendMail(ChangePasswordRequest $request)
     {
 
@@ -125,10 +124,9 @@ class UserController extends Controller
         $user = User::where('remember_token', $request->token)->first();
 
         if (!$user) {
-            
             return response()->json(['error' => true]);
         }
-        
+
         return response()->json(['error' => false]);
     }
 
@@ -142,7 +140,7 @@ class UserController extends Controller
     public function changePassword(ChangePasswordRequest $request){
 
         $user = User::where('remember_token', $request->token)->first();
-        //$user->remember_token = null;
+        $user->remember_token = null;
         $user->password = bcrypt($request->password);
         $user->save();
 

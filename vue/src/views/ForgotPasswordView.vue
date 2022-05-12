@@ -20,7 +20,6 @@
                            </div>
                            <button type="button" @click="sendMail()" class="btn btn-primary">Redefinir</button>
                         </form>
-                        {{email}}
                      </div>
                   </div>
                </div>
@@ -43,15 +42,16 @@ export default {
   methods: {
    sendMail() {
          axios.post('send-mail', {
-            email: this.email
+          email: this.email
          })
          .then(response => {
-            this.$swal('Sucesso', `E-mail enviado para ${response.data.email}`, 'success')
+            this.$swal('Sucesso', `E-mail enviado para ${response.data.email}`, 'success');
+            this.$router.push('/entrar');
          })
          .catch(error => {
             console.log(error.response.data.message);
-           this.$swal('Erro', error.response.data.message, 'error')
-         })
+            this.$swal('Erro', error.response.data.message, 'error')
+         });
       }
    }
 }

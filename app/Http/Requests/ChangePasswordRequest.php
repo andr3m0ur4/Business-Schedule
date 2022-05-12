@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
 
 class ChangePasswordRequest extends FormRequest
 {
@@ -28,8 +28,8 @@ class ChangePasswordRequest extends FormRequest
             'password' => [
                 'required',
                 'confirmed',
-                'sometimes'
-                // Password::min(8)->mixedCase()->numbers()->symbols()
+                'sometimes',
+                Password::min(8)->mixedCase()->numbers()->symbols()
             ],
             'email' => ['sometimes', 'required', 'email', 'string'],
         ];
@@ -43,8 +43,10 @@ class ChangePasswordRequest extends FormRequest
     public function messages()
     {
         return [
-            'required' => 'O campo :attribute é obrigatório.',
-            'email' => ':attribute tem que ser valído'
+            'email.required' => 'O campo email é obrigatório.',
+            'password.required' => 'O campo senha é obrigatório.',
+            'confirmed' => 'As senhas são diferentes',
+            'password.min' => 'O campo senha deve ter no minimo 8 caracteres',
         ];
     }
 

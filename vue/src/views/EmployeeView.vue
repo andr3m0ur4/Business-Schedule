@@ -88,16 +88,21 @@
                           </div>
                       </div>
                       <div class="col-lg-6">
-                          <div class="floating-input form-group">
+                          <div class="floating-input form-group mb-0">
                             <input class="form-control" type="password" id="password" v-model="employee.password" required />
                             <label class="form-label" for="password">Senha</label>
                           </div>
                       </div>
                       <div class="col-lg-6">
-                          <div class="floating-input form-group">
+                          <div class="floating-input form-group mb-0">
                             <input class="form-control" type="password" v-model="employee.password_confirmation" id="password1" required />
                             <label class="form-label" for="password1">Confirmar Senha</label>
                           </div>
+                      </div>
+                      <div class="col-lg-12">
+                        <small id="passwordHelpBlock" class="form-text text-muted">
+                          A senha deve conter no mínimo 8 caracteres, ser alfa-numérica, deve conter caracteres especiais e pelo menos 1 letra maiúscula.
+                        </small>
                       </div>
                       <div class="col-lg-6">
                           <div class="floating-input form-group">
@@ -146,26 +151,29 @@ export default {
     return {
       employees: [],
       jobs: [],
-      employee: {}
+      employee: {},
+      dataTable: null
     }
   },
   created() {
-    this.getEmployees()
-    this.getJobs()
+    this.getEmployees();
+    this.getJobs();
   },
   mounted() {
-    $('.selectpicker').selectpicker()
+    $('.selectpicker').selectpicker();
   },
   updated() {
-    $('.data-tables').DataTable()
-    $('.selectpicker').selectpicker('refresh')
+    this.dataTable = $('.data-tables').DataTable(optionsTable);
+    $('.selectpicker').selectpicker('refresh');
   },
   methods: {
     getEmployees() {
       axios.get('v1/users')
         .then(response => {
           this.employees = response.data
-          $('.data-tables').DataTable().destroy()
+          if (this.dataTable) {
+            this.dataTable.destroy();
+          }
         })
         .catch(error => {
           if (error.response.status == 401) {

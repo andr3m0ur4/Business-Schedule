@@ -9,7 +9,7 @@
                         <img src="../assets/images/bs-icon-high.png" height="130" width="130">
                         <h2>Redefina sua senha</h2>
                         <p>Digite sua nova senha de login.</p>
-                        <form>
+                        <form id="reset-password">
                            <div class="row">
                               <div class="col-lg-12">
                                  <div class="floating-input form-group">
@@ -58,7 +58,11 @@ export default {
          }
         })
      },
-     savePassword(){
+     savePassword() {
+        if (!$('#reset-password').get(0).reportValidity()) {
+          return false;
+        }
+
         axios.post('change-password', {
         password: this.password,
         password_confirmation: this.password_confirmation,

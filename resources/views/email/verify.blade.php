@@ -11,7 +11,7 @@
                             <h2>Redefinir senha</h2>
                          </div>
                            <p>Ao clicar no botão abaixo você será redirecionado para a tela de redefinição de senha.</p>
-                           <a href="{{$url}}confirma-senha/{{$token}}" type="submit" class="btn btn-primary">Redefinir</a>
+                           <a href="{{$url}}confirma-senha/{{$token}}" target="_blank" type="submit" class="btn btn-primary">Redefinir</a>
                      </div>
                   </div>
                </div>

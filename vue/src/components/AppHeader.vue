@@ -34,7 +34,7 @@
                 </li>
                 <li class="">
                   <a href="#pages" class="collapsed" data-toggle="collapse" aria-expanded="false">
-                    <span>Formulários</span>
+                    <span>Gerenciamento</span>
                     <i class="ri-arrow-right-s-line iq-arrow-right"></i>
                   </a>
                   <ul id="pages" class="iq-submenu sub-scrll collapse" data-parent="#iq-sidebar-toggle">
@@ -319,12 +319,12 @@
                     <div class="card m-0">
                       <div class="card-body p-0">
                         <div class="py-3">
-                          <a href="/conta" class="iq-sub-card">
+                          <router-link to="/conta" class="iq-sub-card">
                             <div class="media align-items-center">
                               <i class="ri-user-line mr-3"></i>
                               <h6>Configurações da conta</h6>
                             </div>
-                          </a>
+                          </router-link>
                         </div>
                         <a @click="logout()" class="right-ic p-3 border-top btn-block position-relative text-center" role="button">
                           Logout
