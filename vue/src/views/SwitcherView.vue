@@ -77,21 +77,24 @@ export default {
       switchers: [],
       switcher: {
         name: null
-      }
+      },
+      dataTable: null
     }
   },
   created() {
     this.getSwitchers()
   },
   updated() {
-    $('.data-tables').DataTable()
+    this.dataTable = $('.data-tables').DataTable(optionsTable);
   },
   methods: {
     getSwitchers() {
       axios.get('v1/switcher')
         .then(response => {
           this.switchers = response.data
-          $('.data-tables').DataTable().destroy()
+          if (this.dataTable) {
+            this.dataTable.destroy();
+          }
         })
         .catch(error => {
           if (error.response.status == 401) {

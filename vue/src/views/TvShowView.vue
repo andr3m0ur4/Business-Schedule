@@ -79,21 +79,24 @@ export default {
         name: null
         //description: null,
         //file : null
-      }
+      },
+      dataTable: null
     }
   },
   created() {
     this.getTvShows()
   },
   updated() {
-    $('.data-tables').DataTable()
+    this.dataTable = $('.data-tables').DataTable(optionsTable);
   },
   methods: {
     getTvShows() {
       axios.get('v1/tv-shows')
         .then(response => {
           this.tvShows = response.data
-          $('.data-tables').DataTable().destroy()
+          if (this.dataTable) {
+            this.dataTable.destroy();
+          }
         })
         .catch(error => {
           if (error.response.status == 401) {

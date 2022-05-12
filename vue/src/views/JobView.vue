@@ -79,21 +79,24 @@ export default {
         name: null
         //description: null,
         //file : null
-      }
+      },
+      dataTable: null
     }
   },
   created() {
     this.getJobs()
   },
   updated() {
-    $('.data-tables').DataTable()
+    this.dataTable = $('.data-tables').DataTable(optionsTable);
   },
   methods: {
     getJobs() {
       axios.get('v1/jobs')
         .then(response => {
           this.jobs = response.data
-          $('.data-tables').DataTable().destroy()
+          if (this.dataTable) {
+            this.dataTable.destroy();
+          }
         })
         .catch(error => {
           if (error.response.status == 401) {

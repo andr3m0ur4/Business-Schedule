@@ -77,21 +77,24 @@ export default {
       studios: [],
       studio: {
         name: null
-      }
+      },
+      dataTable: null,
     }
   },
   created() {
     this.getStudios()
   },
   updated() {
-    $('.data-tables').DataTable()
+    this.dataTable = $('.data-tables').DataTable(optionsTable);
   },
   methods: {
     getStudios() {
       axios.get('v1/studios')
         .then(response => {
           this.studios = response.data
-          $('.data-tables').DataTable().destroy()
+          if (this.dataTable) {
+            this.dataTable.destroy();
+          }
         })
         .catch(error => {
           if (error.response.status == 401) {
