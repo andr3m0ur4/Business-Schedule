@@ -43,7 +43,7 @@ Index Of Script
 
     "use strict";
 
-    jQuery(document).ready(function() {
+    jQuery(document).on('ready', function() {
 
         /*---------------------------------------------------------------------
         Tooltip
@@ -324,7 +324,7 @@ Index Of Script
                 weekNumbers: true
             });
           }
-          if (jQuery('#inline-date').length > 0) { 
+          if (jQuery('#inline-date').length > 0) {
               jQuery("#inline-date").flatpickr({
                 inline: true
             });
@@ -363,7 +363,7 @@ Index Of Script
         -----------------------------------------------------------------------*/
         if(jQuery('.data-tables').length)
         {
-          $('.data-tables').DataTable();
+            // $('.data-tables').DataTable();
         }
 
         if ($.fn.select2 !== undefined) {
@@ -415,7 +415,7 @@ Index Of Script
             $('.icon').toggleClass('icon-grid');
             $(".label").text(txt);
           })
-          
+
           $('[data-toggle="pill"]').on('click',function () {
               const extra = $(this).attr('data-extra')
               if (extra !== undefined) {
@@ -739,5 +739,12 @@ function submitCalendar() {
         }
         $(this).closest('#date-event').modal('hide')
         calendar1.addEvent(event)
+    }
+}
+
+const optionsTable = {
+    retrieve: true,
+    "language": {
+        "url": "//cdn.datatables.net/plug-ins/1.11.5/i18n/pt-BR.json"
     }
 }
