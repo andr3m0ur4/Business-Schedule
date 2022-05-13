@@ -10,7 +10,7 @@
           </div>
         </div>
         <div class="col-lg-12">
-          <h4 class="mb-3">Choose A Schedule Below</h4>
+          <h4 class="mb-3">Escolha uma Escala Abaixo</h4>
           <div class="d-flex flex-wrap align-items-center justify-content-between my-schedule mb-3">
             <div class="d-flex align-items-center justify-content-between">
               <div class="form-group mb-0">
@@ -28,8 +28,8 @@
                   <span class="caret"><!--icon--></span>
                   </label>
                   <ul class="dropdown-menu w-100 border-none p-3">
-                    <li><div class="item mb-2"><i class="ri-pencil-line mr-3"></i>Edit</div></li>
-                    <li><div class="item"><i class="ri-delete-bin-6-line mr-3"></i>Delete</div></li>
+                    <li><div class="item mb-2"><i class="ri-pencil-line mr-3"></i>Editar</div></li>
+                    <li><div class="item"><i class="ri-delete-bin-6-line mr-3"></i>Excluir</div></li>
                   </ul>
                 </div>
               </div>
@@ -60,6 +60,9 @@
                   </div>
                 </div>
               </div>
+            </div>
+            <div>
+              <button class="btn btn-success" @click="saveSchedulePopup()">Salvar Escala</button>
             </div>
             <div class="create-workform">
               <a href="#" data-toggle="modal" data-target="#modal-new-schedule" id="btn-new-schedule" class="btn btn-primary pr-5 position-relative">
@@ -248,12 +251,14 @@ export default {
       employees: [],
       employeesByJobs: [],
       calendarList: [],
+      scheduleList: [],
       resizeThrottled: null,
       newSchedule: true
     }
   },
   mounted() {
     $('.selectpicker').selectpicker();
+    $('.my-schedule .bootstrap-select > .dropdown-toggle').eq(1).hide();
 
     const getTimeTemplate = (schedule, isAllDay) => {
       return this.getTimeTemplate(schedule, isAllDay);
@@ -307,6 +312,7 @@ export default {
         },
         beforeCreateSchedule: e => {
           console.log('beforeCreateSchedule', e);
+          e.state = 'Private';
           this.saveNewSchedule(e);
         },
         beforeUpdateSchedule: e => {
@@ -340,9 +346,10 @@ export default {
         },
         afterRenderSchedule: e => {
           const schedule = e.schedule;
-          const element = this.calendar.getElement(schedule.id, schedule.calendarId);
-          element
+          // const element = this.calendar.getElement(schedule.id, schedule.calendarId);
+          // const objSchedule = this.calendar.getSchedule(schedule.id, schedule.calendarId);
           // console.log('afterRenderSchedule', element);
+          this.scheduleList.push(schedule);
         },
         clickTimezonesCollapseBtn: timezonesCollapsed => {
           console.log('timezonesCollapsed', timezonesCollapsed);
@@ -516,7 +523,7 @@ export default {
         bgColor: calendar.bgColor,
         dragBgColor: calendar.bgColor,
         borderColor: calendar.borderColor,
-        state: 'Busy'
+        state: 'Private'
       }]);
 
       this.saveStorage(id, calendar.id);
@@ -736,17 +743,28 @@ export default {
     },
     setSchedules() {
       this.calendar.clear();
+      this.scheduleList = [];
       ScheduleList.splice(0, ScheduleList.length);
+
+      axios.get('v1/employee-times')
+        .then(response => {
+          ScheduleInfo.createSchedulesFromDB(response.data);
+        })
+        .catch(error => {
+          console.log(error.response);
+        })
+        .finally(() => {
+          ScheduleInfo.createSchedules(JSON.parse(this.$ls.get('schedules', '[]')));
+          this.calendar.createSchedules(ScheduleList);
+          this.refreshScheduleVisibility();
+        });
+
       // função para gerar horários aleatórios
       // ScheduleInfo.generateSchedule(
       //   this.calendar.getViewName(),
       //   this.calendar.getDateRangeStart(),
       //   this.calendar.getDateRangeEnd()
       // );
-      ScheduleInfo.createSchedules(JSON.parse(this.$ls.get('schedules', '[]')));
-      this.calendar.createSchedules(ScheduleList);
-
-      this.refreshScheduleVisibility();
     },
     setDateTimePicker() {
       this.datePicker = new DatePicker.createRangePicker({
@@ -812,6 +830,20 @@ export default {
 
       this.$ls.set('schedules', JSON.stringify(schedules));
     },
+    clearRangeStorage() {
+      const start = this.calendar.getDateRangeStart().toDate();
+      const end = moment(this.calendar.getDateRangeEnd().toDate()).add({
+        hours: 23,
+        minutes: 23,
+        seconds: 59
+      }).toDate();
+
+      const schedules = JSON.parse(this.$ls.get('schedules', '[]'));
+      const currentSchedules = schedules.filter(schedule => {
+        return !moment(moment(schedule.start._date).toDate()).isBetween(start, end);
+      });
+      this.$ls.set('schedules', JSON.stringify(currentSchedules));
+    },
     getJobs() {
       axios.get('v1/jobs')
         .then(response => {
@@ -835,6 +867,53 @@ export default {
         .catch(error => {
           console.log(error);
         });
+    },
+    saveSchedulePopup() {
+      this.$swal({
+        title: 'Deseja salvar as modificações na Escala?',
+        icon: 'question',
+        text: 'Ao salvar a Escala, ela será imediatamente disponibilizada aos funcionários!',
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: 'Salvar',
+        denyButtonText: 'Não salvar',
+      })
+        .then(result => {
+          if (result.isConfirmed) {
+            this.saveSchedule();
+          } else if (result.isDenied) {
+            this.$swal('As modificações não foram salvas', '', 'info');
+          }
+        });
+    },
+    saveSchedule() {
+      this.scheduleList = [];
+      this.calendar.setDate(this.calendar.getDate());
+
+      const unwatch = this.$watch(() => this.scheduleList.length, () => {
+        const schedules = this.scheduleList.map(schedule => {
+          schedule.startDateTime = this.formatDate(schedule.start.toDate());
+          schedule.endDateTime = this.formatDate(schedule.end.toDate());
+          return schedule;
+        });
+
+        axios.post('v1/employee-times/save', schedules)
+          .then(response => {
+            this.$swal('Bom trabalho!', 'Os horários foram salvos com sucesso.', 'success');
+            this.clearRangeStorage();
+            this.setSchedules();
+            unwatch();
+          })
+          .catch(error => {
+            console.log(error.response);
+            unwatch();
+          });
+      });
+    },
+    formatDate(value) {
+      if (value) {
+        return moment(value).format('YYYY-MM-DD HH:mm:ss');
+      }
     }
   },
   watch: {
@@ -939,6 +1018,9 @@ export default {
   }
   .tui-timepicker-select {
     padding-top: 2px;
+  }
+  .my-schedule .bootstrap-select > .dropdown-toggle:nth-of-type(2) {
+    display: none;
   }
 </style>
 

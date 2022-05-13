@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('employee_times', function (Blueprint $table) {
             $table->string('id', 100)->primary();
-            $table->dateTime('start_time');
-            $table->dateTime('end_time');
+            $table->dateTime('start');
+            $table->dateTime('end');
             $table->date('date')->nullable();
             $table->tinyInteger('week_day')->nullable();
             $table->foreignId('user_id')->constrained();

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\EmployeeTimeRequest;
 use App\Http\Requests\StoreEmployeeTimeRequest;
 use App\Http\Requests\UpdateEmployeeTimeRequest;
+use App\Http\Resources\EmployeeTimeResource;
 use App\Models\EmployeeTime;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -18,7 +18,8 @@ class EmployeeTimeController extends Controller
      */
     public function index()
     {
-        //
+        $employeeTimes = EmployeeTime::all();
+        return response()->json(EmployeeTimeResource::collection($employeeTimes));
     }
 
     /**
@@ -93,12 +94,13 @@ class EmployeeTimeController extends Controller
     {
         $insertRows = 0;
         $affectedRows = 0;
+        // return response()->json($request->all());
 
         foreach ($request->all() as $item) {
             $time = [];
             $time['id'] = $item['id'];
-            $time['start_time'] = $item['start'];
-            $time['end_time'] = $item['end'];
+            $time['start'] = $item['startDateTime'];
+            $time['end'] = $item['endDateTime'];
             $time['user_id'] = $item['raw']['employeeId'];
 
             $employeeTime = EmployeeTime::where('id', $item['id'])->first();
