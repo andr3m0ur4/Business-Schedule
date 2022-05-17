@@ -15,6 +15,7 @@ import BlankPage from '@/views/BlankPage'
 import ResetPasswordEmail from '@/views/ResetPasswordEmail'
 import ConfirmPasswordView from '@/views/ConfirmPasswordView'
 import AccountSettingsView from '@/views/AccountSettingsView'
+import MessageListView from '@/views/MessageListView'
 import store from '@/store'
 
 const routes = [
@@ -62,6 +63,11 @@ const routes = [
                 path: '/conta',
                 name: 'conta',
                 component: AccountSettingsView
+            },
+            {
+                path: '/mensagens',
+                name: 'message',
+                component: MessageListView
             }
         ]
     },
