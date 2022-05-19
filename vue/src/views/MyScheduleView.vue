@@ -184,7 +184,7 @@
                     <div class="form-group">
                       <label class="form-label" for="schedule-title">Funcionário</label>
                       <select class="selectpicker form-control" id="schedule-title" v-model="selectedEmployee" title="Digite o Nome" data-live-search="true" required>
-                        <option v-for="employee in employeesByJobs" :key="employee.id" :data-action="employee.id">
+                        <option v-for="employee in employeesByJobs" :key="employee.id" :data-action="employee.id" :value="employee">
                           {{ employee.name }}
                         </option>
                       </select>
@@ -328,7 +328,10 @@ export default {
           $('#label-schedule').text('Alterar');
           this.selectedSchedule.id = schedule.id;
           this.selectedSchedule.calendarId = schedule.calendarId;
-          this.selectedEmployee = schedule.title;
+
+          if (schedule.raw) {
+            this.selectedEmployee = schedule.raw.creator.employee;
+          }
           this.newSchedule = false;
           this.datePicker.setStartDate(changes.start ? changes.start.toDate() : schedule.start.toDate());
           this.datePicker.setEndDate(changes.end ? changes.end.toDate() : schedule.end.toDate());
@@ -492,7 +495,7 @@ export default {
       this.setSchedules();
     },
     onNewSchedule() {
-      const title = this.selectedEmployee;
+      const title = this.selectedEmployee.name;
 
       const employeeId = this.getDataAction($('#schedule-title').find(':selected').get(0));
       // const location = $('#new-schedule-location').val();
@@ -512,7 +515,15 @@ export default {
         id,
         calendarId: calendar.id,
         title,
-        raw: { employeeId },
+        raw: {
+          employeeId,
+          creator: {
+            employee: this.selectedEmployee,
+            name: this.selectedEmployee.name,
+            email: this.selectedEmployee.email,
+            phone: this.selectedEmployee.phone
+          }
+        },
         isAllDay,
         location,
         start,
@@ -531,7 +542,7 @@ export default {
       $('#modal-new-schedule').modal('hide');
     },
     onUpdateSchedule() {
-      const title = this.selectedEmployee;
+      const title = this.selectedEmployee.name;
       const employeeId = this.getDataAction($('#schedule-title').find(':selected').get(0));
       const id = this.selectedSchedule.id;
       const calendarId = this.selectedSchedule.calendarId;
@@ -545,7 +556,15 @@ export default {
 
       this.calendar.updateSchedule(id, calendarId, {
         title,
-        raw: { employeeId },
+        raw: {
+          employeeId,
+          creator: {
+            employee: this.selectedEmployee,
+            name: this.selectedEmployee.name,
+            email: this.selectedEmployee.email,
+            phone: this.selectedEmployee.phone
+          }
+        },
         calendarId: calendar.id,
         start,
         end,
@@ -869,6 +888,7 @@ export default {
         });
     },
     saveSchedulePopup() {
+      // validar horarios dos funcionarios
       this.$swal({
         title: 'Deseja salvar as modificações na Escala?',
         icon: 'question',

@@ -188,7 +188,13 @@ class ScheduleInfo {
                 end: scheduleDB.end,
                 category: 'time',
                 raw: {
-                    employeeId: scheduleDB.user.id
+                    employeeId: scheduleDB.user.id,
+                    creator: {
+                        employee: scheduleDB.user,
+                        name: scheduleDB.user.name,
+                        email: scheduleDB.user.email,
+                        phone:scheduleDB.user.phone
+                    }
                 },
                 state: 'public'
             };
