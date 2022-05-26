@@ -236,9 +236,7 @@
                             </div>
                           </a>
                         </div>
-                        <a class="right-ic btn-block position-relative p-3 border-top text-center" href="#" role="button">
-                            Ver tudo
-                        </a>
+                        <router-link to="/mensagens" class="right-ic btn-block position-relative p-3 border-top text-center" role="button">Ver tudo</router-link>
                       </div>
                     </div>
                   </div>
