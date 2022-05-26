@@ -228,7 +228,7 @@
 </template>
 
 <script>
-import Calendar from 'tui-calendar';
+import Calendar from '@/assets/vendor/tui-calendar';
 import DatePicker from 'tui-date-picker';
 import throttle from 'tui-code-snippet/tricks/throttle';
 import axios from '@/axios';
@@ -304,7 +304,7 @@ export default {
         clickMore(e) {
           console.log('clickMore', e);
         },
-        clickSchedule(e) {
+        clickSchedule: e => {
           console.log('clickSchedule', e);
         },
         clickDayname(date) {
@@ -495,6 +495,10 @@ export default {
       this.setSchedules();
     },
     onNewSchedule() {
+      if (!$('#submit-schedule').get(0).reportValidity()) {
+        return false;
+      }
+
       const title = this.selectedEmployee.name;
 
       const employeeId = this.getDataAction($('#schedule-title').find(':selected').get(0));
@@ -816,6 +820,10 @@ export default {
         $('#dropdownMenu-calendars-list').change();
       });
 
+      $('#modal-new-schedule').on('hidden.bs.modal', () => {
+        this.selectedEmployee = {};
+      });
+
       window.addEventListener('resize', this.resizeThrottled);
     },
     getDataAction(target) {
@@ -911,7 +919,11 @@ export default {
       this.calendar.setDate(this.calendar.getDate());
 
       const unwatch = this.$watch(() => this.scheduleList.length, () => {
-        const schedules = this.scheduleList.map(schedule => {
+        const schedules = this.scheduleList.filter(schedule => {
+          if (!schedule.raw) {
+            return null;
+          }
+
           schedule.startDateTime = this.formatDate(schedule.start.toDate());
           schedule.endDateTime = this.formatDate(schedule.end.toDate());
           return schedule;
@@ -957,7 +969,7 @@ export default {
   @import '@/assets/vendor/fullcalendar/timegrid/main.css';
   @import '@/assets/vendor/fullcalendar/list/main.css';
 
-  @import "tui-calendar/dist/tui-calendar.css";
+  @import "@/assets/vendor/tui-calendar/dist/tui-calendar.css";
 
   /* If you use the default popups, use this. */
   @import 'tui-date-picker/dist/tui-date-picker.css';
@@ -1023,6 +1035,13 @@ export default {
   .tui-full-calendar-popup-section-item {
     font-size: inherit;
   }
+  .tui-full-calendar-popup-detail .tui-full-calendar-popup-container {
+    color: #333;
+    font-weight: 400;
+  }
+  .tui-full-calendar-popup {
+    font-weight: 400;
+  }
 
   .tui-datepicker-input {
     display: block;
@@ -1041,6 +1060,12 @@ export default {
   }
   .my-schedule .bootstrap-select > .dropdown-toggle:nth-of-type(2) {
     display: none;
+  }
+</style>
+<style>
+  .tui-full-calendar-popup-detail .tui-full-calendar-popup-container {
+    color: #333;
+    font-weight: 400;
   }
 </style>
 
