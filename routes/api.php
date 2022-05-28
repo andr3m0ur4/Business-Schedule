@@ -46,7 +46,7 @@ Route::prefix('v1')->middleware('jwt.auth')->group(function() {
     Route::apiResource('jobs', JobController::class);
     Route::post('employee-times/save', [EmployeeTimeController::class, 'save']);
     Route::apiResource('employee-times', EmployeeTimeController::class);
-    Route::apiResource('switcher', SwitcherController::class);
+    Route::apiResource('switchers', SwitcherController::class);
     Route::apiResource('studios', StudioController::class);
     Route::apiResource('tv-shows', TvShowController::class);
     Route::get('tv-show-times/filters', [TvShowTimeController::class, 'filters']);

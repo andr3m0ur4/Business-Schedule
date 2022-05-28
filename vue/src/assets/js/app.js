@@ -331,7 +331,7 @@ const jQuery = $;
                 weekNumbers: true
             });
           }
-          if (jQuery('#inline-date').length > 0) { 
+          if (jQuery('#inline-date').length > 0) {
               jQuery("#inline-date").flatpickr({
                 inline: true
             });
@@ -422,7 +422,7 @@ const jQuery = $;
             $('.icon').toggleClass('icon-grid');
             $(".label").text(txt);
           })
-          
+
           $('[data-toggle="pill"]').on('click',function () {
               const extra = $(this).attr('data-extra')
               if (extra !== undefined) {

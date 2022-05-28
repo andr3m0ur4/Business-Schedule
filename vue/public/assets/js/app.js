@@ -229,7 +229,7 @@ Index Of Script
         });
 
         jQuery(document).on('click', ".wrapper-menu", function() {
-            jQuery("body").toggleClass("sidebar-main");
+            jQuery("div.fixed-top-navbar.top-nav").toggleClass("sidebar-main");
         });
 
 
