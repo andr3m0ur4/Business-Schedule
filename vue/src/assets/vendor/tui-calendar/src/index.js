@@ -5,7 +5,6 @@
 
 'use strict';
 
-// var util = require('tui-code-snippet');
 var util = require('tui-code-snippet');
 var Calendar = require('./js/factory/calendar');
 

@@ -4,7 +4,7 @@
  */
 'use strict';
 
-var util = require('tui-code-snippet');
+var common = require('tui-code-snippet');
 var existy = common.isExisty,
     pick = common.pick,
     isFunc = common.isFunction;
