@@ -39,6 +39,18 @@ export default {
     AppHeader,
     ModalShareYourLink,
     AppFooter
+  },
+  mounted() {
+    /*---------------------------------------------------------------------
+    Page Menu
+    -----------------------------------------------------------------------*/
+    jQuery(document).on('click', '.wrapper-menu', function() {
+        jQuery(this).toggleClass('open');
+    });
+
+    jQuery(document).on('click', ".wrapper-menu", function() {
+        jQuery("div.fixed-top-navbar.top-nav").toggleClass("sidebar-main");
+    });
   }
 }
 </script>

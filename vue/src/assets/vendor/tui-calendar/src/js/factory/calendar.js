@@ -6,8 +6,9 @@
 
 var GA_TRACKING_ID = 'UA-129951699-1';
 
-var util = require('tui-code-snippet'),
-    Handlebars = require('handlebars-template-loader/runtime');
+var util = require('tui-code-snippet');
+
+var Handlebars = require('handlebars-template-loader/runtime');
 var dw = require('../common/dw');
 var datetime = require('../common/datetime');
 var Layout = require('../view/layout');
