@@ -24,8 +24,8 @@
               <div class="select-dropdown input-prepend input-append">
                 <div class="btn-group">
                   <label data-toggle="dropdown">
-                  <span class="dropdown-toggle search-query rounded btn bg-white btn-edit"><i class="las la-edit mr-0 text-center"></i></span><span class="search-replace"></span>
-                  <span class="caret"><!--icon--></span>
+                    <span class="dropdown-toggle search-query rounded btn bg-white btn-edit"><i class="las la-edit mr-0 text-center"></i></span><span class="search-replace"></span>
+                    <span class="caret"><!--icon--></span>
                   </label>
                   <ul class="dropdown-menu w-100 border-none p-3">
                     <li><div class="item mb-2"><i class="ri-pencil-line mr-3"></i>Editar</div></li>
@@ -64,11 +64,29 @@
             <div>
               <button class="btn btn-success" @click="saveSchedulePopup()">Salvar Escala</button>
             </div>
-            <div class="create-workform">
-              <a href="#" data-toggle="modal" data-target="#modal-new-schedule" id="btn-new-schedule" class="btn btn-primary pr-5 position-relative">
-                Novo Horário
-                <span class="add-btn"><i class="ri-add-line"></i></span>
-              </a>
+            <div class="select-dropdown input-prepend input-append">
+              <div class="btn-group">
+                <div class="create-workform">
+                  <label data-toggle="dropdown">
+                    <a href="#" class="btn btn-primary pr-5 position-relative">
+                      Novo Horário
+                      <span class="add-btn"><i class="ri-add-line"></i></span>
+                    </a>
+                  </label>
+                  <ul class="dropdown-menu new-schedule w-100 border-none p-3">
+                    <li>
+                      <div class="item mb-2" data-toggle="modal" data-target="#modal-new-schedule" id="btn-new-schedule">
+                        <i class="ri-user-add-fill mr-3"></i>Horário de Funcionário
+                      </div>
+                    </li>
+                    <li>
+                      <div class="item" data-toggle="modal" data-target="#modal-new-task" id="btn-new-task">
+                        <i class="ri-tv-2-line mr-3"></i>Horário de Programa
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
           <h4 class="mb-3">Defina os Horários de Trabalho</h4>
@@ -166,7 +184,9 @@
         <div class="modal-content">
           <div class="modal-body">
             <div class="popup text-left">
-              <h4 class="mb-3"><span id="label-schedule">Adicionar</span> Horário</h4>
+              <h4 class="mb-3">
+                <span id="label-schedule">Adicionar</span> Horário de Funcionário
+              </h4>
               <form action="/" id="submit-schedule" @submit.prevent="">
                 <div class="content create-workform row">
                   <div class="col-md-6 mb-2">
@@ -192,22 +212,22 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label class="form-label" for="schedule-start-date">Start Date</label>
+                      <label class="form-label" for="start-schedule">Horário Inicial</label>
                       <div class="tui-datepicker-input tui-datetime-input tui-has-focus">
-                        <input type="text" class="form-control date-input" id="schedule-start-date" aria-label="Date-Time" required>
+                        <input type="text" class="form-control date-input" id="start-schedule" aria-label="Date-Time" required>
                         <span class="tui-ico-date"></span>
                       </div>
-                      <div id="startpicker-container" style="margin-top: -1px;"></div>
+                      <div id="startpicker-container-schedule" style="margin-top: -1px;"></div>
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label class="form-label" for="schedule-end-date">End Date</label>
+                      <label class="form-label" for="end-schedule">Horário Final</label>
                       <div class="tui-datepicker-input tui-datetime-input tui-has-focus">
-                        <input type="text" class="form-control date-input" id="schedule-end-date" aria-label="Date-Time" required>
+                        <input type="text" class="form-control date-input" id="end-schedule" aria-label="Date-Time" required>
                         <span class="tui-ico-date"></span>
                       </div>
-                      <div id="endpicker-container" style="margin-top: -1px;"></div>
+                      <div id="endpicker-container-schedule" style="margin-top: -1px;"></div>
                     </div>
                   </div>
                   <div class="col-md-12 mt-4">
@@ -224,13 +244,88 @@
         </div>
       </div>
     </div>
+
+    <div class="modal fade" id="modal-new-task" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="popup text-left">
+              <h4 class="mb-3">
+                <span id="label-task">Adicionar</span> Horário de Programa
+              </h4>
+              <form action="/" id="submit-task" @submit.prevent="">
+                <div class="content create-workform row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label class="form-label" for="tv-show-title">Programa</label>
+                      <select class="selectpicker form-control" id="tv-show-title" v-model="selectedTvShow" title="Digite o Nome" data-live-search="true" required>
+                        <option v-for="tvShow in tvShows" :key="tvShow.id" :data-action="tvShow.id" :value="tvShow">
+                          {{ tvShow.name }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="form-label" for="studio-title">Estúdio</label>
+                      <select class="selectpicker form-control" id="studio-title" v-model="selectedStudio" title="Digite o Nome" data-live-search="true" required>
+                        <option v-for="studio in studios" :key="studio.id" :data-action="studio.id" :value="studio">
+                          {{ studio.name }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="form-label" for="switcher-title">Switcher</label>
+                      <select class="selectpicker form-control" id="switcher-title" v-model="selectedSwitcher" title="Digite o Nome" data-live-search="true" required>
+                        <option v-for="switcher in switchers" :key="switcher.id" :data-action="switcher.id" :value="switcher">
+                          {{ switcher.name }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="form-label" for="start-task">Horário Inicial</label>
+                      <div class="tui-datepicker-input tui-datetime-input tui-has-focus">
+                        <input type="text" class="form-control date-input" id="start-task" aria-label="Date-Time" required>
+                        <span class="tui-ico-date"></span>
+                      </div>
+                      <div id="startpicker-container-task" style="margin-top: -1px;"></div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="form-label" for="end-task">Horário Final</label>
+                      <div class="tui-datepicker-input tui-datetime-input tui-has-focus">
+                        <input type="text" class="form-control date-input" id="end-task" aria-label="Date-Time" required>
+                        <span class="tui-ico-date"></span>
+                      </div>
+                      <div id="endpicker-container-task" style="margin-top: -1px;"></div>
+                    </div>
+                  </div>
+                  <div class="col-md-12 mt-4">
+                    <div class="d-flex flex-wrap align-items-ceter justify-content-center">
+                      <button class="btn btn-primary mr-4" data-dismiss="modal">Cancelar</button>
+                      <button v-if="newTask" class="btn btn-outline-primary" type="submit" @click="onNewTask">Salvar</button>
+                      <button v-else class="btn btn-outline-primary" type="submit" @click="onUpdateTask">Salvar</button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import Calendar from '@/assets/vendor/tui-calendar';
 import DatePicker from 'tui-date-picker';
-import throttle from 'tui-code-snippet/tricks/throttle';
+import util from 'tui-code-snippet';
 import axios from '@/axios';
 
 import { CalendarList, CalendarInfo } from '@/assets/js/data/calendars';
@@ -244,16 +339,28 @@ export default {
       useCreationPopup: false,
       useDetailPopup: true,
       datePicker: null,
+      datePickerTask: null,
       selectedSchedule: {},
       selectedCalendar: {},
       selectedEmployee: {},
+      selectedTvShow: {},
+      selectedStudio: {},
+      selectedSwitcher: {},
       jobs: [],
       employees: [],
       employeesByJobs: [],
+      tvShows: [],
+      studios: [],
+      switchers: [],
+      isEmployeeTime: false,
+      isTvShowTime: false,
       calendarList: [],
       scheduleList: [],
       resizeThrottled: null,
-      newSchedule: true
+      newSchedule: true,
+      newTask: true,
+      start: null,
+      end: null
     }
   },
   mounted() {
@@ -266,7 +373,7 @@ export default {
 
     this.calendar = new Calendar('#calendar', {
       defaultView: 'week',
-      taskView: false,
+      taskView: ['task'],
       scheduleView: ['time'],
       useCreationPopup: this.useCreationPopup,
       useDetailPopup: this.useDetailPopup,
@@ -284,7 +391,7 @@ export default {
       }
     });
 
-    this.resizeThrottled = throttle(() => {
+    this.resizeThrottled = util.throttle(() => {
       this.calendar.render();
     }, 50);
 
@@ -294,6 +401,9 @@ export default {
     this.setEventListener();
     this.getJobs();
     this.getUsers();
+    this.getTvShows();
+    this.getStudios();
+    this.getSwitchers();
     this.setDateTimePicker();
 
     window.calendar = this.calendar
@@ -325,27 +435,44 @@ export default {
             changes.category = 'time';
           }
 
-          $('#label-schedule').text('Alterar');
-          this.selectedSchedule.id = schedule.id;
-          this.selectedSchedule.calendarId = schedule.calendarId;
-
-          if (schedule.raw) {
-            this.selectedEmployee = schedule.raw.creator.employee;
-          }
+          $('#label-schedule, #label-task').text('Alterar');
           this.newSchedule = false;
-          this.datePicker.setStartDate(changes.start ? changes.start.toDate() : schedule.start.toDate());
-          this.datePicker.setEndDate(changes.end ? changes.end.toDate() : schedule.end.toDate());
-          CalendarInfo.findCalendar(schedule.calendarId);
-          $('#dropdownMenu-calendars-list').selectpicker('val', schedule.calendarId);
+          this.newTask = false;
 
-          $('#modal-new-schedule').modal();
+          if (schedule.category == 'time') {
+            this.selectedSchedule.id = schedule.id;
+            this.selectedSchedule.calendarId = schedule.calendarId;
+            if (schedule.raw) {
+              this.selectedEmployee = schedule.raw.employee;
+            }
+
+            this.datePicker.setStartDate(changes.start ? changes.start.toDate() : schedule.start.toDate());
+            this.datePicker.setEndDate(changes.end ? changes.end.toDate() : schedule.end.toDate());
+            CalendarInfo.findCalendar(schedule.calendarId);
+            $('#dropdownMenu-calendars-list').selectpicker('val', schedule.calendarId);
+            $('#modal-new-schedule').modal();
+          }
+
+          if (schedule.category == 'task') {
+            this.selectedSchedule.id = schedule.id;
+            if (schedule.raw) {
+              this.selectedTvShow = schedule.raw.tvShow;
+              this.selectedStudio = schedule.raw.studio;
+              this.selectedSwitcher = schedule.raw.switcher;
+            }
+
+            this.datePickerTask.setStartDate(changes.start ? changes.start.toDate() : schedule.start.toDate());
+            this.datePickerTask.setEndDate(changes.end ? changes.end.toDate() : schedule.end.toDate());
+            $('#modal-new-task').modal();
+          }
+
           this.calendar.updateSchedule(schedule.id, schedule.calendarId, changes);
           this.refreshScheduleVisibility();
         },
         beforeDeleteSchedule: e => {
           console.log('beforeDeleteSchedule', e);
           this.calendar.deleteSchedule(e.schedule.id, e.schedule.calendarId);
-          this.deleteStorage(e.schedule.id, e.schedule.calendarId);
+          this.deleteStorage(e.schedule.id, e.schedule.calendarId, 'tasks');
         },
         afterRenderSchedule: e => {
           const schedule = e.schedule;
@@ -508,7 +635,7 @@ export default {
       const isAllDay = false
       const start = this.datePicker.getStartDate();
       const end = this.datePicker.getEndDate();
-      const calendar = this.selectedCalendar ? this.selectedCalendar : Calendar[0];
+      const calendar = this.selectedCalendar;
       const id = String(chance.guid())
 
       if (!title) {
@@ -520,13 +647,7 @@ export default {
         calendarId: calendar.id,
         title,
         raw: {
-          employeeId,
-          creator: {
-            employee: this.selectedEmployee,
-            name: this.selectedEmployee.name,
-            email: this.selectedEmployee.email,
-            phone: this.selectedEmployee.phone
-          }
+          employee: this.selectedEmployee
         },
         isAllDay,
         location,
@@ -552,7 +673,7 @@ export default {
       const calendarId = this.selectedSchedule.calendarId;
       const start = this.datePicker.getStartDate();
       const end = this.datePicker.getEndDate();
-      const calendar = this.selectedCalendar ? this.selectedCalendar : Calendar[0];
+      const calendar = this.selectedCalendar;
 
       if (!title || !id) {
         return;
@@ -560,16 +681,10 @@ export default {
 
       this.calendar.updateSchedule(id, calendarId, {
         title,
-        raw: {
-          employeeId,
-          creator: {
-            employee: this.selectedEmployee,
-            name: this.selectedEmployee.name,
-            email: this.selectedEmployee.email,
-            phone: this.selectedEmployee.phone
-          }
-        },
         calendarId: calendar.id,
+        raw: {
+          employee: this.selectedEmployee
+        },
         start,
         end,
         category: 'time'
@@ -577,7 +692,66 @@ export default {
 
       this.updateStore(id, calendar.id, calendarId);
 
-      $('#modal-new-schedule').modal('hide')
+      $('#modal-new-schedule').modal('hide');
+    },
+    onNewTask() {
+      if (!$('#submit-task').get(0).reportValidity()) {
+        return false;
+      }
+
+      const id = String(chance.guid())
+      const title = this.selectedTvShow.name;
+      const location = this.selectedStudio.name;
+      const start = this.datePickerTask.getStartDate();
+      const end = this.datePickerTask.getEndDate();
+
+      this.calendar.createSchedules([{
+        id,
+        location,
+        title,
+        start,
+        end,
+        category: 'task',
+        state: 'Private',
+        raw: {
+          tvShow: this.selectedTvShow,
+          studio: this.selectedStudio,
+          switcher: this.selectedSwitcher
+        }
+      }]);
+
+      this.saveStorage(id, '', 'tasks');
+
+      $('#modal-new-task').modal('hide');
+    },
+    onUpdateTask() {
+      const title = this.selectedTvShow.name;
+      const location = this.selectedStudio.name;
+      const id = this.selectedSchedule.id;
+      const calendarId = '';
+      const start = this.datePickerTask.getStartDate();
+      const end = this.datePickerTask.getEndDate();
+
+      if (!title || !id) {
+        return;
+      }
+
+      this.calendar.updateSchedule(id, calendarId, {
+        title,
+        location,
+        start,
+        end,
+        category: 'task',
+        raw: {
+          tvShow: this.selectedTvShow,
+          studio: this.selectedStudio,
+          switcher: this.selectedSwitcher
+        }
+      });
+
+      this.updateStore(id, '', calendarId, 'tasks');
+
+      $('#modal-new-task').modal('hide');
     },
     onChangeNewScheduleCalendar(e) {
       const target = e.target.options[e.target.selectedIndex];
@@ -622,6 +796,15 @@ export default {
           end
         });
       }
+    },
+    createNewTask(event) {
+      $('#submit-task').trigger('reset');
+      $('#label-task').text('Adicionar');
+
+      const start = event.start ? new Date(event.start.getTime()) : new Date();
+      const end = event.end ? new Date(event.end.getTime()) : moment().add(1, 'hours').toDate();
+      this.datePickerTask.setStartDate(start);
+      this.datePickerTask.setEndDate(end);
     },
     saveNewSchedule(scheduleData) {
       const calendar = scheduleData.calendar || CalendarInfo.findCalendar(scheduleData.calendarId);
@@ -778,6 +961,7 @@ export default {
         })
         .finally(() => {
           ScheduleInfo.createSchedules(JSON.parse(this.$ls.get('schedules', '[]')));
+          ScheduleInfo.createSchedules(JSON.parse(this.$ls.get('tasks', '[]')));
           this.calendar.createSchedules(ScheduleList);
           this.refreshScheduleVisibility();
         });
@@ -793,13 +977,29 @@ export default {
       this.datePicker = new DatePicker.createRangePicker({
         startpicker: {
           date: new Date(),
-          input: '#schedule-start-date',
-          container: '#startpicker-container'
+          input: '#start-schedule',
+          container: '#startpicker-container-schedule'
         },
         endpicker: {
           date: new Date(),
-          input: '#schedule-end-date',
-          container: '#endpicker-container'
+          input: '#end-schedule',
+          container: '#endpicker-container-schedule'
+        },
+        format: 'dd/MM/yyyy HH:mm',
+        timePicker: {
+          showMeridiem: false
+        }
+      })
+      this.datePickerTask = new DatePicker.createRangePicker({
+        startpicker: {
+          date: new Date(),
+          input: '#start-task',
+          container: '#startpicker-container-task'
+        },
+        endpicker: {
+          date: new Date(),
+          input: '#end-task',
+          container: '#endpicker-container-task'
         },
         format: 'dd/MM/yyyy HH:mm',
         timePicker: {
@@ -813,6 +1013,7 @@ export default {
       $('#lnb-calendars').on('change', this.onChangeCalendars);
 
       $('#btn-new-schedule').on('click', this.createNewSchedule);
+      $('#btn-new-task').on('click', this.createNewTask);
 
       $('#dropdownMenu-calendars-list').on('change', this.onChangeNewScheduleCalendar);
 
@@ -829,15 +1030,15 @@ export default {
     getDataAction(target) {
       return target.dataset ? target.dataset.action : target.getAttribute('data-action');
     },
-    saveStorage(id, calendarId) {
+    saveStorage(id, calendarId, category = 'schedules') {
       const schedule = this.calendar.getSchedule(id, calendarId);
-      const schedules = JSON.parse(this.$ls.get('schedules', '[]'));
+      const schedules = JSON.parse(this.$ls.get(category, '[]'));
       schedules.push(schedule);
-      this.$ls.set('schedules', JSON.stringify(schedules));
+      this.$ls.set(category, JSON.stringify(schedules));
     },
-    updateStore(id, calendarId, oldCalendarId) {
+    updateStore(id, calendarId, oldCalendarId, category = 'schedules') {
       const schedule = this.calendar.getSchedule(id, calendarId);
-      let schedules = JSON.parse(this.$ls.get('schedules', '[]'));
+      let schedules = JSON.parse(this.$ls.get(category, '[]'));
 
       schedules = schedules.map(item => {
         if (item.id == id && item.calendarId == oldCalendarId) {
@@ -846,16 +1047,16 @@ export default {
         return item;
       });
 
-      this.$ls.set('schedules', JSON.stringify(schedules));
+      this.$ls.set(category, JSON.stringify(schedules));
     },
-    deleteStorage(id, calendarId) {
-      let schedules = JSON.parse(this.$ls.get('schedules', '[]'));
+    deleteStorage(id, calendarId, category = 'schedules') {
+      let schedules = JSON.parse(this.$ls.get(category, '[]'));
 
       schedules = schedules.filter(item => {
         return !(item.id == id && item.calendarId == calendarId);
       });
 
-      this.$ls.set('schedules', JSON.stringify(schedules));
+      this.$ls.set(category, JSON.stringify(schedules));
     },
     clearRangeStorage() {
       const start = this.calendar.getDateRangeStart().toDate();
@@ -895,6 +1096,33 @@ export default {
           console.log(error);
         });
     },
+    getTvShows() {
+      axios.get('v1/tv-shows')
+        .then(response => {
+          this.tvShows = response.data;
+        })
+        .catch(error => {
+          console.log(error.response);
+        });
+    },
+    getStudios() {
+      axios.get('v1/studios')
+        .then(response => {
+          this.studios = response.data;
+        })
+        .catch(error => {
+          console.log(error.response);
+        });
+    },
+    getSwitchers() {
+      axios.get('v1/switchers')
+        .then(response => {
+          this.switchers = response.data;
+        })
+        .catch(error => {
+          console.log(error.response);
+        });
+    },
     saveSchedulePopup() {
       // validar horarios dos funcionarios
       this.$swal({
@@ -920,7 +1148,17 @@ export default {
 
       const unwatch = this.$watch(() => this.scheduleList.length, () => {
         const schedules = this.scheduleList.filter(schedule => {
-          if (!schedule.raw) {
+          if (schedule.category != 'time' || !schedule.raw) {
+            return null;
+          }
+
+          schedule.startDateTime = this.formatDate(schedule.start.toDate());
+          schedule.endDateTime = this.formatDate(schedule.end.toDate());
+          return schedule;
+        });
+
+        const tasks = this.scheduleList.filter(schedule => {
+          if (schedule.category != 'task' || !schedule.raw) {
             return null;
           }
 
@@ -934,10 +1172,11 @@ export default {
             this.$swal('Bom trabalho!', 'Os horários foram salvos com sucesso.', 'success');
             this.clearRangeStorage();
             this.setSchedules();
-            unwatch();
           })
           .catch(error => {
             console.log(error.response);
+          })
+          .finally(() => {
             unwatch();
           });
       });
@@ -958,6 +1197,36 @@ export default {
       this.$nextTick(() => {
         $('#dropdownMenu-calendars-list').selectpicker('refresh');
       })
+    },
+    tvShows() {
+      this.$nextTick(() => {
+        $('#tv-show-title').selectpicker('refresh');
+      });
+    },
+    studios() {
+      this.$nextTick(() => {
+        $('#studio-title').selectpicker('refresh');
+      });
+    },
+    switchers() {
+      this.$nextTick(() => {
+        $('#switcher-title').selectpicker('refresh');
+      });
+    },
+    selectedTvShow() {
+      this.$nextTick(() => {
+        $('#tv-show-title').selectpicker('refresh');
+      });
+    },
+    selectedStudio() {
+      this.$nextTick(() => {
+        $('#studio-title').selectpicker('refresh');
+      });
+    },
+    selectedSwitcher() {
+      this.$nextTick(() => {
+        $('#switcher-title').selectpicker('refresh');
+      });
     }
   }
 }
@@ -1028,6 +1297,12 @@ export default {
   .dropdown-menu > li > a:hover {
     background-color: rgba(81, 92, 230, 0.05);
     color: #333;
+  }
+  .dropdown-menu.new-schedule {
+    min-width: 16rem;
+  }
+  .dropdown-menu.new-schedule .item {
+    cursor: pointer;
   }
   .tui-full-calendar-button.tui-full-calendar-section-private {
     padding-top: 4px;

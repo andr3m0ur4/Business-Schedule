@@ -101,7 +101,7 @@ class EmployeeTimeController extends Controller
             $time['id'] = $item['id'];
             $time['start'] = $item['startDateTime'];
             $time['end'] = $item['endDateTime'];
-            $time['user_id'] = $item['raw']['employeeId'];
+            $time['user_id'] = $item['raw']['employee']['id'];
 
             $employeeTime = EmployeeTime::where('id', $item['id'])->first();
             if ($employeeTime) {
