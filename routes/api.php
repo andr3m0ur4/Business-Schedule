@@ -9,6 +9,7 @@ use App\Http\Controllers\SwitcherController;
 use App\Http\Controllers\TvShowController;
 use App\Http\Controllers\TvShowTimeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\MailController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -53,4 +54,5 @@ Route::prefix('v1')->middleware('jwt.auth')->group(function() {
     Route::post('tv-show-times/save', [TvShowTimeController::class, 'save']);
     Route::apiResource('tv-show-times', TvShowTimeController::class);
     Route::apiResource('schedules', ScheduleController::class);
+    Route::apiResource('messages', MessageController::class);
 });
