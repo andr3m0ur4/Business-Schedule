@@ -15,14 +15,13 @@ class TvShowTimeResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'start_time' => $this->start_time,
-            'final_time' => $this->final_time,
-            'date' => $this->date,
-            'week_day' => $this->week_day,
+            'id' => $this->id,
+            'start' => $this->start,
+            'end' => $this->end,
             'mode' => $this->mode,
             'switcher' => $this->switcher,
             'studio' => $this->studio,
-            'tv_show' => $this->tv_show,
+            'tvShow' => $this->tv_show,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'deleted_at' => $this->deleted_at

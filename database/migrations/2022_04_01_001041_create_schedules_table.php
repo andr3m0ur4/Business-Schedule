@@ -15,7 +15,8 @@ return new class extends Migration
     {
         Schema::create('schedules', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('tv_show_time_id')->constrained();
+            $table->string('tv_show_time_id');
+            $table->foreign('tv_show_time_id')->references('id')->on('tv_show_times');
             $table->foreignId('user_id')->constrained();
             $table->timestamp('worked_times');
             $table->timestamps();

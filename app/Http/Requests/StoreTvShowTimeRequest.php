@@ -25,10 +25,9 @@ class StoreTvShowTimeRequest extends FormRequest
     public function rules()
     {
         return [
-            'start_time' => ['required', 'date_format:H:i:s,H:i'],
-            'final_time' => ['required', 'date_format:H:i:s,H:i'],
-            'date' => ['required', 'date_format:Y-m-d'],
-            'week_day' => ['required', 'integer', 'between:0,6'],
+            'id' => ['required', 'string'],
+            'start' => ['required', 'date_format:Y-m-d H:i:s'],
+            'end' => ['required', 'date_format:Y-m-d H:i:s'],
             'mode' => ['required', Rule::in(['Ao Vivo', 'Gravado', 'Externa'])],
             'switcher_id' => ['required', 'exists:switchers,id'],
             'studio_id' => ['required', 'exists:studios,id'],

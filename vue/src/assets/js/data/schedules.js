@@ -195,6 +195,27 @@ class ScheduleInfo {
             ScheduleList.push(schedule);
         });
     }
+
+    static createTasksFromDB(tasks) {
+        tasks.forEach(scheduleDB => {
+            const schedule = {
+                id: scheduleDB.id,
+                calendarId: '',
+                title: scheduleDB.tvShow.name,
+                location: scheduleDB.studio.name,
+                start: scheduleDB.start,
+                end: scheduleDB.end,
+                category: 'task',
+                raw: {
+                    tvShow: scheduleDB.tvShow,
+                    studio: scheduleDB.studio,
+                    switcher: scheduleDB.switcher
+                },
+                state: 'public'
+            };
+            ScheduleList.push(schedule);
+        });
+    }
 }
 
 export {

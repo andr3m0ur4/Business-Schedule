@@ -731,6 +731,8 @@ export default {
       const calendarId = '';
       const start = this.datePickerTask.getStartDate();
       const end = this.datePickerTask.getEndDate();
+      console.log('title', title);
+      console.log('id', id);
 
       if (!title || !id) {
         return;
@@ -800,6 +802,10 @@ export default {
     createNewTask(event) {
       $('#submit-task').trigger('reset');
       $('#label-task').text('Adicionar');
+      this.newTask = true;
+      this.selectedTvShow = null;
+      this.selectedStudio = null;
+      this.selectedSwitcher = null;
 
       const start = event.start ? new Date(event.start.getTime()) : new Date();
       const end = event.end ? new Date(event.end.getTime()) : moment().add(1, 'hours').toDate();
@@ -961,6 +967,18 @@ export default {
         })
         .finally(() => {
           ScheduleInfo.createSchedules(JSON.parse(this.$ls.get('schedules', '[]')));
+          // this.calendar.createSchedules(ScheduleList);
+          // this.refreshScheduleVisibility();
+        });
+
+      axios.get('v1/tv-show-times')
+        .then(response => {
+          ScheduleInfo.createTasksFromDB(response.data);
+        })
+        .catch(error => {
+          console.log(error);
+        })
+        .finally(() => {
           ScheduleInfo.createSchedules(JSON.parse(this.$ls.get('tasks', '[]')));
           this.calendar.createSchedules(ScheduleList);
           this.refreshScheduleVisibility();
@@ -1058,7 +1076,7 @@ export default {
 
       this.$ls.set(category, JSON.stringify(schedules));
     },
-    clearRangeStorage() {
+    clearRangeStorage(category = 'schedules') {
       const start = this.calendar.getDateRangeStart().toDate();
       const end = moment(this.calendar.getDateRangeEnd().toDate()).add({
         hours: 23,
@@ -1066,11 +1084,11 @@ export default {
         seconds: 59
       }).toDate();
 
-      const schedules = JSON.parse(this.$ls.get('schedules', '[]'));
+      const schedules = JSON.parse(this.$ls.get(category, '[]'));
       const currentSchedules = schedules.filter(schedule => {
         return !moment(moment(schedule.start._date).toDate()).isBetween(start, end);
       });
-      this.$ls.set('schedules', JSON.stringify(currentSchedules));
+      this.$ls.set(category, JSON.stringify(currentSchedules));
     },
     getJobs() {
       axios.get('v1/jobs')
@@ -1169,9 +1187,19 @@ export default {
 
         axios.post('v1/employee-times/save', schedules)
           .then(response => {
-            this.$swal('Bom trabalho!', 'Os horários foram salvos com sucesso.', 'success');
-            this.clearRangeStorage();
-            this.setSchedules();
+            axios.post('v1/tv-show-times/save', tasks)
+              .then(response => {
+                this.$swal('Bom trabalho!', 'Os horários foram salvos com sucesso.', 'success');
+                this.clearRangeStorage();
+                this.clearRangeStorage('tasks');
+                this.setSchedules();
+              })
+              .catch(error => {
+                console.log(error.response);
+              })
+              .finally(() => {
+                unwatch();
+              });
           })
           .catch(error => {
             console.log(error.response);

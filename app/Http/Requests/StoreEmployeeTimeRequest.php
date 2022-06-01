@@ -24,7 +24,9 @@ class StoreEmployeeTimeRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'start' => ['required', 'date_format:Y-m-d H:i:s'],
+            'end' => ['required', 'date_format:Y-m-d H:i:s'],
+            'user_id' => ['required', 'exists:users,id'],
         ];
     }
 }

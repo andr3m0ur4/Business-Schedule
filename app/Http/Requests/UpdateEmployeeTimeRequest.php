@@ -24,7 +24,9 @@ class UpdateEmployeeTimeRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'start' => ['sometimes', 'required', 'date_format:Y-m-d H:i:s'],
+            'end' => ['sometimes', 'required', 'date_format:Y-m-d H:i:s'],
+            'user_id' => ['sometimes', 'required', 'exists:users,id'],
         ];
     }
 }

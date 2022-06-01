@@ -16,7 +16,7 @@
                   <div class="col-md-12">
                     <div class="form-group">
                       <label for="name">Nome: *</label>
-                      <input type="text" class="form-control" id="name" name="name" :value="name" @input="updateValue" placeholder="Nome" required="required" />
+                      <input type="text" class="form-control" title name="name" :value="name" @input="updateValue" placeholder="Nome" required="required" />
                     </div>
                   </div>
                 </div>
@@ -48,20 +48,16 @@ export default {
     updateValue(event) {
       this.$emit('update:name', event.target.value)
     }
+  },
+  mounted() {
+    $('#addTvShow, #updateTvShow').on('shown.bs.modal', function(e) {
+      $(e.target).find('[title]').focus();
+    });
+    $('#addTvShow, #updateTvShow').on('hide.bs.modal', function() {
+      $('#form-wizard').trigger('reset');
+    })
   }
 }
-
-$(() => {
-  $('#addTvShow').on('shown.bs.modal', function() {
-    $('#name').focus()
-  })
-})
-
-$(() => {
-  $('#addTvShow,#updateTvShow').on('hide.bs.modal', function() {
-    $('#form-wizard').trigger('reset')
-  })
-})
 </script>
 
 <style scoped>

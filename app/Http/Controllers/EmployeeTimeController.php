@@ -8,6 +8,7 @@ use App\Http\Resources\EmployeeTimeResource;
 use App\Models\EmployeeTime;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
 
 class EmployeeTimeController extends Controller
 {
@@ -40,7 +41,7 @@ class EmployeeTimeController extends Controller
      */
     public function store(StoreEmployeeTimeRequest $request)
     {
-        $employeeTime = EmployeeTime::create($request->all());
+        $employeeTime = EmployeeTime::create($request->validated());
         return response()->json($employeeTime, Response::HTTP_CREATED);
     }
 
@@ -75,7 +76,7 @@ class EmployeeTimeController extends Controller
      */
     public function update(UpdateEmployeeTimeRequest $request, EmployeeTime $employeeTime)
     {
-        $employeeTime->update($request->all());
+        $employeeTime->update($request->validated());
         return response()->json($employeeTime, Response::HTTP_OK);
     }
 
@@ -107,7 +108,7 @@ class EmployeeTimeController extends Controller
             if ($employeeTime) {
                 $myRequest = new UpdateEmployeeTimeRequest();
                 $myRequest->setMethod('PUT');
-                $myRequest->request->add($time);
+                $myRequest->setValidator(Validator::make($time, $myRequest->rules()));
                 $this->update($myRequest, $employeeTime);
                 $affectedRows++;
                 continue;
@@ -115,7 +116,7 @@ class EmployeeTimeController extends Controller
 
             $myRequest = new StoreEmployeeTimeRequest();
             $myRequest->setMethod('POST');
-            $myRequest->request->add($time);
+            $myRequest->setValidator(Validator::make($time, $myRequest->rules()));
             $this->store($myRequest);
             $insertRows++;
         }

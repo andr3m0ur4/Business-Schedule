@@ -9,6 +9,7 @@ use App\Models\TvShowTime;
 use App\Repositories\TvShowTimeRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
 
 class TvShowTimeController extends Controller
 {
@@ -85,5 +86,44 @@ class TvShowTimeController extends Controller
             ->selectAttributes($request)
             ->getResults();
         return response()->json($tvShowTimes);
+    }
+
+    public function save(Request $request)
+    {
+        $insertRows = 0;
+        $affectedRows = 0;
+
+        foreach ($request->all() as $item) {
+            $time = [];
+            $time['id'] = $item['id'];
+            $time['start'] = $item['startDateTime'];
+            $time['end'] = $item['endDateTime'];
+            $time['mode'] = 'Ao Vivo';
+            $time['tv_show_id'] = $item['raw']['tvShow']['id'];
+            $time['studio_id'] = $item['raw']['studio']['id'];
+            $time['switcher_id'] = $item['raw']['switcher']['id'];
+
+            $tvShowTime = TvShowTime::where('id', $item['id'])->first();
+            if ($tvShowTime) {
+                $myRequest = new UpdateTvShowTimeRequest();
+                $myRequest->setMethod('PUT');
+                $myRequest->setValidator(Validator::make($time, $myRequest->rules()));
+                $this->update($myRequest, $tvShowTime);
+                $affectedRows++;
+                continue;
+            }
+
+            $myRequest = new StoreTvShowTimeRequest();
+            $myRequest->setMethod('POST');
+            $myRequest->setValidator(Validator::make($time, $myRequest->rules()));
+            $this->store($myRequest);
+            $insertRows++;
+        }
+
+        return response()->json([
+            'success' => 1,
+            'insert_rows' => $insertRows,
+            'affected_rows' => $affectedRows
+        ], Response::HTTP_OK);
     }
 }

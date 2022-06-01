@@ -25,10 +25,9 @@ class UpdateTvShowTimeRequest extends FormRequest
     public function rules()
     {
         return [
-            'start_time' => ['sometimes', 'required', 'date_format:H:i:s,H:i'],
-            'final_time' => ['sometimes', 'required', 'date_format:H:i:s,H:i'],
-            'date' => ['sometimes', 'required', 'date_format:Y-m-d'],
-            'week_day' => ['sometimes', 'required', 'integer', 'between:0,6'],
+            'id' => ['sometimes', 'required', 'string'],
+            'start' => ['sometimes', 'required', 'date_format:Y-m-d H:i:s'],
+            'end' => ['sometimes', 'required', 'date_format:Y-m-d H:i:s'],
             'mode' => ['sometimes', 'required', Rule::in(['Ao Vivo', 'Gravado', 'Externa'])],
             'switcher_id' => ['sometimes', 'required', 'exists:switchers,id'],
             'studio_id' => ['sometimes', 'required', 'exists:studios,id'],

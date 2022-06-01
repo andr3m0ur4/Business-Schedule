@@ -10,7 +10,18 @@ class TvShowTime extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['start_time', 'final_time', 'date', 'week_day', 'mode', 'switcher_id', 'studio_id', 'tv_show_id'];
+    protected $fillable = ['id', 'start', 'end', 'mode', 'switcher_id', 'studio_id', 'tv_show_id'];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'string',
+        'created_at' => 'datetime:Y-m-d',
+        'updated_at' => 'datetime:Y-m-d'
+    ];
 
     public function studio()
     {

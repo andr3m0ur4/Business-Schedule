@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('tv_show_times', function (Blueprint $table) {
-            $table->id();
+            $table->string('id', 100)->primary();
             $table->time('start_time');
             $table->time('final_time');
             $table->date('date');
