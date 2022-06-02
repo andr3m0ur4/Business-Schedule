@@ -1,5 +1,5 @@
 <template>
-    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addMessage" aria-hidden="true">
+    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addMessage" aria-hidden="true" id="addChat">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -17,8 +17,6 @@
                                         <div class="form-group">
                                             <textarea class="form-control" id="exampleFormControlTextarea3"
                                                 rows="7"></textarea>
-                                            <input type="text" class="form-control" id="name" name="name"
-                                                placeholder="Nome" required="required" />
                                         </div>
                                     </div>
                                 </div>
@@ -28,7 +26,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-primary">Salvar</button>
+                    <button type="button" class="btn btn-primary">Enviar</button>
                 </div>
             </div>
         </div>
@@ -36,17 +34,6 @@
 </template>
 
 <script>
-export default {
-  name: 'ChatModal',
-   props: {
-     idModal: String,
-     title: String,
-     event: Function,
-     id: Number,
-     name: String
-   }
-}
-
 $(() => {
   $('#addMessage').on('shown.bs.modal', function() {
     $('#name').focus()
