@@ -14,6 +14,11 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="tab-extra active" id="search-with-button">
+                              <div class="iq-search-bar d-flex flex-wrap align-items-center search-device mb-4">
+                                <input class="form-control bg-white border text search-input" type="text" placeholder="Procurar...">
+                              </div>
+                            </div>
                             <div class="card card-block card-stretch calender-account user-list" >
                                 <div class="card-body">
                                     <div class="d-flex flex-wrap align-items-center justify-content-between">
