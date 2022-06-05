@@ -70,4 +70,21 @@ class MessageController extends Controller
         $message->delete();
         return response()->json($message);
     }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function getMessages(Request $request){
+
+        return response()->json(Message::where([
+            ['user_id_to', '=', $request->user_id_to],
+            ['user_id_from', '=', $request->user_id_from],
+        ])->orWhere([
+            ['user_id_to', '=', $request->user_id_from],
+            ['user_id_from', '=', $request->user_id_to] ])->orderBy('created_at', 'asc')->get());
+
+    }
 }

@@ -48,20 +48,16 @@ export default {
     updateValue(event) {
       this.$emit('update:name', event.target.value)
     }
+  },
+  mounted() {
+    $('#addSwitcher, #updateSwitcher').on('shown.bs.modal', function(e) {
+      $(e.target).find('[name]').focus();
+    });
+    $('#addSwitcher, #updateSwitcher').on('hide.bs.modal', function() {
+      $('#form-wizard').trigger('reset');
+    })
   }
 }
-
-$(() => {
-  $('#addSwitcher').on('shown.bs.modal', function() {
-    $('#name').focus()
-  })
-})
-
-$(() => {
-  $('#addSwitcher,#updateSwitcher').on('hide.bs.modal', function() {
-    $('#form-wizard').trigger('reset')
-  })
-})
 </script>
 
 <style scoped>

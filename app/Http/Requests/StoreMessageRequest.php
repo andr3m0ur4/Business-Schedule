@@ -29,4 +29,11 @@ class StoreMessageRequest extends FormRequest
             'user_id_from' => ['required']
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'required' => 'O campo menssagem é obrigatório.'
+        ];
+    }
 }

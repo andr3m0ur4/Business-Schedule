@@ -48,20 +48,16 @@ export default {
     updateValue(event) {
       this.$emit('update:name', event.target.value)
     }
+  },
+  mounted() {
+    $('#addJob, #updateJob').on('shown.bs.modal', function(e) {
+      $(e.target).find('[name]').focus();
+    });
+    $('#addJob, #updateJob').on('hide.bs.modal', function() {
+      $('#form-wizard').trigger('reset');
+    })
   }
 }
-
-$(() => {
-  $('#addJob').on('shown.bs.modal', function() {
-    $('#name').focus()
-  })
-})
-
-$(() => {
-  $('#addJob,#updateJob').on('hide.bs.modal', function() {
-    $('#form-wizard').trigger('reset')
-  })
-})
 </script>
 
 <style scoped>

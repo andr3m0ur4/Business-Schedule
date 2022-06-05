@@ -147,4 +147,11 @@ class UserController extends Controller
         return response()->json(['usuario' => $user->email]);
 
     }
+
+    public function getUserData(){
+
+        $user = auth()->user();
+
+        return response()->json($user->id);
+    }
 }
