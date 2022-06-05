@@ -15,7 +15,7 @@
                </div>
             </div>
             <div class="tab-extra active" id="search-with-button">
-               <div class="iq-search-bar d-flex flex-wrap align-items-center search-device mb-4 pr-3">
+               <div class="iq-search-bar d-flex flex-wrap align-items-center search-device mb-4">
                   <input class="form-control bg-white border text search-input" type="text" placeholder="Search...">
                </div>
             </div>
@@ -67,7 +67,7 @@
                                  </div>
                                  <div class="col-lg-8">
                                     <div class="iq-progress-bar bg-warning-light mt-2">
-                                       <span class="bg-warning iq-progress progress-1" data-percent="65">
+                                       <span class="bg-warning iq-progress progress-2" data-percent="65">
                                           <span class="progress-text-one bg-warning">65%</span>
                                        </span>
                                     </div>
@@ -81,7 +81,7 @@
                                  </div>
                                  <div class="col-lg-8">
                                     <div class="iq-progress-bar bg-success-light mt-2">
-                                       <span class="bg-success iq-progress progress-1" data-percent="55">
+                                       <span class="bg-success iq-progress progress-3" data-percent="55">
                                           <span class="progress-text-one bg-success">55%</span>
                                        </span>
                                     </div>
@@ -95,7 +95,7 @@
                                  </div>
                                  <div class="col-lg-8">
                                     <div class="iq-progress-bar bg-info-light mt-2">
-                                       <span class="bg-info iq-progress progress-1" data-percent="60">
+                                       <span class="bg-info iq-progress progress-4" data-percent="60">
                                           <span class="progress-text-one bg-info">60%</span>
                                        </span>
                                     </div>

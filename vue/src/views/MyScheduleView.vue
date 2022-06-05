@@ -471,8 +471,11 @@ export default {
         },
         beforeDeleteSchedule: e => {
           console.log('beforeDeleteSchedule', e);
+          const schedule = e.schedule;
           this.calendar.deleteSchedule(e.schedule.id, e.schedule.calendarId);
-          this.deleteStorage(e.schedule.id, e.schedule.calendarId, 'tasks');
+          // adicionar os horarios removidos no local storage para ser removidos durante o save
+          const category = e.schedule.category == 'time' ? 'schedules' : 'tasks';
+          this.deleteStorage(e.schedule.id, e.schedule.calendarId, category);
         },
         afterRenderSchedule: e => {
           const schedule = e.schedule;
@@ -1174,6 +1177,7 @@ export default {
           schedule.endDateTime = this.formatDate(schedule.end.toDate());
           return schedule;
         });
+        console.log(schedules);
 
         const tasks = this.scheduleList.filter(schedule => {
           if (schedule.category != 'task' || !schedule.raw) {

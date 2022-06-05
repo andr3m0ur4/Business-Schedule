@@ -42,7 +42,7 @@
                               <div class="date">
                                 <p class="mb-0">03 December, 2020</p>
                               </div>
-                              <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#addChat" @click="message.user_id_to = employee.id">Enviar mensagem</a>
+                              <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#addChat" @click="message.user_id_to = employee.id; this.employee = employee">Enviar mensagem</a>
                             </div>
                           </div>
                         </div>
@@ -60,6 +60,7 @@
       title="Nova mensagem"
       :event="saveMessage"
       v-model:message="message.message"
+      :employee="employee"
     />
   </div>
 </template>
