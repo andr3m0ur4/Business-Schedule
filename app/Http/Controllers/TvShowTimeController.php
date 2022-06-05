@@ -92,10 +92,21 @@ class TvShowTimeController extends Controller
     {
         $insertRows = 0;
         $affectedRows = 0;
+        $deletedRows = 0;
 
         foreach ($request->all() as $item) {
             $time = [];
             $time['id'] = $item['id'];
+
+            if (!$item['isVisible']) {
+                $tvShowTime = TvShowTime::where('id', $item['id'])->first();
+                if ($tvShowTime) {
+                    $this->destroy($tvShowTime);
+                    $deletedRows++;
+                }
+                continue;
+            }
+
             $time['start'] = $item['startDateTime'];
             $time['end'] = $item['endDateTime'];
             $time['mode'] = 'Ao Vivo';
@@ -123,7 +134,8 @@ class TvShowTimeController extends Controller
         return response()->json([
             'success' => 1,
             'insert_rows' => $insertRows,
-            'affected_rows' => $affectedRows
+            'affected_rows' => $affectedRows,
+            'deleted_rows' => $deletedRows
         ], Response::HTTP_OK);
     }
 }

@@ -88,18 +88,29 @@ class EmployeeTimeController extends Controller
      */
     public function destroy(EmployeeTime $employeeTime)
     {
-        //
+        $employeeTime->delete();
+        return response()->json($employeeTime);
     }
 
     public function save(Request $request)
     {
         $insertRows = 0;
         $affectedRows = 0;
-        // return response()->json($request->all());
+        $deletedRows = 0;
 
         foreach ($request->all() as $item) {
             $time = [];
             $time['id'] = $item['id'];
+
+            if (!$item['isVisible']) {
+                $employeeTime = EmployeeTime::where('id', $item['id'])->first();
+                if ($employeeTime) {
+                    $this->destroy($employeeTime);
+                    $deletedRows++;
+                }
+                continue;
+            }
+
             $time['start'] = $item['startDateTime'];
             $time['end'] = $item['endDateTime'];
             $time['user_id'] = $item['raw']['employee']['id'];
@@ -124,7 +135,8 @@ class EmployeeTimeController extends Controller
         return response()->json([
             'success' => 1,
             'insert_rows' => $insertRows,
-            'affected_rows' => $affectedRows
+            'affected_rows' => $affectedRows,
+            'deleted_rows' => $deletedRows
         ], Response::HTTP_OK);
     }
 }
