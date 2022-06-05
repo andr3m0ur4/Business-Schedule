@@ -1077,7 +1077,25 @@ export default {
         return !(item.id == id && item.calendarId == calendarId);
       });
 
+      const removedItem = {
+        id,
+        isVisible: false
+      };
+      this.addRemovedItems(removedItem, `removed-${category}`);
+
       this.$ls.set(category, JSON.stringify(schedules));
+    },
+    removeStorage(category = 'removed-schedules') {
+      this.$ls.remove(category);
+    },
+    addRemovedItems(schedule, category = 'removed-schedules') {
+      const schedules = JSON.parse(this.$ls.get(category, '[]'));
+      schedules.push(schedule);
+      this.$ls.set(category, JSON.stringify(schedules));
+    },
+    getRemovedItems(schedules, category = 'removed-schedules') {
+      const removedItems = JSON.parse(this.$ls.get(category, '[]'));
+      return schedules.concat(removedItems);
     },
     clearRangeStorage(category = 'schedules') {
       const start = this.calendar.getDateRangeStart().toDate();
@@ -1168,7 +1186,7 @@ export default {
       this.calendar.setDate(this.calendar.getDate());
 
       const unwatch = this.$watch(() => this.scheduleList.length, () => {
-        const schedules = this.scheduleList.filter(schedule => {
+        let schedules = this.scheduleList.filter(schedule => {
           if (schedule.category != 'time' || !schedule.raw) {
             return null;
           }
@@ -1177,9 +1195,9 @@ export default {
           schedule.endDateTime = this.formatDate(schedule.end.toDate());
           return schedule;
         });
-        console.log(schedules);
+        schedules = this.getRemovedItems(schedules, 'removed-schedules');
 
-        const tasks = this.scheduleList.filter(schedule => {
+        let tasks = this.scheduleList.filter(schedule => {
           if (schedule.category != 'task' || !schedule.raw) {
             return null;
           }
@@ -1188,12 +1206,16 @@ export default {
           schedule.endDateTime = this.formatDate(schedule.end.toDate());
           return schedule;
         });
+        tasks = this.getRemovedItems(tasks, 'removed-tasks');
+        console.log(tasks);
 
         axios.post('v1/employee-times/save', schedules)
           .then(response => {
+            this.removeStorage();
             axios.post('v1/tv-show-times/save', tasks)
               .then(response => {
                 this.$swal('Bom trabalho!', 'Os horários foram salvos com sucesso.', 'success');
+                this.removeStorage('removed-tasks');
                 this.clearRangeStorage();
                 this.clearRangeStorage('tasks');
                 this.setSchedules();
