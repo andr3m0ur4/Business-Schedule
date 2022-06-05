@@ -55,4 +55,5 @@ Route::prefix('v1')->middleware('jwt.auth')->group(function() {
     Route::apiResource('tv-show-times', TvShowTimeController::class);
     Route::apiResource('schedules', ScheduleController::class);
     Route::apiResource('messages', MessageController::class);
+    Route::get('users-data', [UserController::class, 'getUserData']);
 });

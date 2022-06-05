@@ -51,7 +51,7 @@ export default {
   },
   mounted() {
     $('#addTvShow, #updateTvShow').on('shown.bs.modal', function(e) {
-      $(e.target).find('[title]').focus();
+      $(e.target).find('[name]').focus();
     });
     $('#addTvShow, #updateTvShow').on('hide.bs.modal', function() {
       $('#form-wizard').trigger('reset');
