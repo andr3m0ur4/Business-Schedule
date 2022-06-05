@@ -27,12 +27,16 @@
         <div class="modal-body">
           <div class="col-12 border rounded">
             <div class="scrollspy-example" data-spy="scroll" data-target="#navbar-example2" data-offset="0">
-              <h4 id="fat">Igor</h4>
               <div v-for="message_local in messages" :key="message_local.id">
-                <p>{{ message_local.message }}</p>
+                <div v-if="message_local.user_id_from === employee.id" class="text-left">
+                  <h4 id="mdo">Igor</h4>
+                  <p>{{message_local.message}}</p>
+                </div>
+                <div v-else class="text-right">
+                  <h4 id="fat">Eu</h4>
+                  <p>{{message_local.message}}</p>
+                </div>
               </div>
-              <h4 id="mdo">Rodrigo</h4>
-              <p>Oi</p>
             </div>
           </div>
           <div class="mt-2">
