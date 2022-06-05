@@ -56,4 +56,5 @@ Route::prefix('v1')->middleware('jwt.auth')->group(function() {
     Route::apiResource('schedules', ScheduleController::class);
     Route::apiResource('messages', MessageController::class);
     Route::get('users-data', [UserController::class, 'getUserData']);
+    Route::get('users-messages', [MessageController::class, 'getMessages']);
 });

@@ -42,7 +42,7 @@
                               <div class="date">
                                 <p class="mb-0">03 December, 2020</p>
                               </div>
-                              <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#addChat" @click="message.user_id_to = employee.id; this.employee = employee">Enviar mensagem</a>
+                              <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#addChat" @click="message.user_id_to = employee.id; this.employee = employee; loadMessage()">Enviar mensagem</a>
                             </div>
                           </div>
                         </div>
@@ -56,11 +56,12 @@
         </div>
       </div>
     </div>
-    <ChatModal id-modal="addChat" 
+    <ChatModal
       title="Nova mensagem"
       :event="saveMessage"
       v-model:message="message.message"
       :employee="employee"
+      :messages="messages"
     />
   </div>
 </template>
@@ -80,6 +81,7 @@ export default {
         user_id_to: null,
         message: null
       },
+      messages: [],
       dataTable: null
     }
   },
@@ -143,6 +145,19 @@ export default {
           }
         })
     },
+    loadMessage(){
+      axios.get('v1/users-messages',{
+         params: {user_id_to: this.message.user_id_to, user_id_from: this.message.user_id_from}
+      })
+      .then(response => {
+        this.messages = response.data
+        $('#addChat').modal('show');
+        console.log(response.data)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    }
   },
   components: {
     ChatModal

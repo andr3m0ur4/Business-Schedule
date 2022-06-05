@@ -1,5 +1,5 @@
 <template>
-  <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addMessage" aria-hidden="true" :id="idModal">
+  <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addMessage" aria-hidden="true" id="addChat">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -27,12 +27,16 @@
                 <div class="row">
                   <div class="col-md-12">
                     <div class="form-group">
-                      <textarea class="form-control" id="exampleFormControlTextarea3" rows="7"></textarea>
+                      <textarea class="form-control" id="exampleFormControlTextarea3" rows="7">
+                      </textarea>
                     </div>
                   </div>
                 </div>
               </div>
             </fieldset>
+          </div>
+            <div v-for="message_local in messages" :key="message_local.id">
+            <p>{{message_local.message}}</p>
           </div>
           <div class="col-md-12">
             <form id="form-wizard" class="text-center" @submit.prevent="event(id)">
@@ -56,16 +60,22 @@
 </template>
 
 <script>
+import axios from '@/axios'
 
 export default {
   name: 'ChatModal',
+  data() {
+    return {
+      message_local: {},
+    }
+  },
   props: {
-    idModal: String,
     title: String,
     event: Function,
     id: Number,
     message: String,
-    employee: Object
+    employee: Object,
+    messages: Array
   },
   emits: ['update:message'],
   methods: {
