@@ -28,11 +28,11 @@
           <div class="col-12 border rounded">
             <div class="scrollspy-example" data-spy="scroll" data-target="#navbar-example2" data-offset="0">
               <div v-for="message_local in messages" :key="message_local.id">
-                <div v-if="message_local.user_id_from === employee.id" class="text-left">
+                <div v-if="message_local.user_id_from === employee.id" class="text-left col-12">
                   <h4 id="mdo">Igor</h4>
                   <p>{{message_local.message}}</p>
                 </div>
-                <div v-else class="text-right">
+                <div v-else class="text-right col-12">
                   <h4 id="fat">Eu</h4>
                   <p>{{message_local.message}}</p>
                 </div>
