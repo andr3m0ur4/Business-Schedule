@@ -11,10 +11,9 @@
               <div class="media align-items-top user-detail mb-1">
                 <div class="row">
                   <div class="col-12">
-                    <h6>{{ employee.name }}</h6>
+                    <h4>{{ employee.name }}</h4>
                   </div>
                   <div class="col-12">
-                    <div class="badge badge-color ml-3 mt-0">Owner</div>
                   </div>
                 </div>
               </div>
@@ -29,12 +28,12 @@
             <div class="scrollspy-example" data-spy="scroll" data-target="#navbar-example2" data-offset="0">
               <div v-for="message_local in messages" :key="message_local.id">
                 <div v-if="message_local.user_id_from === employee.id" class="text-left col-12">
-                  <h4 id="mdo">Igor</h4>
-                  <p>{{message_local.message}}</p>
+                  <h6><span class="badge badge-info" id="mdo">{{ employee.name }}</span></h6>
+                  <h5>{{ message_local.message }}</h5>
                 </div>
                 <div v-else class="text-right col-12">
-                  <h4 id="fat">Eu</h4>
-                  <p>{{message_local.message}}</p>
+                  <h6><span class="badge badge-primary" id="fat">Eu</span></h6>
+                  <h5>{{ message_local.message }}</h5>
                 </div>
               </div>
             </div>
@@ -47,7 +46,7 @@
                     @input="updateValue" placeholder="Enviar mensagem" required="required" />
                 </div>
                 <div class="col-md-3">
-                  <button type="button" class="btn btn-primary" @click="event(id)">Enviar</button>
+                  <button type="button" class="btn btn-primary button-height" @click="event(id)">Enviar</button>
                 </div>
               </div>
             </form>
@@ -104,5 +103,9 @@ export default {
   height: 200px;
   margin-top: 0.5rem;
   overflow: auto;
+}
+
+.button-height {
+  height: 45px;
 }
 </style>
