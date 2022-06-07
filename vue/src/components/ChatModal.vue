@@ -66,7 +66,8 @@ export default {
   name: 'ChatModal',
   data() {
     return {
-      message_local: {}
+      message_local: {},
+      intervalMy: null
     }
   },
   props: {
@@ -85,15 +86,15 @@ export default {
     }
   },
   mounted() {
-    $('#addChat, #updateChat').on('shown.bs.modal', function (e) {
+    $('#addChat, #updateChat').on('shown.bs.modal', (e) => {
       $(e.target).find('[message]').focus();
+      this.intervalMy = setInterval(this.loadM, 1000);
     });
     $('#addChat, #updateChat').on('hide.bs.modal', () => {
       $('#form-wizard').trigger('reset');
+      console.log(this.intervalMy);
       clearInterval(this.intervalMy);
     })
-
-    setInterval(this.loadM, 10000);
   }
 }
 </script>
