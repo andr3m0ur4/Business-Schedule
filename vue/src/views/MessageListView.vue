@@ -59,6 +59,7 @@
     <ChatModal
       title="Nova mensagem"
       :event="saveMessage"
+      :loadM="loadMessage"
       v-model:message="message.message"
       :employee="employee"
       :messages="messages"
@@ -117,8 +118,7 @@ export default {
 
       axios.post('v1/messages', this.message)
         .then(response => {
-          this.$swal('Sucesso', `Menssagem enviada com sucesso`, 'success')
-          $('#addChat').modal('hide')
+          this.message.message = null
         })
         .catch(error => {
           if (error.response.status == 401) {
@@ -151,7 +151,6 @@ export default {
       })
       .then(response => {
         this.messages = response.data
-        $('#addChat').modal('show');
         console.log(response.data)
       })
       .catch(error => {

@@ -62,18 +62,18 @@
 </template>
 
 <script>
-import axios from '@/axios'
 
 export default {
   name: 'ChatModal',
   data() {
     return {
-      message_local: {},
+      message_local: {}
     }
   },
   props: {
     title: String,
     event: Function,
+    loadM: Function,
     id: Number,
     message: String,
     employee: Object,
@@ -92,6 +92,8 @@ export default {
     $('#addChat, #updateChat').on('hide.bs.modal', function () {
       $('#form-wizard').trigger('reset');
     })
+
+    setInterval(this.loadM, 3000);
   }
 }
 </script>
