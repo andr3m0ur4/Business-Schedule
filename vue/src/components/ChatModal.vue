@@ -93,7 +93,7 @@ export default {
       clearInterval(this.intervalMy);
     })
 
-    setInterval(this.loadM, 3000);
+    setInterval(this.loadM, 10000);
   }
 }
 </script>
