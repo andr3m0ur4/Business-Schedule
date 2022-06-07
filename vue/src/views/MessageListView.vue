@@ -24,7 +24,7 @@
                   <tbody>
                     <tr v-for="employee in employees" :key="employee.id">
                       <td>
-                        <div class="card card-block card-stretch calender-account user-list" >
+                        <div  v-if="employee.id !== message.user_id_from" class="card card-block card-stretch calender-account user-list" >
                           <div class="card-body">
                             <div class="d-flex flex-wrap align-items-center justify-content-between">
                               <div class="media flex-wrap align-items-center">
