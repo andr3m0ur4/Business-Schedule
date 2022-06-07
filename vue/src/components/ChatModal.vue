@@ -88,8 +88,9 @@ export default {
     $('#addChat, #updateChat').on('shown.bs.modal', function (e) {
       $(e.target).find('[message]').focus();
     });
-    $('#addChat, #updateChat').on('hide.bs.modal', function () {
+    $('#addChat, #updateChat').on('hide.bs.modal', () => {
       $('#form-wizard').trigger('reset');
+      clearInterval(this.intervalMy);
     })
 
     setInterval(this.loadM, 3000);
