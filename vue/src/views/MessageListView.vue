@@ -34,7 +34,7 @@
                                 <div>
                                   <div class="media align-items-top user-detail mb-1">
                                     <h6>{{ employee.name }}</h6>
-                                    <div class="badge badge-color ml-3 mt-0">Owner</div>
+                                    <div class="badge badge-color ml-3 mt-0">Cargo</div>
                                   </div>
                                   <p class="mb-0">{{ employee.email }}</p>
                                 </div>
@@ -49,7 +49,7 @@
                       </td>
                     </tr>
                   </tbody>
-                </table>  
+                </table>
               </div>
             </div>
           </div>
@@ -118,7 +118,9 @@ export default {
 
       axios.post('v1/messages', this.message)
         .then(response => {
-          this.message.message = null
+          this.message.message = null;
+          const box = document.getElementById('box-message');
+          box.scrollTop = box.scrollHeight
         })
         .catch(error => {
           if (error.response.status == 401) {
@@ -151,7 +153,17 @@ export default {
       })
       .then(response => {
         this.messages = response.data
-        console.log(response.data)
+
+        console.log(this.messages)
+        this.messages.forEach((item) => {
+            item.created_at = moment(item.created_at).format('HH:mm')
+            console.log(item)
+        })
+        // console.log(response.data)
+        setTimeout(() => {
+          const box = document.getElementById('box-message');
+          box.scrollTop = box.scrollHeight;
+        }, 0);
       })
       .catch(error => {
         console.log(error)
@@ -163,3 +175,15 @@ export default {
   }
 }
 </script>
+<style scoped>
+  .height-self-center {
+    height: auto;
+    border-radius: 5px;
+  }
+</style>
+<style>
+  .dataTables_wrapper .dataTables_filter input {
+    background-color: #fff;
+    border-color: #333;
+  }
+</style>

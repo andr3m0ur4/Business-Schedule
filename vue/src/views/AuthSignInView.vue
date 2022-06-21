@@ -85,6 +85,7 @@ export default {
                this.$router.push('/')
             })
             .catch(error => {
+              console.log(error);
                this.$swal('Ops...', error.response.data.error, 'error')
             })
       }

@@ -9,8 +9,14 @@ import store from './store'
 import router from './router/routes'
 import App from './App.vue'
 
-import VueSweetalert2 from 'vue-sweetalert2'
-import 'sweetalert2/dist/sweetalert2.min.css'
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+
+import Toast from "vue-toastification";
+import "vue-toastification/dist/index.css";
+const optionsToast = {
+    // You can set your default options here
+};
 
 import Storage from 'vue-ls'
 
@@ -24,5 +30,6 @@ createApp(App)
     .use(router)
     .use(store)
     .use(VueSweetalert2)
+    .use(Toast, optionsToast)
     .use(Storage, options)
     .mount('#app')

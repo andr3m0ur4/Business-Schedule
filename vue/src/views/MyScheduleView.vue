@@ -62,7 +62,7 @@
               </div>
             </div>
             <div>
-              <button class="btn btn-success" @click="saveSchedulePopup()">Salvar Escala</button>
+              <button class="btn btn-success" @click="saveSchedulePopup()">Atualizar Escala</button>
             </div>
             <div class="select-dropdown input-prepend input-append">
               <div class="btn-group">
@@ -203,9 +203,21 @@
                   <div class="col-md-12">
                     <div class="form-group">
                       <label class="form-label" for="schedule-title">Funcionário</label>
-                      <select class="selectpicker form-control" id="schedule-title" v-model="selectedEmployee" title="Digite o Nome" data-live-search="true" required>
+                      <select class="selectpicker form-control" id="schedule-title"
+                        v-model="selectedEmployee" title="Digite o Nome" data-live-search="true" required>
                         <option v-for="employee in employeesByJobs" :key="employee.id" :data-action="employee.id" :value="employee">
                           {{ employee.name }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label class="form-label" for="schedule-title">Horários de Programas</label>
+                      <select class="selectpicker form-control" id="select-tvshow-time" title="Informe o Nome do Programa"
+                        data-live-search="true" multiple required>
+                        <option v-for="tvShowTime in tvShowTimes" :key="tvShowTime.id">
+                          {{ tvShowTime.tvShow.name }} - {{ dateTime(tvShowTime.start) }}
                         </option>
                       </select>
                     </div>
@@ -327,6 +339,7 @@ import Calendar from '@/assets/vendor/tui-calendar';
 import DatePicker from 'tui-date-picker';
 import util from 'tui-code-snippet';
 import axios from '@/axios';
+import { useToast } from "vue-toastification";
 
 import { CalendarList, CalendarInfo } from '@/assets/js/data/calendars';
 import { ScheduleList, ScheduleInfo } from '@/assets/js/data/schedules';
@@ -352,6 +365,7 @@ export default {
       tvShows: [],
       studios: [],
       switchers: [],
+      tvShowTimes: [],
       isEmployeeTime: false,
       isTvShowTime: false,
       calendarList: [],
@@ -360,7 +374,9 @@ export default {
       newSchedule: true,
       newTask: true,
       start: null,
-      end: null
+      end: null,
+      scheduleNotSaved: false,
+      toastId: null
     }
   },
   mounted() {
@@ -693,7 +709,7 @@ export default {
         category: 'time'
       });
 
-      this.updateStore(id, calendar.id, calendarId);
+      this.updateStorage(id, calendar.id, calendarId);
 
       $('#modal-new-schedule').modal('hide');
     },
@@ -754,7 +770,7 @@ export default {
         }
       });
 
-      this.updateStore(id, '', calendarId, 'tasks');
+      this.updateStorage(id, '', calendarId, 'tasks');
 
       $('#modal-new-task').modal('hide');
     },
@@ -894,6 +910,13 @@ export default {
 
       this.calendar.render(true);
 
+      const schedules = JSON.parse(this.$ls.get('schedules', '[]'));
+      if (schedules.length > 0) {
+        this.scheduleNotSaved = true;
+      } else {
+        this.scheduleNotSaved = false;
+      }
+
       calendarElements.forEach(input => {
         const span = input.nextElementSibling;
         span.style.backgroundColor = input.checked ? span.style.borderColor : 'transparent';
@@ -969,13 +992,15 @@ export default {
           console.log(error.response);
         })
         .finally(() => {
-          ScheduleInfo.createSchedules(JSON.parse(this.$ls.get('schedules', '[]')));
+          const schedules = JSON.parse(this.$ls.get('schedules', '[]'));
+          ScheduleInfo.createSchedules(schedules);
           // this.calendar.createSchedules(ScheduleList);
           // this.refreshScheduleVisibility();
         });
 
       axios.get('v1/tv-show-times')
         .then(response => {
+          this.tvShowTimes = response.data;
           ScheduleInfo.createTasksFromDB(response.data);
         })
         .catch(error => {
@@ -1056,8 +1081,12 @@ export default {
       const schedules = JSON.parse(this.$ls.get(category, '[]'));
       schedules.push(schedule);
       this.$ls.set(category, JSON.stringify(schedules));
+
+      if (schedules.length > 0) {
+        this.scheduleNotSaved = true;
+      }
     },
-    updateStore(id, calendarId, oldCalendarId, category = 'schedules') {
+    updateStorage(id, calendarId, oldCalendarId, category = 'schedules') {
       const schedule = this.calendar.getSchedule(id, calendarId);
       let schedules = JSON.parse(this.$ls.get(category, '[]'));
 
@@ -1067,6 +1096,10 @@ export default {
         }
         return item;
       });
+
+      if (schedules.length > 0) {
+        this.scheduleNotSaved = true;
+      }
 
       this.$ls.set(category, JSON.stringify(schedules));
     },
@@ -1082,6 +1115,10 @@ export default {
         isVisible: false
       };
       this.addRemovedItems(removedItem, `removed-${category}`);
+
+      if (schedules.length == 0) {
+        this.scheduleNotSaved = false;
+      }
 
       this.$ls.set(category, JSON.stringify(schedules));
     },
@@ -1239,6 +1276,9 @@ export default {
       if (value) {
         return moment(value).format('YYYY-MM-DD HH:mm:ss');
       }
+    },
+    dateTime(value) {
+      return moment(value).format('DD/MM HH:mm');
     }
   },
   watch: {
@@ -1267,6 +1307,11 @@ export default {
         $('#switcher-title').selectpicker('refresh');
       });
     },
+    tvShowTimes() {
+      this.$nextTick(() => {
+        $('#select-tvshow-time').selectpicker('refresh');
+      })
+    },
     selectedTvShow() {
       this.$nextTick(() => {
         $('#tv-show-title').selectpicker('refresh');
@@ -1280,6 +1325,30 @@ export default {
     selectedSwitcher() {
       this.$nextTick(() => {
         $('#switcher-title').selectpicker('refresh');
+      });
+    },
+    scheduleNotSaved() {
+      const toast = useToast();
+
+      if (!this.scheduleNotSaved) {
+        toast.dismiss(this.toastId);
+        return;
+      }
+
+      this.toastId = toast.warning('Atenção! Existem "horários" que ainda não foram salvos, clique em Atualizar Escala para salvá-los definitivamente!', {
+        position: 'top-right',
+        timeout: false,
+        closeOnClick: true,
+        pauseOnFocusLoss: true,
+        pauseOnHover: true,
+        draggable: true,
+        draggablePercent: 0.6,
+        showCloseButtonOnHover: false,
+        hideProgressBar: true,
+        closeButton: "button",
+        icon: true,
+        rtl: false,
+        toastClassName: 'toast-warning'
       });
     }
   }
@@ -1395,6 +1464,28 @@ export default {
   .tui-full-calendar-popup-detail .tui-full-calendar-popup-container {
     color: #333;
     font-weight: 400;
+  }
+  .Vue-Toastification__container.bottom-left {
+    box-shadow: none;
+  }
+
+  .Vue-Toastification__container.bottom-right {
+    box-shadow: none;
+  }
+
+  .Vue-Toastification__container.top-left {
+    box-shadow: none;
+  }
+
+  .Vue-Toastification__container.top-right {
+    box-shadow: none;
+  }
+
+  .Vue-Toastification__container.shadow-bottom {
+    box-shadow: none;
+  }
+  .toast-warning {
+    top: 3.8em;
   }
 </style>
 

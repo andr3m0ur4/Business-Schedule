@@ -25,14 +25,24 @@
         </div>
         <div class="modal-body">
           <div class="col-12 border rounded">
-            <div class="scrollspy-example" data-spy="scroll" data-target="#navbar-example2" data-offset="0">
+            <div id="box-message" class="scrollspy-example" data-spy="scroll" data-target="#navbar-example2" data-offset="0">
               <div v-for="message_local in messages" :key="message_local.id">
                 <div v-if="message_local.user_id_from === employee.id" class="text-left col-12">
-                  <h6><span class="badge badge-info" id="mdo">{{ employee.name }}</span></h6>
+                  <div class="row">
+                    <h6><span class="badge badge-info mr-2" id="mdo">{{ employee.name }}</span></h6>
+                    <h6>
+                      {{message_local.created_at}}
+                    </h6>
+                  </div>
                   <h5>{{ message_local.message }}</h5>
                 </div>
                 <div v-else class="text-right col-12">
-                  <h6><span class="badge badge-primary" id="fat">Eu</span></h6>
+                  <div class="row justify-content-end">
+                    <h6 class="mr-2">
+                      {{message_local.created_at}}
+                    </h6>
+                    <h6><span class="badge badge-primary" id="mdo">Eu</span></h6>
+                  </div>
                   <h5>{{ message_local.message }}</h5>
                 </div>
               </div>
@@ -88,13 +98,16 @@ export default {
   mounted() {
     $('#addChat, #updateChat').on('shown.bs.modal', (e) => {
       $(e.target).find('[message]').focus();
-      this.intervalMy = setInterval(this.loadM, 1000);
+      this.intervalMy = setInterval(this.loadM, 3000);
+      const box = document.getElementById('box-message');
+      box.scrollTop = box.scrollHeight
     });
     $('#addChat, #updateChat').on('hide.bs.modal', () => {
       $('#form-wizard').trigger('reset');
-      console.log(this.intervalMy);
+      // console.log(this.intervalMy);
       clearInterval(this.intervalMy);
     })
+
   }
 }
 </script>

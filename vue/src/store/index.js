@@ -4,7 +4,7 @@ import { createStore } from 'vuex'
 const store = createStore({
     state: {
         user: {
-            data: {},
+            data: JSON.parse(sessionStorage.getItem('user')) ?? {},
             token: sessionStorage.getItem('token')
         }
     },
@@ -29,12 +29,14 @@ const store = createStore({
         logout(state) {
             state.user.data = {}
             state.user.token = null
-            sessionStorage.removeItem('token')
+            sessionStorage.removeItem('token');
+            sessionStorage.removeItem('user');
         },
         setUser: (state, userData) => {
-            state.user.token = userData.token.access_token
-            state.user.data = userData.user
-            sessionStorage.setItem('token', userData.token.access_token)
+            state.user.token = userData.token.access_token;
+            state.user.data = userData.user;
+            sessionStorage.setItem('user', JSON.stringify(userData.user));
+            sessionStorage.setItem('token', userData.token.access_token);
         }
     },
     modules: {}
