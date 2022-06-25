@@ -49,14 +49,14 @@
             </div>
           </div>
           <div class="mt-2">
-            <form id="form-wizard" class="text-center" @submit.prevent="event(id)">
+            <form id="form-wizard" class="text-center" @submit.prevent="saveMessage()">
               <div class="row">
                 <div class="form-group col-md-9">
-                  <input type="text" class="form-control" id="message" name="message" :value="message"
-                    @input="updateValue" placeholder="Enviar mensagem" required="required" />
+                  <input type="text" class="form-control" id="message" name="message" v-model="message.message"
+                  placeholder="Enviar mensagem" required="required" />
                 </div>
                 <div class="col-md-3">
-                  <button type="button" class="btn btn-primary button-height" @click="event(id)">Enviar</button>
+                  <button type="button" class="btn btn-primary button-height" @click="saveMessage()">Enviar</button>
                 </div>
               </div>
             </form>
@@ -71,39 +71,105 @@
 </template>
 
 <script>
+import axios from '@/axios'
 
 export default {
   name: 'ChatModal',
   data() {
     return {
-      message_local: {},
+      message_local: {
+        user_id_from: null,
+        user_id_to: null,
+        message: null
+      },
+      message: {
+        user_id_from: null,
+        user_id_to: null,
+        message: null
+      },
+      messages: [],
       intervalMy: null
     }
   },
   props: {
     title: String,
-    event: Function,
-    loadM: Function,
     id: Number,
-    message: String,
-    employee: Object,
-    messages: Array
+    message_info: Object,
+    employee: Object
   },
   emits: ['update:message'],
   methods: {
-    updateValue(event) {
-      this.$emit('update:message', event.target.value)
+    saveMessage() {
+      if (!$('#addChat form').get(0).reportValidity()) {
+        return false
+      }
+      console.log(this.message);
+      axios.post('v1/messages', this.message)
+        .then(() => {
+          this.message.message = null;
+          const box = document.getElementById('box-message');
+          box.scrollTop = box.scrollHeight
+        })
+        .catch(error => {
+          if (error.response.status == 401) {
+            this.$store.commit('logout')
+            this.$router.push({
+              name: 'sign-in'
+            })
+          } else {
+            this.$swal('Ops...', error.response.data.message, 'error')
+          }
+        })
+    },
+    loadMessage(){
+      axios.get('v1/users-messages',{
+         params: {user_id_to: this.message.user_id_to, user_id_from: this.message.user_id_from}
+      })
+      .then(response => {
+        this.messages = response.data
+
+        this.messages.forEach((item) => {
+            item.created_at = moment(item.created_at).format('HH:mm')
+        })
+
+        setTimeout(() => {
+          const box = document.getElementById('box-message');
+          box.scrollTop = box.scrollHeight;
+        }, 0);
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    },
+    readMessages() {
+      axios.post('v1/read-messages', this.message)
+        .then(() => {
+        })
+        .catch(error => {
+          if (error.response.status == 401) {
+            this.$store.commit('logout')
+            this.$router.push({
+              name: 'sign-in'
+            })
+          } else {
+            this.$swal('Ops...', error.response.data.message, 'error')
+          }
+        })
     }
   },
   mounted() {
     $('#addChat, #updateChat').on('shown.bs.modal', (e) => {
       $(e.target).find('[message]').focus();
-      this.intervalMy = setInterval(this.loadM, 3000);
+      this.message = this.message_info;
+      this.readMessages();
+      this.loadMessage();
+      this.intervalMy = setInterval(this.loadMessage, 3000);
       const box = document.getElementById('box-message');
-      box.scrollTop = box.scrollHeight
+      box.scrollTop = box.scrollHeight;
     });
     $('#addChat, #updateChat').on('hide.bs.modal', () => {
       $('#form-wizard').trigger('reset');
+      this.readMessages();
       // console.log(this.intervalMy);
       clearInterval(this.intervalMy);
     })

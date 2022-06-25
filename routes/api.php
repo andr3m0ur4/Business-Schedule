@@ -57,4 +57,8 @@ Route::prefix('v1')->middleware('jwt.auth')->group(function() {
     Route::apiResource('messages', MessageController::class);
     Route::get('users-data', [UserController::class, 'getUserData']);
     Route::get('users-messages', [MessageController::class, 'getMessages']);
+    Route::get('list-users-messages', [UserController::class, 'getUsersMessage']);
+    Route::post('read-messages', [MessageController::class, 'readMessages']);
+    Route::get('recent-messages', [MessageController::class, 'recentMessages']);
+    Route::get('count-messages', [MessageController::class, 'countRecentMessages']);
 });
