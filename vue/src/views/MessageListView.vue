@@ -24,7 +24,7 @@
                   <tbody>
                     <tr v-for="employee in employees" :key="employee.id">
                       <td>
-                        <div  v-if="employee.id !== message.user_id_from" class="card card-block card-stretch calender-account user-list mt-3" >
+                        <div  v-if="employee.id !== message_info.user_id_from" class="card card-block card-stretch calender-account user-list mt-3" >
                           <div class="card-body">
                             <div class="d-flex flex-wrap align-items-center justify-content-between">
                               <div class="media flex-wrap align-items-center">
@@ -42,7 +42,7 @@
                               <div class="date">
                                 <p class="mb-0">03 December, 2020</p>
                               </div>
-                              <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#addChat" @click="message.user_id_to = employee.id; this.employee = employee; loadMessage()">Enviar mensagem</a>
+                              <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#addChat" @click="message_info.user_id_to = employee.id; this.employee = employee;">Enviar mensagem</a>
                             </div>
                           </div>
                         </div>
@@ -58,11 +58,8 @@
     </div>
     <ChatModal
       title="Nova mensagem"
-      :event="saveMessage"
-      :loadM="loadMessage"
-      v-model:message="message.message"
+      :message_info="message_info"
       :employee="employee"
-      :messages="messages"
     />
   </div>
 </template>
@@ -70,32 +67,44 @@
 <script>
 import ChatModal from '@/components/ChatModal.vue'
 import axios from '@/axios'
+import { computed } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
   name: 'MessageListView',
+  setup() {
+    const store = useStore()
+
+    return {
+      user: computed(() => store.state.user.data)
+    }
+  },
   data() {
     return {
       employees: [],
       employee: {},
-      message: {
-        user_id_from: null,
+      message_info: {
+        user_id_from: this.user.id,
         user_id_to: null,
         message: null
       },
-      messages: [],
       dataTable: null
     }
   },
   created() {
     this.getEmployees();
-    this.getUserData();
   },
   updated() {
+    optionsTable.order = [];
     this.dataTable = $('.data-tables').DataTable(optionsTable);
+
+
   },
   methods: {
     getEmployees() {
-      axios.get('v1/users')
+      axios.get('v1/list-users-messages',{
+         params: {user_id_to: this.message_info.user_id_from}
+      })
         .then(response => {
           this.employees = response.data
           if (this.dataTable) {
@@ -111,32 +120,10 @@ export default {
           }
         })
     },
-    saveMessage() {
-      if (!$('#addChat form').get(0).reportValidity()) {
-        return false
-      }
-
-      axios.post('v1/messages', this.message)
-        .then(response => {
-          this.message.message = null;
-          const box = document.getElementById('box-message');
-          box.scrollTop = box.scrollHeight
-        })
-        .catch(error => {
-          if (error.response.status == 401) {
-            this.$store.commit('logout')
-            this.$router.push({
-              name: 'sign-in'
-            })
-          } else {
-            this.$swal('Ops...', error.response.data.message, 'error')
-          }
-        })
-    },
     getUserData() {
       axios.get('v1/users-data')
         .then(response => {
-          this.message.user_id_from = response.data
+          this.message_info.user_id_from = response.data
         })
         .catch(error => {
           if (error.response.status == 401) {
@@ -146,28 +133,6 @@ export default {
             })
           }
         })
-    },
-    loadMessage(){
-      axios.get('v1/users-messages',{
-         params: {user_id_to: this.message.user_id_to, user_id_from: this.message.user_id_from}
-      })
-      .then(response => {
-        this.messages = response.data
-
-        console.log(this.messages)
-        this.messages.forEach((item) => {
-            item.created_at = moment(item.created_at).format('HH:mm')
-            console.log(item)
-        })
-        // console.log(response.data)
-        setTimeout(() => {
-          const box = document.getElementById('box-message');
-          box.scrollTop = box.scrollHeight;
-        }, 0);
-      })
-      .catch(error => {
-        console.log(error)
-      })
     }
   },
   components: {

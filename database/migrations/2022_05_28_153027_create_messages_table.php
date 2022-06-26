@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('user_id_to')->constrained();
             $table->foreignId('user_id_from')->constrained();
             $table->text('message');
+            $table->enum('read', ['S','N'])->default('N');
             $table->timestamps();
             $table->softDeletes();
         });

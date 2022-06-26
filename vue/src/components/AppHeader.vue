@@ -192,7 +192,7 @@
                   <a href="#" class="search-toggle dropdown-toggle" id="dropdownMenuButton2" data-toggle="dropdown"
                       aria-haspopup="true" aria-expanded="false">
                     <i class="las la-envelope"></i>
-                    <span class="badge badge-primary count-mail rounded-circle">2</span>
+                    <span class="badge badge-primary count-mail rounded-circle">{{this.count_messages}}</span>
                     <span class="bg-primary"></span>
                   </a>
                   <div class="iq-sub-dropdown dropdown-menu" aria-labelledby="dropdownMenuButton2">
@@ -202,17 +202,21 @@
                           <h5 class="mb-0">Todas as mensagens</h5>
                         </div>
                         <div class="p-2">
+
+                          <div v-for="recent_message in recent_messages" :key="recent_message.id">
                           <a href="#" class="iq-sub-card">
                             <div class="media align-items-center cust-card p-2">
                               <div class="">
                                 <img class="avatar-40 rounded-small" src="../assets/images/user/u-1.jpg" alt="01">
                               </div>
                               <div class="media-body ml-3">
-                                <h6 class="mb-0">Rodrigo Ramos</h6>
-                                <small class="mb-0">Preciso trocar meu horário</small>
+                                <h6 class="mb-0">{{recent_message.name}}</h6>
+                                <small class="mb-0">{{recent_message.message}}</small>
                               </div>
                             </div>
                           </a>
+                          </div>
+
                           <a href="#" class="iq-sub-card">
                             <div class="media align-items-center cust-card p-2">
                               <div class="">
@@ -343,6 +347,7 @@
 <script>
 import { computed } from 'vue'
 import { useStore } from 'vuex'
+import axios from '@/axios'
 
 export default {
   name: 'AppHeader',
@@ -352,6 +357,17 @@ export default {
     return {
       user: computed(() => store.state.user.data)
     }
+  },
+  data() {
+    return {
+      recent_messages: [],
+      recent_message: {},
+      count_messages: null
+    }
+  },
+  created() {
+    this.getRecentMessages();
+    this.getCountMessages();
   },
   methods: {
     logout() {
@@ -367,6 +383,38 @@ export default {
             name: 'sign-in'
           });
         });
+    },
+    getRecentMessages() {
+      axios.get('v1/recent-messages',{
+         params: {user_id_to: this.user.id}
+      })
+        .then(response => {
+          this.recent_messages = response.data
+        })
+        .catch(error => {
+          if (error.response.status == 401) {
+            this.$store.commit('logout')
+            this.$router.push({
+              name: 'sign-in'
+            })
+          }
+        })
+    },
+    getCountMessages() {
+      axios.get('v1/count-messages',{
+         params: {user_id_to: this.user.id}
+      })
+        .then(response => {
+          this.count_messages = response.data
+        })
+        .catch(error => {
+          if (error.response.status == 401) {
+            this.$store.commit('logout')
+            this.$router.push({
+              name: 'sign-in'
+            })
+          }
+        })
     }
   }
 }
