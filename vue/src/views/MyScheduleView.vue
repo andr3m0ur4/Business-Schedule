@@ -216,7 +216,7 @@
                       <label class="form-label" for="schedule-title">Horários de Programas</label>
                       <select class="selectpicker form-control" id="select-tvshow-time" title="Informe o Nome do Programa"
                         v-model="selectedTvShowTimes" data-live-search="true" multiple data-multiple-separator=" | " required>
-                        <option v-for="tvShowTime in tvShowTimes" :key="tvShowTime.id" :value="tvShowTime.id">
+                        <option v-for="tvShowTime in tvShowTimesByRange(tvShowTimes)" :key="tvShowTime.id" :value="tvShowTime.id">
                           {{ tvShowTime.tvShow.name }}: {{ dateTime(tvShowTime.start) }} ~ {{ time(tvShowTime.end) }}
                         </option>
                       </select>
@@ -1294,6 +1294,22 @@ export default {
             unwatch();
           });
       });
+    },
+    tvShowTimesByRange(tvShowTimes) {
+      if (this.calendar) {
+        const start = this.calendar.getDateRangeStart().toDate();
+        const end = moment(this.calendar.getDateRangeEnd().toDate()).add({
+          hours: 23,
+          minutes: 23,
+          seconds: 59
+        }).toDate();
+
+        return tvShowTimes.filter(tvShowTime => {
+          return moment(tvShowTime.start).isBetween(start, end);
+        });
+      }
+
+      return tvShowTimes;
     },
     formatDate(value) {
       if (value) {
