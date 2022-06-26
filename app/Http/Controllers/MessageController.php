@@ -115,9 +115,10 @@ class MessageController extends Controller
 
         $user_id_to = $request->user_id_to;
         $users = DB::getPdo()->prepare("SELECT u.id, u.name, m.message FROM users u 
-        INNER JOIN messages m ON m.user_id_from = u.id AND m.user_id_to = :user_to AND m.created_at = (SELECT MAX(m2.created_at) FROM messages m2 WHERE m2.user_id_from = u.id AND m2.user_id_to = '1') AND m.read = 'N'
+        INNER JOIN messages m ON m.user_id_from = u.id AND m.user_id_to = :user_to AND m.created_at = (SELECT MAX(m2.created_at) FROM messages m2 WHERE m2.user_id_from = u.id AND m2.user_id_to = :user_to_s) AND m.read = 'N'
         ORDER BY  m.created_at DESC LIMIT 3");
         $users->bindParam('user_to', $user_id_to);
+        $users->bindParam('user_to_s', $user_id_to);
 
         $users->execute();
 
@@ -136,8 +137,9 @@ class MessageController extends Controller
         $user_id_to = $request->user_id_to;
         $result = DB::getPdo()->prepare("SELECT COUNT(u.name) num FROM users u 
         INNER JOIN messages m ON m.user_id_from = u.id AND m.user_id_to = :user_to AND m.created_at = (SELECT MAX(m2.created_at) 
-        FROM messages m2 WHERE m2.user_id_from = u.id AND m2.user_id_to = '1') AND m.read = 'N'");
+        FROM messages m2 WHERE m2.user_id_from = u.id AND m2.user_id_to = :user_to_s) AND m.read = 'N'");
         $result->bindParam('user_to', $user_id_to);
+        $result->bindParam('user_to_s', $user_id_to);
 
         $result->execute();
 

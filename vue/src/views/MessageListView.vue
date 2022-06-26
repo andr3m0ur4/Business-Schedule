@@ -42,7 +42,7 @@
                               <div class="date">
                                 <p class="mb-0">03 December, 2020</p>
                               </div>
-                              <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#addChat" @click="message_info.user_id_to = employee.id; this.employee = employee;">Enviar mensagem</a>
+                              <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#addChat" @click="message_info.user_id_to = employee.id;">Enviar mensagem</a>
                             </div>
                           </div>
                         </div>
@@ -59,7 +59,6 @@
     <ChatModal
       title="Nova mensagem"
       :message_info="message_info"
-      :employee="employee"
     />
   </div>
 </template>
@@ -78,6 +77,9 @@ export default {
     return {
       user: computed(() => store.state.user.data)
     }
+  },  
+  props: {
+    user_id_to: String
   },
   data() {
     return {
@@ -97,8 +99,9 @@ export default {
   updated() {
     optionsTable.order = [];
     this.dataTable = $('.data-tables').DataTable(optionsTable);
-
-
+  },
+  mounted() {
+    this.openAutoModal();
   },
   methods: {
     getEmployees() {
@@ -133,6 +136,12 @@ export default {
             })
           }
         })
+    },
+    openAutoModal() {
+      if (this.user_id_to != undefined) {
+        this.message_info.user_id_to = parseInt(this.user_id_to);
+        $('#addChat').modal('show');
+      }
     }
   },
   components: {

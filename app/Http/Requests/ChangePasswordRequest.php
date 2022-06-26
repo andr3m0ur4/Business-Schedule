@@ -29,7 +29,7 @@ class ChangePasswordRequest extends FormRequest
                 'required',
                 'confirmed',
                 'sometimes',
-                Password::min(8)->mixedCase()->numbers()->symbols()
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/'
             ],
             'email' => ['sometimes', 'required', 'email', 'string'],
         ];
@@ -47,6 +47,7 @@ class ChangePasswordRequest extends FormRequest
             'password.required' => 'O campo senha é obrigatório.',
             'confirmed' => 'As senhas são diferentes',
             'password.min' => 'O campo senha deve ter no minimo 8 caracteres',
+            'password.regex' => 'A senha deve coter no minimo um caracter maiusculo, minusculo, numero e um caractere especial'
         ];
     }
 

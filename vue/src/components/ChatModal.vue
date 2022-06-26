@@ -27,7 +27,7 @@
           <div class="col-12 border rounded">
             <div id="box-message" class="scrollspy-example" data-spy="scroll" data-target="#navbar-example2" data-offset="0">
               <div v-for="message_local in messages" :key="message_local.id">
-                <div v-if="message_local.user_id_from === employee.id" class="text-left col-12">
+                <div v-if="message_local.user_id_from === message_info.user_id_to" class="text-left col-12">
                   <div class="row">
                     <h6><span class="badge badge-info mr-2" id="mdo">{{ employee.name }}</span></h6>
                     <h6>
@@ -77,17 +77,9 @@ export default {
   name: 'ChatModal',
   data() {
     return {
-      message_local: {
-        user_id_from: null,
-        user_id_to: null,
-        message: null
-      },
-      message: {
-        user_id_from: null,
-        user_id_to: null,
-        message: null
-      },
+      message: {},
       messages: [],
+      employee: {},
       intervalMy: null
     }
   },
@@ -95,7 +87,7 @@ export default {
     title: String,
     id: Number,
     message_info: Object,
-    employee: Object
+    id_modal: String
   },
   emits: ['update:message'],
   methods: {
@@ -103,7 +95,6 @@ export default {
       if (!$('#addChat form').get(0).reportValidity()) {
         return false
       }
-      console.log(this.message);
       axios.post('v1/messages', this.message)
         .then(() => {
           this.message.message = null;
@@ -155,11 +146,21 @@ export default {
             this.$swal('Ops...', error.response.data.message, 'error')
           }
         })
-    }
+    },
+    findEmployee(){
+      axios.get(`v1/users/${this.message_info.user_id_to}`)
+      .then(response => {
+        this.employee = response.data
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    },
   },
   mounted() {
-    $('#addChat, #updateChat').on('shown.bs.modal', (e) => {
+    $('#addChat').on('shown.bs.modal', (e) => {
       $(e.target).find('[message]').focus();
+      this.findEmployee();
       this.message = this.message_info;
       this.readMessages();
       this.loadMessage();
@@ -167,10 +168,9 @@ export default {
       const box = document.getElementById('box-message');
       box.scrollTop = box.scrollHeight;
     });
-    $('#addChat, #updateChat').on('hide.bs.modal', () => {
+    $('#addChat').on('hide.bs.modal', () => {
       $('#form-wizard').trigger('reset');
       this.readMessages();
-      // console.log(this.intervalMy);
       clearInterval(this.intervalMy);
     })
 

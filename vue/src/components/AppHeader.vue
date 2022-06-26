@@ -1,6 +1,6 @@
 <template>
   <header class="iq-top-navbar">
-    <div class="container">
+    <div class="container" @click="getRecentMessages(); getCountMessages();">
       <div class="iq-navbar-custom">
         <div class="d-flex align-items-center justify-content-between">
           <div class="iq-navbar-logo d-flex align-items-center justify-content-between">
@@ -204,7 +204,7 @@
                         <div class="p-2">
 
                           <div v-for="recent_message in recent_messages" :key="recent_message.id">
-                          <a href="#" class="iq-sub-card">
+                          <a href="#" class="iq-sub-card" @click="openModal(recent_message.id)" >
                             <div class="media align-items-center cust-card p-2">
                               <div class="">
                                 <img class="avatar-40 rounded-small" src="../assets/images/user/u-1.jpg" alt="01">
@@ -342,6 +342,7 @@
       </div>
     </div>
   </header>
+
 </template>
 
 <script>
@@ -362,6 +363,12 @@ export default {
     return {
       recent_messages: [],
       recent_message: {},
+      employee: {},
+      message_info: {
+        user_id_from: this.user.id,
+        user_id_to: null,
+        message: null
+      },
       count_messages: null
     }
   },
@@ -415,6 +422,14 @@ export default {
             })
           }
         })
+    },
+    openModal(id) {
+      this.$router.push({
+      name: 'message',
+      params: {
+          user_id_to: id
+      }
+    }) 
     }
   }
 }
