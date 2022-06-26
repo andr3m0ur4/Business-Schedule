@@ -17,8 +17,9 @@ return new class extends Migration
             $table->id();
             $table->string('tv_show_time_id');
             $table->foreign('tv_show_time_id')->references('id')->on('tv_show_times');
-            $table->foreignId('user_id')->constrained();
-            $table->timestamp('worked_times');
+            $table->string('employee_time_id');
+            $table->foreign('employee_time_id')->references('id')->on('employee_times');
+            $table->timestamp('worked_times') ->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

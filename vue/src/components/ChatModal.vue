@@ -36,7 +36,7 @@
                   </div>
                   <h5>{{ message_local.message }}</h5>
                 </div>
-                <div v-else class="text-right col-12">
+                <div v-else class="text-right col-12 message">
                   <div class="row justify-content-end">
                     <h6 class="mr-2">
                       {{message_local.created_at}}
@@ -122,5 +122,9 @@ export default {
 
 .button-height {
   height: 45px;
+}
+
+.message{
+  padding-right: 28px;
 }
 </style>

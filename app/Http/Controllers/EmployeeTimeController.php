@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreEmployeeTimeRequest;
+use App\Http\Requests\StoreScheduleRequest;
 use App\Http\Requests\UpdateEmployeeTimeRequest;
+use App\Http\Requests\UpdateScheduleRequest;
 use App\Http\Resources\EmployeeTimeResource;
 use App\Models\EmployeeTime;
+use App\Models\Schedule;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
@@ -53,7 +56,7 @@ class EmployeeTimeController extends Controller
      */
     public function show(EmployeeTime $employeeTime)
     {
-        //
+        return response()->json(EmployeeTimeResource::make($employeeTime), Response::HTTP_OK);
     }
 
     /**
@@ -122,6 +125,27 @@ class EmployeeTimeController extends Controller
                 $myRequest->setValidator(Validator::make($time, $myRequest->rules()));
                 $this->update($myRequest, $employeeTime);
                 $affectedRows++;
+
+                if (count($item['raw']['schedules']) > 0) {
+                    $schedules = Schedule::where('employee_time_id', $time['id'])->get();
+                    $scheduleController = new ScheduleController();
+                    if ($schedules) {
+                        foreach ($schedules as $schedule) {
+                            $scheduleController->destroy($schedule);
+                        }
+                    }
+
+                    foreach ($item['raw']['schedules'] as $schedule) {
+                        $scheduleTime['tv_show_time_id'] = $schedule['tv_show_time']['id'];
+                        $scheduleTime['employee_time_id'] = $time['id'];
+                        $scheduleTime['worked_times'] = 100000;
+
+                        $myRequest = new StoreScheduleRequest();
+                        $myRequest->setMethod('POST');
+                        $myRequest->setValidator(Validator::make($scheduleTime, $myRequest->rules()));
+                        $scheduleController->store($myRequest);
+                    }
+                }
                 continue;
             }
 
@@ -130,6 +154,27 @@ class EmployeeTimeController extends Controller
             $myRequest->setValidator(Validator::make($time, $myRequest->rules()));
             $this->store($myRequest);
             $insertRows++;
+
+            if (count($item['raw']['schedules']) > 0) {
+                $schedules = Schedule::where('employee_time_id', $time['id']);
+                $scheduleController = new ScheduleController();
+                if ($schedules) {
+                    foreach ($schedules as $schedule) {
+                        $scheduleController->destroy($schedule);
+                    }
+                }
+
+                foreach ($item['raw']['schedules'] as $schedule) {
+                    $scheduleTime['tv_show_time_id'] = $schedule['tv_show_time']['id'];
+                    $scheduleTime['employee_time_id'] = $time['id'];
+                    $scheduleTime['worked_times'] = 100000;
+
+                    $myRequest = new StoreScheduleRequest();
+                    $myRequest->setMethod('POST');
+                    $myRequest->setValidator(Validator::make($scheduleTime, $myRequest->rules()));
+                    $scheduleController->store($myRequest);
+                }
+            }
         }
 
         return response()->json([

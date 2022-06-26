@@ -215,9 +215,9 @@
                     <div class="form-group">
                       <label class="form-label" for="schedule-title">Horários de Programas</label>
                       <select class="selectpicker form-control" id="select-tvshow-time" title="Informe o Nome do Programa"
-                        data-live-search="true" multiple required>
-                        <option v-for="tvShowTime in tvShowTimes" :key="tvShowTime.id">
-                          {{ tvShowTime.tvShow.name }} - {{ dateTime(tvShowTime.start) }}
+                        v-model="selectedTvShowTimes" data-live-search="true" multiple data-multiple-separator=" | " required>
+                        <option v-for="tvShowTime in tvShowTimes" :key="tvShowTime.id" :value="tvShowTime.id">
+                          {{ tvShowTime.tvShow.name }}: {{ dateTime(tvShowTime.start) }} ~ {{ time(tvShowTime.end) }}
                         </option>
                       </select>
                     </div>
@@ -359,6 +359,7 @@ export default {
       selectedTvShow: {},
       selectedStudio: {},
       selectedSwitcher: {},
+      selectedTvShowTimes: [],
       jobs: [],
       employees: [],
       employeesByJobs: [],
@@ -460,6 +461,12 @@ export default {
             this.selectedSchedule.calendarId = schedule.calendarId;
             if (schedule.raw) {
               this.selectedEmployee = schedule.raw.employee;
+
+              if (schedule.raw.schedules) {
+                this.selectedTvShowTimes = schedule.raw.schedules.map(schedule => {
+                  return schedule.tv_show_time.id;
+                });
+              }
             }
 
             this.datePicker.setStartDate(changes.start ? changes.start.toDate() : schedule.start.toDate());
@@ -661,12 +668,19 @@ export default {
         return;
       }
 
+      const schedules = this.selectedTvShowTimes.map(tvShowTime => {
+        return {
+          tv_show_time: this.calendar.getSchedule(tvShowTime, '')
+        };
+      });
+
       this.calendar.createSchedules([{
         id,
         calendarId: calendar.id,
         title,
         raw: {
-          employee: this.selectedEmployee
+          employee: this.selectedEmployee,
+          schedules
         },
         isAllDay,
         location,
@@ -698,11 +712,18 @@ export default {
         return;
       }
 
+      const schedules = this.selectedTvShowTimes.map(tvShowTime => {
+        return {
+          tv_show_time: this.calendar.getSchedule(tvShowTime, '')
+        };
+      });
+
       this.calendar.updateSchedule(id, calendarId, {
         title,
         calendarId: calendar.id,
         raw: {
-          employee: this.selectedEmployee
+          employee: this.selectedEmployee,
+          schedules
         },
         start,
         end,
@@ -1080,6 +1101,7 @@ export default {
       const schedule = this.calendar.getSchedule(id, calendarId);
       const schedules = JSON.parse(this.$ls.get(category, '[]'));
       schedules.push(schedule);
+      console.log(schedules);
       this.$ls.set(category, JSON.stringify(schedules));
 
       if (schedules.length > 0) {
@@ -1233,6 +1255,7 @@ export default {
           return schedule;
         });
         schedules = this.getRemovedItems(schedules, 'removed-schedules');
+        // console.log(schedules);
 
         let tasks = this.scheduleList.filter(schedule => {
           if (schedule.category != 'task' || !schedule.raw) {
@@ -1244,15 +1267,15 @@ export default {
           return schedule;
         });
         tasks = this.getRemovedItems(tasks, 'removed-tasks');
-        console.log(tasks);
+        // console.log(tasks);
 
-        axios.post('v1/employee-times/save', schedules)
+        axios.post('v1/tv-show-times/save', tasks)
           .then(response => {
-            this.removeStorage();
-            axios.post('v1/tv-show-times/save', tasks)
+            this.removeStorage('removed-tasks');
+            axios.post('v1/employee-times/save', schedules)
               .then(response => {
                 this.$swal('Bom trabalho!', 'Os horários foram salvos com sucesso.', 'success');
-                this.removeStorage('removed-tasks');
+                this.removeStorage();
                 this.clearRangeStorage();
                 this.clearRangeStorage('tasks');
                 this.setSchedules();
@@ -1279,6 +1302,9 @@ export default {
     },
     dateTime(value) {
       return moment(value).format('DD/MM HH:mm');
+    },
+    time(value) {
+      return moment(value).format('HH:mm');
     }
   },
   watch: {
@@ -1327,15 +1353,22 @@ export default {
         $('#switcher-title').selectpicker('refresh');
       });
     },
+    selectedTvShowTimes() {
+      this.$nextTick(() => {
+        $('#select-tvshow-time').selectpicker('refresh');
+      });
+    },
     scheduleNotSaved() {
       const toast = useToast();
+      toast.clear();
 
       if (!this.scheduleNotSaved) {
         toast.dismiss(this.toastId);
         return;
       }
 
-      this.toastId = toast.warning('Atenção! Existem "horários" que ainda não foram salvos, clique em Atualizar Escala para salvá-los definitivamente!', {
+      this.toastId = toast.warning(
+        'Atenção! Existem "horários" que ainda não foram salvos, clique em Atualizar Escala para salvá-los definitivamente!', {
         position: 'top-right',
         timeout: false,
         closeOnClick: true,
