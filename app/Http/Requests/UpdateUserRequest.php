@@ -32,7 +32,7 @@ class UpdateUserRequest extends FormRequest
                 'sometimes',
                 'required',
                 'confirmed',
-                Password::min(8)->mixedCase()->numbers()->symbols()
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/'
             ],
             'type' => ['sometimes', 'required', Rule::in(['Admin', 'Employee'])],
             'phone' => ['min:8'],
@@ -56,7 +56,8 @@ class UpdateUserRequest extends FormRequest
             'email.unique' => 'O email já existe.',
             'confirmed' => 'As senhas são diferentes',
             'password.min' => 'O campo senha deve ter no minimo 8 caracteres',
-            'phone.min' => 'O campo celular deve ter no minimo 8 caracteres'
+            'phone.min' => 'O campo celular deve ter no minimo 8 caracteres',
+            'password.regex' => 'A senha deve coter no minimo um caracter maiusculo, minusculo, numero e um caractere especial'
         ];
     }
 }

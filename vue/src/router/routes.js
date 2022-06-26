@@ -67,7 +67,8 @@ const routes = [
             {
                 path: '/mensagens',
                 name: 'message',
-                component: MessageListView
+                component: MessageListView,
+                props: true 
             }
         ]
     },
