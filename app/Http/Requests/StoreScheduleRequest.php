@@ -13,7 +13,7 @@ class StoreScheduleRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,8 @@ class StoreScheduleRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'employee_time_id' => ['required', 'exists:employee_times,id'],
+            'tv_show_time_id' => ['required', 'exists:tv_show_times,id']
         ];
     }
 }

@@ -188,7 +188,8 @@ class ScheduleInfo {
                 end: scheduleDB.end,
                 category: 'time',
                 raw: {
-                    employee: scheduleDB.user
+                    employee: scheduleDB.user,
+                    schedules: scheduleDB.schedules,
                 },
                 state: 'public'
             };

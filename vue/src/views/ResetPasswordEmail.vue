@@ -21,4 +21,5 @@
          </section>
       </div>
    </div>
+   <!-- fazer o style direto na tag -->
 </template>
