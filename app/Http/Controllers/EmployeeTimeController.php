@@ -126,7 +126,7 @@ class EmployeeTimeController extends Controller
                 $this->update($myRequest, $employeeTime);
                 $affectedRows++;
 
-                if (count($item['raw']['schedules']) > 0) {
+                if (isset($item['raw']['schedules']) && count($item['raw']['schedules']) > 0) {
                     $schedules = Schedule::where('employee_time_id', $time['id'])->get();
                     $scheduleController = new ScheduleController();
                     if ($schedules) {
@@ -155,7 +155,7 @@ class EmployeeTimeController extends Controller
             $this->store($myRequest);
             $insertRows++;
 
-            if (count($item['raw']['schedules']) > 0) {
+            if (isset($item['raw']['schedules']) && count($item['raw']['schedules']) > 0) {
                 $schedules = Schedule::where('employee_time_id', $time['id']);
                 $scheduleController = new ScheduleController();
                 if ($schedules) {

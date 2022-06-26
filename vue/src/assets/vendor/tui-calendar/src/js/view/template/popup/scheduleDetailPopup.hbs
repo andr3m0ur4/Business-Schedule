@@ -25,6 +25,12 @@
             <span class="{{CSS_PREFIX}}content">{{schedule.raw.employee.phone}}</span>
           </div>
         {{/if}}
+        {{#if schedule.raw.schedules}}
+            <div class="{{CSS_PREFIX}}popup-detail-item {{CSS_PREFIX}}popup-detail-item-indent">
+                <span class="{{CSS_PREFIX}}icon {{CSS_PREFIX}}ic-date"></span>
+                <span class="{{CSS_PREFIX}}content">[{{{popupDetailTask-tmpl schedule}}}]</span>
+            </div>
+        {{/if}}
         {{#if schedule.body}}<div class="{{CSS_PREFIX}}popup-detail-item {{CSS_PREFIX}}popup-detail-item-separate"><span class="{{CSS_PREFIX}}content">{{{popupDetailBody-tmpl schedule}}}</span></div>{{/if}}
     </div>
     {{#if schedule.isReadOnly}}

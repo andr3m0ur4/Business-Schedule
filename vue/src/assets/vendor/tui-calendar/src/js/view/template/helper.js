@@ -440,6 +440,15 @@ var helpers = {
     'popupDetailUser-tmpl': function(schedule) {
         return (schedule.attendees || []).join(', ');
     },
+    'popupDetailTask-tmpl': function(schedule) {
+        const schedules = schedule.raw.schedules.map(schedule => {
+            const name = schedule.tv_show_time.tvShow.name;
+            const start = moment(schedule.tv_show_time.start).format('HH:mm');
+            const end = moment(schedule.tv_show_time.end).format('HH:mm');
+            return `${name}: ${start} ~ ${end}`;
+        });
+        return (schedules || []).join(', ');
+    },
     'popupDetailState-tmpl': function(schedule) {
         return schedule.state || 'Busy';
     },

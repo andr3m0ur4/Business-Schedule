@@ -17,7 +17,7 @@ class ScheduleResource extends JsonResource
         return [
             'id' => $this->id,
             'employee_time_id' => $this->employee_time_id,
-            'tv_show_time' => $this->tv_show_time,
+            'tv_show_time' => TvShowTimeResource::make($this->tv_show_time),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'deleted_at' => $this->deleted_at
