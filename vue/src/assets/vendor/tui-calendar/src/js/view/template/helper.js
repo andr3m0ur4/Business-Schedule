@@ -442,9 +442,19 @@ var helpers = {
     },
     'popupDetailTask-tmpl': function(schedule) {
         const schedules = schedule.raw.schedules.map(schedule => {
-            const name = schedule.tv_show_time.tvShow.name;
-            const start = moment(schedule.tv_show_time.start).format('HH:mm');
-            const end = moment(schedule.tv_show_time.end).format('HH:mm');
+            let name = '';
+            let start = '';
+            let end = '';
+
+            if (schedule.tv_show_time.raw) {
+                name = schedule.tv_show_time.raw.tvShow.name;
+                start = moment(schedule.tv_show_time.start.toDate()).format('HH:mm');
+                end = moment(schedule.tv_show_time.end.toDate()).format('HH:mm');
+            } else {
+                name = schedule.tv_show_time.tvShow.name;
+                start = moment(schedule.tv_show_time.start).format('HH:mm');
+                end = moment(schedule.tv_show_time.end).format('HH:mm');
+            }
             return `${name}: ${start} ~ ${end}`;
         });
         return (schedules || []).join(', ');

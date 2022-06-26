@@ -215,7 +215,7 @@
                     <div class="form-group">
                       <label class="form-label" for="schedule-title">Horários de Programas</label>
                       <select class="selectpicker form-control" id="select-tvshow-time" title="Informe o Nome do Programa"
-                        v-model="selectedTvShowTimes" data-live-search="true" multiple data-multiple-separator=" | " required>
+                        v-model="selectedTvShowTimes" data-live-search="true" multiple data-multiple-separator=" | ">
                         <option v-for="tvShowTime in tvShowTimesByRange(tvShowTimes)" :key="tvShowTime.id" :value="tvShowTime.id">
                           {{ tvShowTime.tvShow.name }}: {{ dateTime(tvShowTime.start) }} ~ {{ time(tvShowTime.end) }}
                         </option>
@@ -654,7 +654,7 @@ export default {
 
       const title = this.selectedEmployee.name;
 
-      const employeeId = this.getDataAction($('#schedule-title').find(':selected').get(0));
+      // const employeeId = this.getDataAction($('#schedule-title').find(':selected').get(0));
       // const location = $('#new-schedule-location').val();
       const location = ''
       // const isAllDay = document.getElementById('new-schedule-allday').checked;
@@ -1101,7 +1101,6 @@ export default {
       const schedule = this.calendar.getSchedule(id, calendarId);
       const schedules = JSON.parse(this.$ls.get(category, '[]'));
       schedules.push(schedule);
-      console.log(schedules);
       this.$ls.set(category, JSON.stringify(schedules));
 
       if (schedules.length > 0) {
@@ -1119,9 +1118,7 @@ export default {
         return item;
       });
 
-      if (schedules.length > 0) {
-        this.scheduleNotSaved = true;
-      }
+      this.scheduleNotSaved = true;
 
       this.$ls.set(category, JSON.stringify(schedules));
     },
