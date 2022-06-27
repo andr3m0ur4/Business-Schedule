@@ -3,7 +3,8 @@ import store from './store'
 
 const axios = axiosClient.create({
     baseURL: 'http://localhost:8000/api/'
-})
+    // baseURL: 'https://api.business-schedule.tech/api/'
+});
 
 axios.interceptors.request.use(config => {
     config.headers = {
@@ -12,6 +13,6 @@ axios.interceptors.request.use(config => {
     }
 
     return config
-})
+});
 
-export default axios
+export default axios;

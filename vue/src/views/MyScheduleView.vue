@@ -60,6 +60,7 @@
                   </div>
                 </div>
               </div>
+              <!-- <input @input="filterByText" v-model="text" type="text" class=""> -->
             </div>
             <div>
               <button class="btn btn-success" @click="saveSchedulePopup()">Atualizar Escala</button>
@@ -371,7 +372,7 @@ export default {
       isTvShowTime: false,
       calendarList: [],
       scheduleList: [],
-      text: '',
+      // text: '',
       resizeThrottled: null,
       newSchedule: true,
       newTask: true,
@@ -505,7 +506,15 @@ export default {
           const schedule = e.schedule;
           // const element = this.calendar.getElement(schedule.id, schedule.calendarId);
           // const objSchedule = this.calendar.getSchedule(schedule.id, schedule.calendarId);
-          // console.log('afterRenderSchedule', element);
+          // if (this.text) {
+          //   schedule.isVisible = false;
+          //   if (schedule.title.includes(this.text)) {
+          //     console.log('afterRenderSchedule', schedule);
+          //     console.log('text', this.text);
+          //     schedule.isVisible = true;
+          //   }
+          //   this.calendar.render();
+          // }
           this.scheduleList.push(schedule);
         },
         clickTimezonesCollapseBtn: timezonesCollapsed => {
@@ -921,8 +930,12 @@ export default {
 
       this.refreshScheduleVisibility();
     },
-    filterByText() {
-    },
+    // filterByText() {
+    //   if (!this.text) {
+    //     return;
+    //   }
+    //   this.calendar.trigger('afterRenderSchedule');
+    // },
     refreshScheduleVisibility() {
       const calendarElements = Array.prototype.slice.call(
         document.querySelectorAll('#calendarList input')
@@ -1011,6 +1024,21 @@ export default {
       axios.get('v1/employee-times')
         .then(response => {
           ScheduleInfo.createSchedulesFromDB(response.data);
+
+          axios.get('v1/tv-show-times')
+            .then(response => {
+              this.tvShowTimes = response.data;
+              ScheduleInfo.createTasksFromDB(response.data);
+            })
+            .catch(error => {
+              console.log(error);
+            })
+            .finally(() => {
+              ScheduleInfo.createSchedules(JSON.parse(this.$ls.get('tasks', '[]')));
+              this.calendar.createSchedules(ScheduleList);
+              this.refreshScheduleVisibility();
+            });
+
         })
         .catch(error => {
           console.log(error.response);
@@ -1020,20 +1048,6 @@ export default {
           ScheduleInfo.createSchedules(schedules);
           // this.calendar.createSchedules(ScheduleList);
           // this.refreshScheduleVisibility();
-        });
-
-      axios.get('v1/tv-show-times')
-        .then(response => {
-          this.tvShowTimes = response.data;
-          ScheduleInfo.createTasksFromDB(response.data);
-        })
-        .catch(error => {
-          console.log(error);
-        })
-        .finally(() => {
-          ScheduleInfo.createSchedules(JSON.parse(this.$ls.get('tasks', '[]')));
-          this.calendar.createSchedules(ScheduleList);
-          this.refreshScheduleVisibility();
         });
 
       // função para gerar horários aleatórios

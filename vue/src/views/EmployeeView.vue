@@ -157,7 +157,6 @@ export default {
   },
   created() {
     this.getEmployees();
-    this.getJobs();
   },
   mounted() {
     $('.selectpicker').selectpicker();
@@ -170,7 +169,8 @@ export default {
     getEmployees() {
       axios.get('v1/users')
         .then(response => {
-          this.employees = response.data
+          this.getJobs();
+          this.employees = response.data;
           if (this.dataTable) {
             this.dataTable.destroy();
           }
@@ -187,10 +187,10 @@ export default {
     getJobs() {
       axios.get('v1/jobs')
         .then(response => {
-          this.jobs = response.data
+          this.jobs = response.data;
         })
         .catch(error => {
-          this.$swal('Ops...', error.response.data.message, 'error')
+          this.$swal('Ops...', error.response.data.message, 'error');
         })
     },
     loadEmployee(id) {
@@ -249,7 +249,7 @@ export default {
                 this.getEmployees()
               })
               .catch(error => {
-                this.$swal('Ops...', error.response.data.message, 'error')
+                this.$swal('Ops...', error.response.data.message, 'error');
               })
           }
         })

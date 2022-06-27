@@ -13,9 +13,9 @@ const store = createStore({
         login(store, user) {
             return axios.post('login', user)
                 .then(response => {
-                    store.commit('setUser', response.data)
-                    return response.data
-                })
+                    store.commit('setUser', response.data);
+                    return response.data;
+                });
         },
         logout(state) {
             return axios.post('v1/logout')
@@ -27,8 +27,8 @@ const store = createStore({
     },
     mutations: {
         logout(state) {
-            state.user.data = {}
-            state.user.token = null
+            state.user.data = {};
+            state.user.token = null;
             sessionStorage.removeItem('token');
             sessionStorage.removeItem('user');
         },
@@ -42,4 +42,4 @@ const store = createStore({
     modules: {}
 })
 
-export default store
+export default store;
