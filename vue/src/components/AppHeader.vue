@@ -202,7 +202,7 @@
                           <h5 class="mb-0">Todas as mensagens</h5>
                         </div>
                         <div class="p-2">
-
+                          <div v-if = "recent_messages.length === 0" class="container"><h6>Caixa de mensagens vazia</h6></div>
                           <div v-for="recent_message in recent_messages" :key="recent_message.id">
                           <a href="#" class="iq-sub-card" @click="openModal(recent_message.id)" >
                             <div class="media align-items-center cust-card p-2">
@@ -216,29 +216,6 @@
                             </div>
                           </a>
                           </div>
-
-                          <a href="#" class="iq-sub-card">
-                            <div class="media align-items-center cust-card p-2">
-                              <div class="">
-                                <img class="avatar-40 rounded-small" src="../assets/images/user/u-2.jpg" alt="02">
-                              </div>
-                              <div class="media-body ml-3">
-                                <h6 class="mb-0">Igor Santos</h6>
-                                <small class="mb-0">Obrigado por me atender</small>
-                              </div>
-                            </div>
-                          </a>
-                          <a href="#" class="iq-sub-card">
-                            <div class="media align-items-center cust-card p-2">
-                              <div class="">
-                                <img class="avatar-40 rounded-small" src="../assets/images/user/u-3.jpg" alt="03">
-                              </div>
-                              <div class="media-body ml-3">
-                                <h6 class="mb-0">André Moura</h6>
-                                <small class="mb-0">Bom dia, Referente a troca...</small>
-                              </div>
-                            </div>
-                          </a>
                         </div>
                         <router-link to="/mensagens" class="right-ic btn-block position-relative p-3 border-top text-center" role="button">Ver tudo</router-link>
                       </div>

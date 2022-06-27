@@ -27,7 +27,7 @@
           <div class="col-12 border rounded">
             <div id="box-message" class="scrollspy-example" data-spy="scroll" data-target="#navbar-example2" data-offset="0">
               <div v-for="message_local in messages" :key="message_local.id">
-                <div v-if="message_local.user_id_from === message_info.user_id_to" class="text-left col-12">
+                <div v-if="message_local.user_id_from === message_info.user_id_to" class="text-left col-12  mt-2">
                   <div class="row">
                     <h6><span class="badge badge-info mr-2" id="mdo">{{ employee.name }}</span></h6>
                     <h6>
@@ -36,7 +36,7 @@
                   </div>
                   <h5>{{ message_local.message }}</h5>
                 </div>
-                <div v-else class="text-right col-12 message">
+                <div v-else class="text-right col-12 message mt-2">
                   <div class="row justify-content-end">
                     <h6 class="mr-2">
                       {{message_local.created_at}}
