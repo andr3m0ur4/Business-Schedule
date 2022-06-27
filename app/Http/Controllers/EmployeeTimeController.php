@@ -105,8 +105,8 @@ class EmployeeTimeController extends Controller
             $time = [];
             $time['id'] = $item['id'];
 
+            $employeeTime = EmployeeTime::where('id', $item['id'])->first();
             if (!$item['isVisible']) {
-                $employeeTime = EmployeeTime::where('id', $item['id'])->first();
                 if ($employeeTime) {
                     $this->destroy($employeeTime);
                     $deletedRows++;
@@ -119,7 +119,6 @@ class EmployeeTimeController extends Controller
             $time['user_id'] = $item['raw']['employee']['id'];
             $scheduleController = new ScheduleController();
 
-            $employeeTime = EmployeeTime::where('id', $item['id'])->first();
             if ($employeeTime) {
                 $myRequest = new UpdateEmployeeTimeRequest();
                 $myRequest->setMethod('PUT');
