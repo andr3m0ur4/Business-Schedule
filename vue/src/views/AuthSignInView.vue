@@ -40,7 +40,7 @@
                                     </div>
                                  </div>
                                  <div class="col-lg-6">
-                                    <a href="/esqueceu-senha" class="text-primary float-right">Esqueceu a Senha?</a>
+                                    <router-link to = "/esqueceu-senha" class="text-primary float-right">Esqueceu a Senha?</router-link>
                                  </div>
                               </div>
                               <button type="submit" class="btn btn-primary">Entrar</button>

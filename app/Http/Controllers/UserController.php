@@ -154,9 +154,11 @@ class UserController extends Controller
     {
         $user_id_to = $request->user_id_to;
         $users = DB::getPdo()->prepare("select u.* from users u 
-        left join messages m ON m.user_id_from = u.id and m.user_id_to = :user_to and m.created_at = (SELECT max(m2.created_at) from messages m2 where m2.user_id_from = u.id and m2.user_id_to = '1')
+        left join messages m ON m.user_id_from = u.id and m.user_id_to = :user_to and m.created_at = (SELECT max(m2.created_at) from messages m2 where m2.user_id_from = u.id and m2.user_id_to = :user_to2)
+        where u.deleted_at is null
         ORDER by  m.created_at DESC");
         $users->bindParam('user_to', $user_id_to);
+        $users->bindParam('user_to2', $user_id_to);
 
         $users->execute();
 
