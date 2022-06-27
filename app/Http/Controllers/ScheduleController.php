@@ -6,6 +6,7 @@ use App\Http\Requests\StoreScheduleRequest;
 use App\Http\Requests\UpdateScheduleRequest;
 use App\Models\Schedule;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
 
 class ScheduleController extends Controller
 {
@@ -86,5 +87,28 @@ class ScheduleController extends Controller
     {
         $schedule->delete();
         return response()->json($schedule);
+    }
+
+    public function manage($item, $time)
+    {
+        if (isset($item['raw']['schedules']) && count($item['raw']['schedules']) > 0) {
+            $schedules = Schedule::where('employee_time_id', $time['id'])->get();
+            if ($schedules) {
+                foreach ($schedules as $schedule) {
+                    $this->destroy($schedule);
+                }
+            }
+
+            foreach ($item['raw']['schedules'] as $schedule) {
+                $scheduleTime['tv_show_time_id'] = $schedule['tv_show_time']['id'];
+                $scheduleTime['employee_time_id'] = $time['id'];
+                $scheduleTime['worked_times'] = 100000;
+
+                $myRequest = new StoreScheduleRequest();
+                $myRequest->setMethod('POST');
+                $myRequest->setValidator(Validator::make($scheduleTime, $myRequest->rules()));
+                $this->store($myRequest);
+            }
+        }
     }
 }

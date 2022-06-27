@@ -371,6 +371,7 @@ export default {
       isTvShowTime: false,
       calendarList: [],
       scheduleList: [],
+      text: '',
       resizeThrottled: null,
       newSchedule: true,
       newTask: true,
@@ -919,6 +920,8 @@ export default {
       }
 
       this.refreshScheduleVisibility();
+    },
+    filterByText() {
     },
     refreshScheduleVisibility() {
       const calendarElements = Array.prototype.slice.call(

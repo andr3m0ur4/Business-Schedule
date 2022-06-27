@@ -117,6 +117,7 @@ class EmployeeTimeController extends Controller
             $time['start'] = $item['startDateTime'];
             $time['end'] = $item['endDateTime'];
             $time['user_id'] = $item['raw']['employee']['id'];
+            $scheduleController = new ScheduleController();
 
             $employeeTime = EmployeeTime::where('id', $item['id'])->first();
             if ($employeeTime) {
@@ -126,26 +127,7 @@ class EmployeeTimeController extends Controller
                 $this->update($myRequest, $employeeTime);
                 $affectedRows++;
 
-                if (isset($item['raw']['schedules']) && count($item['raw']['schedules']) > 0) {
-                    $schedules = Schedule::where('employee_time_id', $time['id'])->get();
-                    $scheduleController = new ScheduleController();
-                    if ($schedules) {
-                        foreach ($schedules as $schedule) {
-                            $scheduleController->destroy($schedule);
-                        }
-                    }
-
-                    foreach ($item['raw']['schedules'] as $schedule) {
-                        $scheduleTime['tv_show_time_id'] = $schedule['tv_show_time']['id'];
-                        $scheduleTime['employee_time_id'] = $time['id'];
-                        $scheduleTime['worked_times'] = 100000;
-
-                        $myRequest = new StoreScheduleRequest();
-                        $myRequest->setMethod('POST');
-                        $myRequest->setValidator(Validator::make($scheduleTime, $myRequest->rules()));
-                        $scheduleController->store($myRequest);
-                    }
-                }
+                $scheduleController->manage($item, $time);
                 continue;
             }
 
@@ -155,26 +137,7 @@ class EmployeeTimeController extends Controller
             $this->store($myRequest);
             $insertRows++;
 
-            if (isset($item['raw']['schedules']) && count($item['raw']['schedules']) > 0) {
-                $schedules = Schedule::where('employee_time_id', $time['id']);
-                $scheduleController = new ScheduleController();
-                if ($schedules) {
-                    foreach ($schedules as $schedule) {
-                        $scheduleController->destroy($schedule);
-                    }
-                }
-
-                foreach ($item['raw']['schedules'] as $schedule) {
-                    $scheduleTime['tv_show_time_id'] = $schedule['tv_show_time']['id'];
-                    $scheduleTime['employee_time_id'] = $time['id'];
-                    $scheduleTime['worked_times'] = 100000;
-
-                    $myRequest = new StoreScheduleRequest();
-                    $myRequest->setMethod('POST');
-                    $myRequest->setValidator(Validator::make($scheduleTime, $myRequest->rules()));
-                    $scheduleController->store($myRequest);
-                }
-            }
+            $scheduleController->manage($item, $time);
         }
 
         return response()->json([
