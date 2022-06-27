@@ -180,20 +180,22 @@ class ScheduleInfo {
 
     static createSchedulesFromDB(schedules) {
         schedules.forEach(scheduleDB => {
-            const schedule = {
-                id: scheduleDB.id,
-                calendarId: String(scheduleDB.user.job_id),
-                title: scheduleDB.user.name,
-                start: scheduleDB.start,
-                end: scheduleDB.end,
-                category: 'time',
-                raw: {
-                    employee: scheduleDB.user,
-                    schedules: scheduleDB.schedules,
-                },
-                state: 'public'
-            };
-            ScheduleList.push(schedule);
+            if (scheduleDB.user) {
+                const schedule = {
+                    id: scheduleDB.id,
+                    calendarId: String(scheduleDB.user.job_id),
+                    title: scheduleDB.user.name,
+                    start: scheduleDB.start,
+                    end: scheduleDB.end,
+                    category: 'time',
+                    raw: {
+                        employee: scheduleDB.user,
+                        schedules: scheduleDB.schedules,
+                    },
+                    state: 'public'
+                };
+                ScheduleList.push(schedule);
+            }
         });
     }
 

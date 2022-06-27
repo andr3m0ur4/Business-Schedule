@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import store from '@/store'
+import store from '@/store';
 
 export default {
    name: 'AuthSignInView',
@@ -76,18 +76,18 @@ export default {
             password: '',
             remember: false
          }
-      }
+      };
    },
    methods: {
       login() {
          store.dispatch('login', this.user)
             .then(() => {
-               this.$router.push('/')
+               this.$router.push('/');
             })
             .catch(error => {
               console.log(error);
-               this.$swal('Ops...', error.response.data.error, 'error')
-            })
+              this.$swal('Ops...', error.response.data.error, 'error');
+            });
       }
    }
 }
