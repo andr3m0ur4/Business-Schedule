@@ -38,13 +38,18 @@ Route::post('send-mail', [UserController::class, 'sendMail']);
 Route::post('change-password', [UserController::class, 'changePassword']);
 Route::get('verify-password', [UserController::class, 'verifyResetPassword']);
 
+// instruçao de teste
+Route::prefix('v1')->group(function() {
+    Route::apiResource('jobs', JobController::class);
+});
+
 Route::prefix('v1')->middleware('jwt.auth')->group(function() {
     Route::apiResource('users', UserController::class);
     Route::post('me', [AuthController::class, 'me']);
     Route::post('refresh', [AuthController::class, 'refresh']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::apiResource('users', UserController::class);
-    Route::apiResource('jobs', JobController::class);
+
     Route::post('employee-times/save', [EmployeeTimeController::class, 'save']);
     Route::apiResource('employee-times', EmployeeTimeController::class);
     Route::apiResource('switchers', SwitcherController::class);

@@ -33,7 +33,7 @@ class AuthController extends Controller
         $remember = $credentials['remember'] ?? false;
         unset($credentials['remember']);
 
-        $token = auth('api')->attempt($credentials);
+        $token = auth('api')->attempt($credentials, $remember);
 
         if (!$token) {
             return response()->json(['error' => 'Usuário e/ou senha inválidos!'], Response::HTTP_UNAUTHORIZED);

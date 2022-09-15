@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('phone', 20)->nullable();
             $table->foreignId('job_id')->nullable()->constrained();
             $table->string('description', 255)->nullable();
+            $table->boolean('remember')->default(false);
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
