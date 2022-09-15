@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue';
 import DefaultLayout from '../components/DefaultLayout.vue';
 import JobView from '../views/JobView.vue';
 import SignInView from '../views/SignInView.vue';
+import ForgotPasswordView from '../views/ForgotPasswordView.vue';
 import { store } from '@/store';
 
 const routes: RouteRecordRaw[] = [
@@ -36,6 +37,12 @@ const routes: RouteRecordRaw[] = [
         name: 'sign-in',
         meta: { isGuest: true },
         component: SignInView
+    },
+    {
+        path: '/esqueceu-senha',
+        name: 'forgot-password',
+        meta: { isGuest: true },
+        component: ForgotPasswordView
     }
 ];
 
