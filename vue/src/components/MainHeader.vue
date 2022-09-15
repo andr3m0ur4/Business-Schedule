@@ -305,7 +305,7 @@
                             </div>
                           </router-link>
                         </div>
-                        <a @click="logout()" class="right-ic p-3 border-top btn-block position-relative text-center" role="button">
+                        <a @click="logout" class="right-ic p-3 border-top btn-block position-relative text-center" role="button">
                           Logout
                         </a>
                       </div>
@@ -323,7 +323,9 @@
 </template>
 
 <script lang="ts">
+import { LOGOUT } from "@/store/action-types";
 import { defineComponent } from "@vue/runtime-core";
+import { useStore } from "../store";
 
 export default defineComponent({
   name: 'MainHeader',
@@ -338,7 +340,27 @@ export default defineComponent({
     getRecentMessages() {},
     getCountMessages() {},
     openModal() {},
-    logout() {}
+    logout() {
+      this.store.dispatch(LOGOUT)
+        .then(() => {
+          this.$router.push({
+            name: 'sign-in'
+          });
+        })
+        .catch(error => {
+          this.store.commit(LOGOUT);
+          this.$router.push({
+            name: 'sign-in'
+          });
+        });
+    }
+  },
+  setup() {
+    const store = useStore();
+
+    return {
+      store
+    }
   }
 })
 </script>

@@ -1,3 +1,4 @@
+import { store } from '@/store';
 import axios, { type AxiosInstance } from 'axios';
 
 const clientHttp : AxiosInstance = axios.create({
@@ -7,6 +8,7 @@ const clientHttp : AxiosInstance = axios.create({
 
 clientHttp.interceptors.request.use(config => {
     config.headers = {
+        Authorization: `Bearer ${store.state.user.user.token}`,
         Accept: 'application/json'
     }
 

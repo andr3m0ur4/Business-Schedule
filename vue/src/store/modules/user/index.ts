@@ -20,17 +20,17 @@ export const user: Module<StateUser, State> = {
         } as IUser
     },
     mutations: {
-        [LOGOUT](state) {
-            state.user.data = {};
-            state.user.token = null;
-            sessionStorage.removeItem('token');
-            sessionStorage.removeItem('user');
-        },
         [SET_USER](state, userData: Object) {
             state.user = userData.user;
             state.user.token = userData.token!.access_token;
             sessionStorage.setItem('user', JSON.stringify(userData.user));
             sessionStorage.setItem('token', userData.token!.access_token);
+        },
+        [LOGOUT](state) {
+            state.user.data = {};
+            state.user.token = null;
+            sessionStorage.removeItem('token');
+            sessionStorage.removeItem('user');
         }
     },
     actions: {
