@@ -12,7 +12,7 @@
             </div>
             <div class="card-body">
               <div class="table-responsive data-table">
-                <table class="data-tables table" style="width:100%">
+                <table class="data-tables table" style="width:100%" ref="table">
                   <thead>
                     <tr>
                       <th>#</th>
@@ -127,6 +127,9 @@ export default defineComponent({
       job: {} as IJob
     }
   },
+  updated() {
+    $(this.$refs.table).DataTable();
+  },
   components: {
     ModalJob
   },
@@ -140,6 +143,7 @@ export default defineComponent({
           $('#addJob').modal('hide');
           this.swal('Sucesso', `${this.job.name} cadastrado com sucesso!`, 'success');
           this.clearJob();
+          this.refreshDataTable
         });
     },
     updateJob() {
@@ -148,6 +152,7 @@ export default defineComponent({
           $('#updateJob').modal('hide');
           this.swal('Sucesso', `${this.job.name} atualizado com sucesso!`, 'success');
           this.clearJob();
+          this.refreshDataTable();
         })
     },
     deleteJob(id: number, name: string) {
@@ -169,12 +174,16 @@ export default defineComponent({
                   `${name} foi excluído.`,
                   'success'
                 );
+                this.refreshDataTable();
               })
           }
         });
     },
     clearJob() {
       this.job = {} as IJob;
+    },
+    refreshDataTable() {
+      $(this.$refs.table).data.reload();
     }
   },
   setup() {
