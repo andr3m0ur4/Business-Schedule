@@ -119,6 +119,7 @@ import { useStore } from '../store';
 import { DELETE_JOB, GET_JOBS, INSERT_JOB, UPDATE_JOB } from "../store/action-types";
 import ModalJob from '../components/modals/ModalJob.vue';
 import type IJob from '../interfaces/IJob';
+import { optionsTable } from '../assets/js/datatable';
 
 export default defineComponent({
   name: 'JobView',
@@ -128,7 +129,7 @@ export default defineComponent({
     }
   },
   updated() {
-    $(this.$refs.table).DataTable();
+    $(this.$refs.table).DataTable(this.optionsDataTable);
   },
   components: {
     ModalJob
@@ -190,11 +191,13 @@ export default defineComponent({
     const store = useStore();
     const swal = inject('$swal');
     store.dispatch(GET_JOBS);
+    const optionsDataTable = optionsTable
 
     return {
       jobs: computed(() => store.state.job.jobs),
       store,
-      swal
+      swal,
+      optionsDataTable
     }
   }
 })
