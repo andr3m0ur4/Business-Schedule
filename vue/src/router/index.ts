@@ -2,6 +2,7 @@ import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 import HomeView from '../views/HomeView.vue';
 import DefaultLayout from '../components/DefaultLayout.vue';
 import JobView from '../views/JobView.vue';
+import StudioView from '../views/StudioView.vue';
 import SignInView from '../views/SignInView.vue';
 import { store } from '@/store';
 
@@ -20,6 +21,11 @@ const routes: RouteRecordRaw[] = [
                 path: '/funcoes',
                 name: 'job',
                 component: JobView
+            },
+            {
+                path: '/estudios',
+                name: 'studio',
+                component: StudioView
             }
         ]
     },

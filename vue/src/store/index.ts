@@ -1,10 +1,12 @@
 import type { InjectionKey } from "vue";
 import { createStore, Store, useStore as useStoreVuex } from "vuex";
 import { type StateJob, job } from "./modules/job";
+import { type StateStudio, studio } from "./modules/studio";
 import { user, type StateUser } from "./modules/user";
 
 export interface State {
     job: StateJob,
+    studio: StateStudio,
     user: StateUser
 };
 
@@ -22,6 +24,7 @@ export const store = createStore<State>({
     // },
     modules: {
         job,
+        studio,
         user
     }
 });
