@@ -12,7 +12,7 @@
             </div>
             <div class="card-body">
               <div class="table-responsive data-table">
-                <table class="data-tables table" style="width:100%">
+                <table class="data-tables table" style="width:100%" ref="table">
                   <thead>
                     <tr>
                       <th>#</th>
@@ -119,6 +119,7 @@ import { useStore } from '../store';
 import { DELETE_JOB, GET_JOBS, INSERT_JOB, UPDATE_JOB } from "../store/action-types";
 import ModalJob from '../components/modals/ModalJob.vue';
 import type IJob from '../interfaces/IJob';
+import { optionsTable } from '../assets/js/datatable';
 
 export default defineComponent({
   name: 'JobView',
@@ -126,6 +127,9 @@ export default defineComponent({
     return {
       job: {} as IJob
     }
+  },
+  updated() {
+    $(this.$refs.table).DataTable(this.optionsDataTable);
   },
   components: {
     ModalJob
@@ -140,6 +144,7 @@ export default defineComponent({
           $('#addJob').modal('hide');
           this.swal('Sucesso', `${this.job.name} cadastrado com sucesso!`, 'success');
           this.clearJob();
+          this.refreshDataTable
         });
     },
     updateJob() {
@@ -148,6 +153,7 @@ export default defineComponent({
           $('#updateJob').modal('hide');
           this.swal('Sucesso', `${this.job.name} atualizado com sucesso!`, 'success');
           this.clearJob();
+          this.refreshDataTable();
         })
     },
     deleteJob(id: number, name: string) {
@@ -169,23 +175,29 @@ export default defineComponent({
                   `${name} foi excluído.`,
                   'success'
                 );
+                this.refreshDataTable();
               })
           }
         });
     },
     clearJob() {
       this.job = {} as IJob;
+    },
+    refreshDataTable() {
+      $(this.$refs.table).data.reload();
     }
   },
   setup() {
     const store = useStore();
     const swal = inject('$swal');
     store.dispatch(GET_JOBS);
+    const optionsDataTable = optionsTable
 
     return {
       jobs: computed(() => store.state.job.jobs),
       store,
-      swal
+      swal,
+      optionsDataTable
     }
   }
 })
