@@ -32,6 +32,8 @@
 </template>
 
 <script lang="ts">
+import { useStore } from "@/store";
+import { SEND_MAIL } from "@/store/action-types";
 import { defineComponent } from "@vue/runtime-core";
 
   export default defineComponent({
@@ -42,7 +44,23 @@ import { defineComponent } from "@vue/runtime-core";
       }
     },
     methods: {
-      sendMail() {}
+      sendMail() {
+        this.store.dispatch(SEND_MAIL, this.email)
+          .then(response => {
+            this.$swal('Sucesso', `E-mail enviado para ${response.data.email}`, 'success');
+            this.$router.push('/entrar');
+          })
+          .catch(error => {
+            this.$swal('Erro', error.response.data.message, 'error');
+          });
+      }
+    },
+    setup() {
+      const store = useStore();
+
+      return {
+        store
+      }
     }
   })
 </script>

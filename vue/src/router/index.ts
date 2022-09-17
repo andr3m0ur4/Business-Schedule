@@ -4,6 +4,7 @@ import DefaultLayout from '../components/DefaultLayout.vue';
 import JobView from '../views/JobView.vue';
 import SignInView from '../views/SignInView.vue';
 import ForgotPasswordView from '../views/ForgotPasswordView.vue';
+import ConfirmPasswordView from '../views/ConfirmPasswordView.vue';
 import { store } from '@/store';
 
 const routes: RouteRecordRaw[] = [
@@ -43,6 +44,12 @@ const routes: RouteRecordRaw[] = [
         name: 'forgot-password',
         meta: { isGuest: true },
         component: ForgotPasswordView
+    },
+    {
+        path: '/confirmar-senha/:token',
+        name: 'confirm-password',
+        meta: { isGuest: true },
+        component: ConfirmPasswordView
     }
 ];
 
