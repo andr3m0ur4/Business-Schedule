@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue';
 import DefaultLayout from '../components/DefaultLayout.vue';
 import JobView from '../views/JobView.vue';
 import SwitcherView from '../views/SwitcherView.vue';
+import StudioView from '../views/StudioView.vue';
 import SignInView from '../views/SignInView.vue';
 import ForgotPasswordView from '../views/ForgotPasswordView.vue';
 import { store } from '@/store';
@@ -27,6 +28,11 @@ const routes: RouteRecordRaw[] = [
                 path: '/switcher',
                 name: 'switcher',
                 component: SwitcherView
+            },
+            {
+                path: '/estudios',
+                name: 'studio',
+                component: StudioView
             }
         ]
     },
