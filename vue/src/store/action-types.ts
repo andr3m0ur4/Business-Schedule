@@ -5,3 +5,8 @@ export const GET_JOBS = 'GET_JOBS';
 export const INSERT_JOB = 'INSERT_JOB';
 export const UPDATE_JOB = 'UPDATE_JOB';
 export const DELETE_JOB = 'DELETE_JOB';
+
+export const GET_SWITCHERS = 'GET_SWITCHERS';
+export const INSERT_SWITCHER = 'INSERT_SWITCHER';
+export const UPDATE_SWITCHER = 'UPDATE_SWITCHER';
+export const DELETE_SWITCHER = 'DELETE_SWITCHER';
