@@ -2,12 +2,17 @@ import type { InjectionKey } from "vue";
 import { createStore, Store, useStore as useStoreVuex } from "vuex";
 import { CHANGE_PASSWORD, SEND_MAIL, VERIFY_TOKEN } from "./action-types";
 import { type StateJob, job } from "./modules/job";
+import { type StateStudio, studio } from "./modules/studio";
 import { user, type StateUser } from "./modules/user";
+import { type StateSwitcher, switcher } from "./modules/switcher";
 import http from "@/http";
 
 export interface State {
     job: StateJob,
-    user: StateUser
+    user: StateUser,
+    switcher: StateSwitcher,
+    studio: StateStudio
+
 };
 
 export const key: InjectionKey<Store<State>> = Symbol();
@@ -45,7 +50,10 @@ export const store = createStore<State>({
     },
     modules: {
         job,
-        user
+        user,
+        switcher,
+        studio
+
     }
 });
 
