@@ -14,7 +14,7 @@
                   <div class="row">
                     <div class="col-lg-12">
                       <div class="floating-input form-group">
-                        <input class="form-control" type="email" name="email" id="email" v-model="email" required />
+                        <input class="form-control" type="email" id="email" v-model="email" required />
                         <label class="form-label" for="email">E-mail</label>
                       </div>
                     </div>
