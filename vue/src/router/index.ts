@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 import HomeView from '../views/HomeView.vue';
 import DefaultLayout from '../components/DefaultLayout.vue';
+import ProfileView from '../views/ProfileView.vue';
 import JobView from '../views/JobView.vue';
 import SwitcherView from '../views/SwitcherView.vue';
 import StudioView from '../views/StudioView.vue';
@@ -19,6 +20,11 @@ const routes: RouteRecordRaw[] = [
                 path: '/',
                 name: 'home',
                 component: HomeView
+            },
+            {
+                path: '/perfil',
+                name: 'profile',
+                component: ProfileView
             },
             {
                 path: '/funcoes',
