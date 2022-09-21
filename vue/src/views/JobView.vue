@@ -142,7 +142,7 @@ export default defineComponent({
       this.store.dispatch(INSERT_JOB, this.job)
         .then(() => {
           $('#addJob').modal('hide');
-          this.swal('Sucesso', `${this.job.name} cadastrado com sucesso!`, 'success');
+          this.$swal('Sucesso', `${this.job.name} cadastrado com sucesso!`, 'success');
           this.clearJob();
           this.refreshDataTable
         });
@@ -151,7 +151,7 @@ export default defineComponent({
       this.store.dispatch(UPDATE_JOB, this.job)
         .then(() => {
           $('#updateJob').modal('hide');
-          this.swal('Sucesso', `${this.job.name} atualizado com sucesso!`, 'success');
+          this.$swal('Sucesso', `${this.job.name} atualizado com sucesso!`, 'success');
           this.clearJob();
           this.refreshDataTable();
         })

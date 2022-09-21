@@ -6,13 +6,14 @@ import { type StateStudio, studio } from "./modules/studio";
 import { user, type StateUser } from "./modules/user";
 import { type StateSwitcher, switcher } from "./modules/switcher";
 import http from "@/http";
+import { employee, type StateEmployee } from "./modules/employee";
 
 export interface State {
+    employee: StateEmployee,
     job: StateJob,
     user: StateUser,
     switcher: StateSwitcher,
     studio: StateStudio
-
 };
 
 export const key: InjectionKey<Store<State>> = Symbol();
@@ -49,11 +50,11 @@ export const store = createStore<State>({
         }
     },
     modules: {
+        employee,
         job,
         user,
         switcher,
         studio
-
     }
 });
 

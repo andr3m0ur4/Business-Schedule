@@ -8,6 +8,7 @@ import StudioView from '../views/StudioView.vue';
 import SignInView from '../views/SignInView.vue';
 import ForgotPasswordView from '../views/ForgotPasswordView.vue';
 import ConfirmPasswordView from '../views/ConfirmPasswordView.vue';
+import MessageView from '../views/MessageView.vue';
 import { store } from '@/store';
 
 const routes: RouteRecordRaw[] = [
@@ -40,7 +41,12 @@ const routes: RouteRecordRaw[] = [
                 path: '/estudios',
                 name: 'studio',
                 component: StudioView
-            }
+            },
+            {
+                path: '/mensagens',
+                name: 'messages',
+                component: MessageView
+            },
         ]
     },
     {
