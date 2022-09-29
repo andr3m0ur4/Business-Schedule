@@ -18,6 +18,11 @@ export const INSERT_STUDIO = 'INSERT_STUDIO';
 export const UPDATE_STUDIO = 'UPDATE_STUDIO';
 export const DELETE_STUDIO = 'DELETE_STUDIO';
 
+export const GET_TVSHOWS = 'GET_TVSHOWS';
+export const INSERT_TVSHOW = 'INSERT_TVSHOW';
+export const UPDATE_TVSHOW = 'UPDATE_TVSHOW';
+export const DELETE_TVSHOW = 'DELETE_TVSHOW';
+
 export const SEND_MAIL = 'SEND_MAIL';
 export const VERIFY_TOKEN = 'VERIFY_TOKEN';
 export const CHANGE_PASSWORD = 'CHANGE_PASSWORD';

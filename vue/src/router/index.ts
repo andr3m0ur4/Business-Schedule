@@ -5,6 +5,7 @@ import ProfileView from '../views/ProfileView.vue';
 import JobView from '../views/JobView.vue';
 import SwitcherView from '../views/SwitcherView.vue';
 import StudioView from '../views/StudioView.vue';
+import TvShowView from '../views/TvShowView.vue';
 import SignInView from '../views/SignInView.vue';
 import ForgotPasswordView from '../views/ForgotPasswordView.vue';
 import ConfirmPasswordView from '../views/ConfirmPasswordView.vue';
@@ -47,6 +48,11 @@ const routes: RouteRecordRaw[] = [
                 name: 'messages',
                 component: MessageView
             },
+            {
+                path: '/programas',
+                name: 'tvshow',
+                component: TvShowView
+            }
         ]
     },
     {
