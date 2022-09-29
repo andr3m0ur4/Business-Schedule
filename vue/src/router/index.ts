@@ -1,12 +1,14 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 import HomeView from '../views/HomeView.vue';
 import DefaultLayout from '../components/DefaultLayout.vue';
+import ProfileView from '../views/ProfileView.vue';
 import JobView from '../views/JobView.vue';
 import SwitcherView from '../views/SwitcherView.vue';
 import StudioView from '../views/StudioView.vue';
 import TvShowView from '../views/TvShowView.vue';
 import SignInView from '../views/SignInView.vue';
 import ForgotPasswordView from '../views/ForgotPasswordView.vue';
+import ConfirmPasswordView from '../views/ConfirmPasswordView.vue';
 import { store } from '@/store';
 
 const routes: RouteRecordRaw[] = [
@@ -19,6 +21,11 @@ const routes: RouteRecordRaw[] = [
                 path: '/',
                 name: 'home',
                 component: HomeView
+            },
+            {
+                path: '/perfil',
+                name: 'profile',
+                component: ProfileView
             },
             {
                 path: '/funcoes',
@@ -62,6 +69,12 @@ const routes: RouteRecordRaw[] = [
         name: 'forgot-password',
         meta: { isGuest: true },
         component: ForgotPasswordView
+    },
+    {
+        path: '/confirmar-senha/:token',
+        name: 'confirm-password',
+        meta: { isGuest: true },
+        component: ConfirmPasswordView
     }
 ];
 

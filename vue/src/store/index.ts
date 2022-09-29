@@ -1,10 +1,15 @@
 import type { InjectionKey } from "vue";
 import { createStore, Store, useStore as useStoreVuex } from "vuex";
+import { CHANGE_PASSWORD, SEND_MAIL, VERIFY_TOKEN } from "./action-types";
 import { type StateJob, job } from "./modules/job";
 import { type StateStudio, studio } from "./modules/studio";
 import { user, type StateUser } from "./modules/user";
 import { type StateSwitcher, switcher } from "./modules/switcher";
+<<<<<<< HEAD
 import { type StateTvshow, tvshow } from "./modules/tvshow";
+=======
+import http from "@/http";
+>>>>>>> a9605606d87400bab3fe6f4a45e697b00a32e82b
 
 export interface State {
     job: StateJob,
@@ -27,6 +32,27 @@ export const store = createStore<State>({
         //     jobs: []
         // }
     // },
+    actions: {
+        [SEND_MAIL](context, email: String) {
+            return http.post('send-mail', {
+                email
+            });
+        },
+        [VERIFY_TOKEN](context, token: String) {
+            return http.get('verify-token', {
+                params: {
+                    token
+                }
+            });
+        },
+        [CHANGE_PASSWORD](context, data: Object) {
+            return http.post('change-password', {
+                password: data.password,
+                password_confirmation: data.confirmPassword,
+                token: data.token
+            });
+        }
+    },
     modules: {
         job,
         user,

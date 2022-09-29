@@ -192,7 +192,7 @@
                   <a href="#" class="search-toggle dropdown-toggle" id="dropdownMenuButton2" data-toggle="dropdown"
                       aria-haspopup="true" aria-expanded="false">
                     <i class="las la-envelope"></i>
-                    <span class="badge badge-primary count-mail rounded-circle">{{this.count_messages}}</span>
+                    <span class="badge badge-primary count-mail rounded-circle">{{ count_messages }}</span>
                     <span class="bg-primary"></span>
                   </a>
                   <div class="iq-sub-dropdown dropdown-menu" aria-labelledby="dropdownMenuButton2">
@@ -291,14 +291,17 @@
                       aria-haspopup="true" aria-expanded="false">
                     <img src="../assets/images/user/01.jpg" class="avatar-40 img-fluid rounded" alt="user">
                     <div class="caption ml-3">
-                        <h6 class="mb-0 line-height">{{ user.name }}<i class="las la-angle-down ml-3"></i></h6>
+                        <h6 class="mb-0 line-height">
+                          {{ user.name }}
+                          <i class="las la-angle-down ml-3"></i>
+                        </h6>
                     </div>
                   </a>
                   <div class="iq-sub-dropdown dropdown-menu user-dropdown" aria-labelledby="dropdownMenuButton3">
                     <div class="card m-0">
                       <div class="card-body p-0">
                         <div class="py-3">
-                          <router-link to="/conta" class="iq-sub-card">
+                          <router-link to="/perfil" class="iq-sub-card">
                             <div class="media align-items-center">
                               <i class="ri-user-line mr-3"></i>
                               <h6>Configurações da conta</h6>
@@ -323,17 +326,18 @@
 </template>
 
 <script lang="ts">
+import type IUser from "@/interfaces/IUser";
 import { LOGOUT } from "@/store/action-types";
-import { defineComponent } from "@vue/runtime-core";
+import { computed, defineComponent } from "@vue/runtime-core";
 import { useStore } from "../store";
 
 export default defineComponent({
   name: 'MainHeader',
   data() {
     return {
-      user: {},
       recent_messages: [],
-      recent_message: {}
+      recent_message: {},
+      count_messages: 0
     }
   },
   methods: {
@@ -359,6 +363,7 @@ export default defineComponent({
     const store = useStore();
 
     return {
+      user: computed(() => store.state.user.user.data),
       store
     }
   }
