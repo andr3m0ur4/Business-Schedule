@@ -4,6 +4,7 @@ import DefaultLayout from '../components/DefaultLayout.vue';
 import JobView from '../views/JobView.vue';
 import SwitcherView from '../views/SwitcherView.vue';
 import StudioView from '../views/StudioView.vue';
+import TvShowView from '../views/TvShowView.vue';
 import SignInView from '../views/SignInView.vue';
 import ForgotPasswordView from '../views/ForgotPasswordView.vue';
 import { store } from '@/store';
@@ -33,6 +34,12 @@ const routes: RouteRecordRaw[] = [
                 path: '/estudios',
                 name: 'studio',
                 component: StudioView
+            }
+            ,
+            {
+                path: '/programas',
+                name: 'tvshow',
+                component: TvShowView
             }
         ]
     },
