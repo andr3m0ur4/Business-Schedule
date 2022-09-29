@@ -33,7 +33,7 @@
                               <div class="dropdown">
                                 <div class="text-primary dropdown-toggle action-item" id="moreOptions1" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false"></div>
                                 <div class="dropdown-menu" aria-labelledby="moreOptions1">
-                                  <a class="dropdown-item" href="#" data-toggle="modal" data-target="#updateSwitcher" @click="loadTvshow(tvshow)">Editar</a>
+                                  <a class="dropdown-item" href="#" data-toggle="modal" data-target="#updateTvshow" @click="loadTvshow(tvshow)">Editar</a>
                                   <a class="dropdown-item" href="#" @click="deleteTvshow(tvshow.id, tvshow.name)">Excluir</a>
                                 </div>
                               </div>
@@ -152,8 +152,7 @@
           .then(() => {
             $('#updateTvshow').modal('hide');
             this.swal('Sucesso', `${this.tvshow.name} atualizado com sucesso!`, 'success');
-            this.clearSwitcher();
-            this.refreshDataTable();
+            this.clearTvshow();
           })
       },
       deleteTvshow(id: number, name: string) {

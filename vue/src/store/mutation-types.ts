@@ -18,6 +18,6 @@ export const REMOVE_STUDIO = 'REMOVE_STUDIO';
 
 export const DEFINE_TVSHOWS = 'DEFINE_TVSHOWS';
 export const ADD_TVSHOW = 'ADD_TVSHOW';
-export const CHANGE_TVSHOW = 'CHANGE_STVSHOW';
+export const CHANGE_TVSHOW = 'CHANGE_TVSHOW';
 export const REMOVE_TVSHOW = 'REMOVE_TVSHOW';
 

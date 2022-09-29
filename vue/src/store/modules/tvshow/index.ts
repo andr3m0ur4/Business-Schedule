@@ -27,19 +27,19 @@ export const tvshow : Module<StateTvshow, State> = {
     },
     actions: {
         [GET_TVSHOWS]({ commit }) {
-            http.get('v1/tvshows')
+            http.get('v1/tv-shows')
                 .then(response => commit(DEFINE_TVSHOWS, response.data));
         },
         [INSERT_TVSHOW]({ commit }, tvshow: ITvshow) {
-            return http.post('v1/tvshows', tvshow)
+            return http.post('v1/tv-shows', tvshow)
                 .then(response => commit(ADD_TVSHOW, response.data));
         },
         [UPDATE_TVSHOW]({ commit }, tvshow: ITvshow) {
-            return http.put(`v1/tvshows/${tvshow.id}`, tvshow)
+            return http.put(`v1/tv-shows/${tvshow.id}`, tvshow)
                 .then(response => commit(CHANGE_TVSHOW, response.data));
         },
         [DELETE_TVSHOW]({ commit }, id: number) {
-            return http.delete(`v1/tvshows/${id}`)
+            return http.delete(`v1/tv-shows/${id}`)
                 .then(() => commit(REMOVE_TVSHOW, id));
         }
     }

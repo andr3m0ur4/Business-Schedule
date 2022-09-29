@@ -5,11 +5,8 @@ import { type StateJob, job } from "./modules/job";
 import { type StateStudio, studio } from "./modules/studio";
 import { user, type StateUser } from "./modules/user";
 import { type StateSwitcher, switcher } from "./modules/switcher";
-<<<<<<< HEAD
 import { type StateTvshow, tvshow } from "./modules/tvshow";
-=======
 import http from "@/http";
->>>>>>> a9605606d87400bab3fe6f4a45e697b00a32e82b
 
 export interface State {
     job: StateJob,
