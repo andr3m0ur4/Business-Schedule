@@ -12,7 +12,7 @@
             </div>
             <div class="card-body">
               <div class="table-responsive data-table">
-                <table class="data-tables table" style="width:100%">
+                <table class="data-tables table" style="width:100%" ref="table">
                   <thead>
                     <tr>
                       <th>#</th>
@@ -119,6 +119,7 @@ import { useStore } from '../store';
 import { DELETE_STUDIO, GET_STUDIOS, INSERT_STUDIO, UPDATE_STUDIO } from "../store/action-types";
 import ModalStudio from '../components/modals/ModalStudio.vue';
 import type IStudio from '../interfaces/IStudio';
+import { optionsTable } from '../assets/js/datatable';
 
 export default defineComponent({
   name: 'StudioView',
@@ -126,6 +127,9 @@ export default defineComponent({
     return {
       studio: {} as IStudio
     }
+  },
+  updated() {
+    $(this.$refs.table).DataTable(this.optionsDataTable);
   },
   components: {
     ModalStudio
@@ -140,6 +144,7 @@ export default defineComponent({
           $('#addStudio').modal('hide');
           this.swal('Sucesso', `${this.studio.name} cadastrado com sucesso!`, 'success');
           this.clearStudio();
+          this.refreshDataTable();
         });
     },
     updateStudio() {
@@ -148,6 +153,7 @@ export default defineComponent({
           $('#updateStudio').modal('hide');
           this.swal('Sucesso', `${this.studio.name} atualizado com sucesso!`, 'success');
           this.clearStudio();
+          this.refreshDataTable();
         })
     },
     deleteStudio(id: number, name: string) {
@@ -169,23 +175,29 @@ export default defineComponent({
                   `${name} foi excluído.`,
                   'success'
                 );
+                this.refreshDataTable();
               })
           }
         });
     },
     clearStudio() {
       this.studio = {} as IStudio;
+    },
+    refreshDataTable() {
+      $(this.$refs.table).DataTable().clear().rows.add($(this.$refs.table).find('tbody tr')).draw();
     }
   },
   setup() {
     const store = useStore();
     const swal = inject('$swal');
     store.dispatch(GET_STUDIOS);
+    const optionsDataTable = optionsTable
 
     return {
       studios: computed(() => store.state.studio.studios),
       store,
-      swal
+      swal,
+      optionsDataTable
     }
   }
 })

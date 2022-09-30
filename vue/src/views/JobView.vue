@@ -144,7 +144,7 @@ export default defineComponent({
           $('#addJob').modal('hide');
           this.$swal('Sucesso', `${this.job.name} cadastrado com sucesso!`, 'success');
           this.clearJob();
-          this.refreshDataTable
+          this.refreshDataTable();
         });
     },
     updateJob() {
@@ -184,7 +184,7 @@ export default defineComponent({
       this.job = {} as IJob;
     },
     refreshDataTable() {
-      $(this.$refs.table).data.reload();
+      $(this.$refs.table).DataTable().clear().rows.add($(this.$refs.table).find('tbody tr')).draw();
     }
   },
   setup() {

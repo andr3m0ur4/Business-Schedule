@@ -49,7 +49,7 @@
           </div>
         </div>
       </div>
-  
+
       <ModalTvshow :id="'addTvshow'" @onHide="clearTvshow">
         <template v-slot:header>
           <h5 class="modal-title" id="addTvshowLabel">Cadastrar programa</h5>
@@ -79,7 +79,7 @@
           <button type="button" class="btn btn-primary" @click="saveTvshow">Salvar</button>
         </template>
       </ModalTvshow>
-  
+
       <ModalTvshow :id="'updateTvshow'" @onHide="clearTvshow">
         <template v-slot:header>
           <h5 class="modal-title" id="addTvshowLabel">Alterar Função</h5>
@@ -109,10 +109,10 @@
           <button type="button" class="btn btn-primary" @click="updateTvshow">Salvar</button>
         </template>
       </ModalTvshow>
-  
+
     </div>
   </template>
-  
+
   <script lang="ts">
   import { computed, defineComponent, inject } from 'vue'
   import { useStore } from '../store';
@@ -120,7 +120,7 @@
   import ModalTvshow from '../components/modals/ModalTvshow.vue';
   import type ITvshow from '../interfaces/ITvshow';
   import { optionsTable } from '../assets/js/datatable';
-  
+
   export default defineComponent({
     name: 'TvShowView',
     data() {
@@ -183,7 +183,7 @@
         this.tvshow = {} as ITvshow;
       },
       refreshDataTable() {
-        $(this.$refs.table).data.reload();
+        $(this.$refs.table).DataTable().clear().rows.add($(this.$refs.table).find('tbody tr')).draw();
       }
     },
     setup() {
@@ -191,7 +191,7 @@
       const swal = inject('$swal');
       store.dispatch(GET_TVSHOWS);
       const optionsDataTable = optionsTable
-  
+
       return {
         tvshows: computed(() => store.state.tvshow.tvshows),
         store,
@@ -201,10 +201,9 @@
     }
   })
   </script>
-  
+
   <style scoped>
     .fixed-top-navbar.top-nav .content-page {
       padding-top: 103px;
     }
   </style>
-  

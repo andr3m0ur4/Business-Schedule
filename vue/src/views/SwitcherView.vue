@@ -49,7 +49,7 @@
           </div>
         </div>
       </div>
-  
+
       <ModalSwitcher :id="'addSwitcher'" @onHide="clearSwitcher">
         <template v-slot:header>
           <h5 class="modal-title" id="addSwitcherLabel">Cadastrar Função</h5>
@@ -79,7 +79,7 @@
           <button type="button" class="btn btn-primary" @click="saveSwitcher">Salvar</button>
         </template>
       </ModalSwitcher>
-  
+
       <ModalSwitcher :id="'updateSwitcher'" @onHide="clearSwitcher">
         <template v-slot:header>
           <h5 class="modal-title" id="addSwitcherLabel">Alterar Função</h5>
@@ -109,10 +109,10 @@
           <button type="button" class="btn btn-primary" @click="updateSwitcher">Salvar</button>
         </template>
       </ModalSwitcher>
-  
+
     </div>
   </template>
-  
+
   <script lang="ts">
   import { computed, defineComponent, inject } from 'vue'
   import { useStore } from '../store';
@@ -120,7 +120,7 @@
   import ModalSwitcher from '../components/modals/ModalSwitcher.vue';
   import type ISwitcher from '../interfaces/ISwitcher';
   import { optionsTable } from '../assets/js/datatable';
-  
+
   export default defineComponent({
     name: 'SwitcherView',
     data() {
@@ -184,7 +184,7 @@
         this.switcher = {} as ISwitcher;
       },
       refreshDataTable() {
-        $(this.$refs.table).data.reload();
+        $(this.$refs.table).DataTable().clear().rows.add($(this.$refs.table).find('tbody tr')).draw();
       }
     },
     setup() {
@@ -192,7 +192,7 @@
       const swal = inject('$swal');
       store.dispatch(GET_SWITCHERS);
       const optionsDataTable = optionsTable
-  
+
       return {
         switchers: computed(() => store.state.switcher.switchers),
         store,
@@ -202,10 +202,9 @@
     }
   })
   </script>
-  
+
   <style scoped>
     .fixed-top-navbar.top-nav .content-page {
       padding-top: 103px;
     }
   </style>
-  
