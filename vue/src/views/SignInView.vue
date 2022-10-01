@@ -50,8 +50,8 @@
 </template>
 
 <script lang="ts">
-import type IUser from "@/interfaces/IUser";
-import { LOGIN } from "@/store/action-types";
+import type IUser from "../interfaces/IUser";
+import { LOGIN } from "../store/action-types";
 import { defineComponent } from "@vue/runtime-core";
 import { useStore } from "../store";
 

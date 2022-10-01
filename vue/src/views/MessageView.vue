@@ -63,7 +63,7 @@
 </template>
 
 <script lang="ts">
-import { useStore } from "@/store";
+import { useStore } from "../store";
 import { computed, defineComponent } from "@vue/runtime-core";
 import { GET_USERS_MESSAGES } from "../store/action-types";
 

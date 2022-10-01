@@ -16,7 +16,7 @@ RUN npm install
 COPY . .
 
 # compila a aplicação de produção com minificação
-RUN npm run build
+# RUN npm run build
 
 # estágio de produção
 # FROM nginx:stable as production-stage
