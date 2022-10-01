@@ -326,8 +326,8 @@
 </template>
 
 <script lang="ts">
-import type IUser from "@/interfaces/IUser";
-import { LOGOUT } from "@/store/action-types";
+import type IUser from "../interfaces/IUser";
+import { LOGOUT } from "../store/action-types";
 import { computed, defineComponent } from "@vue/runtime-core";
 import { useStore } from "../store";
 
