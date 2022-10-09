@@ -2,6 +2,8 @@ export const LOGOUT = 'LOGOUT';
 export const SET_USER = 'SET_USER';
 
 export const DEFINE_EMPLOYEES = 'DEFINE_EMPLOYEES';
+export const DEFINE_MESSAGES= 'DEFINE_MESSAGES';
+export const ADD_MESSAGE = 'ADD_MESSAGE';
 
 export const DEFINE_JOBS = 'DEFINE_JOBS';
 export const ADD_JOB = 'ADD_JOB';

@@ -6,6 +6,7 @@ import { type StateStudio, studio } from "./modules/studio";
 import { user, type StateUser } from "./modules/user";
 import { type StateSwitcher, switcher } from "./modules/switcher";
 import { type StateTvshow, tvshow } from "./modules/tvshow";
+import { type StateMessage, message } from "./modules/message";
 import http from "@/http";
 import { employee, type StateEmployee } from "./modules/employee";
 
@@ -15,7 +16,8 @@ export interface State {
     user: StateUser,
     switcher: StateSwitcher,
     studio: StateStudio,
-    tvshow: StateTvshow
+    tvshow: StateTvshow,
+    message: StateMessage
 };
 
 export const key: InjectionKey<Store<State>> = Symbol();
@@ -57,7 +59,8 @@ export const store = createStore<State>({
         user,
         switcher,
         studio,
-        tvshow
+        tvshow,
+        message
     }
 });
 

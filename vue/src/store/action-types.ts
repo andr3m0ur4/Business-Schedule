@@ -3,6 +3,9 @@ export const LOGOUT = 'LOGOUT';
 
 export const GET_USERS_MESSAGES = 'GET_USERS_MESSAGES';
 
+export const GET_MESSAGES = 'GET_MESSAGES';
+export const INSERT_MESSAGE = 'INSERT_MESSAGE';
+
 export const GET_JOBS = 'GET_JOBS';
 export const INSERT_JOB = 'INSERT_JOB';
 export const UPDATE_JOB = 'UPDATE_JOB';
