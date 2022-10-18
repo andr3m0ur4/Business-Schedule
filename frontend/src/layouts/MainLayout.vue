@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout>
     <div class="fixed-top-navbar top-nav">
       <!-- loader Start -->
       <!-- <div id="loading">

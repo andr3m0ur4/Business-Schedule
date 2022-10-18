@@ -1,23 +1,16 @@
 <template>
-  <div class="fullscreen bg-blue text-white text-center q-pa-md flex flex-center">
-    <div>
-      <div style="font-size: 30vh">
-        404
+  <div class="wrapper">
+    <div class="container">
+      <div class="row no-gutters height-self-center">
+        <div class="col-sm-12 text-center align-self-center">
+          <div class="iq-error position-relative">
+            <img src="../assets/images/error/404.png" class="img-fluid iq-error-img" alt="">
+            <h2 class="mb-0 mt-4">Oops! Essa página não existe.</h2>
+            <p>A página solicitada não existe.</p>
+            <router-link class="btn btn-primary d-inline-flex align-items-center mt-3" to="/"><i class="ri-home-4-line"></i>Voltar ao início</router-link>
+          </div>
+        </div>
       </div>
-
-      <div class="text-h2" style="opacity:.4">
-        Oops. Nothing here...
-      </div>
-
-      <q-btn
-        class="q-mt-xl"
-        color="white"
-        text-color="blue"
-        unelevated
-        to="/"
-        label="Go Home"
-        no-caps
-      />
     </div>
   </div>
 </template>

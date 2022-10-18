@@ -40,7 +40,12 @@ const routes: RouteRecordRaw[] = [
         path: '/mensagens',
         name: 'messages',
         component: () => import('pages/MessagePage.vue')
-      }
+      },
+      {
+        path: '/blank-page',
+        name: 'blank-page',
+        component: () => import('pages/BlankPage.vue')
+      },
     ],
   },
   {
