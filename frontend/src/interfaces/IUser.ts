@@ -1,8 +1,8 @@
 export default interface IUser {
     id: number,
-    data: Object,
+    data: object,
     email: string,
     password: string,
-    remember: Boolean,
-    token: Object|null
+    remember: boolean,
+    token: object|null,
 }

@@ -291,7 +291,7 @@ export default defineComponent({
     const store = useStore();
 
     return {
-      user: computed(() => store.state.user.user.data),
+      user: computed(() => store.getters.getUser),
       store
     }
   }

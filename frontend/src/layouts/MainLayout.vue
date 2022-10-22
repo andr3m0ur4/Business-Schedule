@@ -1,22 +1,24 @@
 <template>
   <q-layout>
-    <div class="fixed-top-navbar top-nav">
-      <!-- loader Start -->
-      <!-- <div id="loading">
-        <div id="loading-center">
+    <q-page-container>
+      <div class="fixed-top-navbar top-nav">
+        <!-- loader Start -->
+        <!-- <div id="loading">
+          <div id="loading-center">
+          </div>
+        </div> -->
+        <!-- loader END -->
+
+        <!-- Wrapper Start -->
+        <div class="wrapper">
+          <MainHeader />
+          <RouterView />
         </div>
-      </div> -->
-      <!-- loader END -->
 
-      <!-- Wrapper Start -->
-      <div class="wrapper">
-        <MainHeader />
-        <RouterView />
+        <!-- <ModalShareYourLink /> -->
+        <MainFooter />
       </div>
-
-      <!-- <ModalShareYourLink /> -->
-      <MainFooter />
-    </div>
+    </q-page-container>
   </q-layout>
 </template>
 

@@ -1,5 +1,5 @@
 # For more information: https://laravel.com/docs/sail
-version: '3'
+version: '3.7'
 services:
   laravel:
     container_name: laravel
@@ -86,21 +86,32 @@ services:
     networks:
       - sail
 
-  vue:
-    container_name: vue
-    build: ./vue/
-    working_dir: /var/www/html/app/
-    volumes:
-      - ./vue/:/var/www/html/app/
+  # vue:
+  #   container_name: vue
+  #   build: ./vue/
+  #   working_dir: /var/www/html/app/
+  #   volumes:
+  #     - ./vue/:/var/www/html/app/
+  #   ports:
+  #     - 80:3000
+  #     - 3000:80
+  #   environment:
+  #     WWWUSER: '${WWWUSER}'
+  #   entrypoint: bash -c "npm i && npm run dev"
+  #   tty: true
+  #   networks:
+  #     - sail
+
+  quasar:
+    container_name: quasar
+    build:
+      context: ./frontend/
+      target: 'develop-stage'
     ports:
-      - 80:3000
-      - 3000:80
-    environment:
-      WWWUSER: '${WWWUSER}'
-    entrypoint: bash -c "npm i && npm run dev"
-    tty: true
-    networks:
-      - sail
+      - 9000:9000
+    volumes:
+      - ./frontend/:/app
+    command: /bin/sh -c "yarn && quasar dev"
 
 networks:
   sail:

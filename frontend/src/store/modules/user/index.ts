@@ -12,15 +12,14 @@ export interface StateUser {
 export const user: Module<StateUser, StateInterface> = {
     state: {
         user: {
-            data: JSON.parse(sessionStorage.getItem('user')) ?? {},
             email: '',
             password: '',
             remember: false,
             token: sessionStorage.getItem('token')
-        } as IUser
+        } as any
     },
     mutations: {
-        [SET_USER](state, userData: unknown) {
+        [SET_USER](state, userData: any) {
             state.user = userData.user;
             state.user.token = userData.token!.access_token;
             sessionStorage.setItem('user', JSON.stringify(userData.user));
@@ -42,5 +41,13 @@ export const user: Module<StateUser, StateInterface> = {
             return api.post('v1/logout')
                 .then(response => commit(LOGOUT));
         }
+    },
+    getters: {
+      isSignedIn(state): boolean {
+        return !!state.user.token;
+      },
+      getUser() {
+        return JSON.parse(String(sessionStorage.getItem('user'))) ?? {};
+      }
     }
 }
