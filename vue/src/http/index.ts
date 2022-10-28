@@ -1,4 +1,4 @@
-import { store } from '@/store';
+import { store } from '../store';
 import axios, { type AxiosInstance } from 'axios';
 
 const clientHttp : AxiosInstance = axios.create({

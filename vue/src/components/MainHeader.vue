@@ -28,7 +28,7 @@
                   </router-link>
                 </li>
                 <li class="">
-                  <router-link to="/my-schedule" class="">
+                  <router-link to="/minha-escala" class="">
                     <span>Minha Escala</span>
                   </router-link>
                 </li>
