@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "@vue/runtime-core";
+import { defineComponent } from "vue";
 import MainHeader from "./MainHeader.vue";
 import MainFooter from "./MainFooter.vue";
 
