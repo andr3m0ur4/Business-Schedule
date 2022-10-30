@@ -4,7 +4,7 @@ import DatePicker from 'tui-date-picker';
 import util from 'tui-code-snippet';
 
 import { CalendarList, CalendarInfo } from './data/calendars';
-import { generateSchedule, ScheduleList } from './data/schedules';
+import { generateSchedule, ScheduleInfo, ScheduleList } from './data/schedules';
 
 'use strict';
 
@@ -17,6 +17,7 @@ let calendar, resizeThrottled;
 const useCreationPopup = false;
 const useDetailPopup = true;
 let datePicker, selectedCalendar;
+let schedules = [];
 
 function startCalendar() {
     calendar = new Calendar('#calendar', {
@@ -56,6 +57,11 @@ function getCalendar() {
 
 function getSelectedCalendar() {
     return selectedCalendar;
+}
+
+function pushSchedule(schedule) {
+    schedules.push(schedule);
+    setSchedules();
 }
 
 /**
@@ -503,8 +509,14 @@ function setRenderRangeText() {
     renderRange.innerHTML = html.join('');
 }
 
-function setSchedules() {
+function setSchedules(paramSchedules = null) {
+    if (paramSchedules) {
+        schedules = paramSchedules;
+    }
+
     calendar.clear();
+    ScheduleList.splice(0, ScheduleList.length);
+    ScheduleInfo.createSchedulesFromDB(schedules);
 
     // função para gerar horários aleatórios
     // generateSchedule(
@@ -573,5 +585,7 @@ export {
     getCalendar,
     getSelectedCalendar,
     startCalendarMenu,
-    setDateTimePicker
+    setDateTimePicker,
+    setSchedules,
+    pushSchedule
 }

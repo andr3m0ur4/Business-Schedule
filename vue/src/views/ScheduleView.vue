@@ -339,15 +339,14 @@
 import DatePicker from 'tui-date-picker';
 import axios from '@/http';
 import { POSITION, useToast } from "vue-toastification";
-import { getCalendar, getSelectedCalendar, setDateTimePicker, startCalendar, startCalendarMenu } from '../assets/js/app-calendar';
+import { getCalendar, getSelectedCalendar, pushSchedule, setDateTimePicker, setSchedules, startCalendar, startCalendarMenu } from '../assets/js/app-calendar';
 
 import { CalendarList, CalendarInfo } from '../assets/js/data/calendars';
 import { ScheduleList, ScheduleInfo } from '../assets/js/data/schedules';
 import { computed, watchEffect } from '@vue/runtime-core';
 import { useStore } from '../store';
-import { GET_EMPLOYEES, GET_JOBS, INSERT_EMPLOYEES_TIME, INSERT_EMPLOYEE_TIME } from '../store/action-types';
+import { GET_EMPLOYEES, GET_EMPLOYEES_TIMES, GET_JOBS, INSERT_EMPLOYEE_TIME } from '../store/action-types';
 import IEmployeeTime from '../interfaces/IEmployeeTime';
-import { employee } from '../store/modules/employee';
 
 export default {
   name: 'MyScheduleView',
@@ -386,10 +385,6 @@ export default {
     $('.selectpicker').selectpicker();
     $('.my-schedule .bootstrap-select > .dropdown-toggle').eq(1).hide();
 
-    const getTimeTemplate = (schedule, isAllDay) => {
-      return this.getTimeTemplate(schedule, isAllDay);
-    }
-
     startCalendar();
     this.setDateTimePicker();
 
@@ -397,248 +392,15 @@ export default {
     //   this.calendar.render();
     // }, 50);
 
-    // this.setEventHandlers();
-    // this.setDropdownCalendarType();
-    // this.setRenderRangeText();
-    // this.setEventListener();
     // this.getJobs();
     // this.getUsers();
     // this.getTvShows();
     // this.getStudios();
     // this.getSwitchers();
 
-    // window.calendar = this.calendar
+    window.calendar = getCalendar();
   },
   methods: {
-    setEventHandlers() {
-      this.calendar.on({
-        clickMore(e) {
-          console.log('clickMore', e);
-        },
-        clickSchedule: e => {
-          console.log('clickSchedule', e);
-        },
-        clickDayname(date) {
-          console.log('clickDayname', date);
-        },
-        beforeCreateSchedule: e => {
-          console.log('beforeCreateSchedule', e);
-          e.state = 'Private';
-          this.saveNewSchedule(e);
-        },
-        beforeUpdateSchedule: e => {
-          const schedule = e.schedule;
-          const changes = e.changes ?? e.schedule;
-
-          console.log('beforeUpdateSchedule', e);
-
-          if (changes && !changes.isAllDay && schedule.category === 'allday') {
-            changes.category = 'time';
-          }
-
-          $('#label-schedule, #label-task').text('Alterar');
-          this.newSchedule = false;
-          this.newTask = false;
-
-          if (schedule.category == 'time') {
-            this.selectedSchedule.id = schedule.id;
-            this.selectedSchedule.calendarId = schedule.calendarId;
-            if (schedule.raw) {
-              this.selectedEmployee = schedule.raw.employee;
-
-              if (schedule.raw.schedules) {
-                this.selectedTvShowTimes = schedule.raw.schedules.map(schedule => {
-                  return schedule.tv_show_time.id;
-                });
-              }
-            }
-
-            this.datePicker.setStartDate(changes.start ? changes.start.toDate() : schedule.start.toDate());
-            this.datePicker.setEndDate(changes.end ? changes.end.toDate() : schedule.end.toDate());
-            CalendarInfo.findCalendar(schedule.calendarId);
-            $('#dropdownMenu-calendars-list').selectpicker('val', schedule.calendarId);
-            $('#modal-new-schedule').modal();
-          }
-
-          if (schedule.category == 'task') {
-            this.selectedSchedule.id = schedule.id;
-            if (schedule.raw) {
-              this.selectedTvShow = schedule.raw.tvShow;
-              this.selectedStudio = schedule.raw.studio;
-              this.selectedSwitcher = schedule.raw.switcher;
-            }
-
-            this.datePickerTask.setStartDate(changes.start ? changes.start.toDate() : schedule.start.toDate());
-            this.datePickerTask.setEndDate(changes.end ? changes.end.toDate() : schedule.end.toDate());
-            $('#modal-new-task').modal();
-          }
-
-          this.calendar.updateSchedule(schedule.id, schedule.calendarId, changes);
-          this.refreshScheduleVisibility();
-        },
-        beforeDeleteSchedule: e => {
-          console.log('beforeDeleteSchedule', e);
-          const schedule = e.schedule;
-          this.calendar.deleteSchedule(e.schedule.id, e.schedule.calendarId);
-          // adicionar os horarios removidos no local storage para ser removidos durante o save
-          const category = e.schedule.category == 'time' ? 'schedules' : 'tasks';
-          this.deleteStorage(e.schedule.id, e.schedule.calendarId, category);
-        },
-        afterRenderSchedule: e => {
-          const schedule = e.schedule;
-          // const element = this.calendar.getElement(schedule.id, schedule.calendarId);
-          // const objSchedule = this.calendar.getSchedule(schedule.id, schedule.calendarId);
-          // if (this.text) {
-          //   schedule.isVisible = false;
-          //   if (schedule.title.includes(this.text)) {
-          //     console.log('afterRenderSchedule', schedule);
-          //     console.log('text', this.text);
-          //     schedule.isVisible = true;
-          //   }
-          //   this.calendar.render();
-          // }
-          this.scheduleList.push(schedule);
-        },
-        clickTimezonesCollapseBtn: timezonesCollapsed => {
-          console.log('timezonesCollapsed', timezonesCollapsed);
-
-          if (timezonesCollapsed) {
-            this.calendar.setTheme({
-              'week.daygridLeft.width': '77px',
-              'week.timegridLeft.width': '77px'
-            });
-          } else {
-            this.calendar.setTheme({
-              'week.daygridLeft.width': '60px',
-              'week.timegridLeft.width': '60px'
-            });
-          }
-
-          return true;
-        }
-      });
-    },
-    setCalendars() {
-      const calendarList = document.getElementById('calendarList');
-      const html = [];
-
-      CalendarList.forEach(calendar => {
-          html.push(
-            `<div class="lnb-calendars-item">
-              <label>
-                <input type="checkbox" class="tui-full-calendar-checkbox-round" value="${calendar.id}" checked>
-                <span style="border-color: ${calendar.borderColor}; background-color: ${calendar.borderColor};"></span>
-                <span>${calendar.name}</span>
-              </label>
-            </div>`
-          );
-      });
-      calendarList.innerHTML = html.join('\n');
-    },
-    getTimeTemplate(schedule, isAllDay) {
-      const html = [];
-      const start = moment(schedule.start.toUTCString());
-      if (!isAllDay) {
-        html.push('<strong>' + start.format('HH:mm') + '</strong> ');
-      }
-
-      if (schedule.isPrivate) {
-        html.push('<span class="calendar-font-icon ic-lock-b"></span>');
-        html.push(' Private');
-      } else {
-        if (schedule.isReadOnly) {
-          html.push('<span class="calendar-font-icon ic-readonly-b"></span>');
-        } else if (schedule.recurrenceRule) {
-          html.push('<span class="calendar-font-icon ic-repeat-b"></span>');
-        } else if (schedule.attendees.length) {
-          html.push('<span class="calendar-font-icon ic-user-b"></span>');
-        } else if (schedule.location) {
-          html.push('<span class="calendar-font-icon ic-location-b"></span>');
-        }
-        html.push(' ' + schedule.title);
-      }
-
-      return html.join('');
-    },
-    onClickMenu(e) {
-      const target = $(e.target).closest('a[role="menuitem"]')[0];
-      const action = this.getDataAction(target);
-      const options = this.calendar.getOptions();
-      let viewName = '';
-
-      console.log(target);
-      console.log(action);
-      switch (action) {
-          case 'toggle-daily':
-              viewName = 'day';
-              break;
-          case 'toggle-weekly':
-              viewName = 'week';
-              break;
-          case 'toggle-monthly':
-              options.month.visibleWeeksCount = 0;
-              viewName = 'month';
-              break;
-          case 'toggle-weeks2':
-              options.month.visibleWeeksCount = 2;
-              viewName = 'month';
-              break;
-          case 'toggle-weeks3':
-              options.month.visibleWeeksCount = 3;
-              viewName = 'month';
-              break;
-          case 'toggle-narrow-weekend':
-              options.month.narrowWeekend = !options.month.narrowWeekend;
-              options.week.narrowWeekend = !options.week.narrowWeekend;
-              viewName = this.calendar.getViewName();
-
-              target.querySelector('input').checked = options.month.narrowWeekend;
-              break;
-          case 'toggle-start-day-1':
-              options.month.startDayOfWeek = options.month.startDayOfWeek ? 0 : 1;
-              options.week.startDayOfWeek = options.week.startDayOfWeek ? 0 : 1;
-              viewName = this.calendar.getViewName();
-
-              target.querySelector('input').checked = options.month.startDayOfWeek;
-              break;
-          case 'toggle-workweek':
-              options.month.workweek = !options.month.workweek;
-              options.week.workweek = !options.week.workweek;
-              viewName = this.calendar.getViewName();
-
-              target.querySelector('input').checked = !options.month.workweek;
-              break;
-          default:
-              break;
-      }
-
-      this.calendar.setOptions(options, true);
-      this.calendar.changeView(viewName, true);
-
-      this.setDropdownCalendarType();
-      this.setRenderRangeText();
-      this.setSchedules();
-    },
-    onClickNavi(e) {
-      const action = this.getDataAction(e.target);
-
-      switch (action) {
-          case 'move-prev':
-            this.calendar.prev();
-            break;
-          case 'move-next':
-            this.calendar.next();
-            break;
-          case 'move-today':
-            this.calendar.today();
-            break;
-          default:
-            return;
-      }
-
-      this.setRenderRangeText();
-      this.setSchedules();
-    },
     onNewSchedule() {
       if (!$(this.$refs.form_schedule).get(0).reportValidity()) {
         return false;
@@ -939,33 +701,6 @@ export default {
         span.style.backgroundColor = input.checked ? span.style.borderColor : 'transparent';
       });
     },
-    setDropdownCalendarType() {
-      const calendarTypeName = document.getElementById('calendarTypeName');
-      const calendarTypeIcon = document.getElementById('calendarTypeIcon');
-      const options = this.calendar.getOptions();
-      let type = this.calendar.getViewName();
-      let iconClassName;
-
-      if (type === 'day') {
-        type = 'Diário';
-        iconClassName = 'calendar-icon ic_view_day';
-      } else if (type === 'week') {
-        type = 'Semanal';
-        iconClassName = 'calendar-icon ic_view_week';
-      } else if (options.month.visibleWeeksCount === 2) {
-        type = '2 semanas';
-        iconClassName = 'calendar-icon ic_view_week';
-      } else if (options.month.visibleWeeksCount === 3) {
-        type = '3 semanas';
-        iconClassName = 'calendar-icon ic_view_week';
-      } else {
-        type = 'Mensal';
-        iconClassName = 'calendar-icon ic_view_month';
-      }
-
-      calendarTypeName.innerHTML = type;
-      calendarTypeIcon.className = iconClassName;
-    },
     currentCalendarDate(format) {
       const currentDate = moment([
           this.calendar.getDate().getFullYear(),
@@ -975,67 +710,10 @@ export default {
 
       return currentDate.format(format);
     },
-    setRenderRangeText() {
-      const renderRange = document.getElementById('renderRange');
-      const options = this.calendar.getOptions();
-      const viewName = this.calendar.getViewName();
-
-      const html = [];
-      if (viewName === 'day') {
-        html.push(this.currentCalendarDate('DD/MM/YYYY'));
-      } else if (
-        viewName === 'month' &&
-        (!options.month.visibleWeeksCount || options.month.visibleWeeksCount > 4)
-      ) {
-        html.push(this.currentCalendarDate('MM/YYYY'));
-      } else {
-        html.push(moment(this.calendar.getDateRangeStart().getTime()).format('DD/MM/YYYY'));
-        html.push(' ~ ');
-        html.push(moment(this.calendar.getDateRangeEnd().getTime()).format(' DD/MM'));
-      }
-
-      renderRange.innerHTML = html.join('');
-    },
-    setSchedules() {
-      this.calendar.clear();
-      this.scheduleList = [];
-      ScheduleList.splice(0, ScheduleList.length);
-
-      axios.get('v1/employee-times')
-        .then(response => {
-          ScheduleInfo.createSchedulesFromDB(response.data);
-
-          axios.get('v1/tv-show-times')
-            .then(response => {
-              this.tvShowTimes = response.data;
-              ScheduleInfo.createTasksFromDB(response.data);
-            })
-            .catch(error => {
-              console.log(error);
-            })
-            .finally(() => {
-              ScheduleInfo.createSchedules(JSON.parse(this.$ls.get('tasks', '[]')));
-              this.calendar.createSchedules(ScheduleList);
-              this.refreshScheduleVisibility();
-            });
-
-        })
-        .catch(error => {
-          console.log(error.response);
-        })
-        .finally(() => {
-          const schedules = JSON.parse(this.$ls.get('schedules', '[]'));
-          ScheduleInfo.createSchedules(schedules);
-          // this.calendar.createSchedules(ScheduleList);
-          // this.refreshScheduleVisibility();
-        });
-
-      // função para gerar horários aleatórios
-      // ScheduleInfo.generateSchedule(
-      //   this.calendar.getViewName(),
-      //   this.calendar.getDateRangeStart(),
-      //   this.calendar.getDateRangeEnd()
-      // );
+    setSchedules(employeeTimes) {
+      // aqui os horarios dos funcionários são recuperados
+      // chamar setSchedules de app-calendar.js
+      setSchedules(employeeTimes);
     },
     setDateTimePicker() {
       this.datePicker = setDateTimePicker({
@@ -1061,26 +739,6 @@ export default {
           showMeridiem: false
         }
       })
-    },
-    setEventListener() {
-      $('#menu-navi').on('click', this.onClickNavi);
-      $('.dropdown-menu a[role="menuitem"]').on('click', this.onClickMenu);
-      $('#lnb-calendars').on('change', this.onChangeCalendars);
-
-      $('#btn-new-schedule').on('click', this.createNewSchedule);
-      $('#btn-new-task').on('click', this.createNewTask);
-
-      $('#dropdownMenu-calendars-list').on('change', this.onChangeNewScheduleCalendar);
-
-      $('#modal-new-schedule').on('show.bs.modal', () => {
-        $('#dropdownMenu-calendars-list').change();
-      });
-
-      $('#modal-new-schedule').on('hidden.bs.modal', () => {
-        this.selectedEmployee = {};
-      });
-
-      window.addEventListener('resize', this.resizeThrottled);
     },
     getDataAction(target) {
       return target.dataset ? target.dataset.action : target.getAttribute('data-action');
@@ -1407,16 +1065,21 @@ export default {
     },
     jobs(newJobs, oldJobs) {
       this.calendarList = startCalendarMenu(newJobs);
+    },
+    employeeTimes(newEmployeeTimes, oldEmployeeTimes) {
+      this.setSchedules(newEmployeeTimes);
     }
   },
   setup() {
     const store = useStore();
     store.dispatch(GET_JOBS);
     store.dispatch(GET_EMPLOYEES);
+    store.dispatch(GET_EMPLOYEES_TIMES);
 
     return {
       jobs: computed(() => store.getters.getJobs),
       employees: computed(() => store.getters.getEmployees),
+      employeeTimes: computed(() => store.getters.getEmployeesTimes),
       store
     }
   }

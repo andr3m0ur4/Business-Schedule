@@ -45,7 +45,8 @@ class EmployeeTimeController extends Controller
     public function store(StoreEmployeeTimeRequest $request)
     {
         $employeeTime = EmployeeTime::create($request->validated());
-        return response()->json($employeeTime, Response::HTTP_CREATED);
+        $employeeTime->id = $request->id;
+        return response()->json(EmployeeTimeResource::make($employeeTime), Response::HTTP_CREATED);
     }
 
     /**
