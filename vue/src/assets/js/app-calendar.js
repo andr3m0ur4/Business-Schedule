@@ -19,7 +19,7 @@ const useDetailPopup = true;
 let datePicker, selectedCalendar;
 let schedules = [];
 
-function startCalendar() {
+function startCalendar($this) {
     calendar = new Calendar('#calendar', {
         defaultView: 'week',
         taskView: ['task'],
@@ -43,7 +43,7 @@ function startCalendar() {
         }
     });
 
-    setEventHandlers();
+    setEventHandlers($this);
     setDropdownCalendarType();
     setRenderRangeText();
     // setSchedules();
@@ -68,7 +68,7 @@ function pushSchedule(schedule) {
  * Define event handlers
  * @return {boolean}
  */
-function setEventHandlers() {
+function setEventHandlers($this) {
     calendar.on({
         clickMore(e) {
             console.log('clickMore', e);
@@ -85,8 +85,9 @@ function setEventHandlers() {
             saveNewSchedule(e);
         },
         beforeUpdateSchedule(e) {
-            var schedule = e.schedule;
-            var changes = e.changes ?? e.schedule;
+            // aqui entra a regra para abrir popup de atualizaçao
+            const schedule = e.schedule;
+            const changes = e.changes ?? e.schedule;
 
             console.log('beforeUpdateSchedule', e);
 
@@ -98,38 +99,45 @@ function setEventHandlers() {
             // this.newSchedule = false;
             // this.newTask = false;
 
-            // if (schedule.category == 'time') {
-            //     this.selectedSchedule.id = schedule.id;
-            //     this.selectedSchedule.calendarId = schedule.calendarId;
-            //     if (schedule.raw) {
-            //       this.selectedEmployee = schedule.raw.employee;
+            if (false && schedule.category == 'task') {
+                this.selectedSchedule.id = schedule.id;
+                if (schedule.raw) {
+                  this.selectedTvShow = schedule.raw.tvShow;
+                  this.selectedStudio = schedule.raw.studio;
+                  this.selectedSwitcher = schedule.raw.switcher;
+                }
 
-            //       if (schedule.raw.schedules) {
-            //         this.selectedTvShowTimes = schedule.raw.schedules.map(schedule => {
-            //           return schedule.tv_show_time.id;
-            //         });
-            //       }
-            //     }
+                this.datePickerTask.setStartDate(changes.start ? changes.start.toDate() : schedule.start.toDate());
+                this.datePickerTask.setEndDate(changes.end ? changes.end.toDate() : schedule.end.toDate());
+                $('#modal-new-task').modal();
+              }
 
-            //     this.datePicker.setStartDate(changes.start ? changes.start.toDate() : schedule.start.toDate());
-            //     this.datePicker.setEndDate(changes.end ? changes.end.toDate() : schedule.end.toDate());
-            //     CalendarInfo.findCalendar(schedule.calendarId);
-            //     $('#dropdownMenu-calendars-list').selectpicker('val', schedule.calendarId);
-            //     $('#modal-new-schedule').modal();
-            //   }
+            if (schedule.category == 'time') {
+                //
+            }
 
-            // if (schedule.category == 'task') {
-            //     this.selectedSchedule.id = schedule.id;
-            //     if (schedule.raw) {
-            //       this.selectedTvShow = schedule.raw.tvShow;
-            //       this.selectedStudio = schedule.raw.studio;
-            //       this.selectedSwitcher = schedule.raw.switcher;
-            //     }
+            $this.selectedSchedule.id = schedule.id;
+            $this.selectedSchedule.calendarId = schedule.calendarId;
 
-            //     this.datePickerTask.setStartDate(changes.start ? changes.start.toDate() : schedule.start.toDate());
-            //     this.datePickerTask.setEndDate(changes.end ? changes.end.toDate() : schedule.end.toDate());
-            //     $('#modal-new-task').modal();
-            //   }
+            if (schedule.raw) {
+                $this.selectedEmployee = schedule.raw.employee;
+
+                if (schedule.raw.schedules) {
+                    $this.selectedTvShowTimes = schedule.raw.schedules.map(schedule => {
+                        return schedule.tv_show_time.id;
+                    });
+                }
+            }
+
+            const start = changes.start ? changes.start.toDate() : schedule.start.toDate();
+            const end = changes.end ? changes.end.toDate() : schedule.end.toDate();
+
+            openCreationPopup.call($this, {
+                create: false,
+                calendarId: schedule.calendarId,
+                start,
+                end
+            });
 
             calendar.updateSchedule(schedule.id, schedule.calendarId, changes);
             refreshScheduleVisibility();
@@ -574,6 +582,26 @@ function setDateTimePicker(options) {
     });
 }
 
+function openCreationPopup(options) {
+    this.$refs.formSchedule.reset();
+    if (options.create) {
+        $(this.$refs.labelSchedule).text('Adicionar');
+        this.newSchedule = true;
+    } else {
+        $(this.$refs.labelSchedule).text('Alterar');
+        this.newSchedule = false;
+    }
+
+    if (options.calendarId) {
+        $(this.$refs.dropdownMenuCalendarsList).selectpicker('val', options.calendarId);
+        this.$refs.dropdownMenuCalendarsList.dispatchEvent(new Event('change'));
+    }
+
+    this.datePicker.setStartDate(options.start);
+    this.datePicker.setEndDate(options.end);
+    $(this.$refs.modalSchedule).modal();
+}
+
 resizeThrottled = util.throttle(function() {
     calendar.render();
 }, 50);
@@ -587,5 +615,6 @@ export {
     startCalendarMenu,
     setDateTimePicker,
     setSchedules,
-    pushSchedule
+    pushSchedule,
+    openCreationPopup
 }

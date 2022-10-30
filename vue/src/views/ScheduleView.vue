@@ -180,18 +180,18 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="modal-new-schedule" tabindex="-1" role="dialog" aria-hidden="true" ref="modal_schedule">
+    <div class="modal fade" id="modal-new-schedule" tabindex="-1" role="dialog" aria-hidden="true" ref="modalSchedule">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-body">
             <div class="popup text-left">
               <h4 class="mb-3">
-                <span id="label-schedule">Adicionar</span> Horário de Funcionário
+                <span ref="labelSchedule">Adicionar</span> Horário de Funcionário
               </h4>
-              <form action="/" id="submit-schedule" @submit.prevent="" ref="form_schedule">
+              <form action="/" id="submit-schedule" @submit.prevent="" ref="formSchedule">
                 <div class="content create-workform row">
                   <div class="col-md-6 mb-2">
-                    <select id="dropdownMenu-calendars-list" class="selectpicker" @change="filterEmployees">
+                    <select id="dropdownMenu-calendars-list" class="selectpicker" @change="filterEmployees" ref="dropdownMenuCalendarsList">
                       <option v-for="calendar in calendarList" :key="calendar.id"
                         class="tui-full-calendar-popup-section-item tui-full-calendar-dropdown-menu-item"
                         :data-action="calendar.id" :value="calendar.id" :data-content="`
@@ -339,7 +339,7 @@
 import DatePicker from 'tui-date-picker';
 import axios from '@/http';
 import { POSITION, useToast } from "vue-toastification";
-import { getCalendar, getSelectedCalendar, pushSchedule, setDateTimePicker, setSchedules, startCalendar, startCalendarMenu } from '../assets/js/app-calendar';
+import { getCalendar, getSelectedCalendar, openCreationPopup, pushSchedule, setDateTimePicker, setSchedules, startCalendar, startCalendarMenu } from '../assets/js/app-calendar';
 
 import { CalendarList, CalendarInfo } from '../assets/js/data/calendars';
 import { ScheduleList, ScheduleInfo } from '../assets/js/data/schedules';
@@ -385,7 +385,7 @@ export default {
     $('.selectpicker').selectpicker();
     $('.my-schedule .bootstrap-select > .dropdown-toggle').eq(1).hide();
 
-    startCalendar();
+    startCalendar(this);
     this.setDateTimePicker();
 
     // this.resizeThrottled = util.throttle(() => {
@@ -402,7 +402,7 @@ export default {
   },
   methods: {
     onNewSchedule() {
-      if (!$(this.$refs.form_schedule).get(0).reportValidity()) {
+      if (!$(this.$refs.formSchedule).get(0).reportValidity()) {
         return false;
       }
 
@@ -451,11 +451,14 @@ export default {
       const schedule = getCalendar().getSchedule(id, calendar.id);
       this.createSchedule(schedule);
 
-      $(this.$refs.modal_schedule).modal('hide');
+      $(this.$refs.modalSchedule).modal('hide');
     },
     onUpdateSchedule() {
+      if (!$(this.$refs.formSchedule).get(0).reportValidity()) {
+        return false;
+      }
+
       const title = this.selectedEmployee.name;
-      const employeeId = this.getDataAction($('#schedule-title').find(':selected').get(0));
       const id = this.selectedSchedule.id;
       const calendarId = this.selectedSchedule.calendarId;
       const start = this.datePicker.getStartDate();
@@ -466,27 +469,28 @@ export default {
         return;
       }
 
-      const schedules = this.selectedTvShowTimes.map(tvShowTime => {
-        return {
-          tv_show_time: this.calendar.getSchedule(tvShowTime, '')
-        };
-      });
+      // const schedules = this.selectedTvShowTimes.map(tvShowTime => {
+      //   return {
+      //     tv_show_time: this.calendar.getSchedule(tvShowTime, '')
+      //   };
+      // });
 
-      this.calendar.updateSchedule(id, calendarId, {
+      getCalendar().updateSchedule(id, calendarId, {
         title,
         calendarId: calendar.id,
         raw: {
           employee: this.selectedEmployee,
-          schedules
+          // schedules
         },
         start,
         end,
         category: 'time'
       });
 
-      this.updateStorage(id, calendar.id, calendarId);
+      // alterar para atualizar no DB
+      // this.updateStorage(id, calendar.id, calendarId);
 
-      $('#modal-new-schedule').modal('hide');
+      $(this.$refs.modalSchedule).modal('hide');
     },
     onNewTask() {
       if (!$('#submit-task').get(0).reportValidity()) {
@@ -573,23 +577,6 @@ export default {
       calendarNameElement
 
       this.selectedCalendar = calendar
-    },
-    createNewSchedule(event) {
-      $('#submit-schedule').trigger('reset');
-      $('#label-schedule').text('Adicionar');
-      this.newSchedule = true;
-
-      const start = event.start ? new Date(event.start.getTime()) : new Date();
-      const end = event.end ? new Date(event.end.getTime()) : moment().add(1, 'hours').toDate();
-      this.datePicker.setStartDate(start);
-      this.datePicker.setEndDate(end);
-
-      if (this.useCreationPopup) {
-        this.calendar.openCreationPopup({
-          start,
-          end
-        });
-      }
     },
     createNewTask(event) {
       $('#submit-task').trigger('reset');
@@ -957,15 +944,11 @@ export default {
       const start = event.start ? new Date(event.start.getTime()) : new Date();
       const end = event.end ? new Date(event.end.getTime()) : moment().add(1, 'hours').toDate();
 
-      this.openCreationPopup({
+      openCreationPopup.call(this, {
+        create: true,
         start,
         end
       })
-    },
-    openCreationPopup(options) {
-      this.datePicker.setStartDate(options.start);
-      this.datePicker.setEndDate(options.end);
-      $(this.$refs.modal_schedule).modal();
     },
     renderToastSuccess(message: string) {
       const toast = useToast();
@@ -1087,12 +1070,12 @@ export default {
 </script>
 
 <style scoped>
-  @import '@/assets/vendor/fullcalendar/core/main.css';
-  @import '@/assets/vendor/fullcalendar/daygrid/main.css';
-  @import '@/assets/vendor/fullcalendar/timegrid/main.css';
-  @import '@/assets/vendor/fullcalendar/list/main.css';
+  @import '../assets/vendor/fullcalendar/core/main.css';
+  @import '../assets/vendor/fullcalendar/daygrid/main.css';
+  @import '../assets/vendor/fullcalendar/timegrid/main.css';
+  @import '../assets/vendor/fullcalendar/list/main.css';
 
-  @import "@/assets/vendor/tui-calendar/dist/tui-calendar.css";
+  @import '../assets/vendor/tui-calendar/dist/tui-calendar.css';
 
   /* If you use the default popups, use this. */
   @import 'tui-date-picker/dist/tui-date-picker.css';
@@ -1195,25 +1178,6 @@ export default {
   .tui-full-calendar-popup-detail .tui-full-calendar-popup-container {
     color: #333;
     font-weight: 400;
-  }
-  .Vue-Toastification__container.bottom-left {
-    box-shadow: none;
-  }
-
-  .Vue-Toastification__container.bottom-right {
-    box-shadow: none;
-  }
-
-  .Vue-Toastification__container.top-left {
-    box-shadow: none;
-  }
-
-  .Vue-Toastification__container.top-right {
-    box-shadow: none;
-  }
-
-  .Vue-Toastification__container.shadow-bottom {
-    box-shadow: none;
   }
   .toast-warning {
     top: 3.8em;
