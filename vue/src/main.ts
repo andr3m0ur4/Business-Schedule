@@ -13,9 +13,16 @@ import './assets/vendor/remixicon/fonts/remixicon.css';
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
+import Toast from 'vue-toastification';
+import 'vue-toastification/dist/index.css';
+const optionsToast = {
+    // You can set your default options here
+};
+
 const app = createApp(App);
 app.use(router);
 app.use(store, key);
 app.use(VueSweetalert2);
+app.use(Toast, optionsToast);
 
 app.mount('#app')

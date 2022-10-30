@@ -76,7 +76,7 @@
                   </label>
                   <ul class="dropdown-menu new-schedule w-100 border-none p-3">
                     <li>
-                      <div class="item mb-2" data-toggle="modal" data-target="#modal-new-schedule" id="btn-new-schedule">
+                      <div class="item mb-2" data-toggle="modal" @click="openModalNewSchedule">
                         <i class="ri-user-add-fill mr-3"></i>Horário de Funcionário
                       </div>
                     </li>
@@ -180,7 +180,7 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="modal-new-schedule" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal fade" id="modal-new-schedule" tabindex="-1" role="dialog" aria-hidden="true" ref="modal_schedule">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-body">
@@ -188,10 +188,10 @@
               <h4 class="mb-3">
                 <span id="label-schedule">Adicionar</span> Horário de Funcionário
               </h4>
-              <form action="/" id="submit-schedule" @submit.prevent="">
+              <form action="/" id="submit-schedule" @submit.prevent="" ref="form_schedule">
                 <div class="content create-workform row">
                   <div class="col-md-6 mb-2">
-                    <select id="dropdownMenu-calendars-list" class="selectpicker">
+                    <select id="dropdownMenu-calendars-list" class="selectpicker" @change="filterEmployees">
                       <option v-for="calendar in calendarList" :key="calendar.id"
                         class="tui-full-calendar-popup-section-item tui-full-calendar-dropdown-menu-item"
                         :data-action="calendar.id" :value="calendar.id" :data-content="`
@@ -335,23 +335,24 @@
   </div>
 </template>
 
-<script>
-import Calendar from '@/assets/vendor/tui-calendar';
+<script lang="ts">
 import DatePicker from 'tui-date-picker';
-import util from 'tui-code-snippet';
 import axios from '@/http';
-import { useToast } from "vue-toastification";
+import { POSITION, useToast } from "vue-toastification";
+import { getCalendar, getSelectedCalendar, setDateTimePicker, startCalendar, startCalendarMenu } from '../assets/js/app-calendar';
 
-import { CalendarList, CalendarInfo } from '@/assets/js/data/calendars';
-import { ScheduleList, ScheduleInfo } from '@/assets/js/data/schedules';
+import { CalendarList, CalendarInfo } from '../assets/js/data/calendars';
+import { ScheduleList, ScheduleInfo } from '../assets/js/data/schedules';
+import { computed, watchEffect } from '@vue/runtime-core';
+import { useStore } from '../store';
+import { GET_EMPLOYEES, GET_JOBS, INSERT_EMPLOYEES_TIME, INSERT_EMPLOYEE_TIME } from '../store/action-types';
+import IEmployeeTime from '../interfaces/IEmployeeTime';
+import { employee } from '../store/modules/employee';
 
 export default {
   name: 'MyScheduleView',
   data() {
     return {
-      calendar: null,
-      useCreationPopup: false,
-      useDetailPopup: true,
       datePicker: null,
       datePickerTask: null,
       selectedSchedule: {},
@@ -361,7 +362,6 @@ export default {
       selectedStudio: {},
       selectedSwitcher: {},
       selectedTvShowTimes: [],
-      jobs: [],
       employees: [],
       employeesByJobs: [],
       tvShows: [],
@@ -390,42 +390,24 @@ export default {
       return this.getTimeTemplate(schedule, isAllDay);
     }
 
-    this.calendar = new Calendar('#calendar', {
-      defaultView: 'week',
-      taskView: ['task'],
-      scheduleView: ['time'],
-      useCreationPopup: this.useCreationPopup,
-      useDetailPopup: this.useDetailPopup,
-      template: {
-        milestone(model) {
-          return `<span class="calendar-font-icon ic-milestone-b"></span>
-                  <span style="background-color: ${model.bgColor} ">${model.title}</span>`;
-        },
-        allday(schedule) {
-          return getTimeTemplate(schedule, true);
-        },
-        time(schedule) {
-          return getTimeTemplate(schedule, false);
-        }
-      }
-    });
-
-    this.resizeThrottled = util.throttle(() => {
-      this.calendar.render();
-    }, 50);
-
-    this.setEventHandlers();
-    this.setDropdownCalendarType();
-    this.setRenderRangeText();
-    this.setEventListener();
-    this.getJobs();
-    this.getUsers();
-    this.getTvShows();
-    this.getStudios();
-    this.getSwitchers();
+    startCalendar();
     this.setDateTimePicker();
 
-    window.calendar = this.calendar
+    // this.resizeThrottled = util.throttle(() => {
+    //   this.calendar.render();
+    // }, 50);
+
+    // this.setEventHandlers();
+    // this.setDropdownCalendarType();
+    // this.setRenderRangeText();
+    // this.setEventListener();
+    // this.getJobs();
+    // this.getUsers();
+    // this.getTvShows();
+    // this.getStudios();
+    // this.getSwitchers();
+
+    // window.calendar = this.calendar
   },
   methods: {
     setEventHandlers() {
@@ -658,33 +640,32 @@ export default {
       this.setSchedules();
     },
     onNewSchedule() {
-      if (!$('#submit-schedule').get(0).reportValidity()) {
+      if (!$(this.$refs.form_schedule).get(0).reportValidity()) {
         return false;
       }
 
       const title = this.selectedEmployee.name;
-
-      // const employeeId = this.getDataAction($('#schedule-title').find(':selected').get(0));
-      // const location = $('#new-schedule-location').val();
       const location = ''
-      // const isAllDay = document.getElementById('new-schedule-allday').checked;
       const isAllDay = false
       const start = this.datePicker.getStartDate();
       const end = this.datePicker.getEndDate();
-      const calendar = this.selectedCalendar;
-      const id = String(chance.guid())
+      const calendar = getSelectedCalendar();
+      const id = String(chance.guid());
+      const schedules = [];
+
+      // const employeeId = this.getDataAction($('#schedule-title').find(':selected').get(0));
+
+      // const schedules = this.selectedTvShowTimes.map(tvShowTime => {
+      //   return {
+      //     tv_show_time: this.calendar.getSchedule(tvShowTime, '')
+      //   };
+      // });
 
       if (!title) {
         return;
       }
 
-      const schedules = this.selectedTvShowTimes.map(tvShowTime => {
-        return {
-          tv_show_time: this.calendar.getSchedule(tvShowTime, '')
-        };
-      });
-
-      this.calendar.createSchedules([{
+      getCalendar().createSchedules([{
         id,
         calendarId: calendar.id,
         title,
@@ -705,9 +686,10 @@ export default {
         state: 'Private'
       }]);
 
-      this.saveStorage(id, calendar.id);
+      const schedule = getCalendar().getSchedule(id, calendar.id);
+      this.createSchedule(schedule);
 
-      $('#modal-new-schedule').modal('hide');
+      $(this.$refs.modal_schedule).modal('hide');
     },
     onUpdateSchedule() {
       const title = this.selectedEmployee.name;
@@ -805,11 +787,9 @@ export default {
 
       $('#modal-new-task').modal('hide');
     },
-    onChangeNewScheduleCalendar(e) {
+    filterEmployees(e) {
       const target = e.target.options[e.target.selectedIndex];
-      const calendarId = this.getDataAction(target);
-      this.changeNewScheduleCalendar(calendarId);
-
+      const calendarId = target.getAttribute('data-action')
       this.employeesByJobs = this.employees.filter(employee => {
         return employee.job_id == calendarId;
       });
@@ -1058,22 +1038,13 @@ export default {
       // );
     },
     setDateTimePicker() {
-      this.datePicker = new DatePicker.createRangePicker({
-        startpicker: {
-          date: new Date(),
-          input: '#start-schedule',
-          container: '#startpicker-container-schedule'
-        },
-        endpicker: {
-          date: new Date(),
-          input: '#end-schedule',
-          container: '#endpicker-container-schedule'
-        },
-        format: 'dd/MM/yyyy HH:mm',
-        timePicker: {
-          showMeridiem: false
-        }
-      })
+      this.datePicker = setDateTimePicker({
+        startInput: '#start-schedule',
+        startContainer: '#startpicker-container-schedule',
+        endInput: '#end-schedule',
+        endContainer: '#endpicker-container-schedule'
+      });
+      return;
       this.datePickerTask = new DatePicker.createRangePicker({
         startpicker: {
           date: new Date(),
@@ -1184,29 +1155,17 @@ export default {
       });
       this.$ls.set(category, JSON.stringify(currentSchedules));
     },
-    getJobs() {
-      axios.get('v1/jobs')
-        .then(response => {
-          this.jobs = response.data;
-          CalendarList.splice(0, CalendarList.length);
-          CalendarInfo.createCalendar(this.jobs);
-          this.setCalendars();
-          this.calendar.setCalendars(CalendarList);
-          this.setSchedules();
-          this.calendarList = CalendarList;
-        })
-        .catch(error => {
-          console.log(error);
-        });
+    createSchedule(schedule) {
+      const employeeTime = {} as IEmployeeTime;
+      employeeTime.id = schedule.id;
+      employeeTime.start = this.formatDate(schedule.start.toDate());
+      employeeTime.end = this.formatDate(schedule.end.toDate());
+      employeeTime.user_id = schedule.raw.employee.id;
+      this.saveEmployeeTime(employeeTime);
     },
-    getUsers() {
-      axios.get('v1/users')
-        .then(response => {
-          this.employees = response.data;
-        })
-        .catch(error => {
-          console.log(error);
-        });
+    saveEmployeeTime(employeeTime: IEmployeeTime) {
+      this.store.dispatch(INSERT_EMPLOYEE_TIME, employeeTime)
+        .then(() => this.renderToastSuccess('Muito bom! Horário de funcionário salvo com sucesso.'));
     },
     getTvShows() {
       axios.get('v1/tv-shows')
@@ -1335,6 +1294,38 @@ export default {
     },
     time(value) {
       return moment(value).format('HH:mm');
+    },
+    openModalNewSchedule() {
+      const start = event.start ? new Date(event.start.getTime()) : new Date();
+      const end = event.end ? new Date(event.end.getTime()) : moment().add(1, 'hours').toDate();
+
+      this.openCreationPopup({
+        start,
+        end
+      })
+    },
+    openCreationPopup(options) {
+      this.datePicker.setStartDate(options.start);
+      this.datePicker.setEndDate(options.end);
+      $(this.$refs.modal_schedule).modal();
+    },
+    renderToastSuccess(message: string) {
+      const toast = useToast();
+      toast.success(
+        message, {
+        position: POSITION.TOP_RIGHT,
+        timeout: 5000,
+        closeOnClick: true,
+        pauseOnFocusLoss: true,
+        pauseOnHover: true,
+        draggable: true,
+        draggablePercent: 0.6,
+        showCloseButtonOnHover: false,
+        hideProgressBar: false,
+        closeButton: 'button',
+        icon: true,
+        rtl: false
+      });
     }
   },
   watch: {
@@ -1413,6 +1404,20 @@ export default {
         rtl: false,
         toastClassName: 'toast-warning'
       });
+    },
+    jobs(newJobs, oldJobs) {
+      this.calendarList = startCalendarMenu(newJobs);
+    }
+  },
+  setup() {
+    const store = useStore();
+    store.dispatch(GET_JOBS);
+    store.dispatch(GET_EMPLOYEES);
+
+    return {
+      jobs: computed(() => store.getters.getJobs),
+      employees: computed(() => store.getters.getEmployees),
+      store
     }
   }
 }
@@ -1553,3 +1558,7 @@ export default {
 </style>
 
 <style scoped lang="css" src="@/assets/css/icons.css"></style>
+
+  function moment(arg0: any[]) {
+    throw new Error('Function not implemented.');
+  }

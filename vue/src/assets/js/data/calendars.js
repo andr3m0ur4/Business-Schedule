@@ -56,6 +56,60 @@ const colors = [
         bgColor: '#9e5fff',
         dragBgColor: '#9e5fff',
         borderColor: '#9e5fff'
+    },
+    {
+        color: '#ffffff',
+        bgColor: '#9e5fff',
+        dragBgColor: '#9e5fff',
+        borderColor: '#9e5fff'
+    },
+    {
+        color: '#ffffff',
+        bgColor: '#00a9ff',
+        dragBgColor: '#00a9ff',
+        borderColor: '#00a9ff'
+    },
+    {
+        color: '#ffffff',
+        bgColor: '#ff5583',
+        dragBgColor: '#ff5583',
+        borderColor: '#ff5583'
+    },
+    {
+        color: '#ffffff',
+        bgColor: '#03bd9e',
+        dragBgColor: '#03bd9e',
+        borderColor: '#03bd9e'
+    },
+    {
+        color: '#ffffff',
+        bgColor: '#bbdc00',
+        dragBgColor: '#bbdc00',
+        borderColor: '#bbdc00'
+    },
+    {
+        color: '#ffffff',
+        bgColor: '#9d9d9d',
+        dragBgColor: '#9d9d9d',
+        borderColor: '#9d9d9d'
+    },
+    {
+        color: '#ffffff',
+        bgColor: '#ffbb3b',
+        dragBgColor: '#ffbb3b',
+        borderColor: '#ffbb3b'
+    },
+    {
+        color: '#ffffff',
+        bgColor: '#ff4040',
+        dragBgColor: '#ff4040',
+        borderColor: '#ff4040'
+    },
+    {
+        color: '#ffffff',
+        bgColor: '#9e5fff',
+        dragBgColor: '#9e5fff',
+        borderColor: '#9e5fff'
     }
 ]
 
@@ -92,10 +146,10 @@ class CalendarInfo {
             const calendar = new CalendarInfo();
             calendar.id = String(option.id);
             calendar.name = option.name;
-            calendar.color = colors[id].color;
-            calendar.bgColor = colors[id].bgColor;
-            calendar.dragBgColor = colors[id].dragBgColor;
-            calendar.borderColor = colors[id].borderColor;
+            calendar.color = colors[id] ? colors[id].color : colors[0].color;
+            calendar.bgColor = colors[id] ? colors[id].bgColor : colors[0].bgColor;
+            calendar.dragBgColor = colors[id] ? colors[id].dragBgColor : colors[0].dragBgColor;
+            calendar.borderColor = colors[id] ? colors[id].borderColor : colors[0].borderColor;
             calendar.addCalendar(calendar);
         });
     }

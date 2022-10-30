@@ -1,9 +1,10 @@
-import Calendar from 'tui-calendar'; /* ES6 */
+import Calendar from '../vendor/tui-calendar'; /* ES6 */
+import DatePicker from 'tui-date-picker';
 
-import throttle from 'tui-code-snippet/tricks/throttle';
+import util from 'tui-code-snippet';
 
-import { CalendarList, findCalendar } from '@/assets/js/data/calendars';
-import { generateSchedule, ScheduleList } from '@/assets/js/data/schedules';
+import { CalendarList, CalendarInfo } from './data/calendars';
+import { generateSchedule, ScheduleList } from './data/schedules';
 
 'use strict';
 
@@ -12,20 +13,25 @@ import { generateSchedule, ScheduleList } from '@/assets/js/data/schedules';
 /* global moment, tui, chance */
 /* global findCalendar, CalendarList, ScheduleList, generateSchedule */
 
-let calendar, resizeThrottled
-const useCreationPopup = true
-const useDetailPopup = true
-let datePicker, selectedCalendar
+let calendar, resizeThrottled;
+const useCreationPopup = false;
+const useDetailPopup = true;
+let datePicker, selectedCalendar;
 
 function startCalendar() {
     calendar = new Calendar('#calendar', {
         defaultView: 'week',
+        taskView: ['task'],
+        scheduleView: ['time'],
         useCreationPopup: useCreationPopup,
         useDetailPopup: useDetailPopup,
         calendars: CalendarList,
         template: {
             milestone(model) {
-                return '<span class="calendar-font-icon ic-milestone-b"></span> <span style="background-color: ' + model.bgColor + '">' + model.title + '</span>';
+                return `
+                    <span class="calendar-font-icon ic-milestone-b"></span>
+                    <span style="background-color: ${model.bgColor}">${model.title}</span>
+                `;
             },
             allday(schedule) {
                 return getTimeTemplate(schedule, true);
@@ -36,7 +42,27 @@ function startCalendar() {
         }
     });
 
-    // event handlers
+    setEventHandlers();
+    setDropdownCalendarType();
+    setRenderRangeText();
+    // setSchedules();
+    setEventListener();
+    // setCalendars();
+}
+
+function getCalendar() {
+    return calendar;
+}
+
+function getSelectedCalendar() {
+    return selectedCalendar;
+}
+
+/**
+ * Define event handlers
+ * @return {boolean}
+ */
+function setEventHandlers() {
     calendar.on({
         clickMore(e) {
             console.log('clickMore', e);
@@ -49,11 +75,12 @@ function startCalendar() {
         },
         beforeCreateSchedule(e) {
             console.log('beforeCreateSchedule', e);
+            e.state = 'Private';
             saveNewSchedule(e);
         },
         beforeUpdateSchedule(e) {
             var schedule = e.schedule;
-            var changes = e.changes;
+            var changes = e.changes ?? e.schedule;
 
             console.log('beforeUpdateSchedule', e);
 
@@ -61,28 +88,69 @@ function startCalendar() {
                 changes.category = 'time';
             }
 
+            // $('#label-schedule, #label-task').text('Alterar');
+            // this.newSchedule = false;
+            // this.newTask = false;
+
+            // if (schedule.category == 'time') {
+            //     this.selectedSchedule.id = schedule.id;
+            //     this.selectedSchedule.calendarId = schedule.calendarId;
+            //     if (schedule.raw) {
+            //       this.selectedEmployee = schedule.raw.employee;
+
+            //       if (schedule.raw.schedules) {
+            //         this.selectedTvShowTimes = schedule.raw.schedules.map(schedule => {
+            //           return schedule.tv_show_time.id;
+            //         });
+            //       }
+            //     }
+
+            //     this.datePicker.setStartDate(changes.start ? changes.start.toDate() : schedule.start.toDate());
+            //     this.datePicker.setEndDate(changes.end ? changes.end.toDate() : schedule.end.toDate());
+            //     CalendarInfo.findCalendar(schedule.calendarId);
+            //     $('#dropdownMenu-calendars-list').selectpicker('val', schedule.calendarId);
+            //     $('#modal-new-schedule').modal();
+            //   }
+
+            // if (schedule.category == 'task') {
+            //     this.selectedSchedule.id = schedule.id;
+            //     if (schedule.raw) {
+            //       this.selectedTvShow = schedule.raw.tvShow;
+            //       this.selectedStudio = schedule.raw.studio;
+            //       this.selectedSwitcher = schedule.raw.switcher;
+            //     }
+
+            //     this.datePickerTask.setStartDate(changes.start ? changes.start.toDate() : schedule.start.toDate());
+            //     this.datePickerTask.setEndDate(changes.end ? changes.end.toDate() : schedule.end.toDate());
+            //     $('#modal-new-task').modal();
+            //   }
+
             calendar.updateSchedule(schedule.id, schedule.calendarId, changes);
             refreshScheduleVisibility();
         },
         beforeDeleteSchedule(e) {
             console.log('beforeDeleteSchedule', e);
             calendar.deleteSchedule(e.schedule.id, e.schedule.calendarId);
+            // adicionar os horarios removidos no local storage para ser removidos durante o save
+            // const category = e.schedule.category == 'time' ? 'schedules' : 'tasks';
+            // this.deleteStorage(e.schedule.id, e.schedule.calendarId, category);
         },
         afterRenderSchedule(e) {
             var schedule = e.schedule;
             // var element = cal.getElement(schedule.id, schedule.calendarId);
             // console.log('afterRenderSchedule', element);
+            // this.scheduleList.push(schedule);
         },
         clickTimezonesCollapseBtn(timezonesCollapsed) {
             console.log('timezonesCollapsed', timezonesCollapsed);
 
             if (timezonesCollapsed) {
-                cal.setTheme({
+                calendar.setTheme({
                     'week.daygridLeft.width': '77px',
                     'week.timegridLeft.width': '77px'
                 });
             } else {
-                cal.setTheme({
+                calendar.setTheme({
                     'week.daygridLeft.width': '60px',
                     'week.timegridLeft.width': '60px'
                 });
@@ -91,21 +159,24 @@ function startCalendar() {
             return true;
         }
     });
+}
 
-    setDropdownCalendarType();
-    setRenderRangeText();
-    setSchedules();
-    setEventListener();
-
-    // set calendars
+/**
+ * Set calendars
+ */
+function setCalendars() {
     const calendarList = document.getElementById('calendarList');
     const html = [];
+
     CalendarList.forEach(calendarList => {
-        html.push('<div class="lnb-calendars-item"><label>' +
-            '<input type="checkbox" class="tui-full-calendar-checkbox-round" value="' + calendarList.id + '" checked>' +
-            '<span style="border-color: ' + calendarList.borderColor + '; background-color: ' + calendarList.borderColor + ';"></span>' +
-            '<span>' + calendarList.name + '</span>' +
-            '</label></div>'
+        html.push(
+            `<div class="lnb-calendars-item">
+                <label>
+                    <input type="checkbox" class="tui-full-calendar-checkbox-round" value="${calendarList.id}" checked>
+                    <span style="border-color: ${calendarList.borderColor}; background-color: ${calendarList.borderColor};"></span>
+                    <span>${calendarList.name}</span>
+                </label>
+            </div>`
         );
     });
     calendarList.innerHTML = html.join('\n');
@@ -260,20 +331,20 @@ function onNewSchedule() {
 }
 
 function onChangeNewScheduleCalendar(e) {
-    const target = $(e.target).closest('a[role="menuitem"]')[0];
+    const target = e.target.options[e.target.selectedIndex];
     const calendarId = getDataAction(target);
     changeNewScheduleCalendar(calendarId);
 }
 
 function changeNewScheduleCalendar(calendarId) {
     const calendarNameElement = document.getElementById('calendarName');
-    const calendar = findCalendar(calendarId);
+    const calendar = CalendarInfo.findCalendar(calendarId);
     const html = [];
 
     html.push('<span class="calendar-bar" style="background-color: ' + calendar.bgColor + '; border-color:' + calendar.borderColor + ';"></span>');
     html.push('<span class="calendar-name">' + calendar.name + '</span>');
 
-    calendarNameElement.innerHTML = html.join('');
+    // calendarNameElement.innerHTML = html.join('');
 
     selectedCalendar = calendar;
 }
@@ -291,7 +362,7 @@ function createNewSchedule(event) {
 }
 
 function saveNewSchedule(scheduleData) {
-    const calendarNew = scheduleData.calendar || findCalendar(scheduleData.calendarId);
+    const calendarNew = scheduleData.calendar || CalendarInfo.findCalendar(scheduleData.calendarId);
     const schedule = {
         id: String(chance.guid()),
         title: scheduleData.title,
@@ -343,7 +414,7 @@ function onChangeCalendars(e) {
             calendarList.checked = checked;
         });
     } else {
-        findCalendar(calendarId).checked = checked;
+        CalendarInfo.findCalendar(calendarId).checked = checked;
 
         allCheckedCalendars = calendarElements.every(input => {
             return input.checked;
@@ -384,19 +455,19 @@ function setDropdownCalendarType() {
     let iconClassName;
 
     if (type === 'day') {
-        type = 'Daily';
+        type = 'Diário';
         iconClassName = 'calendar-icon ic_view_day';
     } else if (type === 'week') {
-        type = 'Weekly';
+        type = 'Semanal';
         iconClassName = 'calendar-icon ic_view_week';
     } else if (options.month.visibleWeeksCount === 2) {
-        type = '2 weeks';
+        type = '2 semanas';
         iconClassName = 'calendar-icon ic_view_week';
     } else if (options.month.visibleWeeksCount === 3) {
-        type = '3 weeks';
+        type = '3 semanas';
         iconClassName = 'calendar-icon ic_view_week';
     } else {
-        type = 'Monthly';
+        type = 'Mensal';
         iconClassName = 'calendar-icon ic_view_month';
     }
 
@@ -421,28 +492,38 @@ function setRenderRangeText() {
 
     const html = [];
     if (viewName === 'day') {
-        html.push(currentCalendarDate('YYYY.MM.DD'));
-    } else if (viewName === 'month' &&
-        (!options.month.visibleWeeksCount || options.month.visibleWeeksCount > 4)) {
-        html.push(currentCalendarDate('YYYY.MM'));
+        html.push(currentCalendarDate('DD/MM/YYYY'));
+    } else if (viewName === 'month' && (!options.month.visibleWeeksCount || options.month.visibleWeeksCount > 4)) {
+        html.push(currentCalendarDate('MM/YYYY'));
     } else {
-        html.push(moment(calendar.getDateRangeStart().getTime()).format('YYYY.MM.DD'));
+        html.push(moment(calendar.getDateRangeStart().getTime()).format('DD/MM/YYYY'));
         html.push(' ~ ');
-        html.push(moment(calendar.getDateRangeEnd().getTime()).format(' MM.DD'));
+        html.push(moment(calendar.getDateRangeEnd().getTime()).format(' DD/MM'));
     }
     renderRange.innerHTML = html.join('');
 }
 
 function setSchedules() {
     calendar.clear();
-    generateSchedule(
-        calendar.getViewName(),
-        calendar.getDateRangeStart(),
-        calendar.getDateRangeEnd()
-    );
+
+    // função para gerar horários aleatórios
+    // generateSchedule(
+    //     calendar.getViewName(),
+    //     calendar.getDateRangeStart(),
+    //     calendar.getDateRangeEnd()
+    // );
     calendar.createSchedules(ScheduleList);
 
     refreshScheduleVisibility();
+}
+
+function startCalendarMenu(jobs) {
+    CalendarList.splice(0, CalendarList.length);
+    CalendarInfo.createCalendar(jobs);
+    setCalendars();
+    calendar.setCalendars(CalendarList);
+    setCalendars();
+    return CalendarList;
 }
 
 function setEventListener() {
@@ -453,7 +534,7 @@ function setEventListener() {
     $('#btn-save-schedule').on('click', onNewSchedule);
     $('#btn-new-schedule').on('click', createNewSchedule);
 
-    $('#dropdownMenu-calendars-list').on('click', onChangeNewScheduleCalendar);
+    $('#dropdownMenu-calendars-list').on('change', onChangeNewScheduleCalendar);
 
     window.addEventListener('resize', resizeThrottled);
 }
@@ -462,12 +543,35 @@ function getDataAction(target) {
     return target.dataset ? target.dataset.action : target.getAttribute('data-action');
 }
 
-resizeThrottled = throttle(function() {
+function setDateTimePicker(options) {
+    return new DatePicker.createRangePicker({
+        startpicker: {
+            date: new Date(),
+            input: options.startInput,
+            container: options.startContainer
+        },
+        endpicker: {
+            date: new Date(),
+            input: options.endInput,
+            container: options.endContainer
+        },
+        format: 'dd/MM/yyyy HH:mm',
+        timePicker: {
+            showMeridiem: false
+        }
+    });
+}
+
+resizeThrottled = util.throttle(function() {
     calendar.render();
 }, 50);
 
 window.calendar = calendar;
 
-export default {
-    startCalendar
+export {
+    startCalendar,
+    getCalendar,
+    getSelectedCalendar,
+    startCalendarMenu,
+    setDateTimePicker
 }
