@@ -345,7 +345,8 @@ function onNewSchedule() {
 }
 
 function onChangeNewScheduleCalendar(e) {
-    const target = e.target.options[e.target.selectedIndex];
+    const selectedIndex = e.target.selectedIndex >= 0 ? e.target.selectedIndex : 0;
+    const target = e.target.options[selectedIndex];
     const calendarId = getDataAction(target);
     changeNewScheduleCalendar(calendarId);
 }
@@ -592,7 +593,7 @@ function openCreationPopup(options) {
         this.newSchedule = false;
     }
 
-    if (options.calendarId) {
+    if (Number.isInteger(options.calendarId)) {
         $(this.$refs.dropdownMenuCalendarsList).selectpicker('val', options.calendarId);
         this.$refs.dropdownMenuCalendarsList.dispatchEvent(new Event('change'));
     }

@@ -554,7 +554,8 @@ export default {
       $('#modal-new-task').modal('hide');
     },
     filterEmployees(e) {
-      const target = e.target.options[e.target.selectedIndex];
+      const selectedIndex = e.target.selectedIndex >= 0 ? e.target.selectedIndex : 0;
+      const target = e.target.options[selectedIndex];
       const calendarId = target.getAttribute('data-action')
       this.employeesByJobs = this.employees.filter(employee => {
         return employee.job_id == calendarId;
@@ -954,7 +955,8 @@ export default {
       openCreationPopup.call(this, {
         create: true,
         start,
-        end
+        end,
+        calendarId: 1
       })
     },
     renderToastSuccess(message: string) {
