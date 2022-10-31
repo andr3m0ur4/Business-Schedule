@@ -345,7 +345,7 @@ import { CalendarList, CalendarInfo } from '../assets/js/data/calendars';
 import { ScheduleList, ScheduleInfo } from '../assets/js/data/schedules';
 import { computed, watchEffect } from '@vue/runtime-core';
 import { useStore } from '../store';
-import { GET_EMPLOYEES, GET_EMPLOYEES_TIMES, GET_JOBS, INSERT_EMPLOYEE_TIME } from '../store/action-types';
+import { GET_EMPLOYEES, GET_EMPLOYEES_TIMES, GET_JOBS, INSERT_EMPLOYEE_TIME, UPDATE_EMPLOYEE_TIME } from '../store/action-types';
 import IEmployeeTime from '../interfaces/IEmployeeTime';
 
 export default {
@@ -463,7 +463,7 @@ export default {
       const calendarId = this.selectedSchedule.calendarId;
       const start = this.datePicker.getStartDate();
       const end = this.datePicker.getEndDate();
-      const calendar = this.selectedCalendar;
+      const calendar = getSelectedCalendar();
 
       if (!title || !id) {
         return;
@@ -487,8 +487,8 @@ export default {
         category: 'time'
       });
 
-      // alterar para atualizar no DB
-      // this.updateStorage(id, calendar.id, calendarId);
+      const schedule = getCalendar().getSchedule(id, calendar.id);
+      this.updateSchedule(schedule);
 
       $(this.$refs.modalSchedule).modal('hide');
     },
@@ -697,11 +697,6 @@ export default {
 
       return currentDate.format(format);
     },
-    setSchedules(employeeTimes) {
-      // aqui os horarios dos funcionários são recuperados
-      // chamar setSchedules de app-calendar.js
-      setSchedules(employeeTimes);
-    },
     setDateTimePicker() {
       this.datePicker = setDateTimePicker({
         startInput: '#start-schedule',
@@ -811,6 +806,18 @@ export default {
     saveEmployeeTime(employeeTime: IEmployeeTime) {
       this.store.dispatch(INSERT_EMPLOYEE_TIME, employeeTime)
         .then(() => this.renderToastSuccess('Muito bom! Horário de funcionário salvo com sucesso.'));
+    },
+    updateSchedule(schedule) {
+      const employeeTime = {} as IEmployeeTime;
+      employeeTime.id = schedule.id;
+      employeeTime.start = this.formatDate(schedule.start.toDate());
+      employeeTime.end = this.formatDate(schedule.end.toDate());
+      employeeTime.user_id = schedule.raw.employee.id;
+      this.updateEmployeeTime(employeeTime);
+    },
+    updateEmployeeTime(employeeTime: IEmployeeTime) {
+      this.store.dispatch(UPDATE_EMPLOYEE_TIME, employeeTime)
+        .then(() => this.renderToastSuccess('Muito bom! Horário de funcionário atualizado com sucesso.'));
     },
     getTvShows() {
       axios.get('v1/tv-shows')
@@ -1049,8 +1056,11 @@ export default {
     jobs(newJobs, oldJobs) {
       this.calendarList = startCalendarMenu(newJobs);
     },
-    employeeTimes(newEmployeeTimes, oldEmployeeTimes) {
-      this.setSchedules(newEmployeeTimes);
+    employeeTimes: {
+      handler(newEmployeeTimes, oldEmployeeTimes) {
+        setSchedules(newEmployeeTimes);
+      },
+      deep: true
     }
   },
   setup() {

@@ -23,6 +23,7 @@ class EmployeeTimeController extends Controller
     public function index()
     {
         $employeeTimes = EmployeeTime::all();
+        // $employeeTimes = EmployeeTime::offset(0)->limit(10)->get();
         return response()->json(EmployeeTimeResource::collection($employeeTimes));
     }
 
@@ -81,7 +82,7 @@ class EmployeeTimeController extends Controller
     public function update(UpdateEmployeeTimeRequest $request, EmployeeTime $employeeTime)
     {
         $employeeTime->update($request->validated());
-        return response()->json($employeeTime, Response::HTTP_OK);
+        return response()->json(EmployeeTimeResource::make($employeeTime), Response::HTTP_OK);
     }
 
     /**
@@ -96,7 +97,23 @@ class EmployeeTimeController extends Controller
         return response()->json($employeeTime);
     }
 
-    public function save(Request $request)
+    public function save(UpdateEmployeeTimeRequest $request)
+    {
+        $employeeTime = EmployeeTime::find($request->id);
+        if ($employeeTime) {
+            $employeeTime->fill($request->all());
+            $employeeTime->save();
+            return response()->json(EmployeeTimeResource::make($employeeTime), Response::HTTP_OK);
+            // $scheduleController->manage($item, $time);
+        }
+
+        $employeeTime = new EmployeeTime($request->all());
+        $employeeTime->save();
+        $employeeTime->id = $request->id;
+        return response()->json(EmployeeTimeResource::make($employeeTime), Response::HTTP_CREATED);
+    }
+
+    public function saveAll(Request $request)
     {
         $insertRows = 0;
         $affectedRows = 0;
