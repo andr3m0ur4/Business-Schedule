@@ -345,7 +345,7 @@ import { CalendarList, CalendarInfo } from '../assets/js/data/calendars';
 import { ScheduleList, ScheduleInfo } from '../assets/js/data/schedules';
 import { computed, watchEffect } from '@vue/runtime-core';
 import { useStore } from '../store';
-import { GET_EMPLOYEES, GET_EMPLOYEES_TIMES, GET_JOBS, INSERT_EMPLOYEE_TIME, UPDATE_EMPLOYEE_TIME } from '../store/action-types';
+import { DELETE_EMPLOYEE_TIME, GET_EMPLOYEES, GET_EMPLOYEES_TIMES, GET_JOBS, INSERT_EMPLOYEE_TIME, UPDATE_EMPLOYEE_TIME } from '../store/action-types';
 import IEmployeeTime from '../interfaces/IEmployeeTime';
 
 export default {
@@ -387,10 +387,6 @@ export default {
 
     startCalendar(this);
     this.setDateTimePicker();
-
-    // this.resizeThrottled = util.throttle(() => {
-    //   this.calendar.render();
-    // }, 50);
 
     // this.getJobs();
     // this.getUsers();
@@ -666,29 +662,6 @@ export default {
     //   }
     //   this.calendar.trigger('afterRenderSchedule');
     // },
-    refreshScheduleVisibility() {
-      const calendarElements = Array.prototype.slice.call(
-        document.querySelectorAll('#calendarList input')
-      );
-
-      CalendarList.forEach(calendar => {
-        this.calendar.toggleSchedules(calendar.id, !calendar.checked, false);
-      });
-
-      this.calendar.render(true);
-
-      const schedules = JSON.parse(this.$ls.get('schedules', '[]'));
-      if (schedules.length > 0) {
-        this.scheduleNotSaved = true;
-      } else {
-        this.scheduleNotSaved = false;
-      }
-
-      calendarElements.forEach(input => {
-        const span = input.nextElementSibling;
-        span.style.backgroundColor = input.checked ? span.style.borderColor : 'transparent';
-      });
-    },
     currentCalendarDate(format) {
       const currentDate = moment([
           this.calendar.getDate().getFullYear(),
@@ -725,53 +698,6 @@ export default {
     },
     getDataAction(target) {
       return target.dataset ? target.dataset.action : target.getAttribute('data-action');
-    },
-    saveStorage(id, calendarId, category = 'schedules') {
-      const schedule = this.calendar.getSchedule(id, calendarId);
-      const schedules = JSON.parse(this.$ls.get(category, '[]'));
-      schedules.push(schedule);
-      this.$ls.set(category, JSON.stringify(schedules));
-
-      if (schedules.length > 0) {
-        this.scheduleNotSaved = true;
-      }
-    },
-    updateStorage(id, calendarId, oldCalendarId, category = 'schedules') {
-      const schedule = this.calendar.getSchedule(id, calendarId);
-      let schedules = JSON.parse(this.$ls.get(category, '[]'));
-
-      schedules = schedules.map(item => {
-        if (item.id == id && item.calendarId == oldCalendarId) {
-          item = schedule;
-        }
-        return item;
-      });
-
-      this.scheduleNotSaved = true;
-
-      this.$ls.set(category, JSON.stringify(schedules));
-    },
-    deleteStorage(id, calendarId, category = 'schedules') {
-      let schedules = JSON.parse(this.$ls.get(category, '[]'));
-
-      schedules = schedules.filter(item => {
-        return !(item.id == id && item.calendarId == calendarId);
-      });
-
-      const removedItem = {
-        id,
-        isVisible: false
-      };
-      this.addRemovedItems(removedItem, `removed-${category}`);
-
-      if (schedules.length == 0) {
-        this.scheduleNotSaved = false;
-      }
-
-      this.$ls.set(category, JSON.stringify(schedules));
-    },
-    removeStorage(category = 'removed-schedules') {
-      this.$ls.remove(category);
     },
     addRemovedItems(schedule, category = 'removed-schedules') {
       const schedules = JSON.parse(this.$ls.get(category, '[]'));
@@ -819,6 +745,14 @@ export default {
     updateEmployeeTime(employeeTime: IEmployeeTime) {
       this.store.dispatch(UPDATE_EMPLOYEE_TIME, employeeTime)
         .then(() => this.renderToastSuccess('Muito bom! Horário de funcionário atualizado com sucesso.'));
+    },
+    deleteSchedule(schedule) {
+      const id = schedule.id;
+      this.deleteEmployeeTime(id);
+    },
+    deleteEmployeeTime(id: string) {
+      this.store.dispatch(DELETE_EMPLOYEE_TIME, id)
+        .then(() => this.renderToastWarning('Horário de funcionário excluído com sucesso.'));
     },
     getTvShows() {
       axios.get('v1/tv-shows')
@@ -962,6 +896,24 @@ export default {
     renderToastSuccess(message: string) {
       const toast = useToast();
       toast.success(
+        message, {
+        position: POSITION.TOP_RIGHT,
+        timeout: 5000,
+        closeOnClick: true,
+        pauseOnFocusLoss: true,
+        pauseOnHover: true,
+        draggable: true,
+        draggablePercent: 0.6,
+        showCloseButtonOnHover: false,
+        hideProgressBar: false,
+        closeButton: 'button',
+        icon: true,
+        rtl: false
+      });
+    },
+    renderToastWarning(message: string) {
+      const toast = useToast();
+      toast.warning(
         message, {
         position: POSITION.TOP_RIGHT,
         timeout: 5000,

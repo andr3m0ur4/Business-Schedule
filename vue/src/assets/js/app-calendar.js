@@ -145,9 +145,7 @@ function setEventHandlers($this) {
         beforeDeleteSchedule(e) {
             console.log('beforeDeleteSchedule', e);
             calendar.deleteSchedule(e.schedule.id, e.schedule.calendarId);
-            // adicionar os horarios removidos no local storage para ser removidos durante o save
-            // const category = e.schedule.category == 'time' ? 'schedules' : 'tasks';
-            // this.deleteStorage(e.schedule.id, e.schedule.calendarId, category);
+            $this.deleteSchedule(e.schedule);
         },
         afterRenderSchedule(e) {
             var schedule = e.schedule;
