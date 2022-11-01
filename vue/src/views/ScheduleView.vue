@@ -81,7 +81,7 @@
                       </div>
                     </li>
                     <li>
-                      <div class="item" data-toggle="modal" data-target="#modal-new-task" id="btn-new-task">
+                      <div class="item" data-toggle="modal" @click="openModalNewTask">
                         <i class="ri-tv-2-line mr-3"></i>Horário de Programa
                       </div>
                     </li>
@@ -180,7 +180,7 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="modal-new-schedule" tabindex="-1" role="dialog" aria-hidden="true" ref="modalSchedule">
+    <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" ref="modalSchedule">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-body">
@@ -188,7 +188,7 @@
               <h4 class="mb-3">
                 <span ref="labelSchedule">Adicionar</span> Horário de Funcionário
               </h4>
-              <form action="/" id="submit-schedule" @submit.prevent="" ref="formSchedule">
+              <form action="/" @submit.prevent="" ref="formSchedule">
                 <div class="content create-workform row">
                   <div class="col-md-6 mb-2">
                     <select id="dropdownMenu-calendars-list" class="selectpicker" @change="filterEmployees" ref="dropdownMenuCalendarsList">
@@ -258,7 +258,7 @@
       </div>
     </div>
 
-    <div class="modal fade" id="modal-new-task" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" ref="modalTask">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-body">
@@ -266,7 +266,7 @@
               <h4 class="mb-3">
                 <span id="label-task">Adicionar</span> Horário de Programa
               </h4>
-              <form action="/" id="submit-task" @submit.prevent="">
+              <form action="/" @submit.prevent="" ref="formTask">
                 <div class="content create-workform row">
                   <div class="col-md-12">
                     <div class="form-group">
@@ -342,16 +342,16 @@ import { POSITION, useToast } from "vue-toastification";
 import { getCalendar, getSelectedCalendar, openCreationPopup, pushSchedule, setDateTimePicker, setSchedules, startCalendar, startCalendarMenu } from '../assets/js/app-calendar';
 
 import { CalendarList, CalendarInfo } from '../assets/js/data/calendars';
-import { ScheduleList, ScheduleInfo } from '../assets/js/data/schedules';
-import { computed, watchEffect } from '@vue/runtime-core';
+import { computed } from '@vue/runtime-core';
 import { useStore } from '../store';
-import { DELETE_EMPLOYEE_TIME, GET_EMPLOYEES, GET_EMPLOYEES_TIMES, GET_JOBS, INSERT_EMPLOYEE_TIME, UPDATE_EMPLOYEE_TIME } from '../store/action-types';
+import { DELETE_EMPLOYEE_TIME, GET_EMPLOYEES, GET_EMPLOYEES_TIMES, GET_JOBS, GET_STUDIOS, GET_SWITCHERS, GET_TVSHOWS, INSERT_EMPLOYEE_TIME, UPDATE_EMPLOYEE_TIME } from '../store/action-types';
 import IEmployeeTime from '../interfaces/IEmployeeTime';
 
 export default {
   name: 'MyScheduleView',
   data() {
     return {
+      calendar: null,
       datePicker: null,
       datePickerTask: null,
       selectedSchedule: {},
@@ -363,16 +363,12 @@ export default {
       selectedTvShowTimes: [],
       employees: [],
       employeesByJobs: [],
-      tvShows: [],
-      studios: [],
-      switchers: [],
       tvShowTimes: [],
       isEmployeeTime: false,
       isTvShowTime: false,
       calendarList: [],
       scheduleList: [],
       // text: '',
-      resizeThrottled: null,
       newSchedule: true,
       newTask: true,
       start: null,
@@ -387,12 +383,6 @@ export default {
 
     startCalendar(this);
     this.setDateTimePicker();
-
-    // this.getJobs();
-    // this.getUsers();
-    // this.getTvShows();
-    // this.getStudios();
-    // this.getSwitchers();
 
     window.calendar = getCalendar();
   },
@@ -489,6 +479,7 @@ export default {
       $(this.$refs.modalSchedule).modal('hide');
     },
     onNewTask() {
+      // esse eh o método que salva os horaŕios dos programas
       if (!$('#submit-task').get(0).reportValidity()) {
         return false;
       }
@@ -662,15 +653,6 @@ export default {
     //   }
     //   this.calendar.trigger('afterRenderSchedule');
     // },
-    currentCalendarDate(format) {
-      const currentDate = moment([
-          this.calendar.getDate().getFullYear(),
-          this.calendar.getDate().getMonth(),
-          this.calendar.getDate().getDate()
-      ]);
-
-      return currentDate.format(format);
-    },
     setDateTimePicker() {
       this.datePicker = setDateTimePicker({
         startInput: '#start-schedule',
@@ -678,23 +660,13 @@ export default {
         endInput: '#end-schedule',
         endContainer: '#endpicker-container-schedule'
       });
-      return;
-      this.datePickerTask = new DatePicker.createRangePicker({
-        startpicker: {
-          date: new Date(),
-          input: '#start-task',
-          container: '#startpicker-container-task'
-        },
-        endpicker: {
-          date: new Date(),
-          input: '#end-task',
-          container: '#endpicker-container-task'
-        },
-        format: 'dd/MM/yyyy HH:mm',
-        timePicker: {
-          showMeridiem: false
-        }
-      })
+
+      this.datePickerTask = setDateTimePicker({
+        startInput: '#start-task',
+        startContainer: '#startpicker-container-task',
+        endInput: '#end-task',
+        endContainer: '#endpicker-container-task'
+      });
     },
     getDataAction(target) {
       return target.dataset ? target.dataset.action : target.getAttribute('data-action');
@@ -754,107 +726,6 @@ export default {
       this.store.dispatch(DELETE_EMPLOYEE_TIME, id)
         .then(() => this.renderToastWarning('Horário de funcionário excluído com sucesso.'));
     },
-    getTvShows() {
-      axios.get('v1/tv-shows')
-        .then(response => {
-          this.tvShows = response.data;
-        })
-        .catch(error => {
-          console.log(error.response);
-        });
-    },
-    getStudios() {
-      axios.get('v1/studios')
-        .then(response => {
-          this.studios = response.data;
-        })
-        .catch(error => {
-          console.log(error.response);
-        });
-    },
-    getSwitchers() {
-      axios.get('v1/switchers')
-        .then(response => {
-          this.switchers = response.data;
-        })
-        .catch(error => {
-          console.log(error.response);
-        });
-    },
-    saveSchedulePopup() {
-      // validar horarios dos funcionarios
-      this.$swal({
-        title: 'Deseja salvar as modificações na Escala?',
-        icon: 'question',
-        text: 'Ao salvar a Escala, ela será imediatamente disponibilizada aos funcionários!',
-        showDenyButton: true,
-        showCancelButton: true,
-        confirmButtonText: 'Salvar',
-        denyButtonText: 'Não salvar',
-      })
-        .then(result => {
-          if (result.isConfirmed) {
-            this.saveSchedule();
-          } else if (result.isDenied) {
-            this.$swal('As modificações não foram salvas', '', 'info');
-          }
-        });
-    },
-    saveSchedule() {
-      this.scheduleList = [];
-      this.calendar.setDate(this.calendar.getDate());
-
-      const unwatch = this.$watch(() => this.scheduleList.length, () => {
-        let schedules = this.scheduleList.filter(schedule => {
-          if (schedule.category != 'time' || !schedule.raw) {
-            return null;
-          }
-
-          schedule.startDateTime = this.formatDate(schedule.start.toDate());
-          schedule.endDateTime = this.formatDate(schedule.end.toDate());
-          return schedule;
-        });
-        schedules = this.getRemovedItems(schedules, 'removed-schedules');
-        // console.log(schedules);
-
-        let tasks = this.scheduleList.filter(schedule => {
-          if (schedule.category != 'task' || !schedule.raw) {
-            return null;
-          }
-
-          schedule.startDateTime = this.formatDate(schedule.start.toDate());
-          schedule.endDateTime = this.formatDate(schedule.end.toDate());
-          return schedule;
-        });
-        tasks = this.getRemovedItems(tasks, 'removed-tasks');
-        // console.log(tasks);
-
-        axios.post('v1/tv-show-times/save', tasks)
-          .then(response => {
-            this.removeStorage('removed-tasks');
-            axios.post('v1/employee-times/save', schedules)
-              .then(response => {
-                this.$swal('Bom trabalho!', 'Os horários foram salvos com sucesso.', 'success');
-                this.removeStorage();
-                this.clearRangeStorage();
-                this.clearRangeStorage('tasks');
-                this.setSchedules();
-              })
-              .catch(error => {
-                console.log(error.response);
-              })
-              .finally(() => {
-                unwatch();
-              });
-          })
-          .catch(error => {
-            console.log(error.response);
-          })
-          .finally(() => {
-            unwatch();
-          });
-      });
-    },
     tvShowTimesByRange(tvShowTimes) {
       if (this.calendar) {
         const start = this.calendar.getDateRangeStart().toDate();
@@ -887,10 +758,22 @@ export default {
       const end = event.end ? new Date(event.end.getTime()) : moment().add(1, 'hours').toDate();
 
       openCreationPopup.call(this, {
+        type: 'time',
         create: true,
         start,
         end,
         calendarId: 1
+      })
+    },
+    openModalNewTask() {
+      const start = event.start ? new Date(event.start.getTime()) : new Date();
+      const end = event.end ? new Date(event.end.getTime()) : moment().add(1, 'hours').toDate();
+
+      openCreationPopup.call(this, {
+        type: 'task',
+        create: true,
+        start,
+        end
       })
     },
     renderToastSuccess(message: string) {
@@ -1022,11 +905,17 @@ export default {
     store.dispatch(GET_JOBS);
     store.dispatch(GET_EMPLOYEES);
     store.dispatch(GET_EMPLOYEES_TIMES);
+    store.dispatch(GET_TVSHOWS);
+    store.dispatch(GET_STUDIOS);
+    store.dispatch(GET_SWITCHERS);
 
     return {
       jobs: computed(() => store.getters.getJobs),
       employees: computed(() => store.getters.getEmployees),
       employeeTimes: computed(() => store.getters.getEmployeesTimes),
+      tvShows: computed(() => store.getters.getTvShows),
+      studios: computed(() => store.getters.getStudios),
+      switchers: computed(() => store.getters.getSwitchers),
       store
     }
   }

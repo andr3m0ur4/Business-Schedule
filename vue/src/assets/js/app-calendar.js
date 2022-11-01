@@ -133,6 +133,7 @@ function setEventHandlers($this) {
             const end = changes.end ? changes.end.toDate() : schedule.end.toDate();
 
             openCreationPopup.call($this, {
+                type: 'time',
                 create: false,
                 calendarId: schedule.calendarId,
                 start,
@@ -496,7 +497,7 @@ function currentCalendarDate(format) {
     ]);
 
     return currentDate.format(format);
-  }
+}
 
 function setRenderRangeText() {
     const renderRange = document.getElementById('renderRange');
@@ -582,23 +583,29 @@ function setDateTimePicker(options) {
 }
 
 function openCreationPopup(options) {
-    this.$refs.formSchedule.reset();
-    if (options.create) {
-        $(this.$refs.labelSchedule).text('Adicionar');
-        this.newSchedule = true;
+    if (options.type == 'time') {
+        this.$refs.formSchedule.reset();
+        if (options.create) {
+            $(this.$refs.labelSchedule).text('Adicionar');
+            this.newSchedule = true;
+        } else {
+            $(this.$refs.labelSchedule).text('Alterar');
+            this.newSchedule = false;
+        }
+
+        if (Number.isInteger(Number(options.calendarId))) {
+            $(this.$refs.dropdownMenuCalendarsList).selectpicker('val', options.calendarId);
+            this.$refs.dropdownMenuCalendarsList.dispatchEvent(new Event('change'));
+        }
+
+        this.datePicker.setStartDate(options.start);
+        this.datePicker.setEndDate(options.end);
+        $(this.$refs.modalSchedule).modal();
     } else {
-        $(this.$refs.labelSchedule).text('Alterar');
-        this.newSchedule = false;
+        this.datePickerTask.setStartDate(options.start);
+        this.datePickerTask.setEndDate(options.end);
+        $(this.$refs.modalTask).modal();
     }
-
-    if (Number.isInteger(options.calendarId)) {
-        $(this.$refs.dropdownMenuCalendarsList).selectpicker('val', options.calendarId);
-        this.$refs.dropdownMenuCalendarsList.dispatchEvent(new Event('change'));
-    }
-
-    this.datePicker.setStartDate(options.start);
-    this.datePicker.setEndDate(options.end);
-    $(this.$refs.modalSchedule).modal();
 }
 
 resizeThrottled = util.throttle(function() {

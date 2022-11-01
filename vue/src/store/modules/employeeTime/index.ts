@@ -10,7 +10,6 @@ import {
   REMOVE_EMPLOYEE_TIME
 } from "../../../store/mutation-types";
 import IEmployeeTime from "../../../interfaces/IEmployeeTime";
-import { watchEffect } from "vue";
 
 export interface StateEmployeeTime {
   employeesTimes: IEmployeeTime[];
