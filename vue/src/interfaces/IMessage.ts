@@ -3,5 +3,5 @@ export default interface IMessage {
     user_id_to : number,
     user_id_from : number,
     message : string,
-    read : String
+    read : string
 }
