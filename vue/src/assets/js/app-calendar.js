@@ -145,9 +145,7 @@ function setEventHandlers($this) {
         beforeDeleteSchedule(e) {
             console.log('beforeDeleteSchedule', e);
             calendar.deleteSchedule(e.schedule.id, e.schedule.calendarId);
-            // adicionar os horarios removidos no local storage para ser removidos durante o save
-            // const category = e.schedule.category == 'time' ? 'schedules' : 'tasks';
-            // this.deleteStorage(e.schedule.id, e.schedule.calendarId, category);
+            $this.deleteSchedule(e.schedule);
         },
         afterRenderSchedule(e) {
             var schedule = e.schedule;
@@ -345,7 +343,8 @@ function onNewSchedule() {
 }
 
 function onChangeNewScheduleCalendar(e) {
-    const target = e.target.options[e.target.selectedIndex];
+    const selectedIndex = e.target.selectedIndex >= 0 ? e.target.selectedIndex : 0;
+    const target = e.target.options[selectedIndex];
     const calendarId = getDataAction(target);
     changeNewScheduleCalendar(calendarId);
 }
@@ -592,7 +591,7 @@ function openCreationPopup(options) {
         this.newSchedule = false;
     }
 
-    if (options.calendarId) {
+    if (Number.isInteger(options.calendarId)) {
         $(this.$refs.dropdownMenuCalendarsList).selectpicker('val', options.calendarId);
         this.$refs.dropdownMenuCalendarsList.dispatchEvent(new Event('change'));
     }
