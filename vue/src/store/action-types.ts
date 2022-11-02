@@ -2,6 +2,9 @@ export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
 
 export const GET_EMPLOYEES = 'GET_EMPLOYEES';
+export const INSERT_EMPLOYEE = 'INSERT_EMPLOYEE';
+export const UPDATE_EMPLOYEE = 'UPDATE_EMPLOYEE';
+export const DELETE_EMPLOYEE = 'DELETE_EMPLOYEE';
 export const GET_USERS_MESSAGES = 'GET_USERS_MESSAGES';
 
 export const GET_MESSAGES = 'GET_MESSAGES';

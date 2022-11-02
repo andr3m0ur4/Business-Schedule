@@ -1,9 +1,9 @@
-import type IMessage from "@/interfaces/IMessage";
-import type { State } from "@/store";
-import { GET_MESSAGES, INSERT_MESSAGE } from "@/store/action-types";
+import type IMessage from "../../../interfaces/IMessage";
+import type { State } from "../../../store";
+import { GET_MESSAGES, INSERT_MESSAGE } from "../../../store/action-types";
 import type { Module } from "vuex";
-import http from "@/http";
-import { ADD_MESSAGE, DEFINE_MESSAGES } from "@/store/mutation-types";
+import http from "../../../http";
+import { ADD_MESSAGE, DEFINE_MESSAGES } from "../../../store/mutation-types";
 
 export interface StateMessage {
     messages: IMessage[]
@@ -29,8 +29,19 @@ export const message : Module<StateMessage, State> = {
                 .then(response => commit(DEFINE_MESSAGES, response.data));
         },
         [INSERT_MESSAGE]({ commit }, message: IMessage) {
-            return http.post('v1/messages', message)
-                .then(response => commit(ADD_MESSAGE, response.data));
+            console.log(message);
+            return http
+                .post('v1/messages', message)
+                .then( (response) => {commit(ADD_MESSAGE, response.data)
+                    console.log(response.data)
+                    console.log(response)} )
+                    .catch(erro => console.log(erro.data));
         }
+    },
+    getters: {
+        getMessages(state) {
+          return state.messages;
+        },
     }
 }
+
