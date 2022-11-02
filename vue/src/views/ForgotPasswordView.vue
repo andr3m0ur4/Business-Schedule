@@ -32,8 +32,8 @@
 </template>
 
 <script lang="ts">
-import { useStore } from "@/store";
-import { SEND_MAIL } from "@/store/action-types";
+import { useStore } from "../store";
+import { SEND_MAIL } from "../store/action-types";
 import { defineComponent } from "@vue/runtime-core";
 
   export default defineComponent({

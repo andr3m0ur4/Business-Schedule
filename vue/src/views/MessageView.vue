@@ -9,7 +9,7 @@
                 <div class="col-lg-12 mb-3">
                   <div class="py-3 border-bottom">
                     <div class="form-title text-center">
-                      <h3>Mensagens</h3>
+                      <h3>Mensagendffs</h3>
                     </div>
                   </div>
                 </div>
@@ -44,7 +44,7 @@
                                 <p class="mb-0">03 December, 2020</p>
                               </div>
                               <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#addChat"
-                                @click="messageInfo.user_id_to = employee.id; messageInfo.user_id_from = messageT.user_id_from">Enviar mensagem</a>
+                                @click="messageInfo.user_id_to = employee.id; messageInfo.user_id_from = messageT.user_id_from; setMessages">Enviar mensagem</a>
                             </div>
                           </div>
                         </div>
@@ -146,9 +146,16 @@ export default defineComponent({
       messages: {} as IMessage[]
     }
   },
+  watch: {
+    messages: {
+      handler(newMessages, oldMessages){
+        setMessages(newMessages);
+      }
+    }
+  },
   setup() {
     const store = useStore();
-    const user = computed(() => store.state.user.user.data);
+    const user = computed(() => store.getters.getUser);
 
     const messageT = {
       user_id_from: user.id,
@@ -160,7 +167,8 @@ export default defineComponent({
 
     return {
       store,
-      employees: computed(() => store.state.employee.employees),
+      employees: computed(() => store.getters.getEmployees),
+      messages: computed(() => store.getters.getMessages),
       messageT,
       user
     }
@@ -170,18 +178,9 @@ export default defineComponent({
   },
   methods: {
     saveMessage() {
-      const store = useStore();
 
       this.messageInfo.user_id_from = this.user.id;
-      this.store.dispatch(GET_MESSAGES, this.messageInfo);
-
-
-      store.state.message.messages.forEach(function(item){  
-          this.messages.push(item) ;
-      });  
-
-      console.log(this.messages);
-      this.messageInfo.user_id_from = this.user.id;
+      console.log(this.messageInfo)
       this.store.dispatch(INSERT_MESSAGE, this.messageInfo)
         .then(() => {
           this.clearMessage();
