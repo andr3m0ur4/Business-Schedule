@@ -34,7 +34,8 @@ export const message : Module<StateMessage, State> = {
                 .post('v1/messages', message)
                 .then( (response) => {commit(ADD_MESSAGE, response.data)
                     console.log(response.data)
-                    console.log(response)} );
+                    console.log(response)} )
+                    .catch(erro => console.log(erro.data));
         }
     },
     getters: {

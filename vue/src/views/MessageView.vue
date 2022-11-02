@@ -41,10 +41,10 @@
                                 </div>
                               </div>
                               <div class="date">
-                                <p class="mb-0">03 December, 2020</p>
+                                <p class="mb-0">{{employee.id}}</p>
                               </div>
                               <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#addChat"
-                                @click="messageInfo.user_id_to = employee.id; messageInfo.user_id_from = messageT.user_id_from; setMessages">Enviar mensagem</a>
+                                @click="messageT.user_id_to = employee.id; ">Enviar mensagem</a>
                             </div>
                           </div>
                         </div>
@@ -85,7 +85,7 @@
         <div class="col-12 border rounded">
                     <div id="box-message" class="scrollspy-example" data-spy="scroll" data-target="#navbar-example2" data-offset="0">
                       <div v-for="message_local in messages" :key="message_local.id">
-                        <div v-if="message_local.user_id_from === message_info.user_id_to" class="text-left col-12  mt-2">
+                        <div v-if="message_local.user_id_from === messageT.user_id_to" class="text-left col-12  mt-2">
                           <div class="row">
                             <h6><span class="badge badge-info mr-2" id="mdo">{{  }}</span></h6>
                             <h6>
@@ -179,8 +179,9 @@ export default defineComponent({
   methods: {
     saveMessage() {
 
+      this.messageInfo.user_id_to = this.messageT.user_id_to;
       this.messageInfo.user_id_from = this.user.id;
-      console.log(this.messageInfo)
+      console.log(this.messageInfo.user_id_to)
       this.store.dispatch(INSERT_MESSAGE, this.messageInfo)
         .then(() => {
           this.clearMessage();
