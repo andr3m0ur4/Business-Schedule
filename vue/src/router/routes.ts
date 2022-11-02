@@ -45,7 +45,7 @@ const routes: RouteRecordRaw[] = [
         path: "/programas",
         name: "tvshow",
         component: () => import("../views/TvShowView.vue"),
-      },
+      }
     ],
   },
   {

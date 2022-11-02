@@ -179,45 +179,49 @@ class ScheduleInfo {
     }
 
     static createSchedulesFromDB(schedules) {
-        schedules.forEach(scheduleDB => {
-            if (scheduleDB.user) {
+        if (schedules) {
+            schedules.forEach(scheduleDB => {
+                if (scheduleDB.user) {
+                    const schedule = {
+                        id: scheduleDB.id,
+                        calendarId: String(scheduleDB.user.job_id),
+                        title: scheduleDB.user.name,
+                        start: scheduleDB.start,
+                        end: scheduleDB.end,
+                        category: 'time',
+                        raw: {
+                            employee: scheduleDB.user,
+                            schedules: scheduleDB.schedules,
+                        },
+                        state: 'public'
+                    };
+                    ScheduleList.push(schedule);
+                }
+            });
+        }
+    }
+
+    static createTasksFromDB(tasks) {
+        if (tasks) {
+            tasks.forEach(scheduleDB => {
                 const schedule = {
                     id: scheduleDB.id,
-                    calendarId: String(scheduleDB.user.job_id),
-                    title: scheduleDB.user.name,
+                    calendarId: '',
+                    title: scheduleDB.tvShow.name,
+                    location: scheduleDB.studio.name,
                     start: scheduleDB.start,
                     end: scheduleDB.end,
-                    category: 'time',
+                    category: 'task',
                     raw: {
-                        employee: scheduleDB.user,
-                        schedules: scheduleDB.schedules,
+                        tvShow: scheduleDB.tvShow,
+                        studio: scheduleDB.studio,
+                        switcher: scheduleDB.switcher
                     },
                     state: 'public'
                 };
                 ScheduleList.push(schedule);
-            }
-        });
-    }
-
-    static createTasksFromDB(tasks) {
-        tasks.forEach(scheduleDB => {
-            const schedule = {
-                id: scheduleDB.id,
-                calendarId: '',
-                title: scheduleDB.tvShow.name,
-                location: scheduleDB.studio.name,
-                start: scheduleDB.start,
-                end: scheduleDB.end,
-                category: 'task',
-                raw: {
-                    tvShow: scheduleDB.tvShow,
-                    studio: scheduleDB.studio,
-                    switcher: scheduleDB.switcher
-                },
-                state: 'public'
-            };
-            ScheduleList.push(schedule);
-        });
+            });
+        }
     }
 }
 

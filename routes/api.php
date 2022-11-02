@@ -52,7 +52,7 @@ Route::prefix('v1')->middleware('jwt.auth')->group(function() {
     Route::apiResource('studios', StudioController::class);
     Route::apiResource('tv-shows', TvShowController::class);
     Route::get('tv-show-times/filters', [TvShowTimeController::class, 'filters']);
-    Route::post('tv-show-times/save', [TvShowTimeController::class, 'save']);
+    Route::put('tv-show-times/save', [TvShowTimeController::class, 'save']);
     Route::apiResource('tv-show-times', TvShowTimeController::class);
     Route::apiResource('schedules', ScheduleController::class);
     Route::apiResource('messages', MessageController::class);

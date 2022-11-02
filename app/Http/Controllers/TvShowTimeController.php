@@ -40,7 +40,8 @@ class TvShowTimeController extends Controller
     public function store(StoreTvShowTimeRequest $request)
     {
         $tvShowTime = TvShowTime::create($request->validated());
-        return response()->json($tvShowTime, Response::HTTP_CREATED);
+        $tvShowTime->id = $request->id;
+        return response()->json(TvShowTimeResource::make($tvShowTime), Response::HTTP_CREATED);
     }
 
     /**
@@ -88,7 +89,22 @@ class TvShowTimeController extends Controller
         return response()->json($tvShowTimes);
     }
 
-    public function save(Request $request)
+    public function save(UpdateTvShowTimeRequest $request)
+    {
+        $tvShowTime = TvShowTime::find($request->id);
+        if ($tvShowTime) {
+            $tvShowTime->fill($request->all());
+            $tvShowTime->save();
+            return response()->json(TvShowTimeResource::make($tvShowTime), Response::HTTP_OK);
+        }
+
+        $tvShowTime = new TvShowTime($request->all());
+        $tvShowTime->save();
+        $tvShowTime->id = $request->id;
+        return response()->json(TvShowTimeResource::make($tvShowTime), Response::HTTP_CREATED);
+    }
+
+    public function saveAll(Request $request)
     {
         $insertRows = 0;
         $affectedRows = 0;

@@ -85,7 +85,6 @@ function setEventHandlers($this) {
             saveNewSchedule(e);
         },
         beforeUpdateSchedule(e) {
-            // aqui entra a regra para abrir popup de atualizaçao
             const schedule = e.schedule;
             const changes = e.changes ?? e.schedule;
 
@@ -99,46 +98,50 @@ function setEventHandlers($this) {
             // this.newSchedule = false;
             // this.newTask = false;
 
-            if (false && schedule.category == 'task') {
-                this.selectedSchedule.id = schedule.id;
-                if (schedule.raw) {
-                  this.selectedTvShow = schedule.raw.tvShow;
-                  this.selectedStudio = schedule.raw.studio;
-                  this.selectedSwitcher = schedule.raw.switcher;
-                }
-
-                this.datePickerTask.setStartDate(changes.start ? changes.start.toDate() : schedule.start.toDate());
-                this.datePickerTask.setEndDate(changes.end ? changes.end.toDate() : schedule.end.toDate());
-                $('#modal-new-task').modal();
-              }
-
             if (schedule.category == 'time') {
-                //
-            }
+                $this.selectedSchedule.id = schedule.id;
+                $this.selectedSchedule.calendarId = schedule.calendarId;
 
-            $this.selectedSchedule.id = schedule.id;
-            $this.selectedSchedule.calendarId = schedule.calendarId;
+                if (schedule.raw) {
+                    $this.selectedEmployee = schedule.raw.employee;
 
-            if (schedule.raw) {
-                $this.selectedEmployee = schedule.raw.employee;
-
-                if (schedule.raw.schedules) {
-                    $this.selectedTvShowTimes = schedule.raw.schedules.map(schedule => {
-                        return schedule.tv_show_time.id;
-                    });
+                    if (schedule.raw.schedules) {
+                        $this.selectedTvShowTimes = schedule.raw.schedules.map(schedule => {
+                            return schedule.tv_show_time.id;
+                        });
+                    }
                 }
+
+                const start = changes.start ? changes.start.toDate() : schedule.start.toDate();
+                const end = changes.end ? changes.end.toDate() : schedule.end.toDate();
+
+                openCreationPopup.call($this, {
+                    type: 'time',
+                    create: false,
+                    calendarId: schedule.calendarId,
+                    start,
+                    end
+                });
             }
 
-            const start = changes.start ? changes.start.toDate() : schedule.start.toDate();
-            const end = changes.end ? changes.end.toDate() : schedule.end.toDate();
+            if (schedule.category == 'task') {
+                $this.selectedSchedule.id = schedule.id;
+                if (schedule.raw) {
+                    $this.selectedTvShow = schedule.raw.tvShow;
+                    $this.selectedStudio = schedule.raw.studio;
+                    $this.selectedSwitcher = schedule.raw.switcher;
+                }
 
-            openCreationPopup.call($this, {
-                type: 'time',
-                create: false,
-                calendarId: schedule.calendarId,
-                start,
-                end
-            });
+                const start = changes.start ? changes.start.toDate() : schedule.start.toDate();
+                const end = changes.end ? changes.end.toDate() : schedule.end.toDate();
+
+                openCreationPopup.call($this, {
+                    type: 'task',
+                    create: false,
+                    start,
+                    end
+                });
+            }
 
             calendar.updateSchedule(schedule.id, schedule.calendarId, changes);
             refreshScheduleVisibility();
@@ -146,7 +149,12 @@ function setEventHandlers($this) {
         beforeDeleteSchedule(e) {
             console.log('beforeDeleteSchedule', e);
             calendar.deleteSchedule(e.schedule.id, e.schedule.calendarId);
-            $this.deleteSchedule(e.schedule);
+            if (e.schedule.category == 'time') {
+                $this.deleteSchedule(e.schedule);
+                return;
+            }
+
+            $this.deleteTask(e.schedule);
         },
         afterRenderSchedule(e) {
             var schedule = e.schedule;
@@ -517,15 +525,8 @@ function setRenderRangeText() {
     renderRange.innerHTML = html.join('');
 }
 
-function setSchedules(paramSchedules = null) {
-    if (paramSchedules) {
-        schedules = paramSchedules;
-    }
-
+function setSchedules() {
     calendar.clear();
-    ScheduleList.splice(0, ScheduleList.length);
-    ScheduleInfo.createSchedulesFromDB(schedules);
-
     // função para gerar horários aleatórios
     // generateSchedule(
     //     calendar.getViewName(),
@@ -533,7 +534,6 @@ function setSchedules(paramSchedules = null) {
     //     calendar.getDateRangeEnd()
     // );
     calendar.createSchedules(ScheduleList);
-
     refreshScheduleVisibility();
 }
 
@@ -602,6 +602,14 @@ function openCreationPopup(options) {
         this.datePicker.setEndDate(options.end);
         $(this.$refs.modalSchedule).modal();
     } else {
+        // this.$refs.formTask.reset();
+        if (options.create) {
+            $(this.$refs.labelTask).text('Adicionar');
+            this.newTask = true;
+        } else {
+            $(this.$refs.labelTask).text('Alterar');
+            this.newTask = false;
+        }
         this.datePickerTask.setStartDate(options.start);
         this.datePickerTask.setEndDate(options.end);
         $(this.$refs.modalTask).modal();

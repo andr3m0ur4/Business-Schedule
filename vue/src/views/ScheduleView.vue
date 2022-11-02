@@ -264,7 +264,7 @@
           <div class="modal-body">
             <div class="popup text-left">
               <h4 class="mb-3">
-                <span id="label-task">Adicionar</span> Horário de Programa
+                <span ref="labelTask">Adicionar</span> Horário de Programa
               </h4>
               <form action="/" @submit.prevent="" ref="formTask">
                 <div class="content create-workform row">
@@ -337,15 +337,29 @@
 
 <script lang="ts">
 import DatePicker from 'tui-date-picker';
-import axios from '@/http';
 import { POSITION, useToast } from "vue-toastification";
-import { getCalendar, getSelectedCalendar, openCreationPopup, pushSchedule, setDateTimePicker, setSchedules, startCalendar, startCalendarMenu } from '../assets/js/app-calendar';
+import { getCalendar, getSelectedCalendar, openCreationPopup, setDateTimePicker, setSchedules, setTasks, startCalendar, startCalendarMenu } from '../assets/js/app-calendar';
 
 import { CalendarList, CalendarInfo } from '../assets/js/data/calendars';
 import { computed } from '@vue/runtime-core';
 import { useStore } from '../store';
-import { DELETE_EMPLOYEE_TIME, GET_EMPLOYEES, GET_EMPLOYEES_TIMES, GET_JOBS, GET_STUDIOS, GET_SWITCHERS, GET_TVSHOWS, INSERT_EMPLOYEE_TIME, UPDATE_EMPLOYEE_TIME } from '../store/action-types';
+import {
+  DELETE_EMPLOYEE_TIME,
+  DELETE_TV_SHOW_TIME,
+  GET_EMPLOYEES,
+  GET_EMPLOYEES_TIMES,
+  GET_JOBS, GET_STUDIOS,
+  GET_SWITCHERS,
+  GET_TVSHOWS,
+  GET_TV_SHOW_TIMES,
+  INSERT_EMPLOYEE_TIME,
+  INSERT_TV_SHOW_TIME,
+  UPDATE_EMPLOYEE_TIME,
+  UPDATE_TV_SHOW_TIME
+} from '../store/action-types';
 import IEmployeeTime from '../interfaces/IEmployeeTime';
+import ITvShowTime from '../interfaces/ITvShowTime';
+import { ScheduleInfo, ScheduleList } from '../assets/js/data/schedules';
 
 export default {
   name: 'MyScheduleView',
@@ -479,18 +493,17 @@ export default {
       $(this.$refs.modalSchedule).modal('hide');
     },
     onNewTask() {
-      // esse eh o método que salva os horaŕios dos programas
-      if (!$('#submit-task').get(0).reportValidity()) {
+      if (!$(this.$refs.formTask).get(0).reportValidity()) {
         return false;
       }
 
-      const id = String(chance.guid())
+      const id = String(chance.guid());
       const title = this.selectedTvShow.name;
       const location = this.selectedStudio.name;
       const start = this.datePickerTask.getStartDate();
       const end = this.datePickerTask.getEndDate();
 
-      this.calendar.createSchedules([{
+      getCalendar().createSchedules([{
         id,
         location,
         title,
@@ -505,25 +518,28 @@ export default {
         }
       }]);
 
-      this.saveStorage(id, '', 'tasks');
+      const task = getCalendar().getSchedule(id, '');
+      this.createTask(task);
 
-      $('#modal-new-task').modal('hide');
+      $(this.$refs.modalTask).modal('hide');
     },
     onUpdateTask() {
+      if (!$(this.$refs.formTask).get(0).reportValidity()) {
+        return false;
+      }
+
+      const id = this.selectedSchedule.id;
       const title = this.selectedTvShow.name;
       const location = this.selectedStudio.name;
-      const id = this.selectedSchedule.id;
       const calendarId = '';
       const start = this.datePickerTask.getStartDate();
       const end = this.datePickerTask.getEndDate();
-      console.log('title', title);
-      console.log('id', id);
 
       if (!title || !id) {
         return;
       }
 
-      this.calendar.updateSchedule(id, calendarId, {
+      getCalendar().updateSchedule(id, calendarId, {
         title,
         location,
         start,
@@ -536,9 +552,10 @@ export default {
         }
       });
 
-      this.updateStorage(id, '', calendarId, 'tasks');
+      const task = getCalendar().getSchedule(id, '');
+      this.updateTask(task);
 
-      $('#modal-new-task').modal('hide');
+      $(this.$refs.modalTask).modal('hide');
     },
     filterEmployees(e) {
       const selectedIndex = e.target.selectedIndex >= 0 ? e.target.selectedIndex : 0;
@@ -726,6 +743,43 @@ export default {
       this.store.dispatch(DELETE_EMPLOYEE_TIME, id)
         .then(() => this.renderToastWarning('Horário de funcionário excluído com sucesso.'));
     },
+    createTask(task) {
+      const tvShowTime = {} as ITvShowTime;
+      tvShowTime.id = task.id;
+      tvShowTime.start = this.formatDate(task.start.toDate());
+      tvShowTime.end = this.formatDate(task.end.toDate());
+      tvShowTime.mode = 'Ao Vivo';
+      tvShowTime.studio_id = task.raw.studio.id;
+      tvShowTime.switcher_id = task.raw.switcher.id;
+      tvShowTime.tv_show_id = task.raw.tvShow.id;
+      this.saveTvShowTime(tvShowTime);
+    },
+    saveTvShowTime(tvShowTime: ITvShowTime) {
+      this.store.dispatch(INSERT_TV_SHOW_TIME, tvShowTime)
+        .then(() => this.renderToastSuccess('Muito bom! Horário de programa salvo com sucesso.'));
+    },
+    updateTask(task) {
+      const tvShowTime = {} as ITvShowTime;
+      tvShowTime.id = task.id;
+      tvShowTime.start = this.formatDate(task.start.toDate());
+      tvShowTime.end = this.formatDate(task.end.toDate());
+      tvShowTime.studio_id = task.raw.studio.id;
+      tvShowTime.switcher_id = task.raw.switcher.id;
+      tvShowTime.tv_show_id = task.raw.tvShow.id;
+      this.updateTvShowTime(tvShowTime);
+    },
+    updateTvShowTime(tvShowTime: ITvShowTime) {
+      this.store.dispatch(UPDATE_TV_SHOW_TIME, tvShowTime)
+        .then(() => this.renderToastSuccess('Muito bom! Horário de programa atualizado com sucesso.'));
+    },
+    deleteTask(task) {
+      const id = task.id;
+      this.deleteTvShowTime(id);
+    },
+    deleteTvShowTime(id: string) {
+      this.store.dispatch(DELETE_TV_SHOW_TIME, id)
+        .then(() => this.renderToastWarning('Horário de programa excluído com sucesso.'));
+    },
     tvShowTimesByRange(tvShowTimes) {
       if (this.calendar) {
         const start = this.calendar.getDateRangeStart().toDate();
@@ -811,6 +865,12 @@ export default {
         icon: true,
         rtl: false
       });
+    },
+    createScheduleList(employeeTimes, tvShowTimes) {
+      ScheduleList.splice(0, ScheduleList.length);
+      ScheduleInfo.createSchedulesFromDB(employeeTimes);
+      ScheduleInfo.createTasksFromDB(tvShowTimes);
+      setSchedules();
     }
   },
   watch: {
@@ -839,11 +899,11 @@ export default {
         $('#switcher-title').selectpicker('refresh');
       });
     },
-    tvShowTimes() {
-      this.$nextTick(() => {
-        $('#select-tvshow-time').selectpicker('refresh');
-      })
-    },
+    // tvShowTimes() {
+    //   this.$nextTick(() => {
+    //     $('#select-tvshow-time').selectpicker('refresh');
+    //   })
+    // },
     selectedTvShow() {
       this.$nextTick(() => {
         $('#tv-show-title').selectpicker('refresh');
@@ -890,12 +950,21 @@ export default {
         toastClassName: 'toast-warning'
       });
     },
-    jobs(newJobs, oldJobs) {
+    jobs(newJobs) {
       this.calendarList = startCalendarMenu(newJobs);
     },
     employeeTimes: {
-      handler(newEmployeeTimes, oldEmployeeTimes) {
-        setSchedules(newEmployeeTimes);
+      handler(newEmployeeTimes) {
+        this.createScheduleList(newEmployeeTimes, this.tvShowTimes);
+      },
+      deep: true
+    },
+    tvShowTimes: {
+      handler(newTvShowTimes) {
+        this.createScheduleList(this.employeeTimes, newTvShowTimes);
+        this.$nextTick(() => {
+          $('#select-tvshow-time').selectpicker('refresh');
+        })
       },
       deep: true
     }
@@ -904,7 +973,8 @@ export default {
     const store = useStore();
     store.dispatch(GET_JOBS);
     store.dispatch(GET_EMPLOYEES);
-    store.dispatch(GET_EMPLOYEES_TIMES);
+    store.dispatch(GET_EMPLOYEES_TIMES)
+      .then(() => store.dispatch(GET_TV_SHOW_TIMES));
     store.dispatch(GET_TVSHOWS);
     store.dispatch(GET_STUDIOS);
     store.dispatch(GET_SWITCHERS);
@@ -916,6 +986,7 @@ export default {
       tvShows: computed(() => store.getters.getTvShows),
       studios: computed(() => store.getters.getStudios),
       switchers: computed(() => store.getters.getSwitchers),
+      tvShowTimes: computed(() => store.getters.getTvShowTimes),
       store
     }
   }
