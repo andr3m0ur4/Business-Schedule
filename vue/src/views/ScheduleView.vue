@@ -336,12 +336,11 @@
 </template>
 
 <script lang="ts">
-import DatePicker from 'tui-date-picker';
 import { POSITION, useToast } from "vue-toastification";
-import { getCalendar, getSelectedCalendar, openCreationPopup, setDateTimePicker, setSchedules, setTasks, startCalendar, startCalendarMenu } from '../assets/js/app-calendar';
+import { getCalendar, getSelectedCalendar, openCreationPopup, setDateTimePicker, setSchedules, startCalendar, startCalendarMenu } from '../assets/js/app-calendar';
 
 import { CalendarList, CalendarInfo } from '../assets/js/data/calendars';
-import { computed } from '@vue/runtime-core';
+import { computed } from 'vue';
 import { useStore } from '../store';
 import {
   DELETE_EMPLOYEE_TIME,
@@ -353,6 +352,8 @@ import {
   GET_TVSHOWS,
   GET_TV_SHOW_TIMES,
   INSERT_EMPLOYEE_TIME,
+  INSERT_OR_UPDATE_SCHEDULES,
+  INSERT_SCHEDULES,
   INSERT_TV_SHOW_TIME,
   UPDATE_EMPLOYEE_TIME,
   UPDATE_TV_SHOW_TIME
@@ -360,6 +361,7 @@ import {
 import IEmployeeTime from '../interfaces/IEmployeeTime';
 import ITvShowTime from '../interfaces/ITvShowTime';
 import { ScheduleInfo, ScheduleList } from '../assets/js/data/schedules';
+import ISchedule from '../interfaces/ISchedule';
 
 export default {
   name: 'MyScheduleView',
@@ -413,15 +415,14 @@ export default {
       const end = this.datePicker.getEndDate();
       const calendar = getSelectedCalendar();
       const id = String(chance.guid());
-      const schedules = [];
 
       // const employeeId = this.getDataAction($('#schedule-title').find(':selected').get(0));
 
-      // const schedules = this.selectedTvShowTimes.map(tvShowTime => {
-      //   return {
-      //     tv_show_time: this.calendar.getSchedule(tvShowTime, '')
-      //   };
-      // });
+      const schedules = this.selectedTvShowTimes.map(tvShowTime => {
+        return {
+          tv_show_time: getCalendar().getSchedule(tvShowTime, '')
+        };
+      });
 
       if (!title) {
         return;
@@ -469,25 +470,33 @@ export default {
         return;
       }
 
-      // const schedules = this.selectedTvShowTimes.map(tvShowTime => {
-      //   return {
-      //     tv_show_time: this.calendar.getSchedule(tvShowTime, '')
-      //   };
-      // });
+      let schedule = getCalendar().getSchedule(id, calendar.id);
+
+      // preciso identificar quais horarios de programas foram removidos
+      const schedules = this.selectedTvShowTimes.map(tvShowTime => {
+        const objSchedule = schedule.raw.schedules.find(itemSchedule => itemSchedule.tv_show_time.id == tvShowTime);
+        if (objSchedule) {
+          return objSchedule;
+        }
+
+        return {
+          tv_show_time: getCalendar().getSchedule(tvShowTime, '')
+        };
+      });
 
       getCalendar().updateSchedule(id, calendarId, {
         title,
         calendarId: calendar.id,
         raw: {
           employee: this.selectedEmployee,
-          // schedules
+          schedules
         },
         start,
         end,
         category: 'time'
       });
 
-      const schedule = getCalendar().getSchedule(id, calendar.id);
+      schedule = getCalendar().getSchedule(id, calendar.id);
       this.updateSchedule(schedule);
 
       $(this.$refs.modalSchedule).modal('hide');
@@ -688,15 +697,6 @@ export default {
     getDataAction(target) {
       return target.dataset ? target.dataset.action : target.getAttribute('data-action');
     },
-    addRemovedItems(schedule, category = 'removed-schedules') {
-      const schedules = JSON.parse(this.$ls.get(category, '[]'));
-      schedules.push(schedule);
-      this.$ls.set(category, JSON.stringify(schedules));
-    },
-    getRemovedItems(schedules, category = 'removed-schedules') {
-      const removedItems = JSON.parse(this.$ls.get(category, '[]'));
-      return schedules.concat(removedItems);
-    },
     clearRangeStorage(category = 'schedules') {
       const start = this.calendar.getDateRangeStart().toDate();
       const end = moment(this.calendar.getDateRangeEnd().toDate()).add({
@@ -717,10 +717,11 @@ export default {
       employeeTime.start = this.formatDate(schedule.start.toDate());
       employeeTime.end = this.formatDate(schedule.end.toDate());
       employeeTime.user_id = schedule.raw.employee.id;
-      this.saveEmployeeTime(employeeTime);
+      this.saveEmployeeTime(employeeTime)
+        .then(() => this.createEmployeeTimeWithTvShowTimes(schedule.id, schedule.raw.schedules));
     },
     saveEmployeeTime(employeeTime: IEmployeeTime) {
-      this.store.dispatch(INSERT_EMPLOYEE_TIME, employeeTime)
+      return this.store.dispatch(INSERT_EMPLOYEE_TIME, employeeTime)
         .then(() => this.renderToastSuccess('Muito bom! Horário de funcionário salvo com sucesso.'));
     },
     updateSchedule(schedule) {
@@ -729,10 +730,11 @@ export default {
       employeeTime.start = this.formatDate(schedule.start.toDate());
       employeeTime.end = this.formatDate(schedule.end.toDate());
       employeeTime.user_id = schedule.raw.employee.id;
-      this.updateEmployeeTime(employeeTime);
+      this.updateEmployeeTime(employeeTime)
+        .then(() => this.updateEmployeeTimeWithTvShowTimes(schedule.id, schedule.raw.schedules));
     },
     updateEmployeeTime(employeeTime: IEmployeeTime) {
-      this.store.dispatch(UPDATE_EMPLOYEE_TIME, employeeTime)
+      return this.store.dispatch(UPDATE_EMPLOYEE_TIME, employeeTime)
         .then(() => this.renderToastSuccess('Muito bom! Horário de funcionário atualizado com sucesso.'));
     },
     deleteSchedule(schedule) {
@@ -779,6 +781,25 @@ export default {
     deleteTvShowTime(id: string) {
       this.store.dispatch(DELETE_TV_SHOW_TIME, id)
         .then(() => this.renderToastWarning('Horário de programa excluído com sucesso.'));
+    },
+    createEmployeeTimeWithTvShowTimes(idEmployeeTime: string, schedulesParam: any[]) {
+      const schedules = schedulesParam.map(scheduleParam => {
+        const schedule = {} as ISchedule;
+        schedule.employee_time_id = idEmployeeTime;
+        schedule.tv_show_time_id = scheduleParam.tv_show_time.id;
+        return schedule;
+      });
+      this.store.dispatch(INSERT_SCHEDULES, schedules);
+    },
+    updateEmployeeTimeWithTvShowTimes(idEmployeeTime: string, schedulesParam: any[]) {
+      const schedules = schedulesParam.map(scheduleParam => {
+        const schedule = {} as ISchedule;
+        schedule.id = scheduleParam.id ?? null;
+        schedule.employee_time_id = idEmployeeTime;
+        schedule.tv_show_time_id = scheduleParam.tv_show_time.id;
+        return schedule;
+      });
+      this.store.dispatch(INSERT_OR_UPDATE_SCHEDULES, schedules);
     },
     tvShowTimesByRange(tvShowTimes) {
       if (this.calendar) {

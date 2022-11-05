@@ -104,6 +104,7 @@ function setEventHandlers($this) {
 
                 if (schedule.raw) {
                     $this.selectedEmployee = schedule.raw.employee;
+                    console.log(schedule.raw);
 
                     if (schedule.raw.schedules) {
                         $this.selectedTvShowTimes = schedule.raw.schedules.map(schedule => {

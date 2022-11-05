@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreScheduleRequest;
 use App\Http\Requests\UpdateScheduleRequest;
 use App\Models\Schedule;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 
@@ -87,6 +88,24 @@ class ScheduleController extends Controller
     {
         $schedule->delete();
         return response()->json($schedule);
+    }
+
+    public function save(Request $request)
+    {
+        $insert = 0;
+        foreach ($request->all() as $attributes) {
+            $schedule = Schedule::find($attributes['id']);
+            if ($schedule) {
+                $schedule->fill($attributes);
+            } else {
+                $schedule = new Schedule($attributes);
+                $insert++;
+            }
+
+            $schedule->save();
+        }
+
+        return response()->json(['success' => $insert]);
     }
 
     public function manage($item, $time)

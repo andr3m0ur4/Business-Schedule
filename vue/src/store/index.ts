@@ -11,6 +11,7 @@ import http from "../http";
 import { employee, type StateEmployee } from "./modules/employee";
 import { employeeTime, type StateEmployeeTime } from "./modules/employeeTime";
 import { tvShowTime, type StateTvShowTime } from "./modules/tvShowTime";
+import { schedule, type StateSchedule } from "./modules/schedule";
 
 export interface State {
     employee: StateEmployee,
@@ -21,7 +22,8 @@ export interface State {
     tvshow: StateTvshow,
     message: StateMessage,
     employeeTimes: StateEmployeeTime,
-    tvShowTimes: StateTvShowTime
+    tvShowTimes: StateTvShowTime,
+    schedules: StateSchedule
 };
 
 export const key: InjectionKey<Store<State>> = Symbol();
@@ -66,7 +68,8 @@ export const store = createStore<State>({
         tvshow,
         message,
         employeeTime,
-        tvShowTime
+        tvShowTime,
+        schedule
     }
 });
 

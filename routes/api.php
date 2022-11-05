@@ -45,8 +45,8 @@ Route::prefix('v1')->middleware('jwt.auth')->group(function() {
     Route::post('logout', [AuthController::class, 'logout']);
     Route::apiResource('users', UserController::class);
 
-    Route::put('employee-times/save', [EmployeeTimeController::class, 'save']);
     Route::apiResource('jobs', JobController::class);
+    Route::put('employee-times/save', [EmployeeTimeController::class, 'save']);
     Route::apiResource('employee-times', EmployeeTimeController::class);
     Route::apiResource('switchers', SwitcherController::class);
     Route::apiResource('studios', StudioController::class);
@@ -54,6 +54,7 @@ Route::prefix('v1')->middleware('jwt.auth')->group(function() {
     Route::get('tv-show-times/filters', [TvShowTimeController::class, 'filters']);
     Route::put('tv-show-times/save', [TvShowTimeController::class, 'save']);
     Route::apiResource('tv-show-times', TvShowTimeController::class);
+    Route::post('schedules/save', [ScheduleController::class, 'save']);
     Route::apiResource('schedules', ScheduleController::class);
     Route::apiResource('messages', MessageController::class);
     Route::get('users-data', [UserController::class, 'getUserData']);
