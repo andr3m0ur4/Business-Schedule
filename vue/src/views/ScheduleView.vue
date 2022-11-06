@@ -227,7 +227,7 @@
                     <div class="form-group">
                       <label class="form-label" for="start-schedule">Horário Inicial</label>
                       <div class="tui-datepicker-input tui-datetime-input tui-has-focus">
-                        <input type="text" class="form-control date-input" id="start-schedule" aria-label="Date-Time" required>
+                        <input type="text" class="form-control date-input" id="start-schedule" aria-label="Date-Time" autocomplete="off" required>
                         <span class="tui-ico-date"></span>
                       </div>
                       <div id="startpicker-container-schedule" style="margin-top: -1px;"></div>
@@ -237,7 +237,7 @@
                     <div class="form-group">
                       <label class="form-label" for="end-schedule">Horário Final</label>
                       <div class="tui-datepicker-input tui-datetime-input tui-has-focus">
-                        <input type="text" class="form-control date-input" id="end-schedule" aria-label="Date-Time" required>
+                        <input type="text" class="form-control date-input" id="end-schedule" aria-label="Date-Time" autocomplete="off" required>
                         <span class="tui-ico-date"></span>
                       </div>
                       <div id="endpicker-container-schedule" style="margin-top: -1px;"></div>
@@ -302,7 +302,7 @@
                     <div class="form-group">
                       <label class="form-label" for="start-task">Horário Inicial</label>
                       <div class="tui-datepicker-input tui-datetime-input tui-has-focus">
-                        <input type="text" class="form-control date-input" id="start-task" aria-label="Date-Time" required>
+                        <input type="text" class="form-control date-input" id="start-task" aria-label="Date-Time" autocomplete="off" required>
                         <span class="tui-ico-date"></span>
                       </div>
                       <div id="startpicker-container-task" style="margin-top: -1px;"></div>
@@ -312,7 +312,7 @@
                     <div class="form-group">
                       <label class="form-label" for="end-task">Horário Final</label>
                       <div class="tui-datepicker-input tui-datetime-input tui-has-focus">
-                        <input type="text" class="form-control date-input" id="end-task" aria-label="Date-Time" required>
+                        <input type="text" class="form-control date-input" id="end-task" aria-label="Date-Time" autocomplete="off" required>
                         <span class="tui-ico-date"></span>
                       </div>
                       <div id="endpicker-container-task" style="margin-top: -1px;"></div>
@@ -573,24 +573,6 @@ export default {
       this.employeesByJobs = this.employees.filter(employee => {
         return employee.job_id == calendarId;
       });
-    },
-    changeNewScheduleCalendar(calendarId) {
-      const calendarNameElement = document.getElementById('calendarName');
-      const calendar = CalendarInfo.findCalendar(calendarId);
-      const html = [];
-
-      html.push(
-        `<span
-          class="calendar-bar"
-          style="background-color: ${calendar.bgColor}; border-color:${calendar.borderColor};"
-        ></span>`
-      );
-      html.push(`<span class="calendar-name">${calendar.name}</span>`);
-
-      // calendarNameElement.innerHTML = html.join('');
-      calendarNameElement
-
-      this.selectedCalendar = calendar
     },
     createNewTask(event) {
       $('#submit-task').trigger('reset');
@@ -1129,4 +1111,4 @@ export default {
   }
 </style>
 
-<style scoped lang="css" src="@/assets/css/icons.css"></style>
+<style scoped lang="css" src="../assets/css/icons.css"></style>

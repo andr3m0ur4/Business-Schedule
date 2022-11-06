@@ -585,8 +585,8 @@ function setDateTimePicker(options) {
 
 function openCreationPopup(options) {
     if (options.type == 'time') {
-        this.$refs.formSchedule.reset();
         if (options.create) {
+            this.$refs.formSchedule.reset();
             $(this.$refs.labelSchedule).text('Adicionar');
             this.newSchedule = true;
         } else {
@@ -603,8 +603,8 @@ function openCreationPopup(options) {
         this.datePicker.setEndDate(options.end);
         $(this.$refs.modalSchedule).modal();
     } else {
-        // this.$refs.formTask.reset();
         if (options.create) {
+            this.$refs.formTask.reset();
             $(this.$refs.labelTask).text('Adicionar');
             this.newTask = true;
         } else {
