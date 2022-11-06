@@ -36,10 +36,10 @@ export const user: Module<StateUser, State> = {
     [LOGIN]({ commit }, user: IUser) {
       return http
         .post("login", user)
-        .then((response) => commit(SET_USER, response.data));
+        .then(response => commit(SET_USER, response.data))
     },
     [LOGOUT]({ commit }) {
-      return http.post("v1/logout").then((response) => commit(LOGOUT));
+      return http.post("v1/logout").then(response => commit(LOGOUT));
     },
   },
   getters: {

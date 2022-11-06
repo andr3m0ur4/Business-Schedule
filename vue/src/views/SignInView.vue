@@ -52,7 +52,7 @@
 <script lang="ts">
 import type IUser from "../interfaces/IUser";
 import { LOGIN } from "../store/action-types";
-import { defineComponent } from "@vue/runtime-core";
+import { defineComponent } from 'vue';
 import { useStore } from "../store";
 
 export default defineComponent({
@@ -67,9 +67,8 @@ export default defineComponent({
   methods: {
     login() {
       this.store.dispatch(LOGIN, this.user)
-        .then(() => {
-          this.$router.push('/');
-        });
+        .then(() => this.$router.push('/'))
+        .catch(err => this.$swal('Ops', err.response.data.error, 'error'));
     }
   },
   setup() {
