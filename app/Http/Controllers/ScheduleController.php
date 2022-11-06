@@ -90,10 +90,29 @@ class ScheduleController extends Controller
         return response()->json($schedule);
     }
 
+    public function destroyWhereTvShowTimeIsNotIn(string $employeTimeId, array $tvShowTimeIds)
+    {
+        $schedules = Schedule::where('employee_time_id', $employeTimeId)
+                        ->whereNotIn('tv_show_time_id', $tvShowTimeIds)
+                        ->get();
+
+        if ($schedules->isNotEmpty()) {
+            foreach ($schedules as $schedule) {
+                $schedule->delete();
+            }
+        }
+    }
+
     public function save(Request $request)
     {
         $insert = 0;
+        $employeTimeId = 0;
+        $arrayTvShowTimeId = [];
+
         foreach ($request->all() as $attributes) {
+            $employeTimeId = $attributes['employee_time_id'];
+            $arrayTvShowTimeId[] = $attributes['tv_show_time_id'];
+
             $schedule = Schedule::find($attributes['id']);
             if ($schedule) {
                 $schedule->fill($attributes);
@@ -103,6 +122,10 @@ class ScheduleController extends Controller
             }
 
             $schedule->save();
+        }
+
+        if (!empty($arrayTvShowTimeId)) {
+            $this->destroyWhereTvShowTimeIsNotIn($employeTimeId, $arrayTvShowTimeId);
         }
 
         return response()->json(['success' => $insert]);

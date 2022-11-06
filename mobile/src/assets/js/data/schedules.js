@@ -157,7 +157,6 @@ class ScheduleInfo {
 
     static generateSchedule(viewName, renderStart, renderEnd) {
         ScheduleList.splice(0, ScheduleList.length);
-        console.log(CalendarList)
         CalendarList.forEach(function(calendar) {
             var i = 0, length = 10;
             if (viewName === 'month') {

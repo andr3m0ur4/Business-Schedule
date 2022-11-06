@@ -1130,7 +1130,3 @@ export default {
 </style>
 
 <style scoped lang="css" src="@/assets/css/icons.css"></style>
-
-  function moment(arg0: any[]) {
-    throw new Error('Function not implemented.');
-  }
