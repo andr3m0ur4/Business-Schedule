@@ -254,7 +254,7 @@ import type IUser from "../interfaces/IUser";
 import NotificationList from '../components/NotificationList.vue';
 import MessageList from '../components/MessageList.vue';
 import { LOGOUT } from "../store/action-types";
-import { computed, defineComponent } from "@vue/runtime-core";
+import { computed, defineComponent } from 'vue';
 import { useStore } from "../store";
 
 
@@ -263,6 +263,9 @@ export default defineComponent({
   components: {
     NotificationList,
     MessageList
+  },
+  created() {
+    this.setEventListeners();
   },
   methods: {
     getRecentMessages() {},
@@ -281,6 +284,15 @@ export default defineComponent({
             name: 'sign-in'
           });
         });
+    },
+    setEventListeners() {
+      jQuery(document).on('click', '.wrapper-menu', function() {
+        jQuery(this).toggleClass('open');
+      });
+
+      jQuery(document).on('click', ".wrapper-menu", function() {
+        jQuery("body").toggleClass("sidebar-main");
+      });
     }
   },
   setup() {
