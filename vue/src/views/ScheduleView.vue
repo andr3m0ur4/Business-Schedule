@@ -204,7 +204,7 @@
                   <div class="col-md-12">
                     <div class="form-group">
                       <label class="form-label" for="schedule-title">Funcionário</label>
-                      <select class="selectpicker form-control" id="schedule-title"
+                      <select class="selectpicker form-control" id="schedule-title" ref="scheduleTitle"
                         v-model="selectedEmployee" title="Digite o Nome" data-live-search="true" required>
                         <option v-for="employee in employeesByJobs" :key="employee.id" :data-action="employee.id" :value="employee">
                           {{ employee.name }}
@@ -214,8 +214,8 @@
                   </div>
                   <div class="col-md-12">
                     <div class="form-group">
-                      <label class="form-label" for="schedule-title">Horários de Programas</label>
-                      <select class="selectpicker form-control" id="select-tvshow-time" title="Informe o Nome do Programa"
+                      <label class="form-label">Horários de Programas</label>
+                      <select class="selectpicker form-control" ref="selectTvShowTime" title="Informe o Nome do Programa"
                         v-model="selectedTvShowTimes" data-live-search="true" multiple data-multiple-separator=" | ">
                         <option v-for="tvShowTime in tvShowTimesByRange(tvShowTimes)" :key="tvShowTime.id" :value="tvShowTime.id">
                           {{ tvShowTime.tvShow.name }}: {{ dateTime(tvShowTime.start) }} ~ {{ time(tvShowTime.end) }}
@@ -271,7 +271,8 @@
                   <div class="col-md-12">
                     <div class="form-group">
                       <label class="form-label" for="tv-show-title">Programa</label>
-                      <select class="selectpicker form-control" id="tv-show-title" v-model="selectedTvShow" title="Digite o Nome" data-live-search="true" required>
+                      <select class="selectpicker form-control" id="tv-show-title" ref="tvShowTitle"
+                        v-model="selectedTvShow" title="Digite o Nome" data-live-search="true" required>
                         <option v-for="tvShow in tvShows" :key="tvShow.id" :data-action="tvShow.id" :value="tvShow">
                           {{ tvShow.name }}
                         </option>
@@ -281,7 +282,8 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label class="form-label" for="studio-title">Estúdio</label>
-                      <select class="selectpicker form-control" id="studio-title" v-model="selectedStudio" title="Digite o Nome" data-live-search="true" required>
+                      <select class="selectpicker form-control" id="studio-title" ref="studioTitle"
+                        v-model="selectedStudio" title="Digite o Nome" data-live-search="true" required>
                         <option v-for="studio in studios" :key="studio.id" :data-action="studio.id" :value="studio">
                           {{ studio.name }}
                         </option>
@@ -291,7 +293,8 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label class="form-label" for="switcher-title">Switcher</label>
-                      <select class="selectpicker form-control" id="switcher-title" v-model="selectedSwitcher" title="Digite o Nome" data-live-search="true" required>
+                      <select class="selectpicker form-control" id="switcher-title" ref="switcherTitle"
+                        v-model="selectedSwitcher" title="Digite o Nome" data-live-search="true" required>
                         <option v-for="switcher in switchers" :key="switcher.id" :data-action="switcher.id" :value="switcher">
                           {{ switcher.name }}
                         </option>
@@ -470,9 +473,8 @@ export default {
         return;
       }
 
-      let schedule = getCalendar().getSchedule(id, calendar.id);
+      let schedule = getCalendar().getSchedule(id, calendarId);
 
-      // preciso identificar quais horarios de programas foram removidos
       const schedules = this.selectedTvShowTimes.map(tvShowTime => {
         const objSchedule = schedule.raw.schedules.find(itemSchedule => itemSchedule.tv_show_time.id == tvShowTime);
         if (objSchedule) {
@@ -615,43 +617,6 @@ export default {
 
       this.calendar.createSchedules([schedule]);
       this.saveStorage(schedule.id, calendar.id);
-
-      this.refreshScheduleVisibility();
-    },
-    onChangeCalendars(e) {
-      const calendarId = e.target.value;
-      const checked = e.target.checked;
-      const viewAll = document.querySelector('.lnb-calendars-item input');
-      const calendarElements = Array.prototype.slice.call(
-        document.querySelectorAll('#calendarList input')
-      );
-      let allCheckedCalendars = true;
-
-      if (calendarId === 'all') {
-        allCheckedCalendars = checked;
-
-        calendarElements.forEach(input => {
-          const span = input.parentNode;
-          input.checked = checked;
-          span.style.backgroundColor = checked ? span.style.borderColor : 'transparent';
-        });
-
-        CalendarList.forEach(calendar => {
-          calendar.checked = checked;
-        });
-      } else {
-        CalendarInfo.findCalendar(calendarId).checked = checked;
-
-        allCheckedCalendars = calendarElements.every(input => {
-          return input.checked;
-        });
-
-        if (allCheckedCalendars) {
-          viewAll.checked = true;
-        } else {
-          viewAll.checked = false;
-        }
-      }
 
       this.refreshScheduleVisibility();
     },
@@ -878,9 +843,7 @@ export default {
   },
   watch: {
     employeesByJobs() {
-      this.$nextTick(() => {
-        $('#schedule-title').selectpicker('refresh');
-      });
+      this.$nextTick(() => $(this.$refs.scheduleTitle).selectpicker('refresh'));
     },
     calendarList() {
       this.$nextTick(() => {
@@ -888,44 +851,25 @@ export default {
       })
     },
     tvShows() {
-      this.$nextTick(() => {
-        $('#tv-show-title').selectpicker('refresh');
-      });
+      this.$nextTick(() => $(this.$refs.tvShowTitle).selectpicker('refresh'));
     },
     studios() {
-      this.$nextTick(() => {
-        $('#studio-title').selectpicker('refresh');
-      });
+      this.$nextTick(() => $(this.$refs.studioTitle).selectpicker('refresh'));
     },
     switchers() {
-      this.$nextTick(() => {
-        $('#switcher-title').selectpicker('refresh');
-      });
+      this.$nextTick(() => $(this.$refs.switcherTitle).selectpicker('refresh'));
     },
-    // tvShowTimes() {
-    //   this.$nextTick(() => {
-    //     $('#select-tvshow-time').selectpicker('refresh');
-    //   })
-    // },
     selectedTvShow() {
-      this.$nextTick(() => {
-        $('#tv-show-title').selectpicker('refresh');
-      });
+      this.$nextTick(() => $(this.$refs.tvShowTitle).selectpicker('refresh'));
     },
     selectedStudio() {
-      this.$nextTick(() => {
-        $('#studio-title').selectpicker('refresh');
-      });
+      this.$nextTick(() => $(this.$refs.studioTitle).selectpicker('refresh'));
     },
     selectedSwitcher() {
-      this.$nextTick(() => {
-        $('#switcher-title').selectpicker('refresh');
-      });
+      this.$nextTick(() => $(this.$refs.switcherTitle).selectpicker('refresh'));
     },
     selectedTvShowTimes() {
-      this.$nextTick(() => {
-        $('#select-tvshow-time').selectpicker('refresh');
-      });
+      this.$nextTick(() => $(this.$refs.selectTvShowTime).selectpicker('refresh'));
     },
     scheduleNotSaved() {
       const toast = useToast();
@@ -966,7 +910,7 @@ export default {
       handler(newTvShowTimes) {
         this.createScheduleList(this.employeeTimes, newTvShowTimes);
         this.$nextTick(() => {
-          $('#select-tvshow-time').selectpicker('refresh');
+          $(this.$refs.selectTvShowTime).selectpicker('refresh');
         })
       },
       deep: true

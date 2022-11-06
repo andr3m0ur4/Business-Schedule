@@ -587,6 +587,8 @@ function openCreationPopup(options) {
     if (options.type == 'time') {
         if (options.create) {
             this.$refs.formSchedule.reset();
+            setTimeout(() => $(this.$refs.scheduleTitle).selectpicker('val', ''));
+            $(this.$refs.selectTvShowTime).selectpicker('deselectAll');
             $(this.$refs.labelSchedule).text('Adicionar');
             this.newSchedule = true;
         } else {
@@ -605,6 +607,9 @@ function openCreationPopup(options) {
     } else {
         if (options.create) {
             this.$refs.formTask.reset();
+            this.$nextTick(() => $(this.$refs.tvShowTitle).selectpicker('val', ''));
+            this.$nextTick(() => $(this.$refs.studioTitle).selectpicker('val', ''));
+            this.$nextTick(() => $(this.$refs.switcherTitle).selectpicker('val', ''));
             $(this.$refs.labelTask).text('Adicionar');
             this.newTask = true;
         } else {
