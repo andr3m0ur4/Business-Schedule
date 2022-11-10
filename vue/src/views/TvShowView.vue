@@ -145,7 +145,8 @@
             this.swal('Sucesso', `${this.tvshow.name} cadastrado com sucesso!`, 'success');
             this.clearTvshow();
             this.refreshDataTable
-          });
+          })
+          .cath(err => this.$swal('Ops', err.response.data.message, 'error'));
       },
       updateTvshow() {
         this.store.dispatch(UPDATE_TVSHOW, this.tvshow)
@@ -154,6 +155,7 @@
             this.swal('Sucesso', `${this.tvshow.name} atualizado com sucesso!`, 'success');
             this.clearTvshow();
           })
+          .cath(err => this.$swal('Ops', err.response.data.message, 'error'));
       },
       deleteTvshow(id: number, name: string) {
         this.$swal({
