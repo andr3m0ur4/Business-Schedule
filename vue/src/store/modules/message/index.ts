@@ -35,7 +35,7 @@ export const message : Module<StateMessage, State> = {
         [INSERT_MESSAGE]({ commit }, dados: {}) {
             console.log(message);
             return http
-                .post('v1/message-send', dados)
+                .post('v1/messages', dados)
                 .then( (response) => {commit(ADD_MESSAGE, response.data)
                     console.log(dados)
                     console.log(response)} )

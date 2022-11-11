@@ -55,7 +55,8 @@ Route::prefix('v1')->middleware('jwt.auth')->group(function() {
     Route::post('tv-show-times/save', [TvShowTimeController::class, 'save']);
     Route::apiResource('tv-show-times', TvShowTimeController::class);
     Route::apiResource('schedules', ScheduleController::class);
-    Route::post('message-send', [MessageController::class, 'storeEdit']);
+    //Route::post('message-send', [MessageController::class, 'store']);
+    //Route::post('message-send', [MessageController::class, 'saveMessage']);
     Route::apiResource('messages', MessageController::class);
     Route::get('users-data', [UserController::class, 'getUserData']);
     Route::get('users-messages', [MessageController::class, 'getMessages']);

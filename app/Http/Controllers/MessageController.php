@@ -28,13 +28,13 @@ class MessageController extends Controller
      * @param  \Illuminate\Http\StoreMessageRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function storeEdit(Request $request)
+    public function store(Request $request)
     {
-        echo('HERE');
-        var_dump($request);
-        die;
+        
+        //var_dump($request);
+        //die;
         $message = Message::create($request->messageInfo);
-        event(new MessageR($message->messageInfo, $message->canal));
+        event(new MessageR($message, $request->canal));
         //$message->id, $message->message, $message->read, $message->updated_at, $message->created_at,
         //                    $message->deleted_at, $message->user_id_from, $message->user_id_to
         return;

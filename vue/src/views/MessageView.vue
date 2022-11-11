@@ -188,6 +188,7 @@ export default defineComponent({
       this.messageInfo.user_id_to = this.messageT.user_id_to;
       this.messageInfo.user_id_from = this.user.id;
       canal = (this.messageInfo.user_id_to + '_' + this.messageInfo.user_id_from);
+      console.log(canal);
 
       const dados = {
         messageInfo: this.messageInfo,
@@ -201,47 +202,44 @@ export default defineComponent({
     },
     loadMessage(){
 
-      
       this.messageInfo.user_id_to = this.messageT.user_id_to;
       this.messageInfo.user_id_from = this.user.id;
 
-      Pusher.logToConsole = true;
-
-        const pusher = new Pusher('5f128ecfb6a1dab47acb', {
-        cluster: 'sa1'
-        });
-
-        console.log(this.messageT.user_id_to);
-        console.log(this.messageT.user_id_from);
-        const channel = pusher.subscribe(this.messageInfo.user_id_to + '_' + this.messageInfo.user_id_from);
-        
-
-        channel.bind('messageR', function(data) {
-        //messages.push(JSON.stringify(data));
-        //this.message = data;
-        //this.messages = data;
-
-        this.messages.value.push(data.message);
-        console.log(this.messages);
-        //this.messages = messages;
-        //this.messages = messages
-
-        //console.log(this.messages);
-        //console.log(messages);
-        //console.log(this.messages.value);
-        });
-  
       this.store.dispatch(GET_MESSAGES, this.messageInfo)
       .then((response) => {
         
-        console.log('aaaa');
         console.log(response);
         this.messages = this.messages.concat(response.data)
         console.log(this.messages);
       });
       //this.test = (computed(() => this.store.getters.getMessages));
-      console.log(this.messages);
       //console.log(this.messages)
+
+      Pusher.logToConsole = true;
+
+      const pusher = new Pusher('5f128ecfb6a1dab47acb', {
+      cluster: 'sa1'
+      });
+
+      console.log(this.messageT.user_id_to);
+      console.log(this.messageInfo.user_id_to + '_' + this.messageInfo.user_id_from);
+      const channel = pusher.subscribe(this.messageInfo.user_id_to + '_' + this.messageInfo.user_id_from);
+
+
+      channel.bind('messageR', function(data) {
+      //messages.push(JSON.stringify(data));
+      //this.message = data;
+      //this.messages = data;
+      console.log('VERIFICA ARRAY MENSSAGEM ' + this.messages);
+      this.messages.value.push(data.message);
+      console.log(this.messages);
+      //this.messages = messages;
+      //this.messages = messages
+
+      //console.log(this.messages);
+      //console.log(messages);
+      //console.log(this.messages.value);
+      });
 
     },
     clearMessage() {
