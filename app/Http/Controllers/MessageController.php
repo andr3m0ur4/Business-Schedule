@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateMessageRequest;
 use App\Models\Message;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Events\MessageR;
 use Illuminate\Support\Facades\DB;
 
 class MessageController extends Controller
@@ -27,9 +28,16 @@ class MessageController extends Controller
      * @param  \Illuminate\Http\StoreMessageRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreMessageRequest $request)
+    public function storeEdit(Request $request)
     {
-        $message = Message::create($request->validated());
+        echo('HERE');
+        var_dump($request);
+        die;
+        $message = Message::create($request->messageInfo);
+        event(new MessageR($message->messageInfo, $message->canal));
+        //$message->id, $message->message, $message->read, $message->updated_at, $message->created_at,
+        //                    $message->deleted_at, $message->user_id_from, $message->user_id_to
+        return;
         return response()->json($message, Response::HTTP_CREATED);
     }
 
@@ -133,6 +141,21 @@ class MessageController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function countRecentMessages(Request $request){
+
+        $user_id_to = $request->user_id_to;
+        $result = DB::getPdo()->prepare("SELECT COUNT(u.name) num FROM users u
+        INNER JOIN messages m ON m.user_id_from = u.id AND m.user_id_to = :user_to AND m.created_at = (SELECT MAX(m2.created_at)
+        FROM messages m2 WHERE m2.user_id_from = u.id AND m2.user_id_to = :user_to_s) AND m.read = 'N'");
+        $result->bindParam('user_to', $user_id_to);
+        $result->bindParam('user_to_s', $user_id_to);
+
+        $result->execute();
+
+        return response()->json($result->fetchAll()[0][0]);
+
+    }
+
+    public function setChat(Request $request){
 
         $user_id_to = $request->user_id_to;
         $result = DB::getPdo()->prepare("SELECT COUNT(u.name) num FROM users u

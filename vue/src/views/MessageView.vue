@@ -44,7 +44,7 @@
                                 <p class="mb-0">{{employee.id}}</p>
                               </div>
                               <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#addChat"
-                                @click="messageT.user_id_to = employee.id; ">Enviar mensagem</a>
+                                @click="messageT.user_id_to = employee.id; loadMessage()">Enviar mensagem</a>
                             </div>
                           </div>
                         </div>
@@ -69,7 +69,7 @@
                       <div class="media align-items-top user-detail mb-1">
                         <div class="row">
                           <div class="col-12">
-                            <h4>{{  }}</h4>
+                            <h4>{{ }}</h4>
                           </div>
                           <div class="col-12">
                           </div>
@@ -82,26 +82,26 @@
                   </button>
       </template>
       <template v-slot:body>
-        <div class="col-12 border rounded">
+        <div class="col-12 border rounded" id="MessageView">
                     <div id="box-message" class="scrollspy-example" data-spy="scroll" data-target="#navbar-example2" data-offset="0">
-                      <div v-for="message_local in messages" :key="message_local.id">
-                        <div v-if="message_local.user_id_from === messageT.user_id_to" class="text-left col-12  mt-2">
+                      <div v-for="message in messages" :key="message.id">
+                        <div v-if="message.user_id_from === messageT.user_id_to" class="text-left col-12  mt-2">
                           <div class="row">
                             <h6><span class="badge badge-info mr-2" id="mdo">{{  }}</span></h6>
                             <h6>
-                              {{message_local.created_at}}
+                              {{}}
                             </h6>
                           </div>
-                          <h5>{{ message_local.message }}</h5>
+                          <h5>{{ message.message }}</h5>
                         </div>
                         <div v-else class="text-right col-12 mt-2">
                           <div class="row justify-content-end">
                             <h6 class="mr-2">
-                              {{message_local.created_at}}
+                              {{}}
                             </h6>
                             <h6><span class="badge badge-primary" id="mdo">Eu</span></h6>
                           </div>
-                          <h5>{{ message_local.message }}</h5>
+                          <h5>{{ message.message }}</h5>
                         </div>
                       </div>
                     </div>
@@ -113,7 +113,7 @@
                           <div class="row">
                             <div class="col-md-12">
                               <div class="form-group">
-                                <input type="text" class="form-control" name="message" v-model="messageInfo.message"
+                                <input type="text" class="form-control" name="messageF" v-model="messageInfo.message"
                                   placeholder="Digite uma Menssagem" required="true" />
                               </div>
                             </div>
@@ -133,27 +133,32 @@
 
 <script lang="ts">
 import { useStore } from "../store";
-import { computed, defineComponent, inject } from "@vue/runtime-core";
+import { computed, defineComponent, inject , ref} from "@vue/runtime-core";
 import { GET_USERS_MESSAGES, GET_MESSAGES, INSERT_MESSAGE } from "../store/action-types";
 import ModalChat from '../components/modals/ModalChat.vue';
 import type IMessage from '../interfaces/IMessage';
+import Pusher from 'pusher-js';
+import { onMounted } from "@vue/runtime-core";
+
+
 
 export default defineComponent({
   name: 'MessageView',
   data() {
     return {
       messageInfo: {} as IMessage,
-      messages: {} as IMessage[]
+      messages: ref([]),
+      message: {},
     }
   },
-  watch: {
-    messages: {
-      handler(newMessages, oldMessages){
-        setMessages(newMessages);
-      }
-    }
+  beforeCreate(){
+    
+
+
+
   },
   setup() {
+
     const store = useStore();
     const user = computed(() => store.getters.getUser);
 
@@ -168,7 +173,6 @@ export default defineComponent({
     return {
       store,
       employees: computed(() => store.getters.getEmployees),
-      messages: computed(() => store.getters.getMessages),
       messageT,
       user
     }
@@ -178,18 +182,66 @@ export default defineComponent({
   },
   methods: {
     saveMessage() {
+      let canal = '';
+
 
       this.messageInfo.user_id_to = this.messageT.user_id_to;
       this.messageInfo.user_id_from = this.user.id;
-      console.log(this.messageInfo.user_id_to)
-      this.store.dispatch(INSERT_MESSAGE, this.messageInfo)
+      canal = (this.messageInfo.user_id_to + '_' + this.messageInfo.user_id_from);
+
+      const dados = {
+        messageInfo: this.messageInfo,
+        canal: canal
+      };
+
+      this.store.dispatch(INSERT_MESSAGE, dados)
         .then(() => {
           this.clearMessage();
         });
     },
     loadMessage(){
 
-      //return this.messages =  computed(() => store.state.message.messages);
+      
+      this.messageInfo.user_id_to = this.messageT.user_id_to;
+      this.messageInfo.user_id_from = this.user.id;
+
+      Pusher.logToConsole = true;
+
+        const pusher = new Pusher('5f128ecfb6a1dab47acb', {
+        cluster: 'sa1'
+        });
+
+        console.log(this.messageT.user_id_to);
+        console.log(this.messageT.user_id_from);
+        const channel = pusher.subscribe(this.messageInfo.user_id_to + '_' + this.messageInfo.user_id_from);
+        
+
+        channel.bind('messageR', function(data) {
+        //messages.push(JSON.stringify(data));
+        //this.message = data;
+        //this.messages = data;
+
+        this.messages.value.push(data.message);
+        console.log(this.messages);
+        //this.messages = messages;
+        //this.messages = messages
+
+        //console.log(this.messages);
+        //console.log(messages);
+        //console.log(this.messages.value);
+        });
+  
+      this.store.dispatch(GET_MESSAGES, this.messageInfo)
+      .then((response) => {
+        
+        console.log('aaaa');
+        console.log(response);
+        this.messages = this.messages.concat(response.data)
+        console.log(this.messages);
+      });
+      //this.test = (computed(() => this.store.getters.getMessages));
+      console.log(this.messages);
+      //console.log(this.messages)
 
     },
     clearMessage() {

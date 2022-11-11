@@ -26,7 +26,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "@vue/runtime-core"
+import { defineComponent, ref } from "@vue/runtime-core"
+import Pusher from 'pusher-js';
+import { onMounted } from "@vue/runtime-core";
 
 export default defineComponent({
   name: 'MessageList',

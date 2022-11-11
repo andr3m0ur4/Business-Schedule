@@ -145,7 +145,8 @@
             this.swal('Sucesso', `${this.switcher.name} cadastrado com sucesso!`, 'success');
             this.clearSwitcher();
             this.refreshDataTable
-          });
+          })
+          .catch(err => {console.log(err)});
       },
       updateSwitcher() {
         this.store.dispatch(UPDATE_SWITCHER, this.switcher)

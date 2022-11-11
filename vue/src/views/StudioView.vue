@@ -145,7 +145,8 @@ export default defineComponent({
           this.swal('Sucesso', `${this.studio.name} cadastrado com sucesso!`, 'success');
           this.clearStudio();
           this.refreshDataTable();
-        });
+        })
+        .catch(err => {console.log(err)});
     },
     updateStudio() {
       this.store.dispatch(UPDATE_STUDIO, this.studio)

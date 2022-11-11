@@ -20,20 +20,24 @@ export const message : Module<StateMessage, State> = {
     },
     actions: {
         [GET_MESSAGES]({ commit }, messageInfo: IMessage) {
-            http.get('v1/messages', {
+            console.log(messageInfo);
+            return http.get('v1/users-messages', {
                 params: {
                     user_id_to: messageInfo.user_id_to,
                     user_id_from: messageInfo.user_id_from
                 }
             })
-                .then(response => commit(DEFINE_MESSAGES, response.data));
+                .then( (response) => {commit(DEFINE_MESSAGES, response.data)
+                    //console.log(response.data + ' Index');
+                    return response;
+                });
         },
-        [INSERT_MESSAGE]({ commit }, message: IMessage) {
+        [INSERT_MESSAGE]({ commit }, dados: {}) {
             console.log(message);
             return http
-                .post('v1/messages', message)
+                .post('v1/message-send', dados)
                 .then( (response) => {commit(ADD_MESSAGE, response.data)
-                    console.log(response.data)
+                    console.log(dados)
                     console.log(response)} )
                     .catch(erro => console.log(erro.data));
         }
