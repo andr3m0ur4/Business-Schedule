@@ -12,36 +12,32 @@ export interface StateMessage {
 export const message : Module<StateMessage, State> = {
     mutations: {
         [DEFINE_MESSAGES](state, messages: IMessage[]) {
-            state.messages = messages;
+          state.messages = messages;
         },
         [ADD_MESSAGE](state, message: IMessage) {
-            state.messages.push(message);
+          state.messages.push(message);
         }
     },
     actions: {
         [GET_MESSAGES]({ commit }, messageInfo: IMessage) {
-            http.get('v1/messages', {
-                params: {
-                    user_id_to: messageInfo.user_id_to,
-                    user_id_from: messageInfo.user_id_from
-                }
+            return http.get('v1/users-messages', {
+              params: {
+                user_id_to: messageInfo.user_id_to,
+                user_id_from: messageInfo.user_id_from
+              }
             })
-                .then(response => commit(DEFINE_MESSAGES, response.data));
+              .then( (response) => {commit(DEFINE_MESSAGES, response.data)
+                return response});
         },
-        [INSERT_MESSAGE]({ commit }, message: IMessage) {
-            console.log(message);
-            return http
-                .post('v1/messages', message)
-                .then( (response) => {commit(ADD_MESSAGE, response.data)
-                    console.log(response.data)
-                    console.log(response)} )
-                    .catch(erro => console.log(erro.data));
+        [INSERT_MESSAGE]({ commit }, dados: {}) {
+            return http.post('v1/messages', dados)
+              .then( (response) => commit(ADD_MESSAGE, response.data) )
+                .catch(erro => console.log(erro.data));
         }
     },
     getters: {
-        getMessages(state) {
-          return state.messages;
-        },
+      getMessages(state) {
+        return state.messages;
+      },
     }
 }
-
