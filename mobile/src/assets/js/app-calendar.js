@@ -21,11 +21,12 @@ let schedules = [];
 
 function startCalendar($this) {
     calendar = new Calendar('#calendar', {
-        defaultView: 'week',
+        defaultView: 'day',
         taskView: ['task'],
         scheduleView: ['time'],
         useCreationPopup: useCreationPopup,
         useDetailPopup: useDetailPopup,
+        isReadOnly: true,
         calendars: CalendarList,
         template: {
             milestone(model) {
@@ -43,13 +44,14 @@ function startCalendar($this) {
         }
     });
 
-    CalendarInfo.initCalendar();
     setEventHandlers($this);
     setDropdownCalendarType();
     setRenderRangeText();
     setSchedules();
     setEventListener();
     // setCalendars();
+
+    return calendar;
 }
 
 function getCalendar() {
@@ -241,7 +243,7 @@ function getTimeTemplate(schedule, isAllDay) {
  * @param {Event} e - click event
  */
 function onClickMenu(e) {
-    const target = $(e.target).closest('a[role="menuitem"]')[0];
+    const target = jQuery(e.target).closest('a[role="menuitem"]')[0];
     const action = getDataAction(target);
     const options = calendar.getOptions();
     let viewName = '';
@@ -530,11 +532,11 @@ function setRenderRangeText() {
 function setSchedules() {
     calendar.clear();
     // função para gerar horários aleatórios
-    ScheduleInfo.generateSchedule(
-        calendar.getViewName(),
-        calendar.getDateRangeStart(),
-        calendar.getDateRangeEnd()
-    );
+    // ScheduleInfo.generateSchedule(
+    //     calendar.getViewName(),
+    //     calendar.getDateRangeStart(),
+    //     calendar.getDateRangeEnd()
+    // );
     calendar.createSchedules(ScheduleList);
     refreshScheduleVisibility();
 }
@@ -549,8 +551,8 @@ function startCalendarMenu(jobs) {
 }
 
 function setEventListener() {
-    // $('#menu-navi').on('click', onClickNavi);
-    // $('.dropdown-menu a[role="menuitem"]').on('click', onClickMenu);
+    jQuery('#menu-navi').on('click', onClickNavi);
+    jQuery('.dropdown-menu a[role="menuitem"]').on('click', onClickMenu);
     $('#lnb-calendars').addEventListener('change', onChangeCalendars);
 
     window.addEventListener('resize', resizeThrottled);

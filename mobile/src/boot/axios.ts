@@ -15,8 +15,17 @@ declare module '@vue/runtime-core' {
 // for each client)
 const api = axios.create({ baseURL: 'http://localhost:8000/api/' })
 
-export default boot(({ app }) => {
+export default boot(({ app, store }) => {
   // for use inside Vue files (Options API) through this.$axios and this.$api
+
+  api.interceptors.request.use(config => {
+    config.headers = {
+      Authorization: `Bearer ${store.state.user.user.token}`,
+      Accept: 'application/json'
+    }
+
+    return config;
+  });
 
   app.config.globalProperties.$axios = axios
   // ^ ^ ^ this will allow you to use this.$axios (for Vue Options API form)

@@ -15,6 +15,8 @@ import { type StateSwitcher, switcher } from './modules/switcher';
 import { type StateTvshow, tvshow } from './modules/tvshow';
 import { type StateMessage, message } from './modules/message';
 import { api } from 'src/boot/axios'
+import { employeeTime, type StateEmployeeTime } from './modules/employeeTime'
+import { tvShowTime, type StateTvShowTime } from './modules/tvShowTime'
 
 // import example from './module-example'
 // import { ExampleStateInterface } from './module-example/state';
@@ -38,6 +40,8 @@ export interface StateInterface {
   switcher: StateSwitcher,
   studio: StateStudio,
   tvshow: StateTvshow,
+  employeeTime: StateEmployeeTime,
+  tvShowTime: StateTvShowTime,
   message: StateMessage
 }
 
@@ -88,6 +92,8 @@ export default store(function (/* { ssrContext } */) {
       switcher,
       studio,
       tvshow,
+      employeeTime,
+      tvShowTime,
       message
     },
 

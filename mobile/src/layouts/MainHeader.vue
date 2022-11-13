@@ -4,7 +4,7 @@
       <div class="iq-navbar-custom">
         <div class="d-flex align-items-center justify-content-between">
           <div class="iq-navbar-logo d-flex align-items-center justify-content-between">
-            <i class="ri-menu-line wrapper-menu"></i>
+            <i class="ri-menu-line wrapper-menu" @click="toggleSidebar"></i>
             <router-link to="/" class="header-logo">
               <img src="../assets/images/bs-icon-high.png" class="img-fluid rounded-normal light-logo" alt="logo">
               <span class="title">Business Schedule</span>
@@ -18,7 +18,7 @@
                   <span class="title">Business Schedule</span>
                 </router-link>
                 <div class="iq-menu-bt-sidebar">
-                  <i class="las la-bars wrapper-menu"></i>
+                  <i class="las la-bars wrapper-menu" @click="toggleSidebar"></i>
                 </div>
               </div>
               <ul id="iq-sidebar-toggle" class="iq-menu d-flex">
@@ -285,6 +285,10 @@ export default defineComponent({
             name: 'sign-in'
           });
         });
+    },
+    toggleSidebar() {
+      jQuery(this).toggleClass('open');
+      jQuery('body').toggleClass('sidebar-main');
     }
   },
   setup() {

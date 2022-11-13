@@ -150,7 +150,8 @@ export default defineComponent({
     },
     updateStudio() {
       this.store.dispatch(UPDATE_STUDIO, this.studio)
-        .then(() => {
+        .then((response) => {
+          // console.log(response);
           $('#updateStudio').modal('hide');
           this.swal('Sucesso', `${this.studio.name} atualizado com sucesso!`, 'success');
           this.clearStudio();

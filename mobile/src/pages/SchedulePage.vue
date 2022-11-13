@@ -63,35 +63,9 @@
                 </div>
                 <!-- <input @input="filterByText" v-model="text" type="text" class=""> -->
               </div>
-              <div>
-                <button class="btn btn-success" @click="saveSchedulePopup()">Atualizar Escala</button>
-              </div>
-              <div class="select-dropdown input-prepend input-append">
-                <div class="btn-group">
-                  <div class="create-workform">
-                    <label data-toggle="dropdown">
-                      <a href="#" class="btn btn-primary pr-5 position-relative">
-                        Novo Horário
-                        <span class="add-btn"><i class="ri-add-line"></i></span>
-                      </a>
-                    </label>
-                    <ul class="dropdown-menu new-schedule w-100 border-none p-3">
-                      <li>
-                        <div class="item mb-2" data-toggle="modal" @click="openModalNewSchedule">
-                          <i class="ri-user-add-fill mr-3"></i>Horário de Funcionário
-                        </div>
-                      </li>
-                      <li>
-                        <div class="item" data-toggle="modal" @click="openModalNewTask">
-                          <i class="ri-tv-2-line mr-3"></i>Horário de Programa
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
+
             </div>
-            <h4 class="mb-3">Defina os Horários de Trabalho</h4>
+            <h4 class="mb-3">Horários de Trabalho</h4>
             <div class="row">
               <div class="col-lg-12">
                 <div class="card card-block card-stretch">
@@ -171,7 +145,7 @@
                         </div>
                       </div>
                     </div>
-                    <div id="calendar" class="calendar-s" style="height: 848px;"></div>
+                    <div id="calendar" class="calendar-s" style="height: 848px;" @touchstart="myTouchStart" @touchend="myTouchEnd"></div>
                   </div>
                 </div>
               </div>
@@ -184,14 +158,73 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { startCalendar } from '../assets/js/app-calendar';
-import { initCalendar } from '../assets/js/scripts/app';
+import { computed, defineComponent } from 'vue'
+import { setSchedules, startCalendar, startCalendarMenu } from '../assets/js/app-calendar';
+import { ScheduleInfo, ScheduleList } from '../assets/js/data/schedules';
+import { useStore } from '../store';
+import { GET_EMPLOYEES_TIMES, GET_JOBS, GET_TV_SHOW_TIMES } from '../store/action-types';
 
 export default defineComponent({
   name: 'SchedulePage',
+  data() {
+    return {
+      calendar: {},
+      calendarList: [],
+      pageX: 0
+    }
+  },
   mounted() {
-    startCalendar(this);
+    this.calendar = startCalendar(this);
+  },
+  methods: {
+    createScheduleList(employeeTimes, tvShowTimes) {
+      ScheduleList.splice(0, ScheduleList.length);
+      ScheduleInfo.createSchedulesFromDB(employeeTimes);
+      ScheduleInfo.createTasksFromDB(tvShowTimes);
+      setSchedules();
+    },
+    myTouchStart(event: any) {
+      this.pageX = event.changedTouches[0].pageX
+    },
+    myTouchEnd(event: any) {
+      const pageEnd = event.changedTouches[0].pageX
+
+      if (this.pageX > pageEnd && (this.pageX - pageEnd) >= 250) {
+        this.calendar.next();
+      } else if ((pageEnd - this.pageX) >= 250) {
+        this.calendar.prev();
+      }
+    }
+  },
+  watch: {
+    jobs(newJobs) {
+      this.calendarList = startCalendarMenu(newJobs);
+    },
+    employeeTimes: {
+      handler(newEmployeeTimes) {
+        this.createScheduleList(newEmployeeTimes, this.tvShowTimes);
+      },
+      deep: true
+    },
+    tvShowTimes: {
+      handler(newTvShowTimes) {
+        this.createScheduleList(this.employeeTimes, newTvShowTimes);
+      },
+      deep: true
+    }
+  },
+  setup() {
+    const store = useStore();
+    store.dispatch(GET_JOBS);
+    store.dispatch(GET_EMPLOYEES_TIMES)
+      .then(() => store.dispatch(GET_TV_SHOW_TIMES));
+
+    return {
+      jobs: computed(() => store.getters.getJobs),
+      employeeTimes: computed(() => store.getters.getEmployeesTimes),
+      tvShowTimes: computed(() => store.getters.getTvShowTimes),
+      store
+    }
   }
 })
 </script>
@@ -303,6 +336,22 @@ export default defineComponent({
   .my-schedule .bootstrap-select > .dropdown-toggle:nth-of-type(2) {
     display: none;
   }
+
+  @media (max-width: 425px) {
+    .container, .container .col-lg-12 {
+      padding-right: 0;
+      padding-left: 0;
+    }
+    #menu-navi {
+      white-space: nowrap;
+    }
+    .fc-toolbar {
+      flex-wrap: wrap;
+    }
+    .fc-toolbar.fc-header-toolbar {
+      overflow-x: hidden;
+    }
+  }
 </style>
 <style>
 @import "tui-calendar/dist/tui-calendar.css";
@@ -312,6 +361,15 @@ export default defineComponent({
 }
 .toast-warning {
   top: 3.8em;
+}
+@media (max-width: 425px) {
+  #calendar .tui-full-calendar-timegrid-left,
+  #calendar .tui-full-calendar-daygrid-layout > .tui-full-calendar-task-left.tui-full-calendar-left {
+    width: 53px !important;
+  }
+  #calendar .tui-full-calendar-timegrid-right {
+    margin-left: 54px !important;
+  }
 }
 </style>
 

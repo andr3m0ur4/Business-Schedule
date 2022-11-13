@@ -41,7 +41,7 @@ export const employeeTime: Module<StateEmployeeTime, State> = {
   },
   actions: {
     [GET_EMPLOYEES_TIMES]({ commit }) {
-      api
+      return api
         .get('v1/employee-times')
         .then((response) => commit(DEFINE_EMPLOYEES_TIMES, response.data));
     },

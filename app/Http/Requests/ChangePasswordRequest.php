@@ -29,6 +29,7 @@ class ChangePasswordRequest extends FormRequest
                 'required',
                 'confirmed',
                 'sometimes',
+                // Comente esse índice para permitir a definição de qualquer senha
                 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/'
             ],
             'email' => ['sometimes', 'required', 'email', 'string'],
