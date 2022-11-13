@@ -19,7 +19,6 @@
                         <th>Nome</th>
                         <th>Email</th>
                         <th>Telefone</th>
-                        <th>Função</th>
                         <th>Ação</th>
                       </tr>
                     </thead>
@@ -29,7 +28,6 @@
                         <td>{{ employee.name }}</td>
                         <td>{{ employee.email }}</td>
                         <td>{{ employee.phone }}</td>
-                        <td>{{ employee.job_id }}</td>
                         <td>
                           <div class="d-flex align-items-center list-action justify-content-end">
                             <a class="badge bg-success-light mr-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="View" href="#">
@@ -79,9 +77,6 @@
                       <label class="mt-2" for="numero">Número:</label>
                       <input type="text" class="form-control" name="phone" v-model="employee.phone"
                         placeholder="Número" required="true" />
-                      <label class="mt-2" for="funcao">Função:</label>
-                      <input type="text" class="form-control" name="job" v-model="employee.job_id"
-                        placeholder="Função" required="true" />
                     </div>
                   </div>
                 </div>
@@ -157,6 +152,7 @@
       saveEmployee() {
         this.store.dispatch(INSERT_EMPLOYEE, this.employee)
           .then(() => {
+            console.log("TESTE");
             $('#addEmployee').modal('hide');
             this.swal('Sucesso', `${this.employee.name} cadastrado com sucesso!`, 'success');
             this.clearEmployee();

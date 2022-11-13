@@ -146,7 +146,7 @@ export default defineComponent({
           this.clearStudio();
           this.refreshDataTable();
         })
-        .catch(err => this.$swal('Ops', err.response.data.message, 'error'));
+        .cath(err => this.$swal('Ops', err.response.data.message, 'error'));
     },
     updateStudio() {
       this.store.dispatch(UPDATE_STUDIO, this.studio)
@@ -157,6 +157,7 @@ export default defineComponent({
           this.clearStudio();
           this.refreshDataTable();
         })
+        .cath(err => this.$swal('Ops', err.response.data.message, 'error'));
     },
     deleteStudio(id: number, name: string) {
       this.$swal({

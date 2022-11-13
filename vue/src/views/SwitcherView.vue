@@ -146,7 +146,7 @@
             this.clearSwitcher();
             this.refreshDataTable
           })
-          .catch(err => console.log({err}));
+          .catch(err => this.$swal('Ops', err.response.data.message, 'error'));
       },
       updateSwitcher() {
         this.store.dispatch(UPDATE_SWITCHER, this.switcher)
@@ -156,6 +156,7 @@
             this.clearSwitcher();
             this.refreshDataTable();
           })
+          .cath(err => this.$swal('Ops', err.response.data.message, 'error'));
       },
       deleteSwitcher(id: number, name: string) {
         this.$swal({
