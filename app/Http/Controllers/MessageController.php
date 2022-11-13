@@ -8,6 +8,7 @@ use App\Models\Message;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
+use App\Events\MessageR;
 
 class MessageController extends Controller
 {
@@ -27,9 +28,10 @@ class MessageController extends Controller
      * @param  \Illuminate\Http\StoreMessageRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreMessageRequest $request)
+    public function store(Request $request)
     {
-        $message = Message::create($request->validated());
+        $message = Message::create($request->messageInfo);
+        event(new MessageR($message, $request->canal));
         return response()->json($message, Response::HTTP_CREATED);
     }
 
