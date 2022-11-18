@@ -31,7 +31,7 @@ class UpdateUserRequest extends FormRequest
             'password' => [
                 'sometimes',
                 'required',
-                'confirmed',
+                //'confirmed',
                 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/'
             ],
             'type' => ['sometimes', 'required', Rule::in(['Admin', 'Employee'])],

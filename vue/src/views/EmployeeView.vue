@@ -93,8 +93,8 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="sjob">Função: *</label>
-                      <select class="selectpicker form-control" id="sjob" v-model="employee.job_id">
-                        <option v-for="job in jobs" :key="job.id" :value="job.id">
+                      <select class="form-control" id="sjob" v-model="employee.job_id">
+                        <option v-for="job in Jobs" :key="job.id" :value="job.id">
                           {{ job.name }}
                         </option>
                       </select>
@@ -103,7 +103,7 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="stype">Privilégio: *</label>
-                      <select class="selectpicker form-control" id="stype" v-model="employee.type">
+                      <select class="form-control" id="stype" v-model="employee.type">
                         <option value="Admin">Administrador</option>
                         <option value="Employee">Funcionário</option>
                       </select>
@@ -154,7 +154,7 @@
                     <div class="form-group">
                       <label for="sjob">Função: *</label>
                       <select class="selectpicker form-control" id="sjob" v-model="employee.job_id">
-                        <option v-for="job in job" :key="job.id" :value="job.id">
+                        <option v-for="job in Jobs" :key="job.id" :value="job.id">
                           {{ job.name }}
                         </option>
                       </select>
@@ -189,17 +189,15 @@
   import { DELETE_EMPLOYEE, GET_EMPLOYEES, INSERT_EMPLOYEE, UPDATE_EMPLOYEE, GET_JOBS } from "../store/action-types";
   import ModalEmployee from '../components/modals/ModalEmployee.vue';
   import type IEmployee from '../interfaces/IEmployee';
-  import type IJob from '../interfaces/IJob';
   import { optionsTable } from '../assets/js/datatable';
   import { employee } from '@/store/modules/employee';
-  import { job } from '@/store/modules/job';
   
   export default defineComponent({
     name: 'EmployeeView',
     data() {
       return {
         employee: {} as IEmployee,
-        job: {} as IJob
+        //jobs: {} as IJob
       }
     },
     updated() {
@@ -211,9 +209,6 @@
     methods: {
       loadEmployee(employee: IEmployee) {
         this.employee = employee;
-      },
-      loadJob(job: IJob) {
-        this.job = job;
       },
       saveEmployee() {
         this.store.dispatch(INSERT_EMPLOYEE, this.employee)
@@ -271,10 +266,13 @@
       const store = useStore();
       const swal = inject('$swal');
       store.dispatch(GET_EMPLOYEES);
+      store.dispatch(GET_JOBS);
+      console.log(computed(() => store.state.job.jobs));
       const optionsDataTable = optionsTable
   
       return {
         Employees: computed(() => store.state.employee.employees),
+        Jobs: computed(() => store.state.job.jobs),
         store,
         swal,
         optionsDataTable

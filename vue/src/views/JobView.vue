@@ -146,7 +146,7 @@ export default defineComponent({
           this.clearJob();
           this.refreshDataTable();
         })
-        .cath(err => this.$swal('Ops', err.response.data.message, 'error'));
+        .catch(err => this.$swal('Ops', err.response.data.message, 'error'));
     },
     updateJob() {
       this.store.dispatch(UPDATE_JOB, this.job)
@@ -156,7 +156,7 @@ export default defineComponent({
           this.clearJob();
           this.refreshDataTable();
         })
-        .cath(err => this.$swal('Ops', err.response.data.message, 'error'));
+        .catch(err => this.$swal('Ops', err.response.data.message, 'error'));
     },
     deleteJob(id: number, name: string) {
       this.$swal({

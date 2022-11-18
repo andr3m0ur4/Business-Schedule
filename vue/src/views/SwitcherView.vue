@@ -52,7 +52,7 @@
 
       <ModalSwitcher :id="'addSwitcher'" @onHide="clearSwitcher">
         <template v-slot:header>
-          <h5 class="modal-title" id="addSwitcherLabel">Cadastrar Função</h5>
+          <h5 class="modal-title" id="addSwitcherLabel">Cadastrar Switcher</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -144,7 +144,7 @@
             $('#addSwitcher').modal('hide');
             this.swal('Sucesso', `${this.switcher.name} cadastrado com sucesso!`, 'success');
             this.clearSwitcher();
-            this.refreshDataTable
+            this.refreshDataTable();
           })
           .catch(err => this.$swal('Ops', err.response.data.message, 'error'));
       },
@@ -156,7 +156,7 @@
             this.clearSwitcher();
             this.refreshDataTable();
           })
-          .cath(err => this.$swal('Ops', err.response.data.message, 'error'));
+          .catch(err => this.$swal('Ops', err.response.data.message, 'error'));
       },
       deleteSwitcher(id: number, name: string) {
         this.$swal({

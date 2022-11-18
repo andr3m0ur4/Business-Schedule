@@ -16,6 +16,7 @@ export const employee: Module<StateEmployee, State> = {
     },
     [ADD_EMPLOYEE](state, employee: IEmployee) {
         state.employees.push(employee);
+        console.log('teste agora 1');
     },
     [CHANGE_EMPLOYEE](state, employee: IEmployee) {
         const index = state.employees.findIndex(item => item.id == employee.id);
@@ -43,15 +44,15 @@ export const employee: Module<StateEmployee, State> = {
         .then((response) => commit(DEFINE_EMPLOYEES, response.data));
     },
     [INSERT_EMPLOYEE]({ commit }, employee: IEmployee) {
-        return http.post('v1/employees', employee)
-            .then(response => commit(ADD_EMPLOYEE, response.data));
+        return http.post('v1/users', employee)
+            .then(response => {console.log('teste agora'); commit(ADD_EMPLOYEE, response.data)});
     },
     [UPDATE_EMPLOYEE]({ commit }, employee: IEmployee) {
-        return http.put(`v1/employees/${employee.id}`, employee)
+        return http.put(`v1/users/${employee.id}`, employee)
             .then(response => commit(CHANGE_EMPLOYEE, response.data));
     },
     [DELETE_EMPLOYEE]({ commit }, id: number) {
-        return http.delete(`v1/employees/${id}`)
+        return http.delete(`v1/users/${id}`)
             .then(() => commit(REMOVE_EMPLOYEE, id));
     }
   },

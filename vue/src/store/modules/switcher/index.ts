@@ -27,7 +27,7 @@ export const switcher : Module<StateSwitcher, State> = {
   },
   actions: {
     [GET_SWITCHERS]({ commit }) {
-      http.get('v1/switchers')
+      return http.get('v1/switchers')
         .then(response => commit(DEFINE_SWITCHERS, response.data));
     },
     [INSERT_SWITCHER]({ commit }, switcher: ISwitcher) {

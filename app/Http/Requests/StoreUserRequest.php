@@ -30,7 +30,7 @@ class StoreUserRequest extends FormRequest
             'email' => ['required', 'email', 'string', 'unique:users'],
             'password' => [
                 'required',
-                'confirmed',
+                //'confirmed',
                 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/'
             ],
             'type' => ['required', Rule::in(['Admin', 'Employee'])],
