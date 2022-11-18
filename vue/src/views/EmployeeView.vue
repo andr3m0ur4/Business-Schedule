@@ -66,17 +66,47 @@
             <fieldset>
               <div class="form-card text-left">
                 <div class="row">
-                  <div class="col-md-12">
+                  <div class="col-md-6">
                     <div class="form-group">
-                      <label for="name">Nome:</label>
-                      <input type="text" class="form-control" name="name" v-model="employee.name"
-                        placeholder="Nome" required="true" />
-                      <label class="mt-2" for="email">Email:</label>
-                      <input type="text" class="form-control" name="email" v-model="employee.email"
-                        placeholder="Email" required="true" />
-                      <label class="mt-2" for="numero">Número:</label>
-                      <input type="text" class="form-control" name="phone" v-model="employee.phone"
-                        placeholder="Número" required="true" />
+                      <label for="sname">Nome: *</label>
+                      <input type="text" class="form-control" id="sname" v-model="employee.name" placeholder="Nome" required />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="sname">Celular: *</label>
+                      <input type="text" class="form-control" id="sphone" v-model="employee.phone" placeholder="Celular" required />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="sname">Email: *</label>
+                      <input type="text" class="form-control" id="semail" v-model="employee.email" placeholder="Email" required />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="sname">Senha: *</label>
+                      <input type="text" class="form-control" id="spassword" v-model="employee.password" placeholder="Password" required />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="sjob">Função: *</label>
+                      <select class="selectpicker form-control" id="sjob" v-model="employee.job_id">
+                        <option v-for="job in jobs" :key="job.id" :value="job.id">
+                          {{ job.name }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="stype">Privilégio: *</label>
+                      <select class="selectpicker form-control" id="stype" v-model="employee.type">
+                        <option value="Admin">Administrador</option>
+                        <option value="Employee">Funcionário</option>
+                      </select>
                     </div>
                   </div>
                 </div>
@@ -102,11 +132,41 @@
             <fieldset>
               <div class="form-card text-left">
                 <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="sname">Nome: *</label>
+                      <input type="text" class="form-control" id="sname" v-model="employee.name" placeholder="Nome" required />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="sname">Celular: *</label>
+                      <input type="text" class="form-control" id="sphone" v-model="employee.phone" placeholder="Celular" required />
+                    </div>
+                  </div>
                   <div class="col-md-12">
                     <div class="form-group">
-                      <label for="name">Nome: *</label>
-                      <input type="text" class="form-control" name="name" v-model="employee.name"
-                        placeholder="Nome" required="true" />
+                      <label for="sname">Email: *</label>
+                      <input type="text" class="form-control" id="semail" v-model="employee.email" placeholder="Email" required />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="sjob">Função: *</label>
+                      <select class="selectpicker form-control" id="sjob" v-model="employee.job_id">
+                        <option v-for="job in job" :key="job.id" :value="job.id">
+                          {{ job.name }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="stype">Privilégio: *</label>
+                      <select class="selectpicker form-control" id="stype" v-model="employee.type">
+                        <option value="Admin">Administrador</option>
+                        <option value="Employee">Funcionário</option>
+                      </select>
                     </div>
                   </div>
                 </div>
@@ -126,17 +186,20 @@
   <script lang="ts">
   import { computed, defineComponent, inject } from 'vue'
   import { useStore } from '../store';
-  import { DELETE_EMPLOYEE, GET_EMPLOYEES, INSERT_EMPLOYEE, UPDATE_EMPLOYEE } from "../store/action-types";
+  import { DELETE_EMPLOYEE, GET_EMPLOYEES, INSERT_EMPLOYEE, UPDATE_EMPLOYEE, GET_JOBS } from "../store/action-types";
   import ModalEmployee from '../components/modals/ModalEmployee.vue';
   import type IEmployee from '../interfaces/IEmployee';
+  import type IJob from '../interfaces/IJob';
   import { optionsTable } from '../assets/js/datatable';
   import { employee } from '@/store/modules/employee';
+  import { job } from '@/store/modules/job';
   
   export default defineComponent({
     name: 'EmployeeView',
     data() {
       return {
-        employee: {} as IEmployee
+        employee: {} as IEmployee,
+        job: {} as IJob
       }
     },
     updated() {
@@ -149,6 +212,9 @@
       loadEmployee(employee: IEmployee) {
         this.employee = employee;
       },
+      loadJob(job: IJob) {
+        this.job = job;
+      },
       saveEmployee() {
         this.store.dispatch(INSERT_EMPLOYEE, this.employee)
           .then(() => {
@@ -157,7 +223,8 @@
             this.swal('Sucesso', `${this.employee.name} cadastrado com sucesso!`, 'success');
             this.clearEmployee();
             this.refreshDataTable();
-          });
+          })
+          .catch(err => this.$swal('Ops', err.response.data.message, 'error'));
       },
       updateEmployee() {
         this.store.dispatch(UPDATE_EMPLOYEE, this.employee)
@@ -167,6 +234,7 @@
             this.clearEmployee();
             this.refreshDataTable();
           })
+          .catch(err => this.$swal('Ops', err.response.data.message, 'error'));
       },
       deleteEmployee(id: number, name: string) {
         this.$swal({
