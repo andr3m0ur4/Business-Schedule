@@ -97,7 +97,7 @@ services:
       - 3000:80
     environment:
       WWWUSER: '${WWWUSER}'
-    entrypoint: bash -c "npm i && npm run serve -- --port 3000"
+    entrypoint: bash -c "npm i && yarn && npm run serve -- --port 3000"
     tty: true
     networks:
       - sail

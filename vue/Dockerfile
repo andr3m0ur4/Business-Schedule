@@ -15,6 +15,8 @@ RUN npm install
 # copia arquivos e pastas para o diretório atual de trabalho (pasta 'app')
 COPY . .
 
+RUN npm install yarn
+
 # compila a aplicação de produção com minificação
 # RUN npm run build
 

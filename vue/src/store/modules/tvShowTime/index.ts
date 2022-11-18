@@ -1,9 +1,9 @@
-import { State } from "../../../store";
-import { Module } from "vuex";
-import ITvShowTime from "../../../interfaces/ITvShowTime";
-import { ADD_OR_CHANGE_TV_SHOW_TIME, ADD_TV_SHOW_TIME, CHANGE_TV_SHOW_TIME, DEFINE_TV_SHOW_TIMES, REMOVE_TV_SHOW_TIME } from "@/store/mutation-types";
-import { DELETE_TV_SHOW_TIME, GET_TV_SHOW_TIMES, INSERT_TV_SHOW_TIME, UPDATE_TV_SHOW_TIME } from "@/store/action-types";
-import http from "../../../http";
+import { State } from '../../../store';
+import { Module } from 'vuex';
+import ITvShowTime from '../../../interfaces/ITvShowTime';
+import { ADD_OR_CHANGE_TV_SHOW_TIME, ADD_TV_SHOW_TIME, CHANGE_TV_SHOW_TIME, DEFINE_TV_SHOW_TIMES, REMOVE_TV_SHOW_TIME } from '../../../store/mutation-types';
+import { DELETE_TV_SHOW_TIME, GET_TV_SHOW_TIMES, INSERT_TV_SHOW_TIME, UPDATE_TV_SHOW_TIME } from '../../../store/action-types';
+import http from '../../../http';
 
 export interface StateTvShowTime {
   tvShowTimes: ITvShowTime[];
