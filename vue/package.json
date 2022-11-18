@@ -11,11 +11,8 @@
     "chance": "^1.1.8",
     "core-js": "^3.8.3",
     "dompurify": "^2.3.1",
-<<<<<<< Updated upstream
     "pusher-js": "^7.4.1",
-=======
     "gitart-scroll-carousel": "^1.2.4",
->>>>>>> Stashed changes
     "register-service-worker": "^1.7.2",
     "tui-code-snippet": "^1.5.0",
     "tui-date-picker": "^4.3.1",
