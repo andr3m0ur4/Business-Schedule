@@ -76,4 +76,9 @@ class User extends Authenticatable implements JWTSubject
     {
         $this->notify(new ResetPasswordNotification($token));
     }
+
+    public function job()
+    {
+        return $this->belongsTo(Job::class);
+    }
 }

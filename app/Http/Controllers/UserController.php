@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Requests\ChangePasswordRequest;
+use App\Http\Resources\UserResource;
 use App\Mail\ResetPasswordMail;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -134,5 +135,10 @@ class UserController extends Controller
 
         return response()->json($users->fetchAll());
 
+    }
+
+    public function userWithJob(User $user)
+    {
+        return response()->json(UserResource::make($user));
     }
 }

@@ -37,6 +37,7 @@ Route::post('login', [AuthController::class, 'login']);
 Route::post('send-mail', [MailController::class, 'sendMail']);
 Route::get('verify-token', [MailController::class, 'verifyResetPassword']);
 Route::post('change-password', [UserController::class, 'changePassword']);
+Route::get('user-job/{user}', [UserController::class, 'userWithJob']);
 
 Route::prefix('v1')->middleware('jwt.auth')->group(function() {
     Route::apiResource('users', UserController::class);
