@@ -1,7 +1,7 @@
 import type IUser from "@/interfaces/IUser";
 import type { State } from "@/store";
-import { LOGIN } from "@/store/action-types";
-import { LOGOUT, SET_USER } from "@/store/mutation-types";
+import { LOGIN, GET_USER } from "@/store/action-types";
+import { LOGOUT, SET_USER } from "../../../store/mutation-types";
 import type { Module } from "vuex";
 import http from "@/http";
 
@@ -41,6 +41,11 @@ export const user: Module<StateUser, State> = {
     [LOGOUT]({ commit }) {
       return http.post("v1/logout").then(response => commit(LOGOUT));
     },
+    [GET_USER]({ commit }, id: number) {
+      http
+        .get(`v1/user-job/${id}`)
+        .then((response) => console.log(response));
+    }
   },
   getters: {
     isSignedIn(state): boolean {

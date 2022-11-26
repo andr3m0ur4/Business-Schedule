@@ -38,7 +38,7 @@
 <script lang="ts">
   import { computed, defineComponent, inject } from 'vue'
   import { useStore } from '../store';
-  import { GET_EMPLOYEES, } from "../store/action-types";
+  import { GET_EMPLOYEES, GET_USER } from "../store/action-types";
   import type IEmployee from '../interfaces/IEmployee';
   import { employee } from '@/store/modules/employee';
 
@@ -58,12 +58,14 @@ export default defineComponent({
       const store = useStore();
       const swal = inject('$swal');
       store.dispatch(GET_EMPLOYEES);
+      store.dispatch(GET_USER, 5);
 
       return {
         Employees: computed(() => store.state.employee.employees),
-        store,
-        swal,
         user: computed(() => store.getters.getUser),
+        store,
+        swal
+
       }
     }
 })

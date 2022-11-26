@@ -45,6 +45,7 @@ Route::prefix('v1')->middleware('jwt.auth')->group(function() {
     Route::post('refresh', [AuthController::class, 'refresh']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::apiResource('users', UserController::class);
+    Route::get('user-job/{user}', [UserController::class, 'userWithJob']);
 
     Route::apiResource('jobs', JobController::class);
     Route::put('employee-times/save', [EmployeeTimeController::class, 'save']);

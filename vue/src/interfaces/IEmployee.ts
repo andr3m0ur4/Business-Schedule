@@ -4,6 +4,5 @@ export default interface IEmployee {
     email: string,
     phone: number,
     job_id: string,
-    password: string,
-    type: string
+    password: string
 }

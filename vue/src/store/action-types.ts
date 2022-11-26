@@ -46,3 +46,5 @@ export const INSERT_OR_UPDATE_SCHEDULES = 'INSERT_OR_UPDATE_SCHEDULES';
 export const SEND_MAIL = 'SEND_MAIL';
 export const VERIFY_TOKEN = 'VERIFY_TOKEN';
 export const CHANGE_PASSWORD = 'CHANGE_PASSWORD';
+
+export const GET_USER = 'GET_USER';
