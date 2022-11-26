@@ -47,7 +47,7 @@ function startCalendar($this) {
     setDropdownCalendarType();
     setRenderRangeText();
     // setSchedules();
-    setEventListener();
+    setEventListener($this);
     // setCalendars();
 }
 
@@ -416,6 +416,10 @@ function saveNewSchedule(scheduleData) {
 }
 
 function onChangeCalendars(e) {
+    // if (e.data.me) {
+    //     e.data.me.search = '';
+    // }
+
     const calendarId = e.target.value;
     const checked = e.target.checked;
     const viewAll = document.querySelector('.lnb-calendars-item input');
@@ -459,6 +463,14 @@ function refreshScheduleVisibility() {
     );
 
     CalendarList.forEach(calendarList => {
+        for (let item of ScheduleList) {
+            if (item.calendarId == calendarList.id && item.isVisible === false) {
+                calendar.updateSchedule(item.id, item.calendarId, {
+                    isVisible: false
+                });
+                return;
+            }
+        }
         calendar.toggleSchedules(calendarList.id, !calendarList.checked, false);
     });
 
@@ -547,10 +559,10 @@ function startCalendarMenu(jobs) {
     return CalendarList;
 }
 
-function setEventListener() {
+function setEventListener($this) {
     $('#menu-navi').on('click', onClickNavi);
     $('.dropdown-menu a[role="menuitem"]').on('click', onClickMenu);
-    $('#lnb-calendars').on('change', onChangeCalendars);
+    $('#lnb-calendars').on('change', { me: $this }, onChangeCalendars);
 
     $('#btn-save-schedule').on('click', onNewSchedule);
     $('#btn-new-schedule').on('click', createNewSchedule);

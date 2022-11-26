@@ -60,10 +60,10 @@
                   </div>
                 </div>
               </div>
-              <!-- <input @input="filterByText" v-model="text" type="text" class=""> -->
             </div>
             <div>
-              <button class="btn btn-success" @click="saveSchedulePopup()">Atualizar Escala</button>
+              <input type="search" v-model="search" @input="filterByText" class="form-control bg-white border text search-input"
+                placeholder="Filtro por nome..." title="Busque por um nome de Funcionário ou Programa">
             </div>
             <div class="select-dropdown input-prepend input-append">
               <div class="btn-group">
@@ -387,7 +387,7 @@ export default {
       isTvShowTime: false,
       calendarList: [],
       scheduleList: [],
-      // text: '',
+      search: '',
       newSchedule: true,
       newTask: true,
       start: null,
@@ -620,12 +620,17 @@ export default {
 
       this.refreshScheduleVisibility();
     },
-    // filterByText() {
-    //   if (!this.text) {
-    //     return;
-    //   }
-    //   this.calendar.trigger('afterRenderSchedule');
-    // },
+    filterByText() {
+      ScheduleList.map(item => {
+        if (item.title.match(new RegExp(this.search, 'i'))) {
+          item.isVisible = true
+        } else {
+          item.isVisible = false;
+        }
+        return item;
+      });
+      setSchedules();
+    },
     setDateTimePicker() {
       this.datePicker = setDateTimePicker({
         startInput: '#start-schedule',

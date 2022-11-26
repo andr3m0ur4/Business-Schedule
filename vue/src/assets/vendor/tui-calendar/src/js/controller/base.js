@@ -293,6 +293,10 @@ Base.prototype.updateSchedule = function(schedule, options) {
         schedule.set('isPrivate', options.isPrivate);
     }
 
+    if (!util.isUndefined(options.isVisible)) {
+        schedule.set('isVisible', options.isVisible);
+    }
+
     if (options.location) {
         schedule.set('location', options.location);
     }
