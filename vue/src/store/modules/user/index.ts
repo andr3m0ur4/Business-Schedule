@@ -1,7 +1,8 @@
 import type IUser from "@/interfaces/IUser";
+import type IJob from "@/interfaces/IJob";
 import type { State } from "@/store";
-import { LOGIN, GET_USER } from "@/store/action-types";
-import { LOGOUT, SET_USER } from "../../../store/mutation-types";
+import { LOGIN, GET_USER, GET_JOBS } from "@/store/action-types";
+import { LOGOUT, SET_USER, GET_USER_JOB } from "../../../store/mutation-types";
 import type { Module } from "vuex";
 import http from "@/http";
 
@@ -31,9 +32,9 @@ export const user: Module<StateUser, State> = {
       sessionStorage.removeItem("token");
       sessionStorage.removeItem("user");
     },
-    ['SET_USER_JOB'](state, userData) {
+    [GET_USER_JOB](state, userData){
       state.user.data = userData;
-    }
+    },
   },
   actions: {
     [LOGIN]({ commit }, user: IUser) {
@@ -47,8 +48,8 @@ export const user: Module<StateUser, State> = {
     [GET_USER]({ commit }, id: number) {
       http
         .get(`v1/user-job/${id}`)
-        .then((response) => commit('SET_USER_JOB', response.data));
-    }
+        .then((response) => commit(GET_USER_JOB, response.data));
+    },
   },
   getters: {
     isSignedIn(state): boolean {

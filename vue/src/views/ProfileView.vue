@@ -38,7 +38,7 @@
 <script lang="ts">
   import { computed, defineComponent, inject } from 'vue'
   import { useStore } from '../store';
-  import { GET_EMPLOYEES, GET_USER } from "../store/action-types";
+  import { GET_EMPLOYEES, GET_USER, GET_JOBS } from "../store/action-types";
   import type IEmployee from '../interfaces/IEmployee';
   import { employee } from '@/store/modules/employee';
 

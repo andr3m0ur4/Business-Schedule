@@ -61,70 +61,83 @@
 
     <ModalChat :id="'addChat'" @onHide="clearMessage">
       <template v-slot:header>
-                  <div class="media flex-wrap align-items-center">
-                    <div class="mr-3">
-                      <img class="avatar-50 rounded" src="../assets/images/user/04.jpg" alt="01">
-                    </div>
-                    <div>
-                      <div class="media align-items-top user-detail mb-1">
-                        <div class="row">
-                          <div class="col-12">
-                            <h4>{{ this.employee.name }}</h4>
-                          </div>
-                          <div class="col-12">
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
+        <div class="media flex-wrap align-items-center">
+          <div class="mr-3">
+            <img class="avatar-50 rounded" src="../assets/images/user/04.jpg" alt="01">
+          </div>
+          <div>
+            <div class="media align-items-top user-detail mb-1">
+              <div class="row">
+                <div class="col-12">
+                  <h4>{{ this.employee.name }}</h4>
+                </div>
+                <div class="col-12">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </template>
       <template v-slot:body>
         <div class="col-12 border rounded" id="MessageView">
-                    <div id="box-message" class="scrollspy-example" data-spy="scroll" data-target="#navbar-example2" data-offset="0">
-                      <div v-for="message in messages" :key="message.id">
-                        <div v-if="message.user_id_from === messageT.user_id_to" class="text-left col-12  mt-2">
-                          <div class="row">
-                            <h6><span class="badge badge-info mr-2" id="mdo">{{ this.employee.name }}</span></h6>
-                            <h6>
-                              {{this.formatDate(message.created_at)}}
-                            </h6>
-                          </div>
-                          <h5>{{ message.message }}</h5>
-                        </div>
-                        <div v-else class="text-right col-12 mt-2">
-                          <div class="row justify-content-end">
-                            <h6 class="mr-2">
-                              {{this.formatDate(message.created_at)}}
-                            </h6>
-                            <h6><span class="badge badge-primary" id="mdo">Eu</span></h6>
-                          </div>
-                          <h5>{{ message.message }}</h5>
-                        </div>
-                      </div>
+          <div id="box-message" data-target="#navbar-example2" data-offset="0">
+            <div v-if = load class="text-left col-12  mt-2">
+              <div display="block" class="text-center">
+                <h3>Carregando</h3>
+                <img class="w-100 h-100 img-fluid image" src="../assets/images/load.gif" >
+              </div>
+            </div>
+            <div v-else class="text-right col-12 mt-2 scrollspy-example" data-spy="scroll" data-target="#navbar-example2" data-offset="0">
+              <div id="box-message">
+                <div v-for="message in messages" :key="message.id" class="mr-2">
+                  <div v-if="message.user_id_from === messageT.user_id_to" class="text-left col-12  mt-2">
+                    <div class="row">
+                      <h6><span class="badge badge-info mr-2" id="mdo">{{ this.employee.name }}</span></h6>
+                      <h6>
+                        {{this.formatDate(message.created_at)}}
+                      </h6>
+                    </div>
+                    <h5>{{ message.message }}</h5>
+                  </div>
+                  <div v-else class="text-right col-12 mt-2">
+                    <div class="row justify-content-end">
+                      <h6 class="mr-2">
+                        {{this.formatDate(message.created_at)}}
+                      </h6>
+                      <h6><span class="badge badge-primary" id="mdo">Eu</span></h6>
+                    </div>
+                    <h5>{{ message.message }}</h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-2">
+          <form id="form-wizard" class="text-center" @submit.prevent="saveMessage">
+            <fieldset>
+              <div class="form-card text-left">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <input type="text" class="form-control" name="messageF" :disabled=lockMessage v-model="messageInfo.message"
+                        placeholder="Digite uma Menssagem" required="true" />
                     </div>
                   </div>
-                  <div class="mt-2">
-                    <form id="form-wizard" class="text-center" @submit.prevent="saveMessage">
-                      <fieldset>
-                        <div class="form-card text-left">
-                          <div class="row">
-                            <div class="col-md-12">
-                              <div class="form-group">
-                                <input type="text" class="form-control" name="messageF" v-model="messageInfo.message"
-                                  placeholder="Digite uma Menssagem" required="true" />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </fieldset>
-                    </form>
-                  </div>
+                </div>
+              </div>
+            </fieldset>
+          </form>
+        </div>
       </template>
       <template v-slot:footer>
-        <button type="button" class="btn btn-primary button-height" @click="saveMessage">Enviar</button>
+
+        <img v-if = send class="d-block w-100 h-100 img-fluid image-send" src="../assets/images/load.gif" >
+        <p v-if = send>Enviando</p>
+        <button type="button" class="btn btn-primary button-height" @click="saveMessage" :disabled=lockMessage>Enviar</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
       </template>
     </ModalChat>
@@ -150,12 +163,13 @@ export default defineComponent({
       messages: ref([]),
       employee: {},
       message: {},
+      load: false,
+      send: false,
+      lockMessage: false
     }
   },
   setup() {
-
-    //Pusher.logToConsole = true;
-    
+    //Pusher.logToConsole = true;   
     const store = useStore();
     const user = computed(() => store.getters.getUser);
 
@@ -195,9 +209,13 @@ export default defineComponent({
         canal: canal
       };
 
+      this.lockMessage = true;
+      this.send = true;
       this.store.dispatch(INSERT_MESSAGE, dados)
         .then(() => {
           this.clearMessage();
+          this.lockMessage = false;
+          this.send = false;
         });
     },
     loadMessage(){
@@ -206,10 +224,11 @@ export default defineComponent({
       this.messageInfo.user_id_to = this.messageT.user_id_to;
       this.messageInfo.user_id_from = this.user.id;
 
+      this.load = true;
       this.store.dispatch(GET_MESSAGES, this.messageInfo)
       .then((response) => {
         this.messages = this.messages.concat(response.data)
-
+        this.load = false;
       });
 
       this.defineChannel();
@@ -228,11 +247,12 @@ export default defineComponent({
       }, this);
     },
     channelLogic(){
-      if (this.messageInfo.user_id_to < this.messageInfo.user_id_from) {
-        
+      if (this.messageInfo.user_id_to < this.messageInfo.user_id_from) 
+      {
         return (this.messageInfo.user_id_from + '_' +  this.messageInfo.user_id_to);
-      } else {
-
+      } 
+      else 
+      {
         return (this.messageInfo.user_id_to + '_' + this.messageInfo.user_id_from);
       }
       
@@ -248,9 +268,36 @@ export default defineComponent({
 </script>
 
 <style scoped>
+  .image{
+      max-width:100px;
+      max-height:100px;
+      width: auto;
+      height: auto;
+  }
+
+  .image-send{
+      max-width:50px;
+      max-height:50px;
+      width: auto;
+      height: auto;
+  }
+
   .height-self-center {
     height: auto;
     border-radius: 5px;
+  }
+
+  .scrollspy-example {
+  position: relative;
+  height: 200px;
+  margin-top: 0.5rem;
+  overflow: auto;
+  }
+  .button-height {
+    height: 45px;
+  }
+  .message{
+    padding-right: 28px;
   }
 </style>
 <style>
@@ -258,4 +305,5 @@ export default defineComponent({
     background-color: #fff;
     border-color: #333;
   }
+  
 </style>
