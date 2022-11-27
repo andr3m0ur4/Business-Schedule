@@ -19,7 +19,7 @@ export const user: Module<StateUser, State> = {
     } as any,
   },
   mutations: {
-    [SET_USER](state, userData: Object) {
+    [SET_USER](state, userData: any) {
       state.user = userData.user;
       state.user.token = userData.token!.access_token;
       sessionStorage.setItem("user", JSON.stringify(userData.user));
@@ -31,6 +31,9 @@ export const user: Module<StateUser, State> = {
       sessionStorage.removeItem("token");
       sessionStorage.removeItem("user");
     },
+    ['SET_USER_JOB'](state, userData) {
+      state.user.data = userData;
+    }
   },
   actions: {
     [LOGIN]({ commit }, user: IUser) {
@@ -44,7 +47,7 @@ export const user: Module<StateUser, State> = {
     [GET_USER]({ commit }, id: number) {
       http
         .get(`v1/user-job/${id}`)
-        .then((response) => console.log(response));
+        .then((response) => commit('SET_USER_JOB', response.data));
     }
   },
   getters: {
@@ -54,5 +57,8 @@ export const user: Module<StateUser, State> = {
     getUser() {
       return JSON.parse(String(sessionStorage.getItem("user"))) ?? {};
     },
+    getUserJob(state) {
+      return state.user.data;
+    }
   },
 };

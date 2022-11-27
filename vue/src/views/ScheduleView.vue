@@ -1049,6 +1049,18 @@ export default {
   .my-schedule .bootstrap-select > .dropdown-toggle:nth-of-type(2) {
     display: none;
   }
+
+  @media (max-width: 767px) {
+    #menu-navi {
+      white-space: nowrap;
+    }
+    .fc-toolbar {
+      flex-wrap: wrap;
+    }
+    .fc-toolbar.fc-header-toolbar {
+      overflow-x: visible;
+    }
+  }
 </style>
 <style>
   .tui-full-calendar-popup-detail .tui-full-calendar-popup-container {

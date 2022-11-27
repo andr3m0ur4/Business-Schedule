@@ -11,30 +11,7 @@
             </div>
           </div>
           <div class="col-lg-12">
-            <h4 class="mb-3">Escolha uma Escala Abaixo</h4>
             <div class="d-flex flex-wrap align-items-center justify-content-between my-schedule mb-3">
-              <div class="d-flex align-items-center justify-content-between">
-                <div class="form-group mb-0">
-                  <select name="type" class="selectpicker form-control" data-style="py-0">
-                    <option>Working Hours</option>
-                    <option>Default Hours</option>
-                    <option>Working Hours</option>
-                    <option>Learning Hours</option>
-                  </select>
-                </div>
-                <div class="select-dropdown input-prepend input-append">
-                  <div class="btn-group">
-                    <label data-toggle="dropdown">
-                      <span class="dropdown-toggle search-query rounded btn bg-white btn-edit"><i class="las la-edit mr-0 text-center"></i></span><span class="search-replace"></span>
-                      <span class="caret"><!--icon--></span>
-                    </label>
-                    <ul class="dropdown-menu w-100 border-none p-3">
-                      <li><div class="item mb-2"><i class="ri-pencil-line mr-3"></i>Editar</div></li>
-                      <li><div class="item"><i class="ri-delete-bin-6-line mr-3"></i>Excluir</div></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
               <div class="d-flex flex-wrap align-items-center" id="filter-by">
                 <div id="filter-none" class="filter-extra"></div>
                 <div id="filter-button" class="select-dropdown input-prepend input-append filter-dropdown filter-extra active">
@@ -237,7 +214,6 @@ export default defineComponent({
 
 
   @import url('../assets/css/styles/reset.css');
-  @import url('../assets/css/styles/app.css');
   @import url('../assets/css/styles/icons.css');
 
   /* If you use the default popups, use this. */
@@ -337,7 +313,7 @@ export default defineComponent({
     display: none;
   }
 
-  @media (max-width: 425px) {
+  @media (max-width: 767px) {
     .container, .container .col-lg-12 {
       padding-right: 0;
       padding-left: 0;
@@ -349,7 +325,7 @@ export default defineComponent({
       flex-wrap: wrap;
     }
     .fc-toolbar.fc-header-toolbar {
-      overflow-x: hidden;
+      overflow-x: visible;
     }
   }
 </style>

@@ -53,7 +53,7 @@
           </div>
         </div>
       </div>
-  
+
       <ModalEmployee :id="'addEmployee'" @onHide="clearEmployee">
         <template v-slot:header>
           <h5 class="modal-title" id="addEmployeeLabel">Cadastrar Funcionário</h5>
@@ -119,7 +119,7 @@
           <button type="button" class="btn btn-primary" @click="saveEmployee">Salvar</button>
         </template>
       </ModalEmployee>
-  
+
       <ModalEmployee :id="'updateEmployee'" @onHide="clearEmployee">
         <template v-slot:header>
           <h5 class="modal-title" id="addEmployeeLabel">Alterar Funcionário</h5>
@@ -179,10 +179,10 @@
           <button type="button" class="btn btn-primary" @click="updateEmployee">Salvar</button>
         </template>
       </ModalEmployee>
-  
+
     </div>
   </template>
-  
+
   <script lang="ts">
   import { computed, defineComponent, inject } from 'vue'
   import { useStore } from '../store';
@@ -191,7 +191,7 @@
   import type IEmployee from '../interfaces/IEmployee';
   import { optionsTable } from '../assets/js/datatable';
   import { employee } from '@/store/modules/employee';
-  
+
   export default defineComponent({
     name: 'EmployeeView',
     data() {
@@ -267,9 +267,9 @@
       const swal = inject('$swal');
       store.dispatch(GET_EMPLOYEES);
       store.dispatch(GET_JOBS);
-      console.log(computed(() => store.state.job.jobs));
+      // console.log(computed(() => store.state.job.jobs));
       const optionsDataTable = optionsTable
-  
+
       return {
         Employees: computed(() => store.state.employee.employees),
         Jobs: computed(() => store.state.job.jobs),
@@ -280,10 +280,9 @@
     }
   })
   </script>
-  
+
   <style scoped>
     .fixed-top-navbar.top-nav .content-page {
       padding-top: 103px;
     }
   </style>
-  

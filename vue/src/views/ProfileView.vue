@@ -10,7 +10,7 @@
                   <img src="../assets/images/user/12.jpg" alt="profile-bg"
                     class="avatar-100 rounded d-block mx-auto img-fluid mb-3">
                   <h3 class="font-600 text-white text-center mb-0">{{user.name}}</h3>
-                  <p class="text-white text-center mb-5">{{user}}</p>
+                  <p class="text-white text-center mb-5">{{ getUserJob }}</p>
                 </div>
                 <div class="pro-content rounded">
                   <div class="d-flex align-items-center mb-3">
@@ -47,6 +47,9 @@ export default defineComponent({
   data() {
       return {
         employee: {} as IEmployee,
+        userJob: {
+          job: { name: '' }
+        }
       }
     },
     methods: {
@@ -54,15 +57,28 @@ export default defineComponent({
         this.employee = employee;
       }
     },
+    computed: {
+      getUserJob() {
+        return this.userJob && this.userJob.job ? this.userJob.job.name : '';
+      }
+    },
+    watch: {
+      user(newUser) {
+        console.log(newUser)
+      }
+    },
     setup() {
       const store = useStore();
       const swal = inject('$swal');
       store.dispatch(GET_EMPLOYEES);
-      store.dispatch(GET_USER, 5);
+      const user = computed(() => store.getters.getUser);
+      store.dispatch(GET_USER, user.value.id);
+      const userJob = computed(() => store.getters.getUserJob);
 
       return {
         Employees: computed(() => store.state.employee.employees),
-        user: computed(() => store.getters.getUser),
+        user,
+        userJob,
         store,
         swal
 
