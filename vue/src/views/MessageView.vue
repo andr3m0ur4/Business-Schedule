@@ -87,7 +87,7 @@
             <div v-if = load class="text-left col-12  mt-2">
               <div display="block" class="text-center">
                 <h3>Carregando</h3>
-                <img class="d-block w-100 h-100 img-fluid" src="../assets/images/load.gif" >
+                <img class="w-100 h-100 img-fluid image" src="../assets/images/load.gif" >
               </div>
             </div>
             <div v-else class="text-right col-12 mt-2 scrollspy-example" data-spy="scroll" data-target="#navbar-example2" data-offset="0">
@@ -134,6 +134,9 @@
         </div>
       </template>
       <template v-slot:footer>
+
+        <img v-if = send class="d-block w-100 h-100 img-fluid image-send" src="../assets/images/load.gif" >
+        <p v-if = send>Enviando</p>
         <button type="button" class="btn btn-primary button-height" @click="saveMessage" :disabled=lockMessage>Enviar</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
       </template>
@@ -161,6 +164,7 @@ export default defineComponent({
       employee: {},
       message: {},
       load: false,
+      send: false,
       lockMessage: false
     }
   },
@@ -206,10 +210,12 @@ export default defineComponent({
       };
 
       this.lockMessage = true;
+      this.send = true;
       this.store.dispatch(INSERT_MESSAGE, dados)
         .then(() => {
           this.clearMessage();
           this.lockMessage = false;
+          this.send = false;
         });
     },
     loadMessage(){
@@ -262,6 +268,20 @@ export default defineComponent({
 </script>
 
 <style scoped>
+  .image{
+      max-width:100px;
+      max-height:100px;
+      width: auto;
+      height: auto;
+  }
+
+  .image-send{
+      max-width:50px;
+      max-height:50px;
+      width: auto;
+      height: auto;
+  }
+
   .height-self-center {
     height: auto;
     border-radius: 5px;
