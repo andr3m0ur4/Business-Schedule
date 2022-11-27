@@ -10,7 +10,7 @@
                   <img src="../assets/images/user/12.jpg" alt="profile-bg"
                     class="avatar-100 rounded d-block mx-auto img-fluid mb-3">
                   <h3 class="font-600 text-white text-center mb-0">{{user.name}}</h3>
-                  <p class="text-white text-center mb-5">{{user}}</p>
+                  <p class="text-white text-center mb-5">{{ getUserWithJob }}</p>
                 </div>
                 <div class="pro-content rounded">
                   <div class="d-flex align-items-center mb-3">
@@ -38,7 +38,7 @@
 <script lang="ts">
   import { computed, defineComponent, inject } from 'vue'
   import { useStore } from '../store';
-  import { GET_EMPLOYEES, GET_USER } from "../store/action-types";
+  import { GET_EMPLOYEES, GET_USER, GET_JOBS } from "../store/action-types";
   import type IEmployee from '../interfaces/IEmployee';
   import { employee } from '@/store/modules/employee';
 
@@ -47,6 +47,9 @@ export default defineComponent({
   data() {
       return {
         employee: {} as IEmployee,
+        UserWithJob: {
+          job: {name: ''}
+        }
       }
     },
     methods: {
@@ -54,15 +57,28 @@ export default defineComponent({
         this.employee = employee;
       }
     },
+    computed: {
+      getUserWithJob() {
+          return this.UserWithJob && this.UserWithJob.job ? this.UserWithJob.job.name : '';
+      }
+    },
+    watch: {
+        user(newuser, olduser){
+          console.log(newuser, olduser)
+        },
+    },
     setup() {
       const store = useStore();
       const swal = inject('$swal');
       store.dispatch(GET_EMPLOYEES);
-      store.dispatch(GET_USER, 5);
+      const user = computed(() => store.getters.getUser);
+      store.dispatch(GET_USER, user.value.id);
+      const UserWithJob = computed(() => store.getters.getUserWithJob);
 
       return {
         Employees: computed(() => store.state.employee.employees),
-        user: computed(() => store.getters.getUser),
+        user,
+        UserWithJob,
         store,
         swal
 
