@@ -46,9 +46,10 @@ export const user: Module<StateUser, State> = {
       return http.post("v1/logout").then(response => commit(LOGOUT));
     },
     [GET_USER]({ commit }, id: number) {
-      http
+      return http
         .get(`v1/user-job/${id}`)
-        .then((response) => commit(GET_USER_JOB, response.data));
+        .then((response) => {commit(GET_USER_JOB, response.data)
+          return response});
     },
   },
   getters: {

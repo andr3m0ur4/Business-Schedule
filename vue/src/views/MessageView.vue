@@ -35,7 +35,7 @@
                                 <div>
                                   <div class="media align-items-top user-detail mb-1">
                                     <h6>{{ employee.name }}</h6>
-                                    <div class="badge badge-color ml-3 mt-0">Cargo</div>
+                                    <div class="badge badge-color ml-3 mt-0">{{getUserJob(employee.job_id)}} </div>
                                   </div>
                                   <p class="mb-0">{{ employee.email }}</p>
                                 </div>
@@ -147,7 +147,7 @@
 <script lang="ts">
 import { useStore } from "../store";
 import { computed, defineComponent, inject , ref} from "@vue/runtime-core";
-import { GET_USERS_MESSAGES, GET_MESSAGES, INSERT_MESSAGE } from "../store/action-types";
+import { GET_USERS_MESSAGES, GET_MESSAGES, INSERT_MESSAGE,GET_USER } from "../store/action-types";
 import ModalChat from '../components/modals/ModalChat.vue';
 import type IMessage from '../interfaces/IMessage';
 import Pusher from 'pusher-js';
@@ -163,6 +163,7 @@ export default defineComponent({
       messages: ref([]),
       employee: {},
       message: {},
+      jobName: '',
       load: false,
       send: false,
       lockMessage: false
@@ -259,6 +260,19 @@ export default defineComponent({
     },
     formatDate(date){
       return moment(date).format('HH:mm');
+    },
+    getUserJob(userId) {
+
+      if(userId != null){
+
+        this.store.dispatch(GET_USER, userId)
+        .then((response) => {
+          this.jobName = response.data.job.name;
+          
+        });
+      }
+
+      return this.jobName ? this.jobName : '';
     },
     clearMessage() {
       this.messageInfo = {} as IMessage;
