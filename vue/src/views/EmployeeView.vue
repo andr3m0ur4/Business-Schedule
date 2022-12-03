@@ -1,196 +1,189 @@
 <template>
-    <div class="content-page color-light">
-      <div class="container-fluid container">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="card card-block card-stretch card-height">
-              <div class="card-header d-flex justify-content-between">
-                <div class="iq-header-title">
-                  <h4 class="card-title mb-0">Funcionários</h4>
-                </div>
-                <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#addEmployee">Adicionar Funcionários</a>
+  <div class="content-page color-light">
+    <div class="container-fluid container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card card-block card-stretch card-height">
+            <div class="card-header d-flex justify-content-between">
+              <div class="iq-header-title">
+                <h4 class="card-title mb-0">Funcionários</h4>
               </div>
-              <div class="card-body">
-                <div class="table-responsive data-table">
-                  <table class="data-tables table" style="width:100%" ref="table">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>Nome</th>
-                        <th>Email</th>
-                        <th>Telefone</th>
-                        <th>Ação</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="employee in Employees" :key="employee.id">
-                        <td>{{ employee.id }}</td>
-                        <td>{{ employee.name }}</td>
-                        <td>{{ employee.email }}</td>
-                        <td>{{ employee.phone }}</td>
-                        <td>
-                          <div class="d-flex align-items-center list-action justify-content-end">
-                            <a class="badge bg-success-light mr-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="View" href="#">
-                              <i class="lar la-eye"></i>
-                            </a>
-                            <div class="badge bg-primary-light" data-toggle="tooltip" data-placement="top" title="" data-original-title="Action">
-                              <div class="dropdown">
-                                <div class="text-primary dropdown-toggle action-item" id="moreOptions1" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false"></div>
-                                <div class="dropdown-menu" aria-labelledby="moreOptions1">
-                                  <a class="dropdown-item" href="#" data-toggle="modal" data-target="#updateEmployee" @click="loadEmployee(employee)">Editar</a>
-                                  <a class="dropdown-item" href="#" @click="deleteEmployee(employee.id, employee.name)">Excluir</a>
-                                </div>
+              <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#addEmployee">Adicionar Funcionários</a>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive data-table">
+                <table class="data-tables table" style="width:100%" ref="table">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Nome</th>
+                      <th>Email</th>
+                      <th>Telefone</th>
+                      <th>Ação</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="employee in employees" :key="employee.id">
+                      <td>{{ employee.id }}</td>
+                      <td>{{ employee.name }}</td>
+                      <td>{{ employee.email }}</td>
+                      <td>{{ employee.phone }}</td>
+                      <td>
+                        <div class="d-flex align-items-center list-action justify-content-end">
+                          <a class="badge bg-success-light mr-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="View" href="#">
+                            <i class="lar la-eye"></i>
+                          </a>
+                          <div class="badge bg-primary-light" data-toggle="tooltip" data-placement="top" title="" data-original-title="Action">
+                            <div class="dropdown">
+                              <div class="text-primary dropdown-toggle action-item" id="moreOptions1" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false"></div>
+                              <div class="dropdown-menu" aria-labelledby="moreOptions1">
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#updateEmployee" @click="loadEmployee(employee)">Editar</a>
+                                <a class="dropdown-item" href="#" @click="deleteEmployee(employee.id, employee.name)">Excluir</a>
                               </div>
                             </div>
                           </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
         </div>
       </div>
-
-      <ModalEmployee :id="'addEmployee'" @onHide="clearEmployee">
-        <template v-slot:header>
-          <h5 class="modal-title" id="addEmployeeLabel">Cadastrar Funcionário</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </template>
-        <template v-slot:body>
-          <form id="form-wizard" class="text-center" @submit.prevent="saveEmployee">
-            <fieldset>
-              <div class="form-card text-left">
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="sname">Nome: *</label>
-                      <input type="text" class="form-control" id="sname" v-model="employee.name" placeholder="Nome" required />
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="sname">Celular: *</label>
-                      <input type="text" class="form-control" id="sphone" v-model="employee.phone" placeholder="Celular" required />
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="sname">Email: *</label>
-                      <input type="text" class="form-control" id="semail" v-model="employee.email" placeholder="Email" required />
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="sname">Senha: *</label>
-                      <input type="text" class="form-control" id="spassword" v-model="employee.password" placeholder="Password" required />
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="sjob">Função: *</label>
-                      <select class="form-control" id="sjob" v-model="employee.job_id">
-                        <option v-for="job in Jobs" :key="job.id" :value="job.id">
-                          {{ job.name }}
-                        </option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="stype">Privilégio: *</label>
-                      <select class="form-control" id="stype" v-model="employee.type">
-                        <option value="Admin">Administrador</option>
-                        <option value="Employee">Funcionário</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </fieldset>
-          </form>
-        </template>
-        <template v-slot:footer>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-          <button type="button" class="btn btn-primary" @click="saveEmployee">Salvar</button>
-        </template>
-      </ModalEmployee>
-
-      <ModalEmployee :id="'updateEmployee'" @onHide="clearEmployee">
-        <template v-slot:header>
-          <h5 class="modal-title" id="addEmployeeLabel">Alterar Funcionário</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </template>
-        <template v-slot:body>
-          <form id="form-wizard" class="text-center" @submit.prevent="updateEmployee">
-            <fieldset>
-              <div class="form-card text-left">
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="sname">Nome: *</label>
-                      <input type="text" class="form-control" id="sname" v-model="employee.name" placeholder="Nome" required />
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="sname">Celular: *</label>
-                      <input type="text" class="form-control" id="sphone" v-model="employee.phone" placeholder="Celular" required />
-                    </div>
-                  </div>
-                  <div class="col-md-12">
-                    <div class="form-group">
-                      <label for="sname">Email: *</label>
-                      <input type="text" class="form-control" id="semail" v-model="employee.email" placeholder="Email" required />
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="sjob">Função: *</label>
-                      <select class="selectpicker form-control" id="sjob" v-model="employee.job_id">
-                        <option v-for="job in Jobs" :key="job.id" :value="job.id">
-                          {{ job.name }}
-                        </option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="stype">Privilégio: *</label>
-                      <select class="selectpicker form-control" id="stype" v-model="employee.type">
-                        <option value="Admin">Administrador</option>
-                        <option value="Employee">Funcionário</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </fieldset>
-          </form>
-        </template>
-        <template v-slot:footer>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-          <button type="button" class="btn btn-primary" @click="updateEmployee">Salvar</button>
-        </template>
-      </ModalEmployee>
-
     </div>
-  </template>
 
-  <script lang="ts">
+    <ModalEmployee :id="'addEmployee'" @onHide="clearEmployee">
+      <template v-slot:header>
+        <h5 class="modal-title" id="addEmployeeLabel">Cadastrar Funcionário</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </template>
+      <template v-slot:body>
+        <form id="form-wizard" class="text-center" @submit.prevent="saveEmployee">
+          <fieldset>
+            <div class="form-card text-left">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="sname">Nome: *</label>
+                    <input type="text" class="form-control" v-model="employee.name" placeholder="Nome" required />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="sname">Celular: *</label>
+                    <input type="text" class="form-control" v-model="employee.phone" placeholder="Celular" required />
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="sname">Email: *</label>
+                    <input type="text" class="form-control" v-model="employee.email" placeholder="Email" required />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="sjob">Função: *</label>
+                    <select class="selectpicker form-control" title="Função" v-model="employee.job_id">
+                      <option v-for="job in jobs" :key="job.id" :value="job.id">
+                        {{ job.name }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="stype">Privilégio: *</label>
+                    <select class="selectpicker form-control" title="Privilégio" v-model="employee.type">
+                      <option value="Admin">Administrador</option>
+                      <option value="Employee">Funcionário</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </template>
+      <template v-slot:footer>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        <button type="button" class="btn btn-primary" @click="saveEmployee">Salvar</button>
+      </template>
+    </ModalEmployee>
+
+    <ModalEmployee :id="'updateEmployee'" @onHide="clearEmployee">
+      <template v-slot:header>
+        <h5 class="modal-title" id="addEmployeeLabel">Alterar Funcionário</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </template>
+      <template v-slot:body>
+        <form id="form-wizard" class="text-center" @submit.prevent="updateEmployee">
+          <fieldset>
+            <div class="form-card text-left">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="sname">Nome: *</label>
+                    <input type="text" class="form-control" id="sname" v-model="employee.name" placeholder="Nome" required />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="sname">Celular: *</label>
+                    <input type="text" class="form-control" id="sphone" v-model="employee.phone" placeholder="Celular" required />
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="sname">Email: *</label>
+                    <input type="text" class="form-control" id="semail" v-model="employee.email" placeholder="Email" required />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="sjob">Função: *</label>
+                    <select class="selectpicker form-control" id="sjob" v-model="employee.job_id">
+                      <option v-for="job in jobs" :key="job.id" :value="job.id">
+                        {{ job.name }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="stype">Privilégio: *</label>
+                    <select class="selectpicker form-control" id="stype" v-model="employee.type">
+                      <option value="Admin">Administrador</option>
+                      <option value="Employee">Funcionário</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </template>
+      <template v-slot:footer>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        <button type="button" class="btn btn-primary" @click="updateEmployee">Salvar</button>
+      </template>
+    </ModalEmployee>
+
+  </div>
+</template>
+
+<script lang="ts">
   import { computed, defineComponent, inject } from 'vue'
   import { useStore } from '../store';
   import { DELETE_EMPLOYEE, GET_EMPLOYEES, INSERT_EMPLOYEE, UPDATE_EMPLOYEE, GET_JOBS } from "../store/action-types";
   import ModalEmployee from '../components/modals/ModalEmployee.vue';
   import type IEmployee from '../interfaces/IEmployee';
   import { optionsTable } from '../assets/js/datatable';
-  import { employee } from '@/store/modules/employee';
 
   export default defineComponent({
     name: 'EmployeeView',
@@ -199,6 +192,9 @@
         employee: {} as IEmployee,
         //jobs: {} as IJob
       }
+    },
+    mounted() {
+      $('.selectpicker').selectpicker();
     },
     updated() {
       $(this.$refs.table).DataTable(this.optionsDataTable);
@@ -213,7 +209,6 @@
       saveEmployee() {
         this.store.dispatch(INSERT_EMPLOYEE, this.employee)
           .then(() => {
-            console.log("TESTE");
             $('#addEmployee').modal('hide');
             this.swal('Sucesso', `${this.employee.name} cadastrado com sucesso!`, 'success');
             this.clearEmployee();
@@ -262,6 +257,11 @@
         $(this.$refs.table).DataTable().clear().rows.add($(this.$refs.table).find('tbody tr')).draw();
       }
     },
+    watch: {
+      jobs(newJObs) {
+        $('.selectpicker').selectpicker('refresh');
+      }
+    },
     setup() {
       const store = useStore();
       const swal = inject('$swal');
@@ -271,8 +271,8 @@
       const optionsDataTable = optionsTable
 
       return {
-        Employees: computed(() => store.state.employee.employees),
-        Jobs: computed(() => store.state.job.jobs),
+        employees: computed(() => store.state.employee.employees),
+        jobs: computed(() => store.state.job.jobs),
         store,
         swal,
         optionsDataTable

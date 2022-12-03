@@ -15,10 +15,10 @@
       </div>
     </div>
   </template>
-  
+
   <script lang="ts">
   import { defineComponent } from "@vue/runtime-core"
-  
+
   export default defineComponent({
     name: 'ModalEmployee',
     props: {
@@ -30,6 +30,7 @@
     emits: ['onHide'],
     mounted() {
       $(this.$refs.modal).on('shown.bs.modal', (e: Event) => {
+        $('.selectpicker').selectpicker('refresh');
         $(e.target).find('[name]').focus();
       });
       $(this.$refs.modal).on('hidden.bs.modal', () => {
@@ -38,8 +39,7 @@
     }
   })
   </script>
-  
+
   <style scoped>
-  
+
   </style>
-  

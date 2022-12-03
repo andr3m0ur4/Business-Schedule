@@ -45,15 +45,15 @@ export const employee: Module<StateEmployee, State> = {
     },
     [INSERT_EMPLOYEE]({ commit }, employee: IEmployee) {
         return http.post('v1/users', employee)
-            .then(response => {console.log('teste agora'); commit(ADD_EMPLOYEE, response.data)});
+          .then(response => commit(ADD_EMPLOYEE, response.data));
     },
     [UPDATE_EMPLOYEE]({ commit }, employee: IEmployee) {
         return http.put(`v1/users/${employee.id}`, employee)
-            .then(response => commit(CHANGE_EMPLOYEE, response.data));
+          .then(response => commit(CHANGE_EMPLOYEE, response.data));
     },
     [DELETE_EMPLOYEE]({ commit }, id: number) {
         return http.delete(`v1/users/${id}`)
-            .then(() => commit(REMOVE_EMPLOYEE, id));
+          .then(() => commit(REMOVE_EMPLOYEE, id));
     }
   },
   getters: {

@@ -3,11 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ChangePasswordRequest;
-use GuzzleHttp\Psr7\Message;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\Mail as MailModel;
 use App\Models\User;
 use Illuminate\Support\Str;
 

@@ -29,7 +29,7 @@ class StoreUserRequest extends FormRequest
             'name' => ['required', 'string', 'min:3'],
             'email' => ['required', 'email', 'string', 'unique:users'],
             'password' => [
-                'required',
+                'sometimes',
                 //'confirmed',
                 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/'
             ],
@@ -56,7 +56,7 @@ class StoreUserRequest extends FormRequest
             'confirmed' => 'As senhas são diferentes',
             'password.min' => 'O campo senha deve ter no minimo 8 caracteres',
             'phone.min' => 'O campo celular deve ter no minimo 8 caracteres',
-            'password.regex' => 'A senha deve coter no minimo um caracter maiusculo, minusculo, numero e um caractere especial'
+            'password.regex' => 'A senha deve conter no mínimo um caracter maiúsculo, minusculo, número e um caractere especial'
         ];
     }
 }

@@ -6,15 +6,11 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Resources\UserResource;
-use App\Mail\ResetPasswordMail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
-
-use function PHPUnit\Framework\isEmpty;
-use function PHPUnit\Framework\isNull;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -49,7 +45,7 @@ class UserController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => bcrypt($request->password),
+            'password' => bcrypt(Str::random(16)),
             'type' => $request->type,
             'phone' => $request->phone,
             'job_id' => $request->job_id
