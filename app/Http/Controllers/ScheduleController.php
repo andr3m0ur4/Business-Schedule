@@ -8,6 +8,7 @@ use App\Models\Schedule;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class ScheduleController extends Controller
 {
@@ -153,4 +154,14 @@ class ScheduleController extends Controller
             }
         }
     }
+    public function countSchedule(){
+
+        $count = DB::getPdo()->prepare("SELECT COUNT(id) FROM schedules");
+        $count->execute();
+        return response()->json($count->fetchAll());
+
+    }
+    
 }
+
+
