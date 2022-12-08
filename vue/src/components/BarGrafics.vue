@@ -87,7 +87,7 @@ export default defineComponent({
 
     return () =>
       h(Bar, {
-        chartData,
+        data: chartData,
         chartOptions,
         chartId: props.chartId,
         width: props.width,

@@ -71,7 +71,7 @@ export default defineComponent({
 
     return () =>
       h(Doughnut, {
-        chartData,
+        data: chartData,
         chartOptions,
         chartId: props.chartId,
         width: props.width,

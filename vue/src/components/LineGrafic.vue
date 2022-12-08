@@ -82,7 +82,7 @@ export default defineComponent({
 
     return () =>
       h(Line, {
-        chartData,
+        data: chartData,
         chartOptions,
         chartId: props.chartId,
         width: props.width,

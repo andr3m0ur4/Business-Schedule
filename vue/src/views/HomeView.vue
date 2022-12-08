@@ -84,8 +84,7 @@
               </div>
             </div>
             <div class="card-body">
-              <BarGrafics
-              />
+              <BarGrafics/>
             </div>
           </div>
         </div>
@@ -265,10 +264,10 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import BarGrafics from '@/components/BarGrafics.vue';
-import DoughnutGrafic from '@/components/DoughnutGrafic.vue';
-import LineGrafic from '@/components/LineGrafic.vue';
-import RadarGrafic from '@/components/RadarGrafic.vue';
+import BarGrafics from '../components/BarGrafics.vue';
+import DoughnutGrafic from '../components/DoughnutGrafic.vue';
+import LineGrafic from '../components/LineGrafic.vue';
+import RadarGrafic from '../components/RadarGrafic.vue';
 
 export default defineComponent({
     name: "HomeView",

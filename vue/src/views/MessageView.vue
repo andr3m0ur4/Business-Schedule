@@ -35,7 +35,7 @@
                                 <div>
                                   <div class="media align-items-top user-detail mb-1">
                                     <h6>{{ employee.name }}</h6>
-                                    <div class="badge badge-color ml-3 mt-0">{{getUserJob(employee.job_id)}} </div>
+                                    <!--<div class="badge badge-color ml-3 mt-0">{{getUserJob(employee.job_id)}} </div>-->
                                   </div>
                                   <p class="mb-0">{{ employee.email }}</p>
                                 </div>
@@ -261,7 +261,7 @@ export default defineComponent({
     formatDate(date){
       return moment(date).format('HH:mm');
     },
-    getUserJob(userId) {
+    /*getUserJob(userId) {
 
       if(userId != null){
 
@@ -273,7 +273,7 @@ export default defineComponent({
       }
 
       return this.jobName ? this.jobName : '';
-    },
+    },*/
     clearMessage() {
       this.messageInfo = {} as IMessage;
     },

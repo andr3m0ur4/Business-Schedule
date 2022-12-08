@@ -8,37 +8,32 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, h, PropType } from "@vue/runtime-core"
-import { Radar } from 'vue-chartjs'
+import { defineComponent, h, PropType } from 'vue'
+
+import { Bar } from 'vue-chartjs'
+
 import {
   Chart as ChartJS,
   Title,
   Tooltip,
   Legend,
-  PointElement,
-  RadialLinearScale,
-  LineElement,
+  BarElement,
+  CategoryScale,
+  LinearScale,
   Plugin
 } from 'chart.js'
 
-ChartJS.register(
-  Title,
-  Tooltip,
-  Legend,
-  PointElement,
-  RadialLinearScale,
-  LineElement
-)
+ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
 export default defineComponent({
-  name: 'RadarChart',
+  name: 'BarChart',
   components: {
-    Radar
+    Bar
   },
   props: {
     chartId: {
       type: String,
-      default: 'radar-chart'
+      default: 'bar-chart'
     },
     width: {
       type: Number,
@@ -57,41 +52,31 @@ export default defineComponent({
       default: () => {}
     },
     plugins: {
-      type: Array as PropType<Plugin<'radar'>[]>,
+      type: Array as PropType<Plugin<'bar'>[]>,
       default: () => []
     }
   },
   setup(props) {
     const chartData = {
       labels: [
-        'Eating',
-        'Drinking',
-        'Sleeping',
-        'Designing',
-        'Coding',
-        'Cycling',
-        'Running'
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December'
       ],
       datasets: [
         {
-          label: 'My First dataset',
-          backgroundColor: 'rgba(179,181,198,0.2)',
-          borderColor: 'rgba(179,181,198,1)',
-          pointBackgroundColor: 'rgba(179,181,198,1)',
-          pointBorderColor: '#fff',
-          pointHoverBackgroundColor: '#fff',
-          pointHoverBorderColor: 'rgba(179,181,198,1)',
-          data: [65, 59, 90, 81, 56, 55, 40]
-        },
-        {
-          label: 'My Second dataset',
-          backgroundColor: 'rgba(255,99,132,0.2)',
-          borderColor: 'rgba(255,99,132,1)',
-          pointBackgroundColor: 'rgba(255,99,132,1)',
-          pointBorderColor: '#fff',
-          pointHoverBackgroundColor: '#fff',
-          pointHoverBorderColor: 'rgba(255,99,132,1)',
-          data: [28, 48, 40, 19, 96, 27, 100]
+          label: 'Data One',
+          backgroundColor: '#f87979',
+          data: [40, 20, 12, 39, 10, 40, 39, 80, 40, 20, 12, 11]
         }
       ]
     }
@@ -102,8 +87,8 @@ export default defineComponent({
     }
 
     return () =>
-      h(Radar, {
-        chartData,
+      h(Bar, {
+        data: chartData,
         chartOptions,
         chartId: props.chartId,
         width: props.width,
@@ -114,4 +99,5 @@ export default defineComponent({
       })
   }
 })
+
 </script>
