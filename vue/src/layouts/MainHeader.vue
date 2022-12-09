@@ -213,7 +213,7 @@
                 <li class="caption-content">
                   <a href="#" class="search-toggle dropdown-toggle d-flex align-items-center" id="dropdownMenuButton3" data-toggle="dropdown"
                       aria-haspopup="true" aria-expanded="false">
-                    <img src="../assets/images/user/01.jpg" class="avatar-40 img-fluid rounded" alt="user">
+                    <img src="../assets/images/user/avatar_profile.png" class="avatar-40 img-fluid rounded" alt="user">
                     <div class="caption ml-3">
                         <h6 class="mb-0 line-height">
                           {{ user.name }}

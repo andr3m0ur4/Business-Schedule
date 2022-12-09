@@ -12,18 +12,21 @@
                 <form id="reset-password" @submit.prevent="savePassword">
                   <div class="row">
                     <div class="col-lg-12">
-                      <div class="floating-input form-group">
+                      <div class="floating-input form-group" data-tip="This is the text of the tooltip2">
                         <input class="form-control" type="password" id="password" v-model="password"
                           required />
                         <label class="form-label" for="password">Senha</label>
                       </div>
                       <div class="floating-input form-group">
-                        <input class="form-control" type="password" id="confirm-password" v-model="confirmPassword" required />
+                        <input class="form-control" type="password" id="confirm-password" v-model="confirmPassword" required/>
                         <label class="form-label" for="confirm-password">Confirme a senha</label>
                       </div>
+                      <small id="passwordHelpBlock" class="form-text text-muted">
+                          <p class="text-danger">Sua senha deve ter no minimo 8 caracteres, sendo um maiúsculo, um munúsculo, um numérico e um especial.</p>
+                      </small>
                     </div>
                   </div>
-                  <button type="submit" class="btn btn-primary">Redefinir</button>
+                  <button type="submit" class="btn btn-primary mt-3">Redefinir</button>
                 </form>
               </div>
             </div>
@@ -80,6 +83,12 @@ import { CHANGE_PASSWORD, VERIFY_TOKEN } from "../store/action-types";
       return {
         store
       }
+    },
+    mounted() {
+      try {
+            jQuery('[data-toggle="popover"]').popover();
+            jQuery('[data-toggle="tooltip"]').tooltip();
+        } catch(e) {}
     }
   })
 </script>
