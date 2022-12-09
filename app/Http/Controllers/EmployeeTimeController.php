@@ -12,6 +12,8 @@ use App\Models\Schedule;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
+use PDO;
 
 class EmployeeTimeController extends Controller
 {
@@ -164,4 +166,16 @@ class EmployeeTimeController extends Controller
             'deleted_rows' => $deletedRows
         ], Response::HTTP_OK);
     }
+
+    public function countEmployeeTime(){
+
+        $data = DB::getPdo()->prepare("SELECT TIME_FORMAT(sum((TIMEDIFF(emp_time.end,emp_time.start)- INTERVAL 6 hour)), '%H:%i:%s') hour_emp,us.name FROM employee_times as emp_time 
+            INNER JOIN users as us ON us.id = emp_time.user_id
+            WHERE MONTH(emp_time.START) = MONTH(CURRENT_TIMESTAMP) and (HOUR(emp_time.end) - HOUR(emp_time.start)) > 6
+            GROUP BY emp_time.user_id ORDER BY hour_emp DESC LIMIT 10");
+        $data->execute();
+        return response()->json($data->fetchAll(PDO::FETCH_ASSOC));
+
+    }
+    
 }

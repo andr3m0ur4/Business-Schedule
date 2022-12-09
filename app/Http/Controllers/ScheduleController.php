@@ -156,9 +156,20 @@ class ScheduleController extends Controller
     }
     public function countSchedule(){
 
-        $count = DB::getPdo()->prepare("SELECT COUNT(id) FROM schedules");
+        $count = DB::getPdo()->prepare("SELECT COUNT(id) as total FROM schedules");
         $count->execute();
-        return response()->json($count->fetchAll());
+        return response()->json($count->fetchObject());
+
+    }
+
+    public function countTimeSchedule(){
+
+        $count = DB::getPdo()->prepare("SELECT CASE (DATEDIFF( (created_at  + INTERVAL '7' DAY),CURRENT_TIMESTAMP) + 1)
+            WHEN 8 THEN 7
+            ELSE (DATEDIFF( (created_at  + INTERVAL '7' DAY),CURRENT_TIMESTAMP) + 1)
+            END as time FROM schedules WHERE created_at = (SELECT MAX(created_at) FROM schedules)");
+        $count->execute();
+        return response()->json($count->fetchObject());
 
     }
     

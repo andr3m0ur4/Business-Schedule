@@ -66,4 +66,6 @@ Route::prefix('v1')->middleware('jwt.auth')->group(function() {
     Route::get('recent-messages', [MessageController::class, 'recentMessages']);
     Route::get('count-messages', [MessageController::class, 'countRecentMessages']);
     Route::get('count-schdules', [ScheduleController::class, 'countSchedule']);
+    Route::get('count-time-schdules', [ScheduleController::class, 'countTimeSchedule']);
+    Route::get('count-employee-time', [EmployeeTimeController::class, 'countEmployeeTime']);
 });
