@@ -24,5 +24,14 @@ module.exports = defineConfig({
   },
   chainWebpack: (config) => {
     config.plugins.delete('fork-ts-checker')
+  },
+  pwa: {
+    iconPaths: {
+      favicon32: "./public/favicon.ico",
+      favicon16: "./public/favicon.ico",
+      appleTouchIcon: "./public/favicon.ico",
+      maskIcon: "./public/favicon.ico",
+      msTileImage: "./public/favicon.ico"
+    }
   }
 })

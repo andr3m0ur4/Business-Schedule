@@ -16,6 +16,12 @@ import { generateSchedule, ScheduleInfo, ScheduleList } from './data/schedules';
 let calendar, resizeThrottled;
 const useCreationPopup = false;
 const useDetailPopup = true;
+const week = {
+    daynames: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab']
+};
+const month = {
+    daynames: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab']
+};
 let datePicker, selectedCalendar;
 let schedules = [];
 
@@ -24,6 +30,8 @@ function startCalendar($this) {
         defaultView: 'week',
         taskView: ['task'],
         scheduleView: ['time'],
+        week,
+        month,
         useCreationPopup: useCreationPopup,
         useDetailPopup: useDetailPopup,
         calendars: CalendarList,

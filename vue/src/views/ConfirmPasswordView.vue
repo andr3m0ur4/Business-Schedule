@@ -1,41 +1,43 @@
 <template>
-  <div class="wrapper">
-    <section class="login-content">
-      <div class="container h-100">
-        <div class="row justify-content-center align-items-center height-self-center">
-          <div class="col-md-5 col-sm-12 col-12 align-self-center">
-            <div class="card">
-              <div class="card-body text-center">
-                <img src="../assets/images/bs-icon-high.png" height="130" width="130">
-                <h2>Redefina sua senha</h2>
-                <p>Digite sua nova senha de login.</p>
-                <form id="reset-password" @submit.prevent="savePassword">
-                  <div class="row">
-                    <div class="col-lg-12">
-                      <div class="floating-input form-group">
-                        <input class="form-control" type="password" id="password" v-model="password"
-                          required />
-                        <label class="form-label" for="password">Senha</label>
-                      </div>
-                      <div class="floating-input form-group">
-                        <input class="form-control" type="password" id="confirm-password" v-model="confirmPassword" required />
-                        <label class="form-label" for="confirm-password">Confirme a senha</label>
+  <div>
+    <div class="wrapper">
+      <section class="login-content">
+        <div class="container h-100">
+          <div class="row justify-content-center align-items-center height-self-center">
+            <div class="col-md-5 col-sm-12 col-12 align-self-center">
+              <div class="card">
+                <div class="card-body text-center">
+                  <img src="../assets/images/bs-icon-high.png" height="130" width="130">
+                  <h2>Redefina sua senha</h2>
+                  <p>Digite sua nova senha de login.</p>
+                  <form id="reset-password" @submit.prevent="savePassword">
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <div class="floating-input form-group">
+                          <input class="form-control" type="password" id="password" v-model="password"
+                            required />
+                          <label class="form-label" for="password">Senha</label>
+                        </div>
+                        <div class="floating-input form-group">
+                          <input class="form-control" type="password" id="confirm-password" v-model="confirmPassword" required />
+                          <label class="form-label" for="confirm-password">Confirme a senha</label>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <button type="submit" class="btn btn-primary">Redefinir</button>
-                </form>
+                    <button type="submit" class="btn btn-primary">Redefinir</button>
+                  </form>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "@vue/runtime-core";
+import { defineComponent } from "vue";
 import { useStore } from "../store";
 import { CHANGE_PASSWORD, VERIFY_TOKEN } from "../store/action-types";
 
@@ -83,3 +85,7 @@ import { CHANGE_PASSWORD, VERIFY_TOKEN } from "../store/action-types";
     }
   })
 </script>
+
+<style scoped>
+
+</style>
