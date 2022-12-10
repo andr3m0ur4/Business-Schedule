@@ -231,9 +231,9 @@ export default defineComponent({
       }
     },
     created() {
-      //this.countSchedule();
-      //this.timeRemainSchedule();
-      //this.contEmployeeTime();
+      this.countSchedule();
+      this.timeRemainSchedule();
+      this.contEmployeeTime();
     },
     methods: {
       countSchedule(){
