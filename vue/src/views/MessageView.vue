@@ -14,8 +14,9 @@
                   </div>
                 </div>
               </div>
+              <div class="card-body">
               <div class="table-responsive data-table">
-                <table class="data-tables table" style="width:100%">
+                <table class="data-tables table" style="width:100%" ref="table">
                   <thead>
                     <tr>
                       <th>CONTATOS</th>
@@ -53,6 +54,7 @@
                   </tbody>
                 </table>
               </div>
+             </div>
             </div>
           </div>
         </div>
@@ -152,6 +154,7 @@ import ModalChat from '../components/modals/ModalChat.vue';
 import type IMessage from '../interfaces/IMessage';
 import Pusher from 'pusher-js';
 import { onMounted } from "@vue/runtime-core";
+import { optionsTable } from '../assets/js/datatable';
 
 
 
@@ -169,8 +172,12 @@ export default defineComponent({
       lockMessage: false
     }
   },
+  updated() {
+    $(this.$refs.table).DataTable(this.optionsDataTable);
+  },
   setup() {
     //Pusher.logToConsole = true;   
+    const optionsDataTable = optionsTable
     const store = useStore();
     const user = computed(() => store.getters.getUser);
 
@@ -191,7 +198,8 @@ export default defineComponent({
       employees: computed(() => store.getters.getEmployees),
       messageT,
       pusher,
-      user
+      user,
+      optionsDataTable
     }
   },
   components: {
