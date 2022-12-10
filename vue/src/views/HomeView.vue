@@ -3,11 +3,11 @@
     <div class="content-top">
       <div class="container">
         <div class="row">
-          <div class="col-lg-12 mb-3">
-            <div class="d-flex align-items-center justify-content-between">
-              <div class="navbar-breadcrumb">
-                <h1 class="mb-1">Dashboard Administrativa</h1>
-              </div>
+          <div class="col-lg-12 mb-4">
+            <div class="py-4 border-bottom">
+             <div class="form-title text-center">
+              <h3>Dashboard Administrativa</h3>
+             </div>
             </div>
           </div>
           <div class="col-lg-2 col-md-4 tab-extra" id="view-event">
