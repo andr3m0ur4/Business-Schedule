@@ -4,7 +4,7 @@
     
 <script lang="ts">
   import { defineComponent } from "@vue/runtime-core"
-  import BarGrafics from '../grafics/CustomBarGrafics.vue';
+  import BarGrafics from '../grafics/BarGrafics.vue';
   import { useStore } from "../../store";
   import { COUNT_SUNDAY_TIME } from "../../store/action-types";
 

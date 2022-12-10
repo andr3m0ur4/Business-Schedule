@@ -80,7 +80,7 @@
           <div class="card card-block card-stretch card-height">
             <div class="card-header">
               <div class="header-title">
-                <h4 class="card-title">Gráfico ??</h4>
+                <h4 class="card-title">Gráfico Domingos Sem Folgar</h4>
               </div>
             </div>
             <div class="card-body">
