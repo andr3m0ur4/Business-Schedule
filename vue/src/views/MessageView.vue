@@ -30,7 +30,7 @@
                             <div class="d-flex flex-wrap align-items-center justify-content-between">
                               <div class="media flex-wrap align-items-center">
                                 <div class="mr-3">
-                                  <img class="avatar-50 rounded" src="../assets/images/user/02.jpg" alt="01">
+                                  <img class="avatar-50 rounded" src="../assets/images/user/avatar_profile.png" alt="01">
                                 </div>
                                 <div>
                                   <div class="media align-items-top user-detail mb-1">
