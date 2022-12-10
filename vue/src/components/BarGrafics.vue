@@ -6,9 +6,9 @@
           </div>
         </div>
   </template>
-    
+
   <script lang="ts">
-  import { defineComponent, h, PropType } from "@vue/runtime-core"
+  import { defineComponent, h, PropType } from "vue"
   import { Bar } from 'vue-chartjs'
 
 import {
