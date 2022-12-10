@@ -8,7 +8,7 @@
             <a href="#" class="iq-sub-card">
             <div class="media align-items-center cust-card p-2">
                 <div class="">
-                <img class="avatar-40 rounded-small" src="../assets/images/user/u-1.jpg" alt="01">
+                <img class="avatar-40 rounded-small" src="../assets/images/user/avatar_profile.png" alt="01">
                 </div>
                 <div class="media-body ml-3">
                 <div class="d-flex align-items-center justify-content-between">
@@ -22,7 +22,7 @@
             <a href="#" class="iq-sub-card">
             <div class="media align-items-center cust-card p-2">
                 <div class="">
-                <img class="avatar-40 rounded-small" src="../assets/images/user/u-2.jpg" alt="02">
+                <img class="avatar-40 rounded-small" src="../assets/images/user/avatar_profile.png" alt="02">
                 </div>
                 <div class="media-body ml-3">
                 <div class="d-flex align-items-center justify-content-between">
@@ -36,7 +36,7 @@
             <a href="#" class="iq-sub-card">
             <div class="media align-items-center cust-card p-2">
                 <div class="">
-                <img class="avatar-40 rounded-small" src="../assets/images/user/u-3.jpg" alt="03">
+                <img class="avatar-40 rounded-small" src="../assets/images/user/avatar_profile.png" alt="03">
                 </div>
                 <div class="media-body ml-3">
                 <div class="d-flex align-items-center justify-content-between">

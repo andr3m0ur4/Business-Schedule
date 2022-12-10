@@ -56,13 +56,13 @@ const jQuery = $;
         try {
             jQuery('[data-toggle="popover"]').popover();
             jQuery('[data-toggle="tooltip"]').tooltip();
-        } catch(e) {}
+        } catch (e) {}
 
         /*---------------------------------------------------------------------
         Fixed Nav
         -----------------------------------------------------------------------*/
 
-        $(window).on('scroll', function () {
+        $(window).on('scroll', function() {
             if ($(window).scrollTop() > 0) {
                 $('.iq-top-navbar').addClass('fixed');
             } else {
@@ -70,7 +70,7 @@ const jQuery = $;
             }
         });
 
-        $(window).on('scroll', function () {
+        $(window).on('scroll', function() {
             if ($(window).scrollTop() > 0) {
                 $('.white-bg-menu').addClass('sticky-menu');
             } else {
@@ -115,9 +115,9 @@ const jQuery = $;
             }).addClass("rippleEffect");
         });
 
-       /*---------------------------------------------------------------------
-        Sidebar Widget
-        -----------------------------------------------------------------------*/
+        /*---------------------------------------------------------------------
+         Sidebar Widget
+         -----------------------------------------------------------------------*/
 
         jQuery(document).on("click", '.iq-menu > li > a', function() {
             jQuery('.iq-menu > li > a').parent().removeClass('active');
@@ -180,8 +180,8 @@ const jQuery = $;
         if (window.counterUp !== undefined) {
             const counterUp = window.counterUp["default"]
             const $counters = $(".counter");
-            $counters.each(function (ignore, counter) {
-                new Waypoint( {
+            $counters.each(function(ignore, counter) {
+                new Waypoint({
                     element: $(this),
                     handler: function() {
                         counterUp(counter, {
@@ -191,7 +191,7 @@ const jQuery = $;
                         this.destroy();
                     },
                     offset: 'bottom-in-view',
-                } );
+                });
             });
         }
 
@@ -213,14 +213,14 @@ const jQuery = $;
             }, 100);
         });
 
-        jQuery('.progress-bar-vertical > span').each(function () {
+        jQuery('.progress-bar-vertical > span').each(function() {
             let progressBar = jQuery(this);
             let height = jQuery(this).data('percent');
             progressBar.css({
                 'transition': 'height 2s'
             });
-            setTimeout(function () {
-                progressBar.appear(function () {
+            setTimeout(function() {
+                progressBar.appear(function() {
                     progressBar.css('height', height + '%');
                 });
             }, 100);
@@ -250,14 +250,14 @@ const jQuery = $;
         jQuery(document).on('click', ".close-data", function() {
             jQuery('.iq-user-toggle').parent().removeClass('show-data');
         });
-        jQuery(document).on("click", function(event){
-        var $trigger = jQuery(".iq-user-toggle");
-        if($trigger !== event.target && !$trigger.has(event.target).length){
-            jQuery(".iq-user-toggle").parent().removeClass('show-data');
-        }
+        jQuery(document).on("click", function(event) {
+            var $trigger = jQuery(".iq-user-toggle");
+            if ($trigger !== event.target && !$trigger.has(event.target).length) {
+                jQuery(".iq-user-toggle").parent().removeClass('show-data');
+            }
         });
         /*-------hide profile when scrolling--------*/
-        jQuery(window).scroll(function () {
+        jQuery(window).scroll(function() {
             let scroll = jQuery(window).scrollTop();
             if (scroll >= 10 && jQuery(".iq-user-toggle").parent().hasClass("show-data")) {
                 jQuery(".iq-user-toggle").parent().removeClass("show-data");
@@ -291,63 +291,63 @@ const jQuery = $;
             });
         }, false);
 
-      /*---------------------------------------------------------------------
-       Active Class for Pricing Table
-       -----------------------------------------------------------------------*/
-      jQuery("#my-table tr th").click(function () {
-        jQuery('#my-table tr th').children().removeClass('active');
-        jQuery(this).children().addClass('active');
-        jQuery("#my-table td").each(function () {
-          if (jQuery(this).hasClass('active')) {
-            jQuery(this).removeClass('active')
-          }
+        /*---------------------------------------------------------------------
+         Active Class for Pricing Table
+         -----------------------------------------------------------------------*/
+        jQuery("#my-table tr th").click(function() {
+            jQuery('#my-table tr th').children().removeClass('active');
+            jQuery(this).children().addClass('active');
+            jQuery("#my-table td").each(function() {
+                if (jQuery(this).hasClass('active')) {
+                    jQuery(this).removeClass('active')
+                }
+            });
+            var col = jQuery(this).index();
+            jQuery("#my-table tr td:nth-child(" + parseInt(col + 1) + ")").addClass('active');
         });
-        var col = jQuery(this).index();
-        jQuery("#my-table tr td:nth-child(" + parseInt(col + 1) + ")").addClass('active');
-      });
 
         /*------------------------------------------------------------------
         Flatpicker
         * -----------------------------------------------------------------*/
-      if (jQuery.fn.flatpickr !== undefined) {
-          if (jQuery('.basicFlatpickr').length > 0) {
-              jQuery('.basicFlatpickr').flatpickr();
-          }
+        if (jQuery.fn.flatpickr !== undefined) {
+            if (jQuery('.basicFlatpickr').length > 0) {
+                jQuery('.basicFlatpickr').flatpickr();
+            }
 
-          if (jQuery('#inputTime').length > 0) {
-              jQuery('#inputTime').flatpickr({
-                enableTime: true,
-                noCalendar: true,
-                dateFormat: "H:i",
-            });
-          }
-          if (jQuery('#inputDatetime').length > 0) {
-              jQuery('#inputDatetime').flatpickr({
-                enableTime: true
-            });
-          }
-          if (jQuery('#inputWeek').length > 0) {
-              jQuery('#inputWeek').flatpickr({
-                weekNumbers: true
-            });
-          }
-          if (jQuery('#inline-date').length > 0) {
-              jQuery("#inline-date").flatpickr({
-                inline: true
-            });
-          }
-          if (jQuery('#inline-date1').length > 0) {
-              jQuery("#inline-date1").flatpickr({
-                inline: true
-            });
-          }
-      }
+            if (jQuery('#inputTime').length > 0) {
+                jQuery('#inputTime').flatpickr({
+                    enableTime: true,
+                    noCalendar: true,
+                    dateFormat: "H:i",
+                });
+            }
+            if (jQuery('#inputDatetime').length > 0) {
+                jQuery('#inputDatetime').flatpickr({
+                    enableTime: true
+                });
+            }
+            if (jQuery('#inputWeek').length > 0) {
+                jQuery('#inputWeek').flatpickr({
+                    weekNumbers: true
+                });
+            }
+            if (jQuery('#inline-date').length > 0) {
+                jQuery("#inline-date").flatpickr({
+                    inline: true
+                });
+            }
+            if (jQuery('#inline-date1').length > 0) {
+                jQuery("#inline-date1").flatpickr({
+                    inline: true
+                });
+            }
+        }
 
         /*---------------------------------------------------------------------
         Scrollbar
         -----------------------------------------------------------------------*/
 
-        jQuery(window).on("resize", function () {
+        jQuery(window).on("resize", function() {
             if (jQuery(this).width() <= 1299) {
                 jQuery('#salon-scrollbar').addClass('data-scrollbar');
             } else {
@@ -355,22 +355,21 @@ const jQuery = $;
             }
         }).trigger('resize');
 
-        jQuery('.data-scrollbar').each(function () {
+        jQuery('.data-scrollbar').each(function() {
             var attr = $(this).attr('data-scroll');
-            if (typeof attr !== typeof undefined && attr !== false){
-            let Scrollbar = window.Scrollbar;
-            var a = jQuery(this).data('scroll');
-            Scrollbar.init(document.querySelector('div[data-scroll= "' + a + '"]'));
+            if (typeof attr !== typeof undefined && attr !== false) {
+                let Scrollbar = window.Scrollbar;
+                var a = jQuery(this).data('scroll');
+                Scrollbar.init(document.querySelector('div[data-scroll= "' + a + '"]'));
             }
         });
 
 
-         /*---------------------------------------------------------------------
+        /*---------------------------------------------------------------------
            Datatables
         -----------------------------------------------------------------------*/
-        if(jQuery('.data-tables').length)
-        {
-          $('.data-tables').DataTable();
+        if (jQuery('.data-tables').length) {
+            $('.data-tables').DataTable();
         }
 
         if ($.fn.select2 !== undefined) {
@@ -391,7 +390,7 @@ const jQuery = $;
         /*---------------------------------------------------------------------
         Pricing tab
         -----------------------------------------------------------------------*/
-        jQuery(window).on('scroll', function (e) {
+        jQuery(window).on('scroll', function(e) {
 
             // Pricing Pill Tab
             var nav = jQuery('#pricing-pills-tab');
@@ -407,12 +406,12 @@ const jQuery = $;
 
 
         /*---------- */
-        $(".dropdown-menu li a").click(function(){
+        $(".dropdown-menu li a").click(function() {
             var selHtml = $(this).html();
             var selName = $.trim($(this).text())
             $(this).parents('.btn-group').find('.search-replace').html(selHtml);
             $(this).parents('.btn-group').find('.search-query').val(selName);
-          });
+        });
 
         /*---------------------------------------------------------------------
         List and Grid
@@ -421,17 +420,17 @@ const jQuery = $;
             var txt = $(".icon").hasClass('icon-grid') ? 'List' : 'Grid';
             $('.icon').toggleClass('icon-grid');
             $(".label").text(txt);
-          })
+        })
 
-          $('[data-toggle="pill"]').on('click',function () {
-              const extra = $(this).attr('data-extra')
-              if (extra !== undefined) {
-                  $('.tab-extra').removeClass('active')
-                  $(extra).addClass('active')
-              }
-          })
+        $('[data-toggle="pill"]').on('click', function() {
+            const extra = $(this).attr('data-extra')
+            if (extra !== undefined) {
+                $('.tab-extra').removeClass('active')
+                $(extra).addClass('active')
+            }
+        })
 
-        $('[data-toggle="pill"]').on('click',function () {
+        $('[data-toggle="pill"]').on('click', function() {
             const extra = $(this).attr('data-extras')
             if (extra !== undefined) {
                 $('.filter-extra').removeClass('active')
@@ -450,7 +449,7 @@ const jQuery = $;
             $('#view-btn').tab('show');
         })
 
-        $(document).on('click', '[data-extra-toggle="copy"]', function (e) {
+        $(document).on('click', '[data-extra-toggle="copy"]', function(e) {
             e.preventDefault()
             $(this).attr("title", "Copied!").tooltip("_fixTitle").tooltip("show").attr("title", "Copy to clipboard").tooltip("_fixTitle");
             const input = $(this).data("input")
@@ -458,7 +457,7 @@ const jQuery = $;
 
         })
 
-        $(document).on('click', '[data-extra-toggle="random-text"]', function (e) {
+        $(document).on('click', '[data-extra-toggle="random-text"]', function(e) {
             e.preventDefault()
             const length = $(this).data('length')
             const input = $(this).data('input')
@@ -470,7 +469,7 @@ const jQuery = $;
 
         // Goto workflow page
         const urlParams = new URLSearchParams(window.location.search);
-        const activeTab = '#' +urlParams.get('activeTab');
+        const activeTab = '#' + urlParams.get('activeTab');
         if ($(activeTab).length > 0) {
             $(activeTab).tab('show')
         }
@@ -494,7 +493,7 @@ const jQuery = $;
             elem.remove();
         }
 
-        $(document).on('change', '.card-change', function () {
+        $(document).on('change', '.card-change', function() {
             $(this).closest('.event-detail').find('.dropdown').addClass('d-none')
             $(this).closest('.event-detail').addClass('disabled')
             $(this).closest('.event-detail').find('.copy').addClass('d-none')
@@ -502,7 +501,7 @@ const jQuery = $;
             $(this).closest('.event-detail').find('.card-change').prop('checked', true);
         })
 
-        $(document).on('click', '.turn-on', function(e){
+        $(document).on('click', '.turn-on', function(e) {
             e.preventDefault()
             $(this).closest('.event-detail').find('.copy').removeClass('d-none')
             $(this).closest('.event-detail').find('.card-change').prop('checked', false);
@@ -515,7 +514,7 @@ const jQuery = $;
     // calender 1 js
     var calendar1;
     if (jQuery('#calendar1').length) {
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar1');
 
             calendar1 = new FullCalendar.Calendar(calendarEl, {
@@ -531,13 +530,12 @@ const jQuery = $;
                     center: "title",
                     right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek"
                 },
-                dateClick: function (info) {
+                dateClick: function(info) {
                     $('#schedule-start-date').val(info.dateStr)
                     $('#schedule-end-date').val(info.dateStr)
                     $('#date-event').modal('show')
                 },
-                events: [
-                    {
+                events: [{
                         title: 'Click for Google',
                         url: 'http://google.com/',
                         start: moment(new Date(), 'YYYY-MM-DD').add(-20, 'days').format('YYYY-MM-DD') + 'T05:30:00.000Z',
@@ -641,7 +639,7 @@ const jQuery = $;
             });
             calendar1.render();
         });
-        $(document).on("submit", "#submit-schedule", function (e) {
+        $(document).on("submit", "#submit-schedule", function(e) {
             e.preventDefault()
             const title = $(this).find('#schedule-title').val()
             const startDate = moment(new Date($(this).find('#schedule-start-date').val()), 'YYYY-MM-DD').format('YYYY-MM-DD') + 'T05:30:00.000Z'
@@ -662,10 +660,10 @@ const jQuery = $;
     // Enable all tooltips
     try {
         $('[data-toggle="tooltip"]').tooltip();
-    } catch(e) {}
+    } catch (e) {}
     // quill
     if (jQuery("#editor").length) {
-        new Quill('#editor', {theme: 'snow'});
+        new Quill('#editor', { theme: 'snow' });
     }
     // With Tooltip
     if (jQuery("#quill-toolbar").length) {
@@ -681,7 +679,7 @@ const jQuery = $;
         if (input.files && input.files[0]) {
             const reader = new FileReader();
 
-            reader.onload = function (e) {
+            reader.onload = function(e) {
                 $('.profile-pic').attr('src', e.target.result);
             }
 
@@ -690,12 +688,12 @@ const jQuery = $;
     }
 
 
-    $(".file-upload").on('change', function(){
+    $(".file-upload").on('change', function() {
         readURL(this);
     });
 
     $(".upload-button").on('click', function() {
-       $(".file-upload").trigger('click');
+        $(".file-upload").trigger('click');
     });
 
     /*-------------------------------------------------

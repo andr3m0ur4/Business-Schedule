@@ -14,8 +14,9 @@
                   </div>
                 </div>
               </div>
+              <div class="card-body">
               <div class="table-responsive data-table">
-                <table class="data-tables table" style="width:100%">
+                <table class="data-tables table" style="width:100%" ref="table">
                   <thead>
                     <tr>
                       <th>CONTATOS</th>
@@ -30,12 +31,12 @@
                             <div class="d-flex flex-wrap align-items-center justify-content-between">
                               <div class="media flex-wrap align-items-center">
                                 <div class="mr-3">
-                                  <img class="avatar-50 rounded" src="../assets/images/user/02.jpg" alt="01">
+                                  <img class="avatar-50 rounded" src="../assets/images/user/avatar_profile.png" alt="01">
                                 </div>
                                 <div>
                                   <div class="media align-items-top user-detail mb-1">
                                     <h6>{{ employee.name }}</h6>
-                                    <div class="badge badge-color ml-3 mt-0">{{getUserJob(employee.job_id)}} </div>
+                                    <!--<div class="badge badge-color ml-3 mt-0">{{getUserJob(employee.job_id)}} </div>-->
                                   </div>
                                   <p class="mb-0">{{ employee.email }}</p>
                                 </div>
@@ -53,6 +54,7 @@
                   </tbody>
                 </table>
               </div>
+             </div>
             </div>
           </div>
         </div>
@@ -152,6 +154,7 @@ import ModalChat from '../components/modals/ModalChat.vue';
 import type IMessage from '../interfaces/IMessage';
 import Pusher from 'pusher-js';
 import { onMounted } from "@vue/runtime-core";
+import { optionsTable } from '../assets/js/datatable';
 
 
 
@@ -169,8 +172,12 @@ export default defineComponent({
       lockMessage: false
     }
   },
+  updated() {
+    $(this.$refs.table).DataTable(this.optionsDataTable);
+  },
   setup() {
     //Pusher.logToConsole = true;   
+    const optionsDataTable = optionsTable
     const store = useStore();
     const user = computed(() => store.getters.getUser);
 
@@ -191,7 +198,8 @@ export default defineComponent({
       employees: computed(() => store.getters.getEmployees),
       messageT,
       pusher,
-      user
+      user,
+      optionsDataTable
     }
   },
   components: {
@@ -261,7 +269,7 @@ export default defineComponent({
     formatDate(date){
       return moment(date).format('HH:mm');
     },
-    getUserJob(userId) {
+    /*getUserJob(userId) {
 
       if(userId != null){
 
@@ -273,7 +281,7 @@ export default defineComponent({
       }
 
       return this.jobName ? this.jobName : '';
-    },
+    },*/
     clearMessage() {
       this.messageInfo = {} as IMessage;
     },
