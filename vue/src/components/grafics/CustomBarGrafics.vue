@@ -1,12 +1,12 @@
 <template>
-  <BarGrafics v-if="loaded" :data="chartData"></BarGrafics>
+  <BarGrafics v-if="this.loaded" :data="this.chartData"></BarGrafics>
 </template>
     
 <script lang="ts">
   import { defineComponent } from "@vue/runtime-core"
-  import BarGrafics from '../components/BarGrafics.vue';
-  import { useStore } from "../store";
-  import { COUNT_SUNDAY_TIME } from "../store/action-types";
+  import BarGrafics from '../grafics/CustomBarGrafics.vue';
+  import { useStore } from "../../store";
+  import { COUNT_SUNDAY_TIME } from "../../store/action-types";
 
   export default defineComponent({
     name: 'CustomBarChart',

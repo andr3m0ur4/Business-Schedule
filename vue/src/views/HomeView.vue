@@ -203,11 +203,11 @@
 </template>
 
 <script lang="ts">
-import CustomBarGrafics from '../components/CustomBarGrafics.vue';
 import { defineComponent } from 'vue'
-import DoughnutGrafic from '../components/DoughnutGrafic.vue';
-import LineGrafic from '../components/LineGrafic.vue';
-import RadarGrafic from '../components/RadarGrafic.vue';
+import CustomBarGrafics from '../components/grafics/CustomBarGrafics.vue';
+import DoughnutGrafic from '../components/grafics/DoughnutGrafic.vue';
+import LineGrafic from '../components/grafics/LineGrafic.vue';
+import RadarGrafic from '../components/grafics/RadarGrafic.vue';
 import { useStore } from "../store";
 import { COUNT_SCHEDULES, COUNT_TIME_SCHEDULE, COUNT_EMPLOYEE_TIME, COUNT_SUNDAY_TIME} from "../store/action-types";
 
