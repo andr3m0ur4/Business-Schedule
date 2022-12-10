@@ -14,11 +14,11 @@
           <div class="d-flex flex-wrap align-items-center justify-content-between my-schedule mb-3">
             <div class="d-flex align-items-center justify-content-between">
               <div class="form-group mb-0">
-                <select name="type" class="selectpicker form-control" data-style="py-0">
-                  <option>Working Hours</option>
-                  <option>Default Hours</option>
-                  <option>Working Hours</option>
-                  <option>Learning Hours</option>
+                <select name="type" class="selectpicker form-control" data-style="py-0" v-model="weekDefined" @change="chooseCustomWeek">
+                  <option value="current">Semana atual</option>
+                  <option value="next-week">Próxima semana</option>
+                  <option value="2-weeks-ahead">2 semanas a frente</option>
+                  <option value="3-weeks-ahead">3 semanas a frente</option>
                 </select>
               </div>
               <div class="select-dropdown input-prepend input-append">
@@ -393,7 +393,8 @@ export default {
       start: null,
       end: null,
       scheduleNotSaved: false,
-      toastId: null
+      toastId: null,
+      weekDefined: this.customWeek()
     }
   },
   mounted() {
@@ -404,6 +405,8 @@ export default {
     this.setDateTimePicker();
 
     window.calendar = getCalendar();
+
+    this.defineCumtomWeek(this.weekDefined);
   },
   methods: {
     onNewSchedule() {
@@ -418,8 +421,6 @@ export default {
       const end = this.datePicker.getEndDate();
       const calendar = getSelectedCalendar();
       const id = String(chance.guid());
-
-      // const employeeId = this.getDataAction($('#schedule-title').find(':selected').get(0));
 
       const schedules = this.selectedTvShowTimes.map(tvShowTime => {
         return {
@@ -646,9 +647,6 @@ export default {
         endContainer: '#endpicker-container-task'
       });
     },
-    getDataAction(target) {
-      return target.dataset ? target.dataset.action : target.getAttribute('data-action');
-    },
     clearRangeStorage(category = 'schedules') {
       const start = this.calendar.getDateRangeStart().toDate();
       const end = moment(this.calendar.getDateRangeEnd().toDate()).add({
@@ -844,6 +842,37 @@ export default {
       ScheduleInfo.createSchedulesFromDB(employeeTimes);
       ScheduleInfo.createTasksFromDB(tvShowTimes);
       setSchedules();
+    },
+    chooseCustomWeek(e) {
+      const option = e.target.value;
+      localStorage.setItem('customWeek', option);
+      this.defineCumtomWeek(option);
+    },
+    defineCumtomWeek(option) {
+      switch (option) {
+        case 'current':
+          getCalendar().today();
+          break;
+
+        case 'next-week':
+          getCalendar().today();
+          getCalendar().next();
+          break;
+        case '2-weeks-ahead':
+          getCalendar().today();
+          getCalendar().next();
+          getCalendar().next();
+          break;
+
+        case '3-weeks-ahead':
+          getCalendar().today();
+          getCalendar().next();
+          getCalendar().next();
+          getCalendar().next();
+      }
+    },
+    customWeek() {
+      return localStorage.getItem('customWeek') ?? 'current';
     }
   },
   watch: {
@@ -875,32 +904,6 @@ export default {
     },
     selectedTvShowTimes() {
       this.$nextTick(() => $(this.$refs.selectTvShowTime).selectpicker('refresh'));
-    },
-    scheduleNotSaved() {
-      const toast = useToast();
-      toast.clear();
-
-      if (!this.scheduleNotSaved) {
-        toast.dismiss(this.toastId);
-        return;
-      }
-
-      this.toastId = toast.warning(
-        'Atenção! Existem "horários" que ainda não foram salvos, clique em Atualizar Escala para salvá-los definitivamente!', {
-        position: 'top-right',
-        timeout: false,
-        closeOnClick: true,
-        pauseOnFocusLoss: true,
-        pauseOnHover: true,
-        draggable: true,
-        draggablePercent: 0.6,
-        showCloseButtonOnHover: false,
-        hideProgressBar: true,
-        closeButton: "button",
-        icon: true,
-        rtl: false,
-        toastClassName: 'toast-warning'
-      });
     },
     jobs(newJobs) {
       this.calendarList = startCalendarMenu(newJobs);
