@@ -177,5 +177,16 @@ class EmployeeTimeController extends Controller
         return response()->json($data->fetchAll(PDO::FETCH_ASSOC));
 
     }
-    
+
+    public function countSundayTime(){
+
+        $data = DB::getPdo()->prepare("SELECT count(emp_time.id) quant, us.name FROM employee_times as emp_time 
+        INNER JOIN users as us ON us.id = emp_time.user_id
+        WHERE dayname(emp_time.START) = 'Sunday' and MONTH(emp_time.START) = '11'
+        GROUP BY us.name ORDER BY quant DESC LIMIT 10");
+        $data->execute();
+        return response()->json($data->fetchAll(PDO::FETCH_ASSOC));
+
+    }
+  
 }

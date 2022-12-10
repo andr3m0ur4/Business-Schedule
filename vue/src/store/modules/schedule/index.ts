@@ -27,7 +27,7 @@ export const schedule: Module<StateSchedule, State> = {
       return http.get('v1/count-time-schdules')
         .then((response) => {
           return response.data});
-    }
+    },
   },
   getters: {
   }

@@ -1,5 +1,5 @@
 import type { State } from "../../../store";
-import { DELETE_EMPLOYEE_TIME, GET_EMPLOYEES_TIMES, INSERT_EMPLOYEE_TIME, UPDATE_EMPLOYEE_TIME, COUNT_EMPLOYEE_TIME } from "../../../store/action-types";
+import { DELETE_EMPLOYEE_TIME, GET_EMPLOYEES_TIMES, INSERT_EMPLOYEE_TIME, UPDATE_EMPLOYEE_TIME, COUNT_EMPLOYEE_TIME, COUNT_SUNDAY_TIME } from "../../../store/action-types";
 import type { Module } from "vuex";
 import http from "../../../http";
 import {
@@ -60,6 +60,11 @@ export const employeeTime: Module<StateEmployeeTime, State> = {
     },
     [COUNT_EMPLOYEE_TIME]({ commit }) {
       return http.get('v1/count-employee-time')
+        .then((response) => {
+          return response.data});
+    },
+    [COUNT_SUNDAY_TIME]({ commit }) {
+      return http.get('v1/count-sunday-time')
         .then((response) => {
           return response.data});
     }
