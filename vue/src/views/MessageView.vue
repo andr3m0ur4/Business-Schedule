@@ -147,7 +147,7 @@
 <script lang="ts">
 import { useStore } from "../store";
 import { computed, defineComponent, inject , ref} from "@vue/runtime-core";
-import { GET_USERS_MESSAGES, GET_MESSAGES, INSERT_MESSAGE,GET_USER } from "../store/action-types";
+import { GET_USERS_MESSAGES, GET_MESSAGES, INSERT_MESSAGE, GET_USER, READ_MESSAGE } from "../store/action-types";
 import ModalChat from '../components/modals/ModalChat.vue';
 import type IMessage from '../interfaces/IMessage';
 import Pusher from 'pusher-js';
@@ -175,6 +175,9 @@ export default defineComponent({
   },
   mounted(){
     this.openAutoModal();
+    $('#addChat').on('hide.bs.modal', () => {
+      this.readMessages();
+    })
   },
   setup(props) {
     //Pusher.logToConsole = true;   
@@ -241,7 +244,12 @@ export default defineComponent({
         this.load = false;
       });
 
+      this.readMessages();
       this.defineChannel(); 
+    },
+    readMessages() {
+      this.store.dispatch(READ_MESSAGE, this.messageInfo)
+      .then();
     },
     defineChannel(){
       let channel;
@@ -297,8 +305,9 @@ export default defineComponent({
   },
   watch: {
     employees(newEmployess){
-
-      this.employee = this.employees.find(item => item[0] == parseInt(this.$route.query.userIdTo));
+      if (this.$route.query.userIdTo != undefined) {
+        this.employee = this.employees.find(item => item[0] == parseInt(this.$route.query.userIdTo));
+      }
 
     }
   }

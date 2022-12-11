@@ -1,6 +1,6 @@
 import type IMessage from "../../../interfaces/IMessage";
 import type { State } from "../../../store";
-import { GET_MESSAGES, INSERT_MESSAGE, GET_RECENT_MESSAGES } from "../../../store/action-types";
+import { GET_MESSAGES, INSERT_MESSAGE, GET_RECENT_MESSAGES, READ_MESSAGE } from "../../../store/action-types";
 import type { Module } from "vuex";
 import http from "../../../http";
 import { ADD_MESSAGE, DEFINE_MESSAGES } from "../../../store/mutation-types";
@@ -40,6 +40,11 @@ export const message : Module<StateMessage, State> = {
               user_id_to: user_id,
             }
           })
+            .then((response) => {
+              return response.data});
+        },
+        [READ_MESSAGE]({ commit }, dados: {}) {
+          return http.post('v1/read-messages', dados)
             .then((response) => {
               return response.data});
         }
