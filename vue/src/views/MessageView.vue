@@ -92,7 +92,8 @@
                 <img class="w-100 h-100 img-fluid image" src="../assets/images/load.gif" >
               </div>
             </div>
-            <div v-else class="text-right col-12 mt-2 scrollspy-example" id="box-message" data-spy="scroll" data-target="#navbar-example2" data-offset="1">
+            <div v-else class="text-right col-12 mt-2 scrollspy-example" id="box-message" data-spy="scroll"
+             data-target="#navbar-example2" data-offset="1" ref="boxMessage">
                 <div v-for="message in messages" :key="message.id" class="mr-2">
                   <div v-if="message.user_id_from === messageT.user_id_to" class="text-left col-12  mt-2">
                     <div class="row">
@@ -146,12 +147,11 @@
 
 <script lang="ts">
 import { useStore } from "../store";
-import { computed, defineComponent, inject , ref} from "@vue/runtime-core";
+import { computed, defineComponent, ref} from "vue";
 import { GET_USERS_MESSAGES, GET_MESSAGES, INSERT_MESSAGE,GET_USER } from "../store/action-types";
 import ModalChat from '../components/modals/ModalChat.vue';
 import type IMessage from '../interfaces/IMessage';
 import Pusher from 'pusher-js';
-import { onMounted } from "@vue/runtime-core";
 import { optionsTable } from '../assets/js/datatable';
 
 
@@ -177,7 +177,7 @@ export default defineComponent({
     this.openAutoModal();
   },
   setup(props) {
-    //Pusher.logToConsole = true;   
+    //Pusher.logToConsole = true;
     const optionsDataTable = optionsTable
     const store = useStore();
     const user = computed(() => store.getters.getUser);
@@ -236,12 +236,18 @@ export default defineComponent({
 
       this.load = true;
       this.store.dispatch(GET_MESSAGES, this.messageInfo)
-      .then((response) => {
-        this.messages = this.messages.concat(response.data)
-        this.load = false;
-      });
+        .then((response) => {
+          this.messages = this.messages.concat(response.data)
+          this.load = false;
+        });
 
-      this.defineChannel(); 
+      this.defineChannel();
+
+      setTimeout(() => {
+        $(this.$refs.boxMessage).animate({
+          scrollTop: $(this.$refs.boxMessage).get(0).scrollHeight
+        }, 0);
+      }, 300);
     },
     defineChannel(){
       let channel;
@@ -256,15 +262,15 @@ export default defineComponent({
       }, this);
     },
     channelLogic(){
-      if (this.messageInfo.user_id_to < this.messageInfo.user_id_from) 
+      if (this.messageInfo.user_id_to < this.messageInfo.user_id_from)
       {
         return (this.messageInfo.user_id_from + '_' +  this.messageInfo.user_id_to);
-      } 
-      else 
+      }
+      else
       {
         return (this.messageInfo.user_id_to + '_' + this.messageInfo.user_id_from);
       }
-      
+
     },
     formatDate(date){
       return moment(date).format('HH:mm');
@@ -276,7 +282,7 @@ export default defineComponent({
         this.store.dispatch(GET_USER, userId)
         .then((response) => {
           this.jobName = response.data.job.name;
-          
+
         });
       }
 
@@ -284,7 +290,7 @@ export default defineComponent({
     },*/
     openAutoModal() {
       if (this.$route.query.userIdTo != undefined) {
-        
+
         $('#addChat').modal('show');
         this.messageT.user_id_to = parseInt(this.$route.query.userIdTo);
         this.loadMessage();
