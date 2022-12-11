@@ -19,7 +19,7 @@
                 <table class="data-tables table" style="width:100%" ref="table">
                   <thead>
                     <tr>
-                      <th>CONTATOS</th>
+                      <th>Contatos</th>
                     </tr>
                   </thead>
                   <tbody>
