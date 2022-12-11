@@ -92,7 +92,8 @@
                 <img class="w-100 h-100 img-fluid image" src="../assets/images/load.gif" >
               </div>
             </div>
-            <div v-else class="text-right col-12 mt-2 scrollspy-example" id="box-message" data-spy="scroll" data-target="#navbar-example2" data-offset="1">
+            <div v-else class="text-right col-12 mt-2 scrollspy-example" id="box-message" data-spy="scroll"
+             data-target="#navbar-example2" data-offset="1" ref="boxMessage">
                 <div v-for="message in messages" :key="message.id" class="mr-2">
                   <div v-if="message.user_id_from === messageT.user_id_to" class="text-left col-12  mt-2">
                     <div class="row">
@@ -146,12 +147,11 @@
 
 <script lang="ts">
 import { useStore } from "../store";
-import { computed, defineComponent, inject , ref} from "@vue/runtime-core";
-import { GET_USERS_MESSAGES, GET_MESSAGES, INSERT_MESSAGE, GET_USER, READ_MESSAGE } from "../store/action-types";
+import { computed, defineComponent, ref} from "vue";
+import { GET_USERS_MESSAGES, GET_MESSAGES, INSERT_MESSAGE,GET_USER, READ_MESSAGE } from "../store/action-types";
 import ModalChat from '../components/modals/ModalChat.vue';
 import type IMessage from '../interfaces/IMessage';
 import Pusher from 'pusher-js';
-import { onMounted } from "@vue/runtime-core";
 import { optionsTable } from '../assets/js/datatable';
 
 
@@ -180,7 +180,7 @@ export default defineComponent({
     })
   },
   setup(props) {
-    //Pusher.logToConsole = true;   
+    //Pusher.logToConsole = true;
     const optionsDataTable = optionsTable
     const store = useStore();
     const user = computed(() => store.getters.getUser);
@@ -239,13 +239,19 @@ export default defineComponent({
 
       this.load = true;
       this.store.dispatch(GET_MESSAGES, this.messageInfo)
-      .then((response) => {
-        this.messages = this.messages.concat(response.data)
-        this.load = false;
-      });
+        .then((response) => {
+          this.messages = this.messages.concat(response.data)
+          this.load = false;
+        });
 
       this.readMessages();
       this.defineChannel(); 
+
+      setTimeout(() => {
+        $(this.$refs.boxMessage).animate({
+          scrollTop: $(this.$refs.boxMessage).get(0).scrollHeight
+        }, 0);
+      }, 300);
     },
     readMessages() {
       this.store.dispatch(READ_MESSAGE, this.messageInfo)

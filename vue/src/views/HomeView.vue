@@ -21,12 +21,12 @@
         <div class="col-lg-12 col-md-12 col-sm-12">
           <div class="card card-block card-stretch card-height">
             <div class="card-body text-center">
-              <h4>Tempo em dias restante até persistir nova uma escala</h4>
+              <h4>Tempo restante até persistir uma nova escala</h4>
               <div class="row timer">
                 <div class="icon iq-icon-box-2 mb-1 rounded text-primary font-icon">
                   <i class="las la-hourglass"></i>
                 </div>
-                <h2 class="mb-2 text-primary">{{this.time}} DIAS</h2>
+                <h2 class="mb-2 text-primary">{{this.time}} dias</h2>
               </div>
             </div>
           </div>
@@ -108,14 +108,18 @@
                 <h4 class="card-title text-center">Limite de horas trabalhadas</h4>
               </div>
             </div>
-            <div class="card-body" >
-              <div class="row limit" v-for="emplyeeTime in emplyeeTimes" :key="emplyeeTime.name">
-                <div class="icon iq-icon-box-2 mb-1 rounded text-primary font-icon">
-                  <i class="las la-stopwatch"></i>
+            <div class="container">
+              <div class="card card-color mt-2" v-for="emplyeeTime in emplyeeTimes" :key="emplyeeTime.name">
+                <div class="card-body" >
+                  <div class="row limit">
+                    <div class="icon iq-icon-box-2 rounded text-primary font-icon">
+                      <i class="las la-stopwatch"></i>
+                    </div>
+                    <h4>{{emplyeeTime.name}}</h4>
+                    <h4>-</h4>
+                    <h4>{{emplyeeTime.hour_emp}}</h4>
+                  </div>
                 </div>
-                  <h4>{{emplyeeTime.name}}</h4>
-                  <h4>-</h4>
-                  <h4 class="mb-0">{{emplyeeTime.hour_emp}}</h4>
               </div>
             </div>
           </div>
@@ -266,6 +270,10 @@ export default defineComponent({
 .align-center {
     align-items: center;
     justify-content: center;
+}
+
+.card-color {
+  background-color: rgb(89, 193, 253);
 }
 
 </style>
