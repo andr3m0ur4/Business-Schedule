@@ -175,7 +175,10 @@ export default defineComponent({
   updated() {
     $(this.$refs.table).DataTable(this.optionsDataTable);
   },
-  setup() {
+  mounted(){
+    this.openAutoModal();
+  },
+  setup(props) {
     //Pusher.logToConsole = true;   
     const optionsDataTable = optionsTable
     const store = useStore();
@@ -282,10 +285,26 @@ export default defineComponent({
 
       return this.jobName ? this.jobName : '';
     },*/
+    openAutoModal() {
+      if (this.$route.query.userIdTo != undefined) {
+        
+        $('#addChat').modal('show');
+        this.messageT.user_id_to = parseInt(this.$route.query.userIdTo);
+        this.loadMessage();
+
+      }
+    },
     clearMessage() {
       this.messageInfo = {} as IMessage;
     },
   },
+  watch: {
+    employees(newEmployess){
+
+      this.employee = this.employees.find(item => item[0] == parseInt(this.$route.query.userIdTo));
+
+    }
+  }
 })
 </script>
 

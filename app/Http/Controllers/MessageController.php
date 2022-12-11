@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use App\Events\MessageR;
+use PDO;
 
 class MessageController extends Controller
 {
@@ -124,7 +125,7 @@ class MessageController extends Controller
 
         $users->execute();
 
-        return response()->json($users->fetchAll());
+        return response()->json($users->fetchAll(PDO::FETCH_ASSOC));
 
     }
 

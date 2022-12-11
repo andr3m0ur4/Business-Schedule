@@ -1,6 +1,6 @@
 import type IMessage from "../../../interfaces/IMessage";
 import type { State } from "../../../store";
-import { GET_MESSAGES, INSERT_MESSAGE } from "../../../store/action-types";
+import { GET_MESSAGES, INSERT_MESSAGE, GET_RECENT_MESSAGES } from "../../../store/action-types";
 import type { Module } from "vuex";
 import http from "../../../http";
 import { ADD_MESSAGE, DEFINE_MESSAGES } from "../../../store/mutation-types";
@@ -33,6 +33,15 @@ export const message : Module<StateMessage, State> = {
             return http.post('v1/messages', dados)
               .then( (response) => commit(ADD_MESSAGE, response.data) )
                 .catch(erro => console.log(erro.data));
+        },
+        [GET_RECENT_MESSAGES]({ commit }, user_id) {
+          return http.get('v1/recent-messages',{
+            params: {
+              user_id_to: user_id,
+            }
+          })
+            .then((response) => {
+              return response.data});
         }
     },
     getters: {
