@@ -65,7 +65,7 @@
       <template v-slot:header>
         <div class="media flex-wrap align-items-center">
           <div class="mr-3">
-            <img class="avatar-50 rounded" src="../assets/images/user/04.jpg" alt="01">
+            <img class="avatar-50 rounded" src="../assets/images/user/avatar_profile.png" alt="01">
           </div>
           <div>
             <div class="media align-items-top user-detail mb-1">
@@ -92,8 +92,7 @@
                 <img class="w-100 h-100 img-fluid image" src="../assets/images/load.gif" >
               </div>
             </div>
-            <div v-else class="text-right col-12 mt-2 scrollspy-example" data-spy="scroll" data-target="#navbar-example2" data-offset="0">
-              <div id="box-message">
+            <div v-else class="text-right col-12 mt-2 scrollspy-example" id="box-message" data-spy="scroll" data-target="#navbar-example2" data-offset="1">
                 <div v-for="message in messages" :key="message.id" class="mr-2">
                   <div v-if="message.user_id_from === messageT.user_id_to" class="text-left col-12  mt-2">
                     <div class="row">
@@ -114,7 +113,6 @@
                     <h5>{{ message.message }}</h5>
                   </div>
                 </div>
-              </div>
             </div>
           </div>
         </div>
@@ -243,8 +241,7 @@ export default defineComponent({
         this.load = false;
       });
 
-      this.defineChannel();
-
+      this.defineChannel(); 
     },
     defineChannel(){
       let channel;
@@ -316,6 +313,13 @@ export default defineComponent({
       height: auto;
   }
 
+  .scrollspy-example {
+    position: relative;
+    height: 200px;
+    margin-top: 0.5rem;
+    overflow: auto;
+  }
+
   .image-send{
       max-width:50px;
       max-height:50px;
@@ -340,11 +344,9 @@ export default defineComponent({
   .message{
     padding-right: 28px;
   }
-</style>
-<style>
+
   .dataTables_wrapper .dataTables_filter input {
     background-color: #fff;
     border-color: #333;
   }
-  
 </style>

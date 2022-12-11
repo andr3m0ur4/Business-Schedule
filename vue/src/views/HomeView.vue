@@ -21,15 +21,13 @@
         <div class="col-lg-12 col-md-12 col-sm-12">
           <div class="card card-block card-stretch card-height">
             <div class="card-body text-center">
-              <svg width="36" height="48" viewBox="0 0 36 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g clip-path="url(#clip0)">
-                  <path
-                    d="M0 8.39995V18.5999C0 18.9314 0.2685 19.1999 0.6 19.1999H3.6V7.19994H1.2C0.537375 7.19994 0 7.73732 0 8.39995ZM13.5 6.59994H12.6V5.09994C12.6 4.93419 12.4658 4.79994 12.3 4.79994H11.7C11.5343 4.79994 11.4 4.93419 11.4 5.09994V7.49994C11.4 7.66569 11.5343 7.79995 11.7 7.79995H13.5C13.6658 7.79995 13.8 7.66569 13.8 7.49994V6.89994C13.8 6.73419 13.6658 6.59994 13.5 6.59994ZM18.6656 4.20144L12.6656 0.201317C12.4685 0.0700041 12.2369 -6.10352e-05 12 -6.10352e-05C11.7631 -6.10352e-05 11.5315 0.0700041 11.3344 0.201317L5.33438 4.20144C5.17003 4.31101 5.03527 4.45945 4.94206 4.63358C4.84884 4.80772 4.80004 5.00218 4.8 5.19969V19.1999H9.6V13.7999C9.6 13.4684 9.8685 13.1999 10.2 13.1999H13.8C14.1315 13.1999 14.4 13.4684 14.4 13.7999V19.1999H19.2V5.20007C19.2 4.79882 18.9994 4.42382 18.6656 4.20144ZM12 9.59995C10.3433 9.59995 9 8.2567 9 6.59994C9 4.94319 10.3433 3.59994 12 3.59994C13.6568 3.59994 15 4.94319 15 6.59994C15 8.2567 13.6568 9.59995 12 9.59995ZM22.8 7.19994H20.4V19.1999H23.4C23.7315 19.1999 24 18.9314 24 18.5999V8.39995C24 7.73732 23.4626 7.19994 22.8 7.19994Z"
-                    fill="#1B2764" />
-                </g>
-              </svg>
-              <h2 class="mb-2 mt-3 text-primary">{{this.time}} DIAS</h2>
-              <h4>Tempo em dias restante até persistir nova escala</h4>
+              <h4>Tempo em dias restante até persistir nova uma escala</h4>
+              <div class="row timer">
+                <div class="icon iq-icon-box-2 mb-1 rounded text-primary font-icon">
+                  <i class="las la-hourglass"></i>
+                </div>
+                <h2 class="mb-2 text-primary">{{this.time}} DIAS</h2>
+              </div>
             </div>
           </div>
         </div>
@@ -38,7 +36,7 @@
           <div class="card card-block card-stretch card-height">
             <div class="card-header">
               <div class="header-title">
-                <h4 class="card-title">Escala</h4>
+                <h4 class="card-title text-center">Escala</h4>
               </div>
             </div>
             <div class="card-body text-center">
@@ -66,7 +64,7 @@
           <div class="card card-block card-stretch card-height">
             <div class="card-header">
               <div class="header-title">
-                <h4 class="card-title">Gráfico ??</h4>
+                <h4 class="card-title text-center">Gráfico ??</h4>
               </div>
             </div>
             <div class="card-body">
@@ -80,7 +78,7 @@
           <div class="card card-block card-stretch card-height">
             <div class="card-header">
               <div class="header-title">
-                <h4 class="card-title">Gráfico Domingos Sem Folgar</h4>
+                <h4 class="card-title text-center">Domingos sem folgar</h4>
               </div>
             </div>
             <div class="card-body">
@@ -93,7 +91,7 @@
           <div class="card card-block card-stretch card-height">
             <div class="card-header">
               <div class="header-title">
-                <h4 class="card-title">Gráfico ??</h4>
+                <h4 class="card-title text-center">Gráfico ??</h4>
               </div>
             </div>
             <div class="card-body">
@@ -107,41 +105,26 @@
           <div class="card card-block card-stretch card-height">
             <div class="card-header">
               <div class="header-title">
-                <h4 class="card-title">Limite de horas trabalhadas</h4>
+                <h4 class="card-title text-center">Limite de horas trabalhadas</h4>
               </div>
             </div>
-            <div class="card-body">
-              <ul class="list-inline p-0 m-0">
-                <li class="d-flex align-items-center mb-3" v-for="emplyeeTime in emplyeeTimes" :key="emplyeeTime.name">
-                  <div class="profile-icon iq-icon-box rounded-small bg-success-light svg-warning text-center">
-                    <svg width="24" height="20" viewBox="0 0 24 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <g clip-path="url(#clip0)">
-                        <path
-                          d="M0 8.39995V18.5999C0 18.9314 0.2685 19.1999 0.6 19.1999H3.6V7.19994H1.2C0.537375 7.19994 0 7.73732 0 8.39995ZM13.5 6.59994H12.6V5.09994C12.6 4.93419 12.4658 4.79994 12.3 4.79994H11.7C11.5343 4.79994 11.4 4.93419 11.4 5.09994V7.49994C11.4 7.66569 11.5343 7.79995 11.7 7.79995H13.5C13.6658 7.79995 13.8 7.66569 13.8 7.49994V6.89994C13.8 6.73419 13.6658 6.59994 13.5 6.59994ZM18.6656 4.20144L12.6656 0.201317C12.4685 0.0700041 12.2369 -6.10352e-05 12 -6.10352e-05C11.7631 -6.10352e-05 11.5315 0.0700041 11.3344 0.201317L5.33438 4.20144C5.17003 4.31101 5.03527 4.45945 4.94206 4.63358C4.84884 4.80772 4.80004 5.00218 4.8 5.19969V19.1999H9.6V13.7999C9.6 13.4684 9.8685 13.1999 10.2 13.1999H13.8C14.1315 13.1999 14.4 13.4684 14.4 13.7999V19.1999H19.2V5.20007C19.2 4.79882 18.9994 4.42382 18.6656 4.20144ZM12 9.59995C10.3433 9.59995 9 8.2567 9 6.59994C9 4.94319 10.3433 3.59994 12 3.59994C13.6568 3.59994 15 4.94319 15 6.59994C15 8.2567 13.6568 9.59995 12 9.59995ZM22.8 7.19994H20.4V19.1999H23.4C23.7315 19.1999 24 18.9314 24 18.5999V8.39995C24 7.73732 23.4626 7.19994 22.8 7.19994Z"
-                          fill="#1B2764" />
-                      </g>
-                      <defs>
-                        <clipPath id="clip1">
-                          <rect width="24" height="19.2" fill="white" />
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  </div>
-                  <div class="pl-3">
-                    <h5>{{emplyeeTime.name}}</h5>
-                    <p class="mb-0">{{emplyeeTime.hour_emp}}</p>
-                  </div>
-                </li>
-              </ul>
+            <div class="card-body" >
+              <div class="row limit" v-for="emplyeeTime in emplyeeTimes" :key="emplyeeTime.name">
+                <div class="icon iq-icon-box-2 mb-1 rounded text-primary font-icon">
+                  <i class="las la-stopwatch"></i>
+                </div>
+                  <h4>{{emplyeeTime.name}}</h4>
+                  <h4>-</h4>
+                  <h4 class="mb-0">{{emplyeeTime.hour_emp}}</h4>
+              </div>
             </div>
           </div>
         </div>
-
         <div class="col-lg-4 col-md-4">
           <div class="card card-block card-stretch card-height">
             <div class="card-header">
               <div class="header-title">
-                <h4 class="card-title">Gráfico ??</h4>
+                <h4 class="card-title text-center">Gráfico ??</h4>
               </div>
             </div>
             <div class="card-body">
@@ -264,5 +247,25 @@ export default defineComponent({
 </script>
 
 <style scoped>
+
+.font-icon {
+    font-size: 50px;
+    text-align: center;
+    display: inline-block;
+}
+
+.timer {
+    align-items: center;
+    justify-content: center;
+}
+
+.limit {
+    align-items: center;
+}
+
+.align-center {
+    align-items: center;
+    justify-content: center;
+}
 
 </style>
