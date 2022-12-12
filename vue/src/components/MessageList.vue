@@ -61,7 +61,6 @@ export default defineComponent({
       this.store.dispatch(GET_RECENT_MESSAGES, this.user.id)
       .then((response) => {
         this.recent_messages = this.recent_messages.concat(response)
-        console.log(this.recent_messages)
       });
 
       this.loaded = true;

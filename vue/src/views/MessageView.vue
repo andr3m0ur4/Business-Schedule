@@ -296,8 +296,8 @@ export default defineComponent({
   },
   watch: {
     employees(newEmployess) {
-      if (this.$route.query.userIdTo != undefined) {
-        this.employee = this.employees.find(item => item[0] == parseInt(this.$route.query.userIdTo));
+      if (this.$route.params.userIdTo != undefined) {
+        this.employee = this.employees.find(item => item[0] == parseInt(this.$route.params.userIdTo));
       }
     }
   }
