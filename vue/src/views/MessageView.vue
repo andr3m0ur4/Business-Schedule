@@ -147,14 +147,12 @@
 
 <script lang="ts">
 import { useStore } from "../store";
-import { computed, defineComponent, ref} from "vue";
-import { GET_USERS_MESSAGES, GET_MESSAGES, INSERT_MESSAGE,GET_USER, READ_MESSAGE } from "../store/action-types";
+import { computed, defineComponent, nextTick, ref} from "vue";
+import { GET_USERS_MESSAGES, GET_MESSAGES, INSERT_MESSAGE, READ_MESSAGE } from "../store/action-types";
 import ModalChat from '../components/modals/ModalChat.vue';
 import type IMessage from '../interfaces/IMessage';
 import Pusher from 'pusher-js';
 import { optionsTable } from '../assets/js/datatable';
-
-
 
 export default defineComponent({
   name: 'MessageView',
@@ -230,7 +228,7 @@ export default defineComponent({
           this.lockMessage = false;
           this.send = false;
 
-          this.$nextTick(() => {
+          nextTick(() => {
             this.scrollDown();
             this.$refs.messageText.focus();
           });
@@ -247,9 +245,7 @@ export default defineComponent({
           this.messages = this.messages.concat(response.data)
           this.load = false;
 
-          this.$nextTick(() => {
-            this.scrollDown();
-          });
+          nextTick(() => this.scrollDown());
         });
 
       this.readMessages();
