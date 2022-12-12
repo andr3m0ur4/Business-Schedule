@@ -37,8 +37,6 @@ export default defineComponent({
   data() {
     return {
       recent_messages: [],
-      recent_message: {},
-      count_messages: 0,
       loaded: false
     }
   },
@@ -53,19 +51,18 @@ export default defineComponent({
     }
   },
   created() {
-      this.getRecentMessages();
+      this.recentMessages();
   },
   methods: {
-    getRecentMessages() {
+    recentMessages() {
 
       this.store.dispatch(GET_RECENT_MESSAGES, this.user.id)
-      .then((response) => {
-        this.recent_messages = this.recent_messages.concat(response)
-      });
+        .then((response) => {
+          this.recent_messages = this.recent_messages.concat(response);
+        });
 
       this.loaded = true;
-    },
-    getCountMessages() {}
+    }
   }
 })
 </script>

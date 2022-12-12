@@ -11,6 +11,7 @@ export const GET_MESSAGES = 'GET_MESSAGES';
 export const INSERT_MESSAGE = 'INSERT_MESSAGE';
 export const GET_RECENT_MESSAGES = 'GET_RECENT_MESSAGES'; 
 export const READ_MESSAGE = 'READ_MESSAGE';
+export const GET_COUNT_MESSAGES = 'GET_COUNT_MESSAGES';
 
 export const GET_JOBS = 'GET_JOBS';
 export const INSERT_JOB = 'INSERT_JOB';

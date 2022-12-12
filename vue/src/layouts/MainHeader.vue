@@ -253,7 +253,7 @@
 import type IUser from "../interfaces/IUser";
 import NotificationList from '../components/NotificationList.vue';
 import MessageList from '../components/MessageList.vue';
-import { LOGOUT } from "../store/action-types";
+import { LOGOUT, GET_COUNT_MESSAGES} from "../store/action-types";
 import { computed, defineComponent } from 'vue';
 import { useStore } from "../store";
 
@@ -285,7 +285,16 @@ export default defineComponent({
     toggleSidebar() {
       jQuery(this).toggleClass('open');
       jQuery('body').toggleClass('sidebar-main');
+    },
+    countMessages() {
+      this.store.dispatch(GET_COUNT_MESSAGES, this.user.id)
+        .then((response) => {
+          this.count_messages = response;
+        });
     }
+  },
+  created() {
+      this.countMessages();
   },
   setup() {
     const store = useStore();
@@ -293,6 +302,11 @@ export default defineComponent({
     return {
       user: computed(() => store.getters.getUser),
       store
+    }
+  },
+  data() {
+    return{
+      count_messages: 0
     }
   }
 })

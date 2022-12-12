@@ -1,6 +1,6 @@
 import type IMessage from "../../../interfaces/IMessage";
 import type { State } from "../../../store";
-import { GET_MESSAGES, INSERT_MESSAGE, GET_RECENT_MESSAGES, READ_MESSAGE } from "../../../store/action-types";
+import { GET_MESSAGES, INSERT_MESSAGE, GET_RECENT_MESSAGES, READ_MESSAGE, GET_COUNT_MESSAGES } from "../../../store/action-types";
 import type { Module } from "vuex";
 import http from "../../../http";
 import { ADD_MESSAGE, DEFINE_MESSAGES } from "../../../store/mutation-types";
@@ -36,6 +36,15 @@ export const message : Module<StateMessage, State> = {
         },
         [GET_RECENT_MESSAGES]({ commit }, user_id) {
           return http.get('v1/recent-messages',{
+            params: {
+              user_id_to: user_id,
+            }
+          })
+            .then((response) => {
+              return response.data});
+        },
+        [GET_COUNT_MESSAGES]({ commit }, user_id) {
+          return http.get('v1/count-messages',{
             params: {
               user_id_to: user_id,
             }
