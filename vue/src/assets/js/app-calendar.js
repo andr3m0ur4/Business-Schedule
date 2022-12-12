@@ -25,7 +25,7 @@ const month = {
 let datePicker, selectedCalendar;
 let schedules = [];
 
-function startCalendar($this) {
+function startCalendar($this, canAccess) {
     calendar = new Calendar('#calendar', {
         defaultView: 'week',
         taskView: ['task'],
@@ -34,6 +34,7 @@ function startCalendar($this) {
         month,
         useCreationPopup: useCreationPopup,
         useDetailPopup: useDetailPopup,
+        isReadOnly: !canAccess,
         calendars: CalendarList,
         template: {
             milestone(model) {
