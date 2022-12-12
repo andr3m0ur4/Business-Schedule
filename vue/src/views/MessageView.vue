@@ -86,34 +86,34 @@
       <template v-slot:body>
         <div class="col-12 border rounded" id="MessageView">
           <div id="box-message" data-target="#navbar-example2" data-offset="0">
-            <div v-if = load class="text-left col-12  mt-2">
+            <div v-if=load class="text-left col-12  mt-2">
               <div display="block" class="text-center">
                 <h3>Carregando</h3>
                 <img class="w-100 h-100 img-fluid image" src="../assets/images/load.gif" >
               </div>
             </div>
             <div v-else class="text-right col-12 mt-2 scrollspy-example" id="box-message" data-spy="scroll"
-             data-target="#navbar-example2" data-offset="1" ref="boxMessage">
-                <div v-for="message in messages" :key="message.id" class="mr-2">
-                  <div v-if="message.user_id_from === messageT.user_id_to" class="text-left col-12  mt-2">
-                    <div class="row">
-                      <h6><span class="badge badge-info mr-2" id="mdo">{{ this.employee.name }}</span></h6>
-                      <h6>
-                        {{this.formatDate(message.created_at)}}
-                      </h6>
-                    </div>
-                    <h5>{{ message.message }}</h5>
+              data-target="#navbar-example2" data-offset="1" ref="boxMessage">
+              <div v-for="message in messages" :key="message.id" class="mr-2">
+                <div v-if="message.user_id_from === messageT.user_id_to" class="text-left col-12  mt-2">
+                  <div class="row">
+                    <h6><span class="badge badge-info mr-2" id="mdo">{{ this.employee.name }}</span></h6>
+                    <h6>
+                      {{this.formatDate(message.created_at)}}
+                    </h6>
                   </div>
-                  <div v-else class="text-right col-12 mt-2">
-                    <div class="row justify-content-end">
-                      <h6 class="mr-2">
-                        {{this.formatDate(message.created_at)}}
-                      </h6>
-                      <h6><span class="badge badge-primary" id="mdo">Eu</span></h6>
-                    </div>
-                    <h5>{{ message.message }}</h5>
-                  </div>
+                  <h5>{{ message.message }}</h5>
                 </div>
+                <div v-else class="text-right col-12 mt-2">
+                  <div class="row justify-content-end">
+                    <h6 class="mr-2">
+                      {{ this.formatDate(message.created_at) }}
+                    </h6>
+                    <h6><span class="badge badge-primary" id="mdo">Eu</span></h6>
+                  </div>
+                  <h5>{{ message.message }}</h5>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -125,7 +125,7 @@
                   <div class="col-md-12">
                     <div class="form-group">
                       <input type="text" class="form-control" name="messageF" :disabled=lockMessage v-model="messageInfo.message"
-                        placeholder="Digite uma Menssagem" required="true" />
+                        placeholder="Digite uma Menssagem" required="true" ref="messageText" />
                     </div>
                   </div>
                 </div>
@@ -173,14 +173,14 @@ export default defineComponent({
   updated() {
     $(this.$refs.table).DataTable(this.optionsDataTable);
   },
-  mounted(){
+  mounted() {
     this.openAutoModal();
     $('#addChat').on('hide.bs.modal', () => {
       this.readMessages();
     })
   },
   setup(props) {
-    //Pusher.logToConsole = true;
+    // Pusher.logToConsole = true;
     const optionsDataTable = optionsTable
     const store = useStore();
     const user = computed(() => store.getters.getUser);
@@ -195,7 +195,7 @@ export default defineComponent({
 
     const pusher = new Pusher('5f128ecfb6a1dab47acb', {
       cluster: 'sa1'
-      });
+    });
 
     return {
       store,
@@ -229,10 +229,14 @@ export default defineComponent({
           this.clearMessage();
           this.lockMessage = false;
           this.send = false;
+
+          this.$nextTick(() => {
+            this.scrollDown();
+            this.$refs.messageText.focus();
+          });
         });
     },
-    loadMessage(){
-
+    loadMessage() {
       this.messages = [];
       this.messageInfo.user_id_to = this.messageT.user_id_to;
       this.messageInfo.user_id_from = this.user.id;
@@ -242,22 +246,20 @@ export default defineComponent({
         .then((response) => {
           this.messages = this.messages.concat(response.data)
           this.load = false;
+
+          this.$nextTick(() => {
+            this.scrollDown();
+          });
         });
 
       this.readMessages();
-      this.defineChannel(); 
-
-      setTimeout(() => {
-        $(this.$refs.boxMessage).animate({
-          scrollTop: $(this.$refs.boxMessage).get(0).scrollHeight
-        }, 0);
-      }, 300);
+      this.defineChannel();
     },
     readMessages() {
       this.store.dispatch(READ_MESSAGE, this.messageInfo)
       .then();
     },
-    defineChannel(){
+    defineChannel() {
       let channel;
       this.pusher.unsubscribe(this.channelLogic());
 
@@ -269,36 +271,19 @@ export default defineComponent({
 
       }, this);
     },
-    channelLogic(){
-      if (this.messageInfo.user_id_to < this.messageInfo.user_id_from) 
-      {
+    channelLogic() {
+      if (this.messageInfo.user_id_to < this.messageInfo.user_id_from) {
         return (this.messageInfo.user_id_from + '_' +  this.messageInfo.user_id_to);
-      } 
-      else 
-      {
+      } else {
         return (this.messageInfo.user_id_to + '_' + this.messageInfo.user_id_from);
       }
-      
     },
-    formatDate(date){
+    formatDate(date) {
       return moment(date).format('HH:mm');
     },
-    /*getUserJob(userId) {
-
-      if(userId != null){
-
-        this.store.dispatch(GET_USER, userId)
-        .then((response) => {
-          this.jobName = response.data.job.name;
-          
-        });
-      }
-
-      return this.jobName ? this.jobName : '';
-    },*/
     openAutoModal() {
       if (this.$route.query.userIdTo != undefined) {
-        
+
         $('#addChat').modal('show');
         this.messageT.user_id_to = parseInt(this.$route.query.userIdTo);
         this.loadMessage();
@@ -308,24 +293,28 @@ export default defineComponent({
     clearMessage() {
       this.messageInfo = {} as IMessage;
     },
+    scrollDown() {
+      $(this.$refs.boxMessage).animate({
+        scrollTop: $(this.$refs.boxMessage).get(0).scrollHeight
+      }, 0);
+    }
   },
   watch: {
-    employees(newEmployess){
+    employees(newEmployess) {
       if (this.$route.query.userIdTo != undefined) {
         this.employee = this.employees.find(item => item[0] == parseInt(this.$route.query.userIdTo));
       }
-
     }
   }
 })
 </script>
 
 <style scoped>
-  .image{
-      max-width:100px;
-      max-height:100px;
-      width: auto;
-      height: auto;
+  .image {
+    max-width: 100px;
+    max-height: 100px;
+    width: auto;
+    height: auto;
   }
 
   .scrollspy-example {
@@ -335,9 +324,9 @@ export default defineComponent({
     overflow: auto;
   }
 
-  .image-send{
-      max-width:50px;
-      max-height:50px;
+  .image-send {
+      max-width: 50px;
+      max-height: 50px;
       width: auto;
       height: auto;
   }
@@ -356,7 +345,7 @@ export default defineComponent({
   .button-height {
     height: 45px;
   }
-  .message{
+  .message {
     padding-right: 28px;
   }
 
