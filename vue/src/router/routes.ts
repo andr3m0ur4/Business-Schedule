@@ -42,6 +42,11 @@ const routes: RouteRecordRaw[] = [
         component: () => import("../views/MessageView.vue"),
       },
       {
+        path: "/mensagens/:userIdTo",
+        name: "messages-with-id",
+        component: () => import("../views/MessageView.vue"),
+      },
+      {
         path: "/programas",
         name: "tvshow",
         component: () => import("../views/TvShowView.vue"),

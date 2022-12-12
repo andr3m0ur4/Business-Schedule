@@ -8,17 +8,17 @@
         <div v-if = "recent_messages.length === 0" class="container"><h6>Caixa de mensagens vazia</h6></div>
         <div v-if="loaded">
           <div v-for="recent_message in recent_messages" :key="recent_message.id">
-          <a href="#" class="iq-sub-card" @click="openModal(recent_message.id)" >
-            <div class="media align-items-center cust-card p-2">
-              <div class="">
-                <img class="avatar-40 rounded-small" src="../assets/images/user/avatar_profile.png" alt="01">
+            <router-link :to="{name: 'messages-with-id', params: { userIdTo: recent_message.id }}" class="iq-sub-card">
+              <div class="media align-items-center cust-card p-2">
+                <div class="">
+                  <img class="avatar-40 rounded-small" src="../assets/images/user/avatar_profile.png" alt="01">
+                </div>
+                <div class="media-body ml-3">
+                  <h6 class="mb-0">{{recent_message.name}}</h6>
+                  <small class="mb-0">{{recent_message.message}}</small>
+                </div>
               </div>
-              <div class="media-body ml-3">
-                <h6 class="mb-0">{{recent_message.name}}</h6>
-                <small class="mb-0">{{recent_message.message}}</small>
-              </div>
-            </div>
-          </a>
+            </router-link>
           </div>
         </div>
       </div>
@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from "@vue/runtime-core"
+import { defineComponent, computed } from "vue"
 import { useStore } from "../store";
 import { GET_RECENT_MESSAGES } from "../store/action-types";
 
@@ -66,18 +66,7 @@ export default defineComponent({
 
       this.loaded = true;
     },
-    getCountMessages() {},
-    openModal(id) {
-      
-      this.$router.push({
-        name: 'messages',
-        query: {
-          userIdTo: id
-        }
-      }) 
-
-      this.$route.params.userIdTo
-    }
+    getCountMessages() {}
   }
 })
 </script>

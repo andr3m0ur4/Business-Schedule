@@ -17,9 +17,9 @@ return [
 
     'paths' => ['api/*', 'sanctum/csrf-cookie'],
 
-    'allowed_methods' => ['*'],
+    'allowed_methods' => ['PUT', 'POST', 'DELETE', 'GET', 'OPTIONS'],
 
-    'allowed_origins' => ['*'],
+    'allowed_origins' => ['https://business-schedule.tech', 'http://localhost:3000', 'http://localhost:9000'],
 
     'allowed_origins_patterns' => [],
 

@@ -172,7 +172,10 @@ export default defineComponent({
     $(this.$refs.table).DataTable(this.optionsDataTable);
   },
   mounted() {
-    this.openAutoModal();
+    if (this.$route.params.userIdTo) {
+      this.openAutoModal(this.$route.params.userIdTo);
+    }
+
     $('#addChat').on('hide.bs.modal', () => {
       this.readMessages();
     })
@@ -277,14 +280,10 @@ export default defineComponent({
     formatDate(date) {
       return moment(date).format('HH:mm');
     },
-    openAutoModal() {
-      if (this.$route.query.userIdTo != undefined) {
-
-        $('#addChat').modal('show');
-        this.messageT.user_id_to = parseInt(this.$route.query.userIdTo);
-        this.loadMessage();
-
-      }
+    openAutoModal(id) {
+      $('#addChat').modal('show');
+      this.messageT.user_id_to = parseInt(id);
+      this.loadMessage();
     },
     clearMessage() {
       this.messageInfo = {} as IMessage;
