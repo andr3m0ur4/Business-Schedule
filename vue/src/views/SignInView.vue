@@ -14,7 +14,7 @@
                     <div class="row">
                       <div class="col-lg-12">
                         <div class="floating-input form-group">
-                          <input class="form-control" type="text" name="email" id="email" v-model="user.email"
+                          <input class="form-control" type="email" name="email" id="email" v-model="user.email"
                             required />
                           <label class="form-label" for="email">E-mail</label>
                         </div>
@@ -68,7 +68,7 @@ export default defineComponent({
     login() {
       this.store.dispatch(LOGIN, this.user)
         .then(() => location.href = '/')
-        .catch(err => this.$swal('Ops', err.response.data.error, 'error'));
+        .catch(err => this.$swal('Ops', err.response.data.message, 'error'));
     }
   },
   setup() {
