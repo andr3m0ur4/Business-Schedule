@@ -71,9 +71,8 @@ export default defineComponent({
   methods: {
     login() {
       this.store.dispatch(LOGIN, this.user)
-        .then(() => {
-          this.$router.push('/');
-        });
+        .then(() => location.href = '/')
+        .catch(err => this.$swal('Ops', err.response.data.message, 'error'));
     }
   },
   setup() {

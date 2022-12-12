@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['PUT', 'POST', 'DELETE', 'GET', 'OPTIONS'],
 
-    'allowed_origins' => ['https://business-schedule.tech', 'http://localhost:3000', 'http://localhost:9000'],
+    'allowed_origins' => ['https://business-schedule.tech', 'http://localhost:3000', 'http://localhost:9000', 'http://localhost:9200'],
 
     'allowed_origins_patterns' => [],
 
