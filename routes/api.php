@@ -69,4 +69,5 @@ Route::prefix('v1')->middleware('jwt.auth')->group(function() {
     Route::get('count-time-schdules', [ScheduleController::class, 'countTimeSchedule']);
     Route::get('count-employee-time', [EmployeeTimeController::class, 'countEmployeeTime']);
     Route::get('count-sunday-time', [EmployeeTimeController::class, 'countSundayTime']);
+    Route::get('count-tv-show-emloyees', [TvShowTimeController::class, 'countTvShowEmployees']);
 });

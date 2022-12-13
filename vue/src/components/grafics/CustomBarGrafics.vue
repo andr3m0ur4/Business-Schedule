@@ -38,7 +38,7 @@
         .then((response) => {
           response.forEach(item => {
             tempTimeNames.push(item.name);
-            tempTimeDays.push(item.quant)
+            tempTimeDays.push(item.quant);
           });
 
           this.createGrafic(tempTimeNames, tempTimeDays)

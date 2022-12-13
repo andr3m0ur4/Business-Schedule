@@ -9,7 +9,9 @@ use App\Models\TvShowTime;
 use App\Repositories\TvShowTimeRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use PDO;
 
 class TvShowTimeController extends Controller
 {
@@ -153,5 +155,18 @@ class TvShowTimeController extends Controller
             'affected_rows' => $affectedRows,
             'deleted_rows' => $deletedRows
         ], Response::HTTP_OK);
+    }
+
+    public function countTvShowEmployees(){
+
+        $data = DB::getPdo()->prepare("SELECT tv.name, COUNT(DISTINCT emp_time.user_id) count_user FROM tv_show_times as tv_time
+        INNER JOIN tv_shows tv ON tv_time.tv_show_id = tv.id
+        INNER JOIN schedules as sche on tv_time.id = sche.tv_show_time_id
+        INNER JOIN employee_times emp_time ON sche.employee_time_id = emp_time.id
+        WHERE DATE_FORMAT(tv_time.start,'%d/%m/%Y') BETWEEN DATE_FORMAT(CURRENT_TIMESTAMP,'%d/%m/%Y') AND DATE_FORMAT((CURRENT_TIMESTAMP + INTERVAL '7' DAY),'%d/%m/%Y')
+        GROUP BY tv.name ORDER BY count_user DESC LIMIT 10");
+        $data->execute();
+        return response()->json($data->fetchAll(PDO::FETCH_ASSOC));
+
     }
 }

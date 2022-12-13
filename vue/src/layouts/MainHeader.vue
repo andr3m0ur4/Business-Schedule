@@ -265,9 +265,6 @@ export default defineComponent({
     MessageList
   },
   methods: {
-    getRecentMessages() {},
-    getCountMessages() {},
-    openModal() {},
     logout() {
       this.store.dispatch(LOGOUT)
         .then(() => {

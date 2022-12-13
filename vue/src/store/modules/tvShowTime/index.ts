@@ -2,7 +2,7 @@ import { State } from '../../../store';
 import { Module } from 'vuex';
 import ITvShowTime from '../../../interfaces/ITvShowTime';
 import { ADD_OR_CHANGE_TV_SHOW_TIME, ADD_TV_SHOW_TIME, CHANGE_TV_SHOW_TIME, DEFINE_TV_SHOW_TIMES, REMOVE_TV_SHOW_TIME } from '../../../store/mutation-types';
-import { DELETE_TV_SHOW_TIME, GET_TV_SHOW_TIMES, INSERT_TV_SHOW_TIME, UPDATE_TV_SHOW_TIME } from '../../../store/action-types';
+import { DELETE_TV_SHOW_TIME, GET_TV_SHOW_TIMES, INSERT_TV_SHOW_TIME, UPDATE_TV_SHOW_TIME, COUNT_TV_SHOW_EMPLOYEES } from '../../../store/action-types';
 import http from '../../../http';
 
 export interface StateTvShowTime {
@@ -56,6 +56,11 @@ export const tvShowTime: Module<StateTvShowTime, State> = {
     },
     [DELETE_TV_SHOW_TIME]({ commit }, id: string) {
       return http.delete(`v1/tv-show-times/${id}`).then(() => commit(REMOVE_TV_SHOW_TIME, id));
+    },
+    [COUNT_TV_SHOW_EMPLOYEES]({ commit }) {
+      return http.get('v1/count-tv-show-emloyees')
+        .then((response) => {
+          return response.data});
     }
   },
   getters: {

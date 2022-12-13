@@ -128,11 +128,11 @@
           <div class="card card-block card-stretch card-height">
             <div class="card-header">
               <div class="header-title">
-                <h4 class="card-title text-center">Gráfico ??</h4>
+                <h4 class="card-title text-center">Programas com mais Funcionários</h4>
               </div>
             </div>
             <div class="card-body">
-              <RadarGrafic
+              <CustomRadarGrafic
               />
             </div>
           </div>
@@ -194,20 +194,18 @@ import { defineComponent } from 'vue'
 import CustomBarGrafics from '../components/grafics/CustomBarGrafics.vue';
 import DoughnutGrafic from '../components/grafics/DoughnutGrafic.vue';
 import LineGrafic from '../components/grafics/LineGrafic.vue';
-import RadarGrafic from '../components/grafics/RadarGrafic.vue';
+import CustomRadarGrafic from '../components/grafics/CustomRadarGrafic.vue';
 import { useStore } from "../store";
-import { COUNT_SCHEDULES, COUNT_TIME_SCHEDULE, COUNT_EMPLOYEE_TIME, COUNT_SUNDAY_TIME} from "../store/action-types";
+import { COUNT_SCHEDULES, COUNT_TIME_SCHEDULE, COUNT_EMPLOYEE_TIME} from "../store/action-types";
 
 export default defineComponent({
     name: "HomeView",
-    components: { CustomBarGrafics, DoughnutGrafic, LineGrafic, RadarGrafic },
+    components: { CustomBarGrafics, DoughnutGrafic, LineGrafic, CustomRadarGrafic },
     data() {
     return {
         count: 0,
         time: 0,
-        emplyeeTimes: [],
-        sundayTimeNames: [],
-        sundayTimeDays: []
+        emplyeeTimes: []
       }
     },
     setup() {
@@ -226,24 +224,24 @@ export default defineComponent({
       countSchedule(){
 
         this.store.dispatch(COUNT_SCHEDULES)
-        .then((response) => {
-          this.count = response.total;
-        });
+          .then((response) => {
+            this.count = response.total;
+          });
       },
       timeRemainSchedule(){
 
           this.store.dispatch(COUNT_TIME_SCHEDULE)
-          .then((response) => {
-            this.time = response.time;
-          });
+            .then((response) => {
+              this.time = response.time;
+            });
 
       },
     contEmployeeTime(){
 
         this.store.dispatch(COUNT_EMPLOYEE_TIME)
-        .then((response) => {
-          this.emplyeeTimes = response;
-        });
+          .then((response) => {
+            this.emplyeeTimes = response;
+          });
      
       }
     }
