@@ -54,7 +54,7 @@
           datasets: [
             {
               label: 'Dias',
-              backgroundColor: '#f87979',
+              backgroundColor: '#1E90FF',
               data: tempTimeDays
             }
           ]

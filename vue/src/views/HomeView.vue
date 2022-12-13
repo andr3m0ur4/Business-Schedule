@@ -236,7 +236,7 @@ export default defineComponent({
 }
 
 .card-color {
-  background-color: rgb(89, 193, 253);
+  background-color: rgb(30,144,255);
 }
 
 </style>
