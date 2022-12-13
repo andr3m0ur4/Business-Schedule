@@ -22,7 +22,7 @@
                 </div>
               </div>
               <ul id="iq-sidebar-toggle" class="iq-menu d-flex">
-                <li class="">
+                <li v-if="canAccess" class="">
                   <router-link to="/" class="">
                     <span>Home</span>
                   </router-link>
