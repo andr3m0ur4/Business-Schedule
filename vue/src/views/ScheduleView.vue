@@ -477,9 +477,11 @@ export default {
       let schedule = getCalendar().getSchedule(id, calendarId);
 
       const schedules = this.selectedTvShowTimes.map(tvShowTime => {
-        const objSchedule = schedule.raw.schedules.find(itemSchedule => itemSchedule.tv_show_time.id == tvShowTime);
-        if (objSchedule) {
-          return objSchedule;
+        if (schedule.raw) {
+          const objSchedule = schedule.raw.schedules.find(itemSchedule => itemSchedule.tv_show_time.id == tvShowTime);
+          if (objSchedule) {
+            return objSchedule;
+          }
         }
 
         return {
