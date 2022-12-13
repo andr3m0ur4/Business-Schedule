@@ -91,6 +91,18 @@ class ScheduleController extends Controller
         return response()->json($schedule);
     }
 
+    public function destroyWhereTvShowTimeIsIn(string $employeTimeId)
+    {
+        $schedules = Schedule::where('employee_time_id', $employeTimeId)
+                        ->get();
+
+        if ($schedules->isNotEmpty()) {
+            foreach ($schedules as $schedule) {
+                $schedule->delete();
+            }
+        }
+    }
+
     public function destroyWhereTvShowTimeIsNotIn(string $employeTimeId, array $tvShowTimeIds)
     {
         $schedules = Schedule::where('employee_time_id', $employeTimeId)
@@ -107,10 +119,16 @@ class ScheduleController extends Controller
     public function save(Request $request)
     {
         $insert = 0;
+        $deleted = 0;
         $employeTimeId = 0;
         $arrayTvShowTimeId = [];
 
         foreach ($request->all() as $attributes) {
+            if (!isset($attributes['tv_show_time_id'])) {
+                $this->destroyWhereTvShowTimeIsIn($attributes['employee_time_id']);
+                break;
+            }
+
             $employeTimeId = $attributes['employee_time_id'];
             $arrayTvShowTimeId[] = $attributes['tv_show_time_id'];
 
@@ -126,6 +144,7 @@ class ScheduleController extends Controller
         }
 
         if (!empty($arrayTvShowTimeId)) {
+            $deleted++;
             $this->destroyWhereTvShowTimeIsNotIn($employeTimeId, $arrayTvShowTimeId);
         }
 
@@ -154,16 +173,16 @@ class ScheduleController extends Controller
             }
         }
     }
-    public function countSchedule(){
-
+    public function countSchedule()
+    {
         $count = DB::getPdo()->prepare("SELECT COUNT(id) as total FROM schedules");
         $count->execute();
         return response()->json($count->fetchObject());
 
     }
 
-    public function countTimeSchedule(){
-
+    public function countTimeSchedule()
+    {
         $count = DB::getPdo()->prepare("SELECT CASE (DATEDIFF( (created_at  + INTERVAL '7' DAY),CURRENT_TIMESTAMP) + 1)
             WHEN 8 THEN 7
             ELSE (DATEDIFF( (created_at  + INTERVAL '7' DAY),CURRENT_TIMESTAMP) + 1)
@@ -172,7 +191,7 @@ class ScheduleController extends Controller
         return response()->json($count->fetchObject());
 
     }
-    
+
 }
 
 

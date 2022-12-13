@@ -749,6 +749,12 @@ export default {
         schedule.tv_show_time_id = scheduleParam.tv_show_time.id;
         return schedule;
       });
+
+      if (schedules.length == 0) {
+        this.store.dispatch(INSERT_OR_UPDATE_SCHEDULES, [{ employee_time_id: idEmployeeTime }]);
+        return;
+      }
+
       this.store.dispatch(INSERT_OR_UPDATE_SCHEDULES, schedules);
     },
     tvShowTimesByRange(tvShowTimes) {
