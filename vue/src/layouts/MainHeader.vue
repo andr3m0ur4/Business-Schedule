@@ -32,7 +32,7 @@
                     <span>Minha Escala</span>
                   </router-link>
                 </li>
-                <li class="">
+                <li v-if="canAccess" class="">
                   <a href="#pages" class="collapsed" data-toggle="collapse" aria-expanded="false">
                     <span>Gerenciamento</span>
                     <i class="ri-arrow-right-s-line iq-arrow-right"></i>
@@ -63,118 +63,6 @@
                         <span>Switchers</span>
                       </router-link>
                     </li>
-                    <!-- <li class="">
-                      <a href="#timeline" class="collapsed" data-toggle="collapse" aria-expanded="false">
-                        <span>Timeline</span>
-                        <i class="ri-arrow-right-s-line iq-arrow-right"></i>
-                      </a>
-                        <ul id="timeline" class="iq-submenu iq-submenu-data collapse" data-parent="#pages">
-                          <li class="">
-                            <a href="../backend/timeline.html">
-                              <span>Timeline 1</span>
-                            </a>
-                          </li>
-                          <li class="">
-                            <a href="../backend/timeline-1.html">
-                              <span>Timeline 2</span>
-                            </a>
-                          </li>
-                          <li class="">
-                            <a href="../backend/timeline-2.html">
-                              <span>Timeline 3</span>
-                            </a>
-                          </li>
-                          <li class="">
-                            <a href="../backend/timeline-3.html">
-                              <span>Timeline 4</span>
-                            </a>
-                          </li>
-                        </ul>
-                    </li>
-                    <li class="">
-                      <a href="#pricing" class="collapsed" data-toggle="collapse" aria-expanded="false">
-                        <span>Pricing</span>
-                        <i class="ri-arrow-right-s-line iq-arrow-right"></i>
-                      </a>
-                      <ul id="pricing" class="iq-submenu iq-submenu-data collapse" data-parent="#pages">
-                        <li class="">
-                          <a href="../backend/pricing.html">
-                            <span>Pricing 1</span>
-                          </a>
-                        </li>
-                        <li class="">
-                          <a href="../backend/pricing-1.html">
-                            <span>Pricing 2</span>
-                          </a>
-                        </li>
-                        <li class="">
-                          <a href="../backend/pricing-2.html">
-                            <span>Pricing 3</span>
-                          </a>
-                        </li>
-                        <li class="">
-                          <a href="../backend/pricing-3.html">
-                            <span>Pricing 4</span>
-                          </a>
-                        </li>
-                      </ul>
-                    </li>
-                    <li class="">
-                      <a href="#pages-error" class="collapsed" data-toggle="collapse" aria-expanded="false">
-                        <span>Error</span>
-                        <i class="ri-arrow-right-s-line iq-arrow-right"></i>
-                      </a>
-                      <ul id="pages-error" class="iq-submenu iq-submenu-data collapse" data-parent="#pages">
-                        <li class="">
-                          <a href="../backend/pages-error.html">
-                            <span>Error 404</span>
-                          </a>
-                        </li>
-                        <li class="">
-                          <a href="../backend/pages-error-500.html">
-                            <span>Error 500</span>
-                          </a>
-                        </li>
-                      </ul>
-                    </li>
-                    <li class="">
-                      <a href="#others" class="collapsed" data-toggle="collapse" aria-expanded="false">
-                        <span>Others</span>
-                        <i class="ri-arrow-right-s-line iq-arrow-right"></i>
-                      </a>
-                      <ul id="others" class="iq-submenu iq-submenu-data collapse" data-parent="#pages">
-                        <li class="">
-                          <a href="../backend/pages-invoice.html">
-                            <span>Invoice</span>
-                          </a>
-                        </li>
-                        <li class="">
-                          <a href="../backend/pages-subscribers.html">
-                            <span>Subscribers</span>
-                          </a>
-                        </li>
-                        <li class="">
-                          <a href="../backend/pages-faq.html">
-                            <span>Faq</span>
-                          </a>
-                        </li>
-                        <li class="">
-                          <a href="../backend/pages-blank-page.html">
-                            <span>Blank Page</span>
-                          </a>
-                        </li>
-                        <li class="">
-                          <a href="../backend/pages-maintenance.html">
-                            <span>Maintenance</span>
-                          </a>
-                        </li>
-                        <li class="">
-                          <a href="../backend/pages-comingsoon.html">
-                            <span>Coming Soon</span>
-                          </a>
-                        </li>
-                      </ul>
-                    </li> -->
                   </ul>
                 </li>
               </ul>
@@ -250,7 +138,6 @@
 </template>
 
 <script lang="ts">
-import type IUser from "../interfaces/IUser";
 import NotificationList from '../components/NotificationList.vue';
 import MessageList from '../components/MessageList.vue';
 import { LOGOUT, GET_COUNT_MESSAGES} from "../store/action-types";
@@ -291,7 +178,7 @@ export default defineComponent({
     }
   },
   created() {
-      this.countMessages();
+    this.countMessages();
   },
   setup() {
     const store = useStore();
@@ -304,6 +191,11 @@ export default defineComponent({
   data() {
     return{
       count_messages: 0
+    }
+  },
+  computed: {
+    canAccess() {
+      return this.user.type == 'Admin';
     }
   }
 })

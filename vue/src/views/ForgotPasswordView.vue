@@ -34,7 +34,7 @@
 <script lang="ts">
 import { useStore } from "../store";
 import { SEND_MAIL } from "../store/action-types";
-import { defineComponent } from "@vue/runtime-core";
+import { defineComponent } from "vue";
 
   export default defineComponent({
     name: 'ForgotPasswordView',
@@ -51,7 +51,7 @@ import { defineComponent } from "@vue/runtime-core";
             this.$router.push('/entrar');
           })
           .catch(error => {
-            this.$swal('Erro', error.response.data.message, 'error');
+            this.$swal('Erro', `Ops! ${error.response.data.message}`, 'error');
           });
       }
     },

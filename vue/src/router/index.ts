@@ -14,6 +14,8 @@ router.beforeEach((to, from, next) => {
     next({ name: "sign-in" });
   } else if (store.state.user.user.token && to.meta.isGuest) {
     next({ name: "home" });
+  } else if (store.getters.getUser.type == 'Employee' && to.meta.isAdmin) {
+    next({ name: 'my-schedule' });
   } else {
     next();
   }

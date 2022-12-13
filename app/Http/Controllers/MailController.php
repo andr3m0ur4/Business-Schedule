@@ -6,6 +6,7 @@ use App\Http\Requests\ChangePasswordRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Models\User;
+use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 
 class MailController extends Controller
@@ -13,6 +14,11 @@ class MailController extends Controller
     public function sendMail(ChangePasswordRequest $request)
     {
         $user = User::where('email', $request->email)->first();
+
+        if (is_null($user)) {
+            return response()->json(['message' => 'E-mail não encontrado!'], Response::HTTP_NOT_FOUND);
+        }
+
         $token = Str::random(64);
         User::where('id', $user->id)->update(['remember_token' => $token]);
 

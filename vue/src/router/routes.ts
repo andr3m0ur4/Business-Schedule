@@ -9,51 +9,61 @@ const routes: RouteRecordRaw[] = [
       {
         path: "",
         name: "home",
+        meta: { isAdmin: true },
         component: () => import("../views/HomeView.vue"),
       },
       {
         path: "/minha-escala",
         name: "my-schedule",
+        meta: { isAdmin: false },
         component: () => import("../views/ScheduleView.vue"),
       },
       {
         path: "/perfil",
         name: "profile",
+        meta: { isAdmin: false },
         component: () => import("../views/ProfileView.vue"),
       },
       {
         path: "/funcoes",
         name: "job",
+        meta: { isAdmin: true },
         component: () => import("../views/JobView.vue"),
       },
       {
         path: "/switcher",
         name: "switcher",
+        meta: { isAdmin: true },
         component: () => import("../views/SwitcherView.vue"),
       },
       {
         path: "/estudios",
         name: "studio",
+        meta: { isAdmin: true },
         component: () => import("../views/StudioView.vue"),
       },
       {
         path: "/mensagens",
         name: "messages",
+        meta: { isAdmin: false },
         component: () => import("../views/MessageView.vue"),
       },
       {
         path: "/mensagens/:userIdTo",
         name: "messages-with-id",
+        meta: { isAdmin: false },
         component: () => import("../views/MessageView.vue"),
       },
       {
         path: "/programas",
         name: "tvshow",
+        meta: { isAdmin: true },
         component: () => import("../views/TvShowView.vue"),
       },
       {
         path: "/funcionarios",
         name: "employees",
+        meta: { isAdmin: true },
         component: () => import("../views/EmployeeView.vue"),
       }
     ],

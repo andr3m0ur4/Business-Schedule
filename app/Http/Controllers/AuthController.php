@@ -24,11 +24,17 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        $credentials = $request->validate([
+        $rules = [
             'email' => ['required', 'email', 'string', 'exists:users'],
             'password' => ['required'],
             'remember' => ['boolean']
-        ]);
+        ];
+
+        $messages = [
+            '*' => 'Usuário e/ou senha inválidos!'
+        ];
+
+        $credentials = $request->validate($rules, $messages);
 
         $remember = $credentials['remember'] ?? false;
         unset($credentials['remember']);
@@ -36,7 +42,7 @@ class AuthController extends Controller
         $token = auth('api')->attempt($credentials, $remember);
 
         if (!$token) {
-            return response()->json(['error' => 'Usuário e/ou senha inválidos!'], Response::HTTP_UNAUTHORIZED);
+            return response()->json(['message' => 'Usuário e/ou senha inválidos!'], Response::HTTP_UNAUTHORIZED);
         }
 
         $user = auth('api')->user();

@@ -65,7 +65,7 @@
               <input type="search" v-model="search" @input="filterByText" class="form-control bg-white border text search-input"
                 placeholder="Filtro por nome..." title="Busque por um nome de Funcionário ou Programa">
             </div>
-            <div class="select-dropdown input-prepend input-append">
+            <div v-if="canAccess" class="select-dropdown input-prepend input-append">
               <div class="btn-group">
                 <div class="create-workform">
                   <label data-toggle="dropdown">
@@ -401,7 +401,7 @@ export default {
     $('.selectpicker').selectpicker();
     $('.my-schedule .bootstrap-select > .dropdown-toggle').eq(1).hide();
 
-    startCalendar(this);
+    startCalendar(this, this.canAccess);
     this.setDateTimePicker();
 
     window.calendar = getCalendar();
@@ -749,6 +749,12 @@ export default {
         schedule.tv_show_time_id = scheduleParam.tv_show_time.id;
         return schedule;
       });
+
+      if (schedules.length == 0) {
+        this.store.dispatch(INSERT_OR_UPDATE_SCHEDULES, [{ employee_time_id: idEmployeeTime }]);
+        return;
+      }
+
       this.store.dispatch(INSERT_OR_UPDATE_SCHEDULES, schedules);
     },
     tvShowTimesByRange(tvShowTimes) {
@@ -924,6 +930,11 @@ export default {
       deep: true
     }
   },
+  computed: {
+    canAccess() {
+      return this.user.type == 'Admin';
+    }
+  },
   setup() {
     const store = useStore();
     store.dispatch(GET_JOBS);
@@ -942,6 +953,7 @@ export default {
       studios: computed(() => store.getters.getStudios),
       switchers: computed(() => store.getters.getSwitchers),
       tvShowTimes: computed(() => store.getters.getTvShowTimes),
+      user: computed(() => store.getters.getUser),
       store
     }
   }
