@@ -1,6 +1,6 @@
 <template>
   <header class="iq-top-navbar">
-    <div class="container" @click="getRecentMessages(); getCountMessages();">
+    <div class="container">
       <div class="iq-navbar-custom">
         <div class="d-flex align-items-center justify-content-between">
           <div class="iq-navbar-logo d-flex align-items-center justify-content-between">
